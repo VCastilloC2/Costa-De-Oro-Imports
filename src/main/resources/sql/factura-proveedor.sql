@@ -1,3 +1,4 @@
+use db_beer;
 
 -- Insertar factura_proveedor
 CREATE TEMPORARY TABLE temp_facturas_proveedor (

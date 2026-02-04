@@ -1,3 +1,5 @@
+USE db_beer;
+
 -- Insertar Historias
 -- Historia 1: Guía de Whisky Escocés
 INSERT INTO historia (imagen, titulo, descripcion, historia_completa, fecha, is_enabled) VALUES (

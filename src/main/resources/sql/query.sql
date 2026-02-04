@@ -1,4 +1,4 @@
--- use db_beer;
+use db_beer;
 
 -- NO TOCAR POR NADA DEL MUNDO
 

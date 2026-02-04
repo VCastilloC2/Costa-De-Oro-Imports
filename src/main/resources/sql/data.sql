@@ -1,4 +1,3 @@
--- USE railway;
 USE db_beer;
 
 -- Insertar roles

@@ -455,103 +455,33 @@ export function carruselProductos() {
         const track = carrusel.querySelector(".flex__productos-track");
         const prevBtn = carrusel.querySelector(".arrow--left");
         const nextBtn = carrusel.querySelector(".arrow--right");
-        const cards = track.querySelectorAll(".card");
 
-                // ==============================
-                // Detectar cuántas cards son visibles según pantalla
-                // ==============================
-                let visibles;
-                const screenWidth = window.innerWidth;
+        if (!track || !prevBtn || !nextBtn) return;
 
-                if (screenWidth <= 768) {
-                    visibles = 2;   // Móviles
-                } else if (screenWidth <= 1024) {
-                    visibles = 3;   // Tablets
-                } else {
-                    visibles = 4;   // Escritorio
-                }
-
-        // ==============================
-        // Medidas de cada card
-        // ==============================
-        const cardWidth = cards[0].offsetWidth;
-        const gap = parseInt(getComputedStyle(track).gap) || 40;
+        const cardWidth = 300; // ancho de cada card
+        const gap = 40;        // espacio entre cards
+        const visibles = 4;    // cuántos se muestran a la vez
 
         let posicion = 0;
-       const totalProductos = cards.length;
+        const totalProductos = track.querySelectorAll(".card").length;
+        const maxPosicion = (totalProductos - visibles) * (cardWidth + gap);
 
-        // ==============================
-        // Cantidad total de slides (dinámico)
-        // ==============================
-        const totalSlides = Math.ceil(totalProductos / visibles);
+        const paso = visibles * (cardWidth + gap); // mueve 4 productos
 
-        const paso = visibles * (cardWidth + gap);
-        const maxPosicion = Math.max(0, (totalProductos - visibles) * (cardWidth + gap));
-
-        let indexSlide = 0;
-
-        // ==============================
-        // CREAR DOTS DINÁMICAMENTE
-        // ==============================
-        const dotsContainer = carrusel.querySelector(".slider__dots");
-        dotsContainer.innerHTML = ""; // limpiar dots previos
-
-         for (let i = 0; i < totalSlides; i++) {
-             const dot = document.createElement("span");
-             dot.classList.add("dot");
-             if (i === 0) dot.classList.add("active");
-             dotsContainer.appendChild(dot);
-         }
-
-         const dots = dotsContainer.querySelectorAll(".dot");
-
-         function actualizarDots() {
-             dots.forEach(dot => dot.classList.remove("active"));
-             dots[indexSlide].classList.add("active");
-         }
-
-         // ==============================
-         // Flecha derecha
-         // ==============================
-
-        nextBtn?.addEventListener("click", () => {
+        nextBtn.addEventListener("click", () => {
             if (posicion < maxPosicion) {
                 posicion += paso;
                 if (posicion > maxPosicion) posicion = maxPosicion; // no pasar límite
-                indexSlide++;
-                if (indexSlide >= totalSlides) indexSlide = totalSlides - 1;
                 track.style.transform = `translateX(-${posicion}px)`;
-                actualizarDots();
             }
         });
-        // ==============================
-        //  Flecha izquierda
-        // ==============================
-        prevBtn?.addEventListener("click", () => {
+
+        prevBtn.addEventListener("click", () => {
             if (posicion > 0) {
                 posicion -= paso;
-                if (posicion < 0) posicion = 0;
-
-                indexSlide--;
                 if (posicion < 0) posicion = 0; // no pasar inicio
                 track.style.transform = `translateX(-${posicion}px)`;
-                actualizarDots();
             }
-        });
-
-        // ==============================
-        // Click en los dots
-        // ==============================
-        dots.forEach((dot, i) => {
-            dot.addEventListener("click", () => {
-                indexSlide = i;
-                posicion = paso * i;
-
-                if (posicion > maxPosicion) posicion = maxPosicion;
-
-                track.style.transform = `translateX(-${posicion}px)`;
-                actualizarDots();
-            });
         });
     });
 }
@@ -697,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Cambiar fondo o estilos de tema según el data-theme
             if (heroCarousel) {
-        heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--packmixtos");
+                heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--whiskys", "hero--packmixtos");
                 heroCarousel.classList.add(`hero--${theme}`);
             }
 

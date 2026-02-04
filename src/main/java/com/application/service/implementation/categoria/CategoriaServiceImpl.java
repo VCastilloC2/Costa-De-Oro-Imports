@@ -14,8 +14,8 @@ import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.categoria.CategoriaService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

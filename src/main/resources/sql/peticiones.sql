@@ -1,3 +1,4 @@
+USE db_beer;
 
 -- Insertar peticiones
 -- Peticiones del usuario 2

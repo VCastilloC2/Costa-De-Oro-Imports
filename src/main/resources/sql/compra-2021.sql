@@ -1,3 +1,4 @@
+USE db_beer;
 
 -- Insertar compras 2021
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 4423657, 5264152, '2021/10/09', 1223, null, 'CANCELADO', 'PSE');

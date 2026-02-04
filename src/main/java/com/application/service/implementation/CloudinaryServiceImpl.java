@@ -104,4 +104,5 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             throw new RuntimeException("Error al intentar eliminar la imagen " + e.getMessage(), e);
         }
     }
+
 }

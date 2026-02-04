@@ -1,3 +1,5 @@
+USE db_beer;
+
 -- Insertar Comentarios
 -- COMENTARIOS PARA HISTORIA 1 (Whisky Escocés)
 INSERT INTO comentario (titulo, mensaje, calificacion, fecha, activo, usuario_id, historia_id) VALUES

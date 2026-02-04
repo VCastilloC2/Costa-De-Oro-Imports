@@ -1,3 +1,4 @@
+USE db_beer;
 
 -- Insertar compras 2024
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 3303156, 3930756, '2024/04/26', 1931, 'PROMO-2024', 'PAGADO', 'TARJETA_CREDITO');

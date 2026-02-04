@@ -314,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (existingInfo) {
                 existingInfo.remove();
             }
+            cuponEl.parentNode.appendChild(cuponInfo);
         }
     }
 
