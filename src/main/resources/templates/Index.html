@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
     <link rel="stylesheet" th:href="@{/Css/style.css}">
@@ -39,7 +39,7 @@
 
             <figure class="header__logo">
                 <a th:href="@{/}">
-                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo de la pagina de costa de oro import">
                 </a>
             </figure>
 
@@ -113,7 +113,7 @@
                                 <p class="link__text">Sus Pedidos</p>
                             </a>
                             <a th:href="@{/auth/logout}" class="sub__link">
-                                <p class="link__text">Cerrar Seccion</p>
+                                <p class="link__text">Cerrar Sesión</p>
                             </a>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
             <div class="carousel__container">
 
                 <!-- Slide 1: Paulaner -->
-                <div class="carousel__slide active" data-theme="paulaner">
+                <div class="carousel__slide active active" data-theme="paulaner">
 
                     <div class="slide__flex">
                         <div class="content__information">
@@ -162,30 +162,31 @@
 
                         </div>
 
-                        <figure class="information__img">
-                            <img loading="lazy" class="img--paulaner"
-                                th:src="@{/Assets/Img/CervezasHero/CervezaPaulaner.webp}"
-                                alt="cerveza paulaner de alemania">
+                        <div class="flex__imgprecio">
+                            <figure class="information__img">
+                                <img loading="lazy" class="img--paulaner"
+                                     th:src="@{/Assets/Img/CervezasHero/CervezaPaulaner.webp}"
+                                     alt="cerveza paulaner de alemania">
 
-                            <img loading="lazy" class="img--paulaner paulaner--2"
-                                th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner2.webp}"
-                                alt="cerveza paulaner de alemania">
+                                <img loading="lazy" class="img--paulaner paulaner--2"
+                                     th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner2.webp}"
+                                     alt="cerveza paulaner de alemania">
 
-                            <img loading="lazy" class="img--paulaner paulaner--2"
-                                th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner3.webp}"
-                                alt="cerveza paulaner de alemania">
-                        </figure>
+                                <img loading="lazy" class="img--paulaner paulaner--2"
+                                     th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner3.webp}"
+                                     alt="cerveza paulaner de alemania">
+                            </figure>
 
-                        <div class="information__precio">
-                            <p class="precio__paulaner paulaner--1">PAGA 1</p>
-                            <p class="precio__paulaner paulaner--2">LLEVE 2</p>
-                            <div class="precio__texto">
-                                <p class="precio__paulaner paulaner--cerveza">En Paulaner Weissbier,</p>
-                                <p class="precio__paulaner paulaner--cerveza">Paulaner Hefe-Weifbier &</p>
-                                <p class="precio__paulaner paulaner--cerveza">Paulaner Hefe-Weifbier,</p>
+                            <div class="information__precio">
+                                <p class="precio__paulaner paulaner--1">PAGA 1</p>
+                                <p class="precio__paulaner paulaner--2">LLEVE 2</p>
+                                <p class="precio__paulaner paulaner--1">PAGA 1</p>
+                                <p class="precio__paulaner paulaner--2">LLEVE 2</p>
+                                <div class="precio__texto">
+                                    <p class="precio__paulaner paulaner--cerveza">En Paulaner Weissbier</p>
+                                </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -215,29 +216,29 @@
                             </div>
 
                         </div>
+                        <div class="flex__imgprecio">
+                            <figure class="information__img">
+                                <img loading="lazy" class="img--vinos"
+                                     th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado4.webp}" alt="">
 
-                        <figure class="information__img">
-                            <img loading="lazy" class="img--vinos"
-                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado4.webp}" alt="">
+                                <img loading="lazy" class="img--vinos vinos--2"
+                                     th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados71Moelia.webp}"
+                                     alt="">
 
-                            <img loading="lazy" class="img--vinos vinos--2"
-                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados71Moelia.webp}"
-                                alt="">
+                                <img loading="lazy" class="img--vinos vinos--2"
+                                     th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
+                                     alt="">
+                            </figure>
 
-                            <img loading="lazy" class="img--vinos vinos--2"
-                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                alt="">
-                        </figure>
-
-                        <div class="information__precio">
-                            <p class="precio__vinos vinos--1">Pague 2</p>
-                            <p class="precio__vinos vinos--2">Lleve 3</p>
-                            <div class="vinos--text">
-                                <p class="precio__vinos vinos--premium">En Vinos Terra Vega,</p>
-                                <p class="precio__vinos vinos--premium"> Moelia & Lambrusco Botticello</p>
+                            <div class="information__precio">
+                                <p class="precio__vinos vinos--1">Pague 2</p>
+                                <p class="precio__vinos vinos--2">Lleve 3</p>
+                                <div class="vinos--text">
+                                    <p class="precio__vinos vinos--premium">En Vinos Terra Vega,</p>
+                                    <p class="precio__vinos vinos--premium"> Moelia & Lambrusco Botticello</p>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -265,8 +266,8 @@
                             <div class="information__button">
                                 <div class="button__precio">
                                     <span class="precio__shop shop--changed">Apartir de</span>
-                                    <span class="precio__shop shop--principal">$5.400</span>
-                                    <span class="precio__shop shop--descuento">$3.900</span>
+                                    <span class="precio__shop shop--principal">$3.900</span>
+                                    <span class="precio__shop shop--descuento">$5.400</span>
                                 </div>
 
                                 <a href="" class="button__item item--colorVinoTinto">Comprame Ahora</a>
@@ -278,94 +279,7 @@
 
                 </div>
 
-                <!-- Slide 4: whisky -->
-                <div class="carousel__slide" data-theme="whiskys">
-
-                    <div class="slide__flex flex--whisky">
-                        <div class="flex__whiskys whiskys--one">
-                            <figure class="whiskys__img">
-                                <img class="img__licor licor--one" loading="lazy"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__whisky.webp}"
-                                    alt="licor Whisky Buchanan's">
-
-                                <img class="img__vaso" loading="lazy"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
-                                    alt="vaso con whisky dentro">
-
-                                <figcaption class="img__tiempo">Del 31 de octubre al 5 de noviembre</figcaption>
-                            </figure>
-
-                            <div class="whiskys__informacion">
-                                <div class="informacion__texto">
-                                    <p class="texto__whisky">James Buchanan's</p>
-                                    <p class="texto__whisky">Special Reserve 750 ml</p>
-                                </div>
-                                <p class="informacion__precio">$ 135.000</p>
-                            </div>
-                        </div>
-
-                        <div class="flex__whiskys">
-                            <figure class="whiskys__img">
-                                <img class="img__licor licor--two"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacadoWhiskys.webp}"
-                                    alt="">
-
-                                <img class="img__vaso vaso--changed" loading="lazy"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
-                                    alt="vaso con whisky dentro">
-
-                                <figcaption class="img__tiempo tiempo--changed">Del 01 al 5 de noviembre</figcaption>
-                            </figure>
-
-                            <div class="whiskys__informacion information--deluxe">
-                                <div class="informacion__texto">
-                                    <p class="texto__whisky">Buchanan's Deluxe</p>
-                                    <p class="texto__whisky">12 Años X 170ml</p>
-                                </div>
-                                <p class="informacion__precio">$158.000</p>
-                            </div>
-
-                        </div>
-
-                        <div class="flex__whiskys whiskys--changed">
-                            <figure class="whiskys__img">
-                                <img class="img__licor img--tree"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado12.png}"
-                                    alt="">
-
-                                <img class="img__vaso vaso--changed2" loading="lazy"
-                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
-                                    alt="vaso con whisky dentro">
-
-                                <figcaption class="img__tiempo tiempo--malt">Del 01 al 05 de noviembre</figcaption>
-                            </figure>
-
-                            <div class="whiskys__informacion information--malt">
-                                <div class="informacion__texto">
-                                    <p class="texto__whisky">Buchanan's Malt</p>
-                                    <p class="texto__whisky">Edition 170ml</p>
-                                </div>
-                                <p class="informacion__precio">$178.000</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="slide__pideahora">
-                        <div class="pideahora__content">
-                            <p class="content__mensaje">
-                                Pide ahora y recibe en 1 hora con el envio express
-                            </p>
-                        </div>
-
-                        <a class="pideahora__btn " href="">Comprar Ahora</a>
-                        <a class="pideahora__btn btn--color" href="">Explorar Detalles</a>
-                    </div>
-
-                </div>
-
-                <!-- Slide 5: Rones y Aguardiantes -->
+                <!-- Slide 4: Rones y Aguardiantes -->
                 <div class="carousel__slide" data-theme="packmixtos">
                     <div class="slide__flex flex--RonesAguardientes">
 
@@ -532,6 +446,12 @@
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
 
                 </div>
 
@@ -608,6 +528,12 @@
                         <button class="flechas__arrow arrow--right" data-direction="next">
                             <i class="ri-arrow-right-line"></i>
                         </button>
+                    </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
 
                 </div>
@@ -686,6 +612,12 @@
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
 
                 </div>
 
@@ -762,6 +694,12 @@
                         <button class="flechas__arrow arrow--right" data-direction="next">
                             <i class="ri-arrow-right-line"></i>
                         </button>
+                    </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
 
                 </div>
@@ -841,6 +779,12 @@
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
 
                 </div>
 
@@ -918,6 +862,12 @@
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
 
                 </div>
 
@@ -994,6 +944,12 @@
                         <button class="flechas__arrow arrow--right" data-direction="next">
                             <i class="ri-arrow-right-line"></i>
                         </button>
+                    </div>
+                    <div class="slider__dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
 
                 </div>
@@ -1107,8 +1063,8 @@
                     </p>
 
                     <div class="content__precio">
-                        <span class="precio__new">$50.000</span>
-                        <span class="precio__old">$40.000</span>
+                        <span class="precio__new">$40.000</span>
+                        <span class="precio__old">$50.000</span>
                     </div>
 
                     <div class="content__time">
@@ -1143,8 +1099,8 @@
                     </p>
 
                     <div class="content__precio">
-                        <span class="precio__new">$200.000</span>
-                        <span class="precio__old">$120.000</span>
+                        <span class="precio__new">$120.000</span>
+                        <span class="precio__old">$200.000</span>
                     </div>
 
                     <div class="content__time">
@@ -1179,8 +1135,8 @@
                     </p>
 
                     <div class="content__precio">
-                        <span class="precio__new">$95.000</span>
-                        <span class="precio__old">$75.000</span>
+                        <span class="precio__new">$75.000</span>
+                        <span class="precio__old">$95.000</span>
                     </div>
 
                     <div class="content__time">
@@ -1215,8 +1171,8 @@
                     </p>
 
                     <div class="content__precio">
-                        <span class="precio__new">$110.000</span>
-                        <span class="precio__old">$85.000</span>
+                        <span class="precio__new">$85.000</span>
+                        <span class="precio__old">$50.000</span>
                     </div>
 
                     <div class="content__time">
@@ -1335,7 +1291,7 @@
 
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">

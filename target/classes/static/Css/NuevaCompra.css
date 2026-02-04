@@ -1,0 +1,300 @@
+@import url("./DashboardProducto.css");
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+.titleheader__btn a {
+    text-decoration: none;
+    position: relative;
+    left: 1.2rem;
+    cursor: pointer;
+    background-color: #eeee;
+    color: var(--colorDark);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    border: 1px solid #eee;
+    font: 600 1rem var(--typografiaGeist);
+    transition: background-color .5s ease, border .5s ease;
+}
+
+.titleheader__btn a:hover {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+}
+
+
+.body__registrarproducto {
+    display: flex;
+
+}
+
+.registrarproducto__productoinformacion {
+    flex: 0 1 1200px;
+    margin-top: 2.5rem;
+}
+
+.registrarproducto__productoinformacion .productoinformacion__formulario {
+    background-color: var(--colorWhite);
+    border: 1px solid #f3f4f6;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding-right: 1.2rem;
+    width: 100%;
+}
+
+
+.formulario__producto .producto__title {
+    font: 600 1.3rem var(--typografiaGeist);
+    margin-left: 1.2rem;
+}
+
+.producto__input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.formulario__box {
+    position: relative;
+}
+
+.formulario__box label {
+    font: 600 1rem var(--typografiaUrbanist);
+    position: absolute;
+    color: #8d8d8d;
+    pointer-events: none;
+    background-color: transparent;
+    left: 35px;
+    top: 15px;
+    transform: translateY(0.6rem);
+    transition: all 0.3s ease;
+}
+
+.formulario__box .label--compra {
+    top: 14px;
+    left: 20px;
+}
+
+.formulario__box input {
+    margin: 10px 0 10px 20px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    font: 600 1rem var(--typografiaUrbanist);
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 91.5%;
+    height: 25px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+
+.formulario__box input:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.formulario__box input:focus~label,
+.formulario__box input:not(:placeholder-shown)~label {
+    background-color: #fff;
+    transform: translateY(-80%) translateX(-10px) scale(0.9);
+    padding: 0 5px;
+    color: #8e6b43;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 100px;
+}
+
+
+
+.input__inventario {
+    font: 600 1.3rem var(--typografiaGeist);
+    grid-column: 1 / -1;
+    margin: 1.2rem 0 1rem 1.5rem;
+}
+
+#contenedor-filas {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.compra__fila {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+
+.compra__fila .formulario__box input,
+.compra__fila .customselect__styled select {
+    width: 90% !important;
+}
+
+.compra__fila .formulario__box input:nth-of-type(1) {
+    margin-left: 0.1rem;
+}
+
+.compra__fila .input__formulario {
+    margin-bottom: -1rem;
+}
+
+
+.formulario__customselect {
+    position: relative;
+}
+
+.customselect__styled {
+    width: 95%;
+    height: 47px;
+    padding: 12px 16px;
+    margin: 10px 0 10px 19px;
+    padding-right: 40px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font: 600 1rem var(--typografiaUrbanist);
+    color: #8d8d8d;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+
+.customselect__styled option {
+    color: #333;
+    background-color: #ffffff;
+    font: 600 1rem var(--typografiaUrbanist);
+}
+
+.customselect__styled:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.custom-arrow {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    font-size: 16px;
+    color: #666;
+    pointer-events: none;
+}
+
+.custom-arrow.rotate {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+
+.box__icon i {
+    position: absolute;
+    top: 21px;
+    left: 93%;
+    font: 900 1.2rem var(--typografiaUrbanist);
+}
+
+.icon--compras i {
+    left: 87%;
+}
+
+.icon--total i {
+    left: 96%;
+}
+
+.box__icon .ri-check-line {
+    background-color: #34A853;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.box__icon .ri-close-line {
+    background-color: #fd1f1f;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.input__formulario .formulario__error {
+    font: 600 1rem var(--typografiaUrbanist);
+    width: 100%;
+    margin: 10px 0 10px 20px;
+    display: none;
+}
+
+.input__formulario .error--compras {
+    margin: 10px 0 10px 5px;
+}
+
+
+.btn-agregar-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.7rem 0 1.5rem;
+    cursor: pointer;
+    width: 260px;
+    height: 50px;
+    background-color: #eeee;
+    color: var(--colorDark);
+    font: 600 1.2rem var(--typografiaUrbanist);
+    border: 1px solid #eeee;
+    outline: none;
+    border-radius: 8px;
+    margin: 2rem 0 0.7rem 1.3rem;
+    transition: background-color .5s ease, border .5s ease;
+}
+
+.btn-agregar-fila i {
+    font-size: 1.8rem;
+}
+
+.btn-agregar-fila:hover {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+}
+
+
+#formulario__compra {
+    grid-column: 1 / -1;
+    /* Ocupa todo el ancho del grid principal */
+}
+
+#formulario__compra .formulario__box input {
+    width: 96% !important;
+}
+
+.btn__formulario {
+    cursor: pointer;
+    width: 260px;
+    height: 50px;
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    font: 600 1.2rem var(--typografiaUrbanist);
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    margin: 0.5rem 0 2rem 1.3rem;
+    transition: background-color .5s ease;
+}
+
+.btn__formulario:hover {
+    background-color: #7a5e4d;
+}
