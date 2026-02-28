@@ -12,6 +12,8 @@ import com.application.presentation.dto.usuario.request.CreateUsuarioRequest;
 import com.application.service.interfaces.empresa.EmpresaService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,8 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
-
-import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 

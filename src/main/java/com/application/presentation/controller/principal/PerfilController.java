@@ -15,6 +15,8 @@ import com.application.presentation.dto.usuario.request.UpdateUsuarioRequest;
 import com.application.service.implementation.empresa.EmpresaServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
-import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
