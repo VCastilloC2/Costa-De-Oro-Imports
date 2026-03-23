@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 401 - No autorizado</title>
+    <link rel="stylesheet" th:href="@{/Css/Error/Error.css}">
+    <link rel="icon" type="image/png" th:href="@{/Assets/Img/Error/Error.png}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 401 con jarra bloqueada -->
+        <div class="error-401">
+            <span class="error-num">4</span>
+            <div class="beer-container">
+                <div class="beer-pitcher">
+                    <!-- Cuerpo principal de la jarra -->
+                    <div class="pitcher-body">
+                        <!-- Burbujas en el interior -->
+                        <div class="bubbles" id="bubbles"></div>
+                        <!-- Líquido de cerveza con gradiente realista -->
+                        <div class="beer-liquid" id="beer-liquid"></div>
+                    </div>
+                    <!-- Base de la jarra -->
+                    <div class="pitcher-base"></div>
+                    <!-- Efectos de vidrio: reflejos y condensación -->
+                    <div class="glass-effects"></div>
+                </div>
+            </div>
+            <span class="error-num">1</span>
+        </div>
+
+        <h1>Acceso no autorizado</h1>
+        <p>No tienes los permisos necesarios para acceder a este recurso.
+            Parece que la jarra está cerrada con candado.</p>
+
+        <!-- Botón de volver -->
+        <a href="javascript:history.back()" class="button">
+            Volver a la página anterior
+        </a>
+
+        <!-- Mensaje divertido -->
+        <div class="additional-info">
+            <p>¿Tienes la llave? Intenta iniciar sesión</p>
+        </div>
+    </div>
+
+    <script th:src="@{/Js/Error/Error.js}"></script>
+</body>
+
+</html>

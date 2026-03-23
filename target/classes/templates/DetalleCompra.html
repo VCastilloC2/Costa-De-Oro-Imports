@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/DetalleCompra.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>Detalles de compras || Costa De Oro Imports</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
+    <div class="container__dashboard">
+
+        <aside class="dashboard__sidebar">
+
+            <figure class="sidebar__logo">
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
+            </figure>
+
+            <ul class="sidebar__menu">
+                <li class="sidebar__item">
+                    <i class="ri-home-4-line"></i>
+                    <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
+                </li>
+
+                <p class="menu__title">Administracion De Tiendas</p>
+
+                <li class="sidebar__item">
+                    <i class="ri-shopping-cart-2-line"></i>
+                    <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-list-unordered"></i>
+                    <a th:href="@{/admin/categoria/agregar}" class="sidebar__text">Categorias</a>
+                </li>
+
+                <li class="sidebar__item active">
+                    <i class="ri-shopping-bag-4-line"></i>
+                    <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-store-2-line"></i>
+                    <a th:href="@{/admin/provedores/}" class="sidebar__text">Provedores</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-group-line"></i>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-star-line"></i>
+                    <a th:href="@{/admin/resenna}" class="sidebar__text">Reseñas</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-pie-chart-line"></i>
+                    <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
+                </li>
+
+                <p class="menu__title">Configuracion Del Sitio</p>
+
+                <li class="sidebar__item">
+                    <i class="ri-news-line"></i>
+                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-question-answer-line"></i>
+                    <a th:href="@{/admin/pqrs}" class="sidebar__text">PQRS</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-printer-line"></i>
+                    <a th:href="@{/admin/reportes}" class="sidebar__text">Reportes</a>
+                </li>
+            </ul>
+
+        </aside>
+
+        <main class="dashboard__content">
+            <header class="content__header">
+
+                <!-- Barra de búsqueda -->
+                <div class="header__search">
+                    <input type="text" placeholder="Buscar...">
+                    <i class="ri-search-line"></i>
+                </div>
+
+                <div class="header__admin">
+                    <!-- Icono de notificaciones -->
+                    <div class="header__notifications">
+                        <i id="notifIcon" class="ri-notification-3-line"></i>
+                        <span class="notif__badge">3</span>
+
+                        <!-- Menú desplegable de notificaciones -->
+                        <div class="notif__menu" id="notifMenu">
+                            <div class="notif__header">
+                                <h3>Notificaciones</h3>
+                                <small>
+                                    Tienes 2 mensajes sin leer
+                                    <i class="ri-check-double-line"></i>
+                                </small>
+
+                            </div>
+
+                            <div class="notif__item unread">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="User">
+                                <div class="notif__text">
+                                    <p><strong>Su pedido ha sido realizado</strong> <br><span>esperando el envío</span>
+                                    </p>
+                                    <small> <i class="ri-time-line"></i> Hace 1 minuto</small>
+                                </div>
+                            </div>
+
+                            <div class="notif__item">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
+                                <div class="notif__text">
+                                    <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
+                                            con
+                                            notas</span> </p>
+                                    <small> <i class="ri-time-line"></i> Hace 2 días</small>
+                                </div>
+                            </div>
+
+                            <div class="notif__item">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="User">
+                                <div class="notif__text">
+                                    <p><strong>Tienes mensajes nuevos</strong> <span>2 mensajes no leídos</span></p>
+                                    <small> <i class="ri-time-line"></i> Hace 2 días</small>
+                                </div>
+                            </div>
+
+
+                            <div class="notif__footer">
+                                <a href="#">Ver todo</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Foto de usuario -->
+                    <div class="header__user">
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
+                            alt="Usuario">
+
+                        <div class="nav__menu" id="SubMenu">
+                            <div class="menu__sub">
+                                <div class="sub__info">
+                                    <span class="info__admin">Administrador
+                                        <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
+                                    </span>
+                                    <span class="info__title"
+                                        th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                                </div>
+                                <hr>
+
+                                <a th:href="@{/perfil/}" class="sub__link">
+                                    <p class="link__text">Perfil</p>
+                                </a>
+
+                                <a th:href="@{/perfil/configuration}" class="sub__link">
+                                    <p class="link__text">Configuracion</p>
+                                </a>
+
+                                <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                                    <p class="link__text">Notificaciones</p>
+                                </a>
+
+                                <a th:href="@{/auth/logout}" class="sub__link">
+                                    <p class="link__text">Cerrar Sesión</p>
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </header>
+
+            <section class="content__body">
+
+                <div class="body__titleheader">
+                    <div class="titleheader__producto">
+                        <h1 class="producto__titulo">Compras</h1>
+                        <!-- <p class="producto__texto">Hay 0 productos registrados</p> -->
+                    </div>
+
+                    <div class="titleheader__btn">
+                        <a th:href="@{/admin/compra/}">Volver a todas las compras</a>
+                    </div>
+                </div>
+
+                <div class="body__table">
+                    <div class="container__table">
+                        <div class="table__filter">
+                            <div class="filter__titulo">
+                                <h2 class="titulo__pedidos">ID del pedido:</h2>
+                                <span class="titulo__id" th:text="${detalleCompra.numeroOrden}">#FC001</span>
+                                <button th:classappend="'titulo__estado ' + ${detalleCompra.estado}"
+                                        th:text="${detalleCompra.estado}">Pendiente</button>
+                            </div>
+
+                            <div class="filter__estados">
+                                <div class="custom__select">
+                                    <select id="filtro-estado" name="estado">
+                                        <option value="" disabled selected>Estado</option>
+                                        <option value="Pagado" th:selected="${detalleCompra.estado == 'Pagado'}">Pagado</option>
+                                        <option value="Pendiente" th:selected="${detalleCompra.estado == 'Pendiente'}">Pendiente</option>
+                                        <option value="Cancelado" th:selected="${detalleCompra.estado == 'Cancelado'}">Cancelado</option>
+                                        <option value="Rechazado" th:selected="${detalleCompra.estado == 'Rechazado'}">Rechazado</option>
+                                    </select>
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </div>
+
+                                <button type="button" class="estados__btn" id="guardar-estado">Guardar</button>
+                                <button class="estados__factura">Descargar factura</button>
+                            </div>
+
+                            <!-- Campo oculto -->
+                            <input type="hidden" id="compraId" th:value="${detalleCompra.compraId}">
+                        </div>
+
+                        <div class="table__information">
+                            <div class="information__detalleClientes">
+                                <h4 class="detalleClientes__titulo">Detalles del cliente</h4>
+
+                                <p class="detalleClientes__nombreCliente" th:text="${detalleCompra.usuarioNombreCompleto}">Keyner alfonso</p>
+                                <p class="detalleClientes__correoCliente" th:text="${detalleCompra.usuarioCorreo}">anderalex@example.com</p>
+                                <p class="detalleClientes__telefonoCliente" th:text="${detalleCompra.usuarioTelefono}">+3006431563</p>
+                                <a class="detalleClientes__perfil" th:href="@{/perfil/{id}(id=${detalleCompra.usuarioId})}">Ver perfil</a>
+                            </div>
+
+                            <div class="information__direccionEnvio">
+                                <h4 class="direccionEnvio__titulo">Dirección de envío</h4>
+
+                                <p class="direccionEnvio__apellidoCliente" th:text="${detalleCompra.usuarioNombreCompleto}">Reyes tejedor</p>
+                                <p class="direccionEnvio__direccionCliente" th:text="${detalleCompra.usuarioDireccion}">Calle 45 #18-22, Apto 302</p>
+                                <p class="direccionEnvio__ciudadCliente" th:text="${detalleCompra.ciudadEmpresa}">Cartagena, Bolivar</p>
+                                <p class="direccionEnvio__barrioCliente" th:text="${detalleCompra.ciudadEmpresa}">San pedro martin</p>
+                            </div>
+
+                            <div class="information__detallePedidos">
+                                <h4 class="detallePedidos__titulo">Detalles del pedido</h4>
+
+                                <p class="detallePedidos__idpedido">
+                                    ID del pedido: <span class="idpedido__cliente" th:text="${detalleCompra.numeroOrden}">FC001</span>
+                                </p>
+                                <p class="detallePedidos__fechaPedido">
+                                    Fecha del pedido: <span class="fechaPedido__cliente"
+                                                            th:text="${#temporals.format(detalleCompra.fecha, 'dd/MM/yyyy')}">25/10/2025</span>
+                                </p>
+                                <p class="detallePedidos__totalPedido">
+                                    Total del pedido:
+                                    <span class="totalPedido__cliente"
+                                          th:text="${'$' + #numbers.formatDecimal(detalleCompra.total, 0, 'COMMA', 0, 'POINT')}">
+                                    </span>
+                                </p>
+                                <p class="detallePedidos__metodoPago">
+                                    Método de pago: <span class="metodoPago__cliente" th:text="${detalleCompra.metodoPago}">Nequi</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de productos -->
+                        <div class="notification__table-container">
+                            <table class="notification__table">
+                                <thead>
+                                <tr>
+                                    <th>Productos</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="producto : ${detalleCompra.productos}">
+                                    <td class="td__producto">
+                                        <div class="producto__info">
+                                            <figure class="img__container">
+                                                <img th:src="${producto.imagen}" th:alt="${producto.nombre}">
+                                            </figure>
+                                            <span class="producto__nombre" th:text="${producto.nombre}">Nombre del producto</span>
+                                        </div>
+                                    </td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(producto.precioUnitario, 0, 'COMMA', 0, 'POINT')}">$0</td>
+                                    <td th:text="${producto.cantidad}">0</td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(producto.subtotal, 0, 'COMMA', 0, 'POINT')}">$0</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Totales -->
+                            <div class="table__subtotal">
+                                <div class="subtotal__span">
+                                    <p class="span__texto">
+                                        Subtotal:
+                                        <span class="texto__precio precio--subtotal"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.subtotal, 0, 'COMMA', 0, 'POINT')}">$80,000</span>
+                                    </p>
+                                    <p class="span__texto">
+                                        IVA:
+                                        <span class="texto__precio precio--envio"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.iva, 0, 'COMMA', 0, 'POINT')}">$10,000</span>
+                                    </p>
+                                    <p class="span__texto">
+                                        Total general:
+                                        <span class="texto__precio precio--general"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.total, 0, 'COMMA', 0, 'POINT')}">$90,000</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/Js/DetalleCompra.js}"></script>
+</body>
+
+</html>

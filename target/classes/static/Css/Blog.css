@@ -1,0 +1,223 @@
+@import url("./style.css");
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+.blog {
+    min-height: 100vh;
+    padding-top: 150px;
+}
+
+.blog__container .container__title {
+    font: 700 2.5rem var(--typografiaGeist);
+    margin: 0 0 2rem 5rem;
+}
+
+.container__home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    margin-right: 6rem;
+}
+
+.home__img {
+    width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.home__img img {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.home__img img:hover {
+    transform: scale(1.1);
+}
+
+.home__description {
+    width: 400px;
+}
+
+.home__description .description__titulo {
+    display: block;
+    text-decoration: none;
+    width: 450px;
+    font: 600 1.8rem var(--typografiaGeist);
+    color: var(--colorDark);
+    margin-bottom: 1rem;
+}
+
+.home__description .description__titulo:hover {
+    color: var(--colorCafe);
+}
+
+.home__description .description__texto {
+    width: 400px;
+    color: var(--colorLigth);
+    font: 500 1rem var(--typografiaGeist);
+    margin-bottom: 1rem;
+}
+
+.home__description .description__tiempo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.description__tiempo .tiempo__item {
+    font: 500 0.8rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+.tiempo__item strong {
+    color: var(--colorDark);
+}
+
+
+.blog__flex {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.blog__card {
+    width: 440px; /* fija el ancho para que quepan 3 en una fila */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Imagen fija */
+.card__img {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 4px 4px 14px rgba(0,0,0,0.1);
+}
+
+.card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Título con control para que NO se salga */
+.card__title {
+    font: 700 1.3rem var(--typografiaGeist);
+    color: var(--colorDark);
+    text-decoration: none;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* Máximo 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Descripción recortada */
+.card__text {
+    font: 500 1rem var(--typografiaGeist);
+    color: var(--colorLigth);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Fechas y tiempo de lectura */
+.card__tiempo {
+    display: flex;
+    justify-content: space-between;
+    font: 500 0.85rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+/* Pagination */
+.pagination {
+    position: relative;
+    top: 20px;
+    right: 86.5%;
+    width: 200%;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.pagination__Numbers {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pagination__Numbers .button__pagination {
+    font: 600 1.2rem "Urbanist";
+    width: 45px;
+    height: 45px;
+    border: 1px solid #ccc;
+    display: flex;
+    cursor: pointer;
+    color: var(--colorLigth);
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color .2s ease, color .2s ease-in;
+
+}
+
+.pagination__Numbers .button__pagination.active {
+    background-color: var(--colorCafe);
+    border: none;
+    color: var(--colorWhite);
+}
+
+.pagination__Numbers .button__pagination:hover {
+    background-color: var(--colorCafe);
+    border: 1px solid var(--colorCafe);
+    color: #ffffff;
+}
+
+.pagination #prevBtn {
+    display: none;
+}
+
+.pagination button {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    background-color: transparent;
+    font: 700 1.4rem "Urbanist";
+    color: var(--colorLigth);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color .4s ease, color .4s ease-in;
+}
+
+.pagination button:hover {
+    background-color: var(--colorCafe);
+    border: 1px solid var(--colorCafe);
+    color: #ffffff;
+}

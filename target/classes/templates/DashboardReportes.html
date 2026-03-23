@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/DashboardReportes.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>Dashboard Provedores || Costa De Oro Imports</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body>
+<div class="container__dashboard">
+
+    <aside class="dashboard__sidebar">
+
+        <figure class="sidebar__logo">
+            <a th:href="@{/admin/principal/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            </a>
+        </figure>
+
+        <ul class="sidebar__menu">
+            <li class="sidebar__item">
+                <i class="ri-home-4-line"></i>
+                <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
+            </li>
+
+            <p class="menu__title">Administracion De Tiendas</p>
+
+            <li class="sidebar__item">
+                <i class="ri-shopping-cart-2-line"></i>
+                <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-list-unordered"></i>
+                <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-shopping-bag-4-line"></i>
+                <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-store-2-line"></i>
+                <a th:href="@{/admin/provedores/}" class="sidebar__text">Provedores</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-group-line"></i>
+                <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-star-line"></i>
+                <a th:href="@{/admin/resenna}" class="sidebar__text">Reseñas</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-pie-chart-line"></i>
+                <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
+            </li>
+
+            <p class="menu__title">Configuracion Del Sitio</p>
+
+            <li class="sidebar__item">
+                <i class="ri-news-line"></i>
+                <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
+            </li>
+
+            <li class="sidebar__item">
+                <i class="ri-question-answer-line"></i>
+                <a th:href="@{/admin/pqrs}" class="sidebar__text">PQRS</a>
+            </li>
+
+            <li class="sidebar__item active">
+                <i class="ri-printer-line"></i>
+                <a href="" class="sidebar__text">Reportes</a>
+            </li>
+        </ul>
+
+    </aside>
+
+    <main class="dashboard__content">
+        <header class="content__header">
+
+            <!-- Barra de búsqueda -->
+            <div class="header__search">
+                <input type="text" placeholder="Buscar...">
+                <i class="ri-search-line"></i>
+            </div>
+
+            <div class="header__admin">
+                <!-- Icono de notificaciones -->
+                <div class="header__notifications">
+                    <i id="notifIcon" class="ri-notification-3-line"></i>
+                    <span class="notif__badge">3</span>
+
+                    <!-- Menú desplegable de notificaciones -->
+                    <div class="notif__menu" id="notifMenu">
+                        <div class="notif__header">
+                            <h3>Notificaciones</h3>
+                            <small>
+                                Tienes 2 mensajes sin leer
+                                <i class="ri-check-double-line"></i>
+                            </small>
+
+                        </div>
+
+                        <div class="notif__item unread">
+                            <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="User">
+                            <div class="notif__text">
+                                <p><strong>Su pedido ha sido realizado</strong> <br><span>esperando el envío</span>
+                                </p>
+                                <small> <i class="ri-time-line"></i> Hace 1 minuto</small>
+                            </div>
+                        </div>
+
+                        <div class="notif__item">
+                            <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
+                            <div class="notif__text">
+                                <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
+                                            con
+                                            notas</span> </p>
+                                <small> <i class="ri-time-line"></i> Hace 2 días</small>
+                            </div>
+                        </div>
+
+                        <div class="notif__item">
+                            <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="User">
+                            <div class="notif__text">
+                                <p><strong>Tienes mensajes nuevos</strong> <span>2 mensajes no leídos</span></p>
+                                <small> <i class="ri-time-line"></i> Hace 2 días</small>
+                            </div>
+                        </div>
+
+
+                        <div class="notif__footer">
+                            <a href="#">Ver todo</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Foto de usuario -->
+                <div class="header__user">
+                    <img id="user__admin" th:src="${urlImagenUsuario}"
+                         alt="Usuario">
+
+                    <div class="nav__menu" id="SubMenu">
+                        <div class="menu__sub">
+                            <div class="sub__info">
+                                    <span class="info__admin">Administrador
+                                        <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
+                                    </span>
+                                <span class="info__title"
+                                      th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                            </div>
+                            <hr>
+
+                            <a th:href="@{/perfil/}" class="sub__link">
+                                <p class="link__text">Perfil</p>
+                            </a>
+
+                            <a th:href="@{/perfil/configuration}" class="sub__link">
+                                <p class="link__text">Configuracion</p>
+                            </a>
+
+                            <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                                <p class="link__text">Notificaciones</p>
+                            </a>
+
+                            <a th:href="@{/auth/logout}" class="sub__link">
+                                <p class="link__text">Cerrar Sesión</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <section class="content__body">
+
+            <div class="body__titleheader">
+                <div class="titleheader__producto">
+                    <h2 class="producto__titulo">Reportes</h2>
+                    <p class="producto__texto">Sistema de Gestión y Análisis de Datos</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-team-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Clientes</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-box-3-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-bar-chart-2-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Cliente y Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-wallet-3-line"></i>
+                    </div>
+                    <h3 class="report-title">Cuentas por Pagar</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-shopping-cart-2-line"></i>
+                    </div>
+                    <h3 class="report-title">Reporte de Compra</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-line-chart-line"></i>
+                    </div>
+                    <h3 class="report-title">Rentabilidad por Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script th:src="@{/Js/DashboardReportes.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
+</body>
+
+</html>

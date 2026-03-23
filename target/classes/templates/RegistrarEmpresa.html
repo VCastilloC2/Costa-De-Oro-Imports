@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/Css/RegistrarEmpresa.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Completar Empresa</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body th:data-mensaje="${mensaje}">
+    <div class="contenido__form">
+
+        <figure class="imagen__container">
+            <img th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
+        </figure>
+
+        <div class="form__registro">
+            <form class="form" th:action="@{/auth/registrar-empresa}" method="post">
+                <h1 class="formulario__title">Registrar Empresa</h1>
+
+                <span class="formulario__title2">Para continuar necesitamos algunos datos adicionales</span>
+
+
+                <div class="formulario">
+                    <div class="formulario__input">
+                        <div class="input-box">
+                            <input type="text" autocomplete="off" placeholder="" name="nit" id="nit">
+                            <label class="label" for="nit">Nit</label>
+                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                        </div>
+                        <p class="input__error">
+                            El NIT no puede estar vacío y debe contener solo números.
+                        </p>
+                    </div>
+
+                    <div class="formulario__input">
+                        <div class="input-box">
+                            <input type="text" autocomplete="off" placeholder="" name="razonSocial" id="razonSocial">
+                            <label for="razonSocial">Razon Social</label>
+                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                        </div>
+                        <p class="input__error">
+                            La razón social solo puede contener letras, espacios y debe tener entre 3 y 50 caracteres.
+                        </p>
+                    </div>
+
+                    <div class="formulario__input">
+                        <div class="custom-select-wrapper wrapper--top">
+                            <select class="styled-select" name="ciudad" id="Ciudad">
+                                <option disabled selected>Ciudad</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
+                        </div>
+                        <p class="input__error error--ciudad">
+                            Por favor, seleccione una ciudad.
+                        </p>
+                    </div>
+
+                    <div class="formulario__input">
+                        <div class="input-box">
+                            <input type="text" autocomplete="off" placeholder="" name="direccion" id="direccion">
+                            <label for="direccion">Direccion</label>
+                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                        </div>
+                        <p class="input__error error--direccion">
+                            Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle 45
+                            #10-23,
+                            130002).
+                        </p>
+                    </div>
+
+                    <div class="formulario__input">
+                        <div class="input-box">
+                            <input type="email" autocomplete="off" placeholder="" name="correo" id="email">
+                            <label for="email">Email</label>
+                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                        </div>
+                        <p class="input__error">
+                            El correo solo puede contener letras,numeros,puntos,guiones y guion bajo.
+                        </p>
+                    </div>
+
+                    <div class="formulario__input">
+                        <div class="input-box">
+                            <input type="text" autocomplete="off" placeholder="" name="telefono" id="telefono">
+                            <label for="telefono">Telefono</label>
+                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                        </div>
+                        <p class="input__error">
+                            El teléfono solo puede contener numeros y el maximo son 10 digitos.
+                        </p>
+                    </div>
+
+                    <div class="formulario__input" id="sector-input">
+                        <div class="custom-select-wrapper">
+                            <select class="styled-select" name="sector" id="tipoSector">
+                                <option disabled selected>Tipo de sector</option>
+                                <option th:each="sector : ${sectores}" th:value="${sector}" th:text="${sector}">
+                                </option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down custom-sector" id="arrowIcon1"></i>
+                        </div>
+                        <p class="input__error error--Tiposector">
+                            Por favor, un tipo de sector
+                        </p>
+                    </div>
+
+
+                    <div class="formulario__input formulario__btn-container">
+                        <button class="formulario__btn" type="submit">Registrar Empresa</button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/Js/RegistrarEmpresa.js}"></script>
+</body>
+
+</html>

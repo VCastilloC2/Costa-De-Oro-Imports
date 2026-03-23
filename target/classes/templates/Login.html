@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/Css/Login.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Iniciar Sesión</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+</head>
+
+<body th:data-mensaje-error="${mensajeError}" th:data-mensaje-exitoso="${mensajeExitoso}" th:data-login-success="${loginSuccess}" th:data-rol="${rol}" th:data-next="${next}">
+<div class="contenido__form">
+
+    <figure class="imagen__container">
+        <img th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
+    </figure>
+
+    <div class="form__login">
+
+        <div class="icono__back">
+            <i class="ri-arrow-left-s-line"></i>
+            <a class="regresar" th:href="@{/}">Regresar A Inicio</a>
+        </div>
+
+        <form class="form" th:action="@{/auth/login}" method="post">
+            <h1 class="formulario__title">Iniciar Sesión</h1>
+
+            <span class="formulario__title2">Use su correo y contraseña para iniciar sesión</span>
+
+            <div class="formulario">
+
+                <div class="formulario__input input--margintop">
+                    <div class="input-box">
+                        <!-- 🔑 Usa Email -->
+                        <input type="email" autocomplete="username" placeholder="" name="username" id="email" required>
+                        <label for="email">Email</label>
+                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                    </div>
+                    <p class="input__error error--changed2">
+                        El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+                    </p>
+                </div>
+
+
+                <div class="formulario__input">
+                    <div class="input-box">
+                        <!-- 🔑 Usa Password -->
+                        <input type="password" autocomplete="current-password" placeholder="" name="password" id="password" required>
+                        <label for="password">Password</label>
+                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                    </div>
+                    <p class="input__error">
+                        La contraseña tiene que ser de 4 a 15 digitos.
+                    </p>
+                </div>
+
+                <div class="formulario__input">
+                    <div class="remember-forgot">
+                        <label class="forgot__label">Olvidaste tu contraseña? </label>
+                        <a class="forgot__color" th:href="@{/auth/recordar-contrasenna}">Recordar contraseña</a>
+                    </div>
+                </div>
+
+                <div class="formulario__input formulario__btn-container">
+                    <button class="formulario__btn g-recaptcha" data-sitekey="6LdB_NMrAAAAABGNY2Deel7-qC2NYxKfpgfcpDkU"
+                            data-callback="onSubmit" type="button">Iniciar Sesión</button>
+                </div>
+
+                <div class="registre-link">
+                    <p>No tienes una cuenta?
+                        <a th:href="@{/auth/registro}">Regístrate</a>
+                    </p>
+                </div>
+
+                <div class="container__otrascuentas">
+                    <span class="otrascuentas__titles">O con</span>
+                    <a th:href="@{/oauth2/authorization/google}" class="otrascuentas__btn">
+                        <img loading="lazy" th:src="@{/Assets/Img/logos/google.svg}" alt="Logo de Google">
+                        Continuar con google
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" th:src="@{/Js/login.js}"></script>
+<script th:src="@{https://www.google.com/recaptcha/api.js}" async defer></script>
+
+</body>
+</html>
