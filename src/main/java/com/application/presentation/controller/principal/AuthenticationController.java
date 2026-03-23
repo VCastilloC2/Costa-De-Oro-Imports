@@ -11,7 +11,6 @@ import com.application.presentation.dto.usuario.request.CompleteUsuarioProfileRe
 import com.application.presentation.dto.usuario.request.CreateUsuarioRequest;
 import com.application.service.interfaces.empresa.EmpresaService;
 import com.application.service.interfaces.usuario.UsuarioService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import java.util.Base64;
 
 @Controller
 @RequestMapping("/auth")
-@Tag(name = "Authentication", description = "Controller for Authentication")
 public class AuthenticationController {
 
     @Autowired

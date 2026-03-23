@@ -54,13 +54,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Spring Document - Swaggert -->
-        <dependency>
-        <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
         <!-- Spring Boot Oauth2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
