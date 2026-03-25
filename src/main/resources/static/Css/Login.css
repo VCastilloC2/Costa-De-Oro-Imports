@@ -113,6 +113,9 @@
     }
 }
 
+.remember-forgot input {
+    margin-right: 15px;
+}
 
 .form {
     display: flex;
@@ -428,5 +431,72 @@
 
     .icono__back .regresar {
         font-size: 1rem;
+    }
+}
+
+/* ========================
+   RECORDARME Y OLVIDASTE CONTRASEÑA
+======================== */
+
+.formulario__input:has(.forgot__label:first-child) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Checkbox "Recordarme" */
+label.forgot__label:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 600 1rem var(--typografiaUrbanist);
+    cursor: pointer;
+    color: var(--colorDark);
+}
+
+label.forgot__label:first-child input {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--colorCafe);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Bloque de "Olvidaste tu contraseña?" */
+.remember-forgot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 600 1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+/* Texto "Olvidaste tu contraseña?" (no es un label funcional) */
+.remember-forgot .forgot__label {
+    color: var(--colorLigth);
+    font-weight: 600;
+}
+
+/* Enlace "Recordar contraseña" */
+.remember-forgot .forgot__color {
+    color: var(--colorCafe);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.remember-forgot .forgot__color:hover {
+    text-decoration: underline;
+    color: #5e3e2b;
+}
+
+/* Responsive: en pantallas pequeñas, ambos elementos se apilan */
+@media (max-width: 600px) {
+    .formulario__input:has(.forgot__label:first-child) {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
