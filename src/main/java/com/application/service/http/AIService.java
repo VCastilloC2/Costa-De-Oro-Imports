@@ -9,7 +9,7 @@ public class AIService {
 
     private final ChatClient chatClient;
 
-    @Value("${app.ai.negacion-respuesta:Lo siento, solo puedo responder preguntas relacionadas con Costa de Oro Imports, nuestra tienda de cervezas artesanales y comerciales. ¿En qué puedo ayudarte sobre nuestros productos o servicios?}")
+    @Value("${app.ai.negacion-respuesta}")
     private String mensajeNegacion;
 
     private static final String SYSTEM_PROMPT = """
