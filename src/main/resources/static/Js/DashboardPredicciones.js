@@ -48,10 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Variables globales
     let ventas = {};
     let chart; // Variable global para el gráfico
-    let añoActual = new Date().getFullYear();
     let datosOriginales = []; // Guardar los datos originales
-    let ultimoAñoCargado = 2025; // Último año con datos completos
     let prediccionGenerada = false; // Controlar si ya se generó predicción
+    let ultimoAñoCargado = 0;
 
     // Inicializar la aplicación
     inicializarAplicacion();
@@ -70,20 +69,40 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             ventas = data.ventasPorAño;
+            ultimoAñoCargado = obtenerUltimoAñoConDatos();
+            console.log("Último año cargado:", ultimoAñoCargado);
             console.log('Datos cargados desde el servidor:', ventas);
+
+            // Validar que tengamos datos
+            if (!ventas || Object.keys(ventas).length === 0) {
+                throw new Error('No se recibieron datos de ventas');
+            }
         } catch (error) {
             console.error('Error cargando datos:', error);
-            // Usar datos por defecto si hay error - CORREGIDOS: Valores en escala real (sin dividir entre 1000)
+            // Usar datos por defecto si hay error
+            // Nota: Estos valores deben actualizarse según los datos reales de tu base de datos
             ventas = {
-                2020: [12000000, 9500000, 14000000, 11000000, 18000000, 13000000, 20000000, 15000000, 22000000, 17000000, 26000000, 21000000],
-                2021: [20000000, 18000000, 23000000, 19000000, 26000000, 24000000, 30000000, 25000000, 31000000, 28000000, 33000000, 29000000],
-                2022: [15000000, 13000000, 17000000, 16000000, 21000000, 18000000, 25000000, 23000000, 27000000, 24000000, 26000000, 23000000],
-                2023: [17000000, 16000000, 19000000, 18000000, 23000000, 20000000, 26000000, 24000000, 30000000, 27000000, 31000000, 29000000],
-                2024: [20000000, 22000000, 21000000, 23000000, 26000000, 24000000, 30000000, 28000000, 33000000, 30000000, 35000000, 32000000],
-                2025: [22000000, 21000000, 24000000, 20000000, 26000000, 23000000, 29000000, 25000000, 31000000, 28000000, null, null] // Nov y Dic 2025 vacíos
+                "2023": [15000000, 13000000, 17000000, 16000000, 21000000, 18000000, 25000000, 23000000, 27000000, 24000000, 26000000, 29000000],
+                "2024": [18000000, 16000000, 20000000, 19000000, 24000000, 21000000, 28000000, 26000000, 31000000, 28000000, 33000000, 32000000],
+                "2025": [20000000, 18000000, 22000000, 20000000, 25000000, 22000000, 27000000, 25000000, 30000000, 26000000, 0, 0]
             };
             console.log('Usando datos simulados por fallo en la conexión');
         }
+    }
+
+    // Función para obtener el último año con datos
+    function obtenerUltimoAñoConDatos() {
+        const años = Object.keys(ventas).map(Number).sort((a, b) => b - a);
+        return años[0] || new Date().getFullYear();
+    }
+
+    // Función para obtener ventas de un mes específico
+    function obtenerVentasMes(año, mesIndex) {
+        const añoStr = año.toString();
+        if (ventas[añoStr] && ventas[añoStr][mesIndex] !== undefined && ventas[añoStr][mesIndex] !== null && ventas[añoStr][mesIndex] > 0) {
+            return ventas[añoStr][mesIndex];
+        }
+        return null;
     }
 
     function inicializarGrafica() {
@@ -96,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         datosOriginales = [];
         for (const anio in ventas) {
             ventas[anio].forEach((valor, i) => {
-                if (valor !== null) { // Solo agregar meses con datos
+                if (valor !== null && valor !== 0) {
                     datosOriginales.push({
                         x: `${anio}-${String(i + 1).padStart(2, "0")}`,
                         y: valor,
@@ -106,6 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+
+        // 👇 AQUÍ
+        console.log("datosOriginales:", datosOriginales);
 
         // ========== SUMAR TOTAL ANUAL ==========
         function totalAnual(año) {
@@ -372,6 +394,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // 3. Combinar todos los datos (históricos + 2025 completo + 2026 predicción)
             const datosCombinados = [...datosFiltrados, ...prediccionData];
 
+            // 🔥 SOLUCIÓN
+            datosOriginales = datosCombinados;
             console.log('Datos combinados para gráfica:', datosCombinados);
 
             // 4. Actualizar la gráfica
