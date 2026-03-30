@@ -77,14 +77,13 @@ public class PrediccionServiceImpl implements PrediccionService {
                 datosPorAño.get(año).put(mes, total);
             }
 
-            // Convertir a formato esperado por el frontend - CORRECCIÓN: No dividir entre 1000
+            // Convertir a formato esperado por el frontend
             for (int año = añoActual - 5; año <= añoActual; año++) {
                 double[] ventasAnuales = new double[12];
                 Map<Integer, Double> datosAño = datosPorAño.get(año);
 
                 for (int mes = 1; mes <= 12; mes++) {
                     if (datosAño != null && datosAño.containsKey(mes)) {
-                        // CORRECCIÓN: Mantener el valor original sin dividir
                         ventasAnuales[mes-1] = datosAño.get(mes);
                     } else {
                         ventasAnuales[mes-1] = 0;
@@ -93,11 +92,13 @@ public class PrediccionServiceImpl implements PrediccionService {
                 ventasPorAño.put(String.valueOf(año), ventasAnuales);
             }
 
+            log.info("Datos de ventas cargados para {} años", ventasPorAño.size());
+
             // Calcular estadísticas
             calcularEstadisticas(ventasPorAño, estadisticas);
 
-            // Generar proyección para 2026
-            proyeccion2026 = generarProyeccion2026(ventasPorAño);
+            // Generar proyección vacía (se generará bajo demanda)
+            proyeccion2026 = new ArrayList<>();
 
         } catch (Exception e) {
             log.error("Error obteniendo datos reales, usando datos simulados: {}", e.getMessage());
@@ -110,62 +111,112 @@ public class PrediccionServiceImpl implements PrediccionService {
 
     @Override
     public double predecir(VentaRequest request) throws Exception {
-        if (modelo == null || estructura == null) {
-            throw new IllegalStateException("Modelo de predicción no disponible");
-        }
-
         // Validar datos de entrada
         if (request.anno() < 2019 || request.anno() > 2030) {
-            throw new IllegalArgumentException("Año fuera del rango válido");
+            throw new IllegalArgumentException("Año fuera del rango válido (2019-2030)");
         }
 
         if (request.mes() < 1 || request.mes() > 12) {
-            throw new IllegalArgumentException("Mes fuera del rango válido");
+            throw new IllegalArgumentException("Mes fuera del rango válido (1-12)");
         }
 
-        // Crear una instancia siguiendo la estructura ARFF
-        Instance instancia = new DenseInstance(estructura.numAttributes());
-        instancia.setDataset(estructura);
+        // Si el modelo WEKA está disponible, usarlo
+        if (modelo != null && estructura != null) {
+            try {
+                // Crear una instancia siguiendo la estructura ARFF
+                Instance instancia = new DenseInstance(estructura.numAttributes());
+                instancia.setDataset(estructura);
 
-        instancia.setMissing(0);
-        instancia.setValue(1, request.anno());
-        instancia.setValue(2, request.mes());
-        instancia.setValue(3, request.cantidadProductos());
-        instancia.setValue(4, request.totalUnidades());
-        instancia.setValue(5, request.precioPromedio());
+                // El atributo 0 (venta_total) es la clase, se marca como missing para predicción
+                instancia.setMissing(0);
+                instancia.setValue(1, request.anno());
+                instancia.setValue(2, request.mes());
+                instancia.setValue(3, request.cantidadProductos());
+                instancia.setValue(4, request.totalUnidades());
+                instancia.setValue(5, request.precioPromedio());
 
-        // Predicción
-        double prediccion = modelo.classifyInstance(instancia);
+                // Realizar predicción
+                double prediccion = modelo.classifyInstance(instancia);
 
-        // NUEVA REGLA: Obtener datos históricos para aplicar límite del pico más alto
-        try {
-            DatosGraficaResponse datosHistoricos = obtenerDatosParaGrafica();
-            double picoMasAlto = 0;
+                log.info("Predicción WEKA para {}/{}: productos={}, unidades={}, precio={} => prediccion={}",
+                        request.mes(), request.anno(), request.cantidadProductos(),
+                        request.totalUnidades(), request.precioPromedio(), prediccion);
 
-            for (double[] ventasAnuales : datosHistoricos.ventasPorAño().values()) {
-                for (double venta : ventasAnuales) {
-                    if (venta > picoMasAlto) {
-                        picoMasAlto = venta;
-                    }
+                // Validar que la predicción sea positiva
+                if (prediccion < 0) {
+                    log.warn("Predicción negativa del modelo: {}. Ajustando a valor mínimo.", prediccion);
+                    prediccion = 10000;
                 }
-            }
 
-            // Aplicar límite absoluto
-            if (prediccion > picoMasAlto && picoMasAlto > 0) {
-                log.info("Predicción ajustada: {} → {} (pico histórico)", prediccion, picoMasAlto);
-                prediccion = picoMasAlto;
+                // Aplicar límite basado en datos históricos
+                try {
+                    DatosGraficaResponse datosHistoricos = obtenerDatosParaGrafica();
+                    double picoMasAlto = 0;
+
+                    for (double[] ventasAnuales : datosHistoricos.ventasPorAño().values()) {
+                        for (double venta : ventasAnuales) {
+                            if (venta > picoMasAlto) {
+                                picoMasAlto = venta;
+                            }
+                        }
+                    }
+
+                    // Aplicar límite razonable: hasta 50% más que el pico histórico
+                    double limiteMaximo = picoMasAlto * 1.5;
+                    if (prediccion > limiteMaximo && picoMasAlto > 0) {
+                        log.info("Predicción ajustada: {} → {} (límite del 150% del pico histórico {})",
+                                prediccion, limiteMaximo, picoMasAlto);
+                        prediccion = limiteMaximo;
+                    }
+                } catch (Exception e) {
+                    log.warn("No se pudieron obtener datos históricos para validar: {}", e.getMessage());
+                }
+
+                return Math.round(prediccion * 100.0) / 100.0;
+
+            } catch (Exception e) {
+                log.error("Error en predicción WEKA: {}. Usando cálculo alternativo.", e.getMessage());
             }
+        }
+
+        // Fallback: usar cálculo basado en datos históricos
+        return calcularPrediccionFallback(request);
+    }
+
+    /**
+     * Calcula una predicción basada en datos históricos cuando el modelo WEKA no está disponible
+     */
+    private double calcularPrediccionFallback(VentaRequest request) {
+        try {
+            DatosGraficaResponse datos = obtenerDatosParaGrafica();
+            Map<String, double[]> ventas = datos.ventasPorAño();
+
+            // Obtener ventas históricas para el mes solicitado
+            double[] ventas2023 = ventas.getOrDefault("2023", new double[12]);
+            double[] ventas2024 = ventas.getOrDefault("2024", new double[12]);
+            double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
+
+            int mesIndex = request.mes() - 1;
+
+            // Calcular promedio histórico del mes
+            double suma = 0;
+            int count = 0;
+
+            if (ventas2023[mesIndex] > 0) { suma += ventas2023[mesIndex]; count++; }
+            if (ventas2024[mesIndex] > 0) { suma += ventas2024[mesIndex]; count++; }
+            if (ventas2025[mesIndex] > 0) { suma += ventas2025[mesIndex]; count++; }
+
+            double promedioMes = count > 0 ? suma / count : 100000;
+
+            // Aplicar crecimiento del 8% para 2026
+            double prediccion = promedioMes * 1.08;
+
+            return Math.round(prediccion * 100.0) / 100.0;
+
         } catch (Exception e) {
-            log.warn("No se pudieron obtener datos históricos para validar predicción: {}", e.getMessage());
+            log.error("Error en cálculo fallback: {}", e.getMessage());
+            return 100000.0; // Valor por defecto razonable
         }
-
-        // Validaciones básicas
-        if (prediccion < 0) {
-            log.warn("Predicción negativa detectada: {}. Ajustando a valor mínimo.", prediccion);
-            prediccion = 10000;
-        }
-
-        return prediccion;
     }
 
     @Override

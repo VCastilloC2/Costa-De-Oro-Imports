@@ -5,12 +5,19 @@
     --colorCafe: #8e705c;
     --colorDark: #18181b;
     --colorLigth: #71717a;
+    --min-touch-height: 44px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Base responsive font-size prevention for iOS zoom */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .contenido__form {
@@ -81,35 +88,91 @@
 @media (max-width: 600px) {
 
     .imagen__container {
-        height: 250px;
+        height: 200px;
+        min-width: auto;
+    }
+
+    .form__login {
+        padding: 1rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .form .formulario__title {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+        padding: 0 0.5rem;
     }
 
     .form .formulario__title2 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        padding: 0 0.5rem;
     }
 
     .input-box input {
         width: 100%;
+        min-height: var(--min-touch-height);
+        height: 55px;
+        font-size: 16px;
     }
 
     .formulario__btn {
         width: 100%;
+        min-height: var(--min-touch-height);
     }
 
     .otrascuentas__btn {
         width: 100%;
+        min-height: var(--min-touch-height);
     }
 
     .remember-forgot .forgot__label {
         margin-left: 0;
+        font-size: 0.95rem;
     }
 
     .remember-forgot a {
         margin-left: 0;
+    }
+
+    .input__error {
+        font-size: 0.85rem;
+        word-wrap: break-word;
+    }
+}
+
+/* Extra small devices (phones, 320px and down) */
+@media (max-width: 320px) {
+    .imagen__container {
+        display: none;
+    }
+
+    .form__login {
+        padding: 0.75rem;
+    }
+
+    .form .formulario__title {
+        font-size: 1.3rem;
+    }
+
+    .form .formulario__title2 {
+        font-size: 0.9rem;
+    }
+
+    .input-box input {
+        height: var(--min-touch-height);
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    .form .formulario__btn {
+        height: var(--min-touch-height);
+        font-size: 1rem;
+    }
+
+    .otrascuentas__btn {
+        height: var(--min-touch-height);
+        font-size: 1rem;
+        padding: 0 12px;
     }
 }
 

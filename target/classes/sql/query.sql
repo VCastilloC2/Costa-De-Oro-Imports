@@ -1,30 +1,28 @@
--- use db_beer;
-
 -- NO TOCAR POR NADA DEL MUNDO
 
-select * from db_beer.empresa;
+select * from bov48mrwisf1cr3wxsfy.empresa;
 
-select * from db_beer.rol;
+select * from bov48mrwisf1cr3wxsfy.rol;
 
-select * from db_beer.usuario;
+select * from bov48mrwisf1cr3wxsfy.usuario;
 
-select * from db_beer.producto;
+select * from bov48mrwisf1cr3wxsfy.producto;
 
-select * from db_beer.categoria;
+select * from bov48mrwisf1cr3wxsfy.categoria;
 
-select * from db_beer.sub_categorias;
+select * from bov48mrwisf1cr3wxsfy.sub_categorias;
 
-select * from db_beer.compra;
+select * from bov48mrwisf1cr3wxsfy.compra;
 
-select * from db_beer.detalle_venta;
+select * from bov48mrwisf1cr3wxsfy.detalle_venta;
 
-select * from db_beer.historia;
+select * from bov48mrwisf1cr3wxsfy.historia;
 
-select * from db_beer.comentario;
+select * from bov48mrwisf1cr3wxsfy.comentario;
 
-select * from db_beer.peticiones;
+select * from bov48mrwisf1cr3wxsfy.peticiones;
 
-select * from db_beer.factura_proveedor;
+select * from bov48mrwisf1cr3wxsfy.factura_proveedor;
 
 SELECT
     p.producto_id,
@@ -71,7 +69,7 @@ HAVING ABS(c.subtotal - SUM(dv.subtotal)) > 1;
 
 
 
-Select * from db_beer.producto where categoria_id = 1;
+Select * from bov48mrwisf1cr3wxsfy.producto where categoria_id = 1;
 
 
 -- Proyeccion de ventas totales (consulta)
