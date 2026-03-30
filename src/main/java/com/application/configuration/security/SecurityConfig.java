@@ -68,6 +68,7 @@ public class SecurityConfig {
                                 // Rutas de Ia
                                 "/ia/**",
                                 "/ia/ask",
+                                
                                 // Rutas de Webjars para Swagger
                                 "/webjars/**")
                         .permitAll()

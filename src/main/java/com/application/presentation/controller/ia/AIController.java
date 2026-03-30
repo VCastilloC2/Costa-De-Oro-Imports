@@ -1,6 +1,6 @@
 package com.application.presentation.controller.ia;
 
-import com.application.service.http.AIService;
+import com.application.service.http.AIHttp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AIController {
 
-    private final AIService aiService;
+    private final AIHttp aiHttp;
 
     @GetMapping("/ask")
-    public ResponseEntity<String> ask(@RequestParam String prompt) {
-        String respuesta = aiService.preguntar(prompt);
-        return ResponseEntity.ok(respuesta);
+    public ResponseEntity<String> ask(
+            @RequestParam String prompt,
+            @RequestParam(required = false, defaultValue = "default") String chatId) {
+        return ResponseEntity.ok(aiHttp.preguntar(prompt, chatId));
     }
 
 }

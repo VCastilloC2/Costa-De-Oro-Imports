@@ -1,19 +1,17 @@
-package com.application.service.http;
+package com.application.configuration.ia;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Service
-public class AIService {
-
-    private final ChatClient chatClient;
-
-    @Value("${app.ai.negacion-respuesta}")
-    private String mensajeNegacion;
+@Configuration
+public class ChatConfig {
 
     private static final String SYSTEM_PROMPT = """
-            Eres un asistente virtual de Costa de Oro Imports, una tienda de e-commerce especializada en la venta de cervezas artesanales y comerciales.
+            Eres un asistente virtual de Costa de Oro Imports, una tienda de e-commerce y tambien somos gestion de ventas especializada en cervezas artesanales y comerciales.
 
             REGLAS ESTRICTAS:
             1. Solo debes responder preguntas relacionadas con:
@@ -32,11 +30,13 @@ public class AIService {
                - Aceptamos Mercado Pago como método de pago
                - Realizamos envíos a domicilio
 
-            4. Estilo de respuestas:
+            4. Si no está relacionado, rechaza la pregunta.
+            
+            5. Estilo de respuestas:
                - Sé amable, profesional y conciso
                - Responde en español
-               - Si no conoces la respuesta, indícalo honestamente
-
+               - Si no conoces la respuesta, indícalo honestamente.
+            
             Ejemplos de preguntas VÁLIDAS:
             - "¿Qué cervezas tienen disponibles?"
             - "¿Cuánto cuesta tal cerveza?"
@@ -45,29 +45,20 @@ public class AIService {
             - "¿Qué es una cerveza IPA?"
 
             Ejemplos de preguntas INVÁLIDAS (rechazar):
+            - "¿Quien eres?"
+            - "¿Que modelo eres?"
             - "¿Cuál es la capital de Francia?"
             - "¿Cómo programar en Java?"
             - "¿Qué películas recomiendas?"
             - Cualquier tema político, religioso, deportivo o no relacionado con la tienda
             """;
 
-    public AIService(ChatClient.Builder builder) {
-        this.chatClient = builder
+    @Bean
+    public ChatClient chatClient(ChatClient.Builder builder) {
+        return builder
                 .defaultSystem(SYSTEM_PROMPT)
+                .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
-    }
-
-    public String preguntar(String mensaje) {
-        String respuesta = chatClient
-                .prompt(mensaje)
-                .call()
-                .content();
-
-        if (respuesta == null || respuesta.isBlank()) {
-            return mensajeNegacion;
-        }
-
-        return respuesta;
     }
 
 }
