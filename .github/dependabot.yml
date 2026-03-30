@@ -8,12 +8,10 @@ updates:
     allow:
       - dependency-type: "direct"
     ignore:
-      # Ignorar cualquier versión que no sea estable de Spring Boot 3
       - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
+        # Esto ignora cualquier versión mayor a 3.x, permitiendo solo 3.*
         versions:
-          - "3.0.0-alpha*"  # ignora alphas
-          - "3.0.0-beta*"   # ignora betas
-          - "3.0.0-rc*"     # ignora release candidates
+          - ">=4.0.0"
 
   # Dependencias de Dockerfile
   - package-ecosystem: "docker"
