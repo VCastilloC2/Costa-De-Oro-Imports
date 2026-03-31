@@ -1,34 +1,31 @@
 # ============================
 # Etapa 1: Construcción
 # ============================
-FROM eclipse-temurin:25-jdk-jammy AS builder
-
+FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
 
-# Copiar Maven Wrapper y config
+# Copiar solo Maven wrapper y config para cache
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-
 RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline --batch-mode
 
 # Copiar código fuente
 COPY src src
 
-# Construir el JAR (sin tests)
+# Construir JAR (sin tests, batch-mode)
 RUN ./mvnw clean package -DskipTests --batch-mode
 
 # ============================
-# Etapa 2: Producción
+# Etapa 2: Producción ligera
 # ============================
-FROM eclipse-temurin:25-jre-jammy
-
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Copiar directamente el JAR generado
+# Copiar JAR generado
 COPY --from=builder /app/target/*.jar app.jar
 
-# Puerto por defecto de Spring Boot
+# Puerto Spring Boot
 EXPOSE 8080
 
 # Comando de inicio
