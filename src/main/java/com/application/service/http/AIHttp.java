@@ -20,7 +20,6 @@ public class AIHttp implements AIService {
 
     @Override
     public String preguntar(String mensaje, String chatId) {
-
         try {
             String respuesta = chatClient
                     .prompt()
