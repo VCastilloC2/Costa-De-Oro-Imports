@@ -3,6 +3,7 @@ package com.application.configuration.security;
 import com.application.configuration.custom.*;
 import com.application.configuration.filter.RecaptchaFilter;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
+    @Value("${security.rememberme.key}")
+    private String rememberMeKey;
+
+    @Value("${security.rememberme.token-validity}")
+    private int rememberMeValidity;
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -37,6 +44,11 @@ public class SecurityConfig {
                         .maximumSessions(2)
                         .expiredUrl("/auth/login?expired")
                         .sessionRegistry(sessionRegistry()))
+                .rememberMe(remember -> remember
+                        .key(rememberMeKey)
+                        .tokenValiditySeconds(rememberMeValidity)
+                        .rememberMeParameter("remember-me")
+                        .useSecureCookie(true))
                 .authorizeHttpRequests(auth -> auth
                         // Configurar endpoints privados
                         /* ----- Admin ----- */
@@ -53,10 +65,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/**", // Todas las rutas
                                 "/error/**", // Rutas de error
-                                // Rutas de Swagger
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
+                                // Rutas de Ia
+                                "/ia/**",
+                                "/ia/ask",
+                                
                                 // Rutas de Webjars para Swagger
                                 "/webjars/**")
                         .permitAll()
@@ -77,7 +89,9 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/auth/login?logout")
-                        .deleteCookies("JSESSIONID", "access_token"))
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "access_token", "remember-me"))
                 .exceptionHandling(ex -> ex
                         .accessDeniedPage("/error/403"))
                 .build();

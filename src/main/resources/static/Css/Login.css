@@ -5,12 +5,19 @@
     --colorCafe: #8e705c;
     --colorDark: #18181b;
     --colorLigth: #71717a;
+    --min-touch-height: 44px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Base responsive font-size prevention for iOS zoom */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .contenido__form {
@@ -81,38 +88,97 @@
 @media (max-width: 600px) {
 
     .imagen__container {
-        height: 250px;
+        height: 200px;
+        min-width: auto;
+    }
+
+    .form__login {
+        padding: 1rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .form .formulario__title {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+        padding: 0 0.5rem;
     }
 
     .form .formulario__title2 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        padding: 0 0.5rem;
     }
 
     .input-box input {
         width: 100%;
+        min-height: var(--min-touch-height);
+        height: 55px;
+        font-size: 16px;
     }
 
     .formulario__btn {
         width: 100%;
+        min-height: var(--min-touch-height);
     }
 
     .otrascuentas__btn {
         width: 100%;
+        min-height: var(--min-touch-height);
     }
 
     .remember-forgot .forgot__label {
         margin-left: 0;
+        font-size: 0.95rem;
     }
 
     .remember-forgot a {
         margin-left: 0;
     }
+
+    .input__error {
+        font-size: 0.85rem;
+        word-wrap: break-word;
+    }
 }
 
+/* Extra small devices (phones, 320px and down) */
+@media (max-width: 320px) {
+    .imagen__container {
+        display: none;
+    }
+
+    .form__login {
+        padding: 0.75rem;
+    }
+
+    .form .formulario__title {
+        font-size: 1.3rem;
+    }
+
+    .form .formulario__title2 {
+        font-size: 0.9rem;
+    }
+
+    .input-box input {
+        height: var(--min-touch-height);
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    .form .formulario__btn {
+        height: var(--min-touch-height);
+        font-size: 1rem;
+    }
+
+    .otrascuentas__btn {
+        height: var(--min-touch-height);
+        font-size: 1rem;
+        padding: 0 12px;
+    }
+}
+
+.remember-forgot input {
+    margin-right: 15px;
+}
 
 .form {
     display: flex;
@@ -428,5 +494,72 @@
 
     .icono__back .regresar {
         font-size: 1rem;
+    }
+}
+
+/* ========================
+   RECORDARME Y OLVIDASTE CONTRASEÑA
+======================== */
+
+.formulario__input:has(.forgot__label:first-child) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Checkbox "Recordarme" */
+label.forgot__label:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 600 1rem var(--typografiaUrbanist);
+    cursor: pointer;
+    color: var(--colorDark);
+}
+
+label.forgot__label:first-child input {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--colorCafe);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Bloque de "Olvidaste tu contraseña?" */
+.remember-forgot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: 600 1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+/* Texto "Olvidaste tu contraseña?" (no es un label funcional) */
+.remember-forgot .forgot__label {
+    color: var(--colorLigth);
+    font-weight: 600;
+}
+
+/* Enlace "Recordar contraseña" */
+.remember-forgot .forgot__color {
+    color: var(--colorCafe);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.remember-forgot .forgot__color:hover {
+    text-decoration: underline;
+    color: #5e3e2b;
+}
+
+/* Responsive: en pantallas pequeñas, ambos elementos se apilan */
+@media (max-width: 600px) {
+    .formulario__input:has(.forgot__label:first-child) {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

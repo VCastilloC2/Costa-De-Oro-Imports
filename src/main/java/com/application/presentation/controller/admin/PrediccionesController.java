@@ -7,13 +7,14 @@ import com.application.presentation.dto.PrediccionResponse;
 import com.application.presentation.dto.venta.request.VentaRequest;
 import com.application.service.implementation.PrediccionServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
 import java.time.Year;
 import java.util.HashMap;
 import java.util.Map;

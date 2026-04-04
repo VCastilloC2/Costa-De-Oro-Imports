@@ -1,7 +1,6 @@
--- USE railway;
-USE db_beer;
+USE bov48mrwisf1cr3wxsfy;
 
-DROP TABLE IF EXISTS detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa, peticiones, factura_proveedor, detalle_factura;
+DROP TABLE IF EXISTS SPRING_AI_CHAT_MEMORY,detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa, peticiones, factura_proveedor, detalle_factura;
 
 -- TABLA ROL
 CREATE TABLE `rol` (
@@ -207,4 +206,12 @@ CREATE TABLE `peticiones` (
     PRIMARY KEY (`peticion_id`),
     KEY `fk_peticion_usuario` (`usuario_id`),
     CONSTRAINT `fk_peticion_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `SPRING_AI_CHAT_MEMORY` (
+                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                       conversation_id VARCHAR(255) NOT NULL,
+                                       content TEXT NOT NULL,
+                                       type VARCHAR(50) NOT NULL,
+                                       timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

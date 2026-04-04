@@ -9,14 +9,14 @@ import com.application.presentation.dto.usuario.response.ClienteResponse;
 import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.usuario.UsuarioService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
-
-import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 

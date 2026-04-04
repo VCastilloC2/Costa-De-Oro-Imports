@@ -23,11 +23,11 @@ public class Historia {
 
     @Column(nullable = false)
     private String imagen;
-    @Column(length = 100, nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String titulo;
-    @Column(length = 1000, nullable = false)
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String descripcion;
-    @Column(name = "historia_completa", nullable = false)
+    @Column(name = "historia_completa", columnDefinition = "LONGTEXT", nullable = false)
     private String historiaCompleta;
     @Column(nullable = false)
     private LocalDate fecha;

@@ -38,7 +38,7 @@
     <header class="header">
     <figure class="header__logo">
         <a th:href="@{/}">
-            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+            <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo de la pagina de costa de oro import">
         </a>
     </figure>
 
@@ -47,7 +47,7 @@
         <ul class="navbar__list">
             <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
             <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
-            <li class="list__item"><a href="#" class="item__link active">Productos</a></li>
+            <li class="list__item"><a th:href="@{/productos}" class="item__link active">Productos</a></li>
             <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
             <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
         </ul>
@@ -227,7 +227,7 @@
         <div class="footer__enlaces">
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">
