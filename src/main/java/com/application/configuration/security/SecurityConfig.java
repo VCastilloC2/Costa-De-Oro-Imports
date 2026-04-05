@@ -1,8 +1,12 @@
 package com.application.configuration.security;
 
 import com.application.configuration.custom.*;
+import com.application.configuration.filter.JwtTokenValidatorFilter;
 import com.application.configuration.filter.RecaptchaFilter;
+import com.application.persistence.repository.UsuarioRepository;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import com.application.utils.JwtUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -35,6 +40,7 @@ public class SecurityConfig {
             CustomAuthSuccessHandler customAuthSuccessHandler,
             CustomAuthFailureHandler customAuthFailureHandler,
             CustomOauth2UserService customOauth2UserService,
+            JwtTokenValidatorFilter jwtTokenValidatorFilter,
             RecaptchaFilter recaptchaFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -74,6 +80,7 @@ public class SecurityConfig {
                         .permitAll()
                         // Configurar endpoints NO ESPECIFICADOS
                         .anyRequest().authenticated())
+                .addFilterBefore(jwtTokenValidatorFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(recaptchaFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form
                         .loginPage("/auth/login")
