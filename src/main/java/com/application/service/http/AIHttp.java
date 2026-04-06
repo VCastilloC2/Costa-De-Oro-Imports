@@ -23,7 +23,10 @@ public class AIHttp implements AIService {
         try {
             String respuesta = chatClient
                     .prompt()
-                    .user(mensaje)
+                    .user(
+                            mensaje.strip() // Quita multiples espacios en el inicio y en el fin
+                                    .replaceAll("\\s+", " ") // Reduce múltiples espacios a uno
+                    )
                     .advisors(
                             PromptChatMemoryAdvisor.builder(chatMemory)
                                     .conversationId(chatId)

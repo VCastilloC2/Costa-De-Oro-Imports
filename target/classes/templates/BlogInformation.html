@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/BlogInformation.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Blog Information || Costa de oro import</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body>
+<header class="header">
+    <figure class="header__logo">
+        <a th:href="@{/}">
+            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+        </a>
+    </figure>
+
+    <nav class="header__navbar">
+        <div id="close-menu" class="close-menu">×</div>
+        <ul class="navbar__list">
+            <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
+            <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
+            <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
+            <li class="list__item"><a href="#" class="item__link active">Blog</a></li>
+            <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
+        </ul>
+    </nav>
+
+    <div class="list__icon">
+
+        <span class="icon__item" id="menu-toggle">
+                <i class="ri-menu-line"></i>
+            </span>
+
+        <!-- BUSQUEDA PARA MOVIL/TABLET -->
+        <span class="icon__item icon-search-mobile">
+                <i class="ri-search-line"></i>
+            </span>
+
+        <!-- BUSQUEDA PARA ESCRITORIO -->
+        <span class="icon__item" id="icon-search">
+            <i class="ri-search-line"></i>
+        </span>
+
+        <!-- Usuario -->
+        <span class="icon__item">
+                <i class="ri-user-line"></i>
+            <!-- Cuando el usuario NO está autenticado -->
+                <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                    <div class="menu__sub">
+                        <a th:href="@{/auth/login}" class="sub__link">
+                            <p class="link__text">Iniciar Sesión</p>
+                        </a>
+                        <a th:href="@{/auth/registro}" class="sub__link">
+                            <p class="link__text">Registro</p>
+                        </a>
+                        <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                            <p class="link__text">Recordar Contraseña</p>
+                        </a>
+                    </div>
+                </div>
+            <!-- Cuando el usuario SÍ está autenticado -->
+                <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                    <div class="menu__sub">
+                        <div class="sub__info">
+                            <i class="ri-user-line"></i>
+                            <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                            </h2>
+                        </div>
+                        <hr>
+                        <a th:href="@{/perfil/}" class="sub__link">
+                            <p class="link__text">Perfil</p>
+                        </a>
+                        <a th:href="@{/admin/principal}" class="sub__link"
+                           sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
+                        <a th:href="@{/perfil/configuration}" class="sub__link">
+                            <p class="link__text">Configuracion</p>
+                        </a>
+                        <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                            <p class="link__text">Notificaciones</p>
+                        </a>
+                        <a th:href="@{/perfil/pedidos}" class="sub__link">
+                            <p class="link__text">Sus Pedidos</p>
+                        </a>
+                        <a th:href="@{/auth/logout}" class="sub__link">
+                            <p class="link__text">Cerrar Sesión</p>
+                        </a>
+                    </div>
+                </div>
+            </span>
+
+        <!-- Favorito -->
+        <span class="icon__item" id="go-fav">
+                <i class="ri-heart-3-line"></i>
+                <span class="icon__badge" id="fav-count"></span>
+            </span>
+
+        <!-- Carrito -->
+        <span class="icon__item" id="cart-icon">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span class="icon__badge" id="cart-count"></span>
+            </span>
+    </div>
+</header>
+
+<section class="blog__information">
+
+    <div class="information__container">
+
+        <div class="container__informationblog">
+
+            <div class="informationblog__titulos">
+                <h1 class="titulos__principal">Guía Completa del Whisky Escocés: Regiones y Estilos</h1>
+                <div class="titulos__tiempo">
+                    <span class="tiempo__item">15 marzo 2023</span>
+                    <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
+                </div>
+            </div>
+
+            <figure class="informationblog__imagen">
+                <img src="https://res.cloudinary.com/dp2nofw2b/image/upload/v1763183460/gestion-ventas/imagen-blog/blog1.jpg" alt="Imagen del blog sobre whisky">
+            </figure>
+
+
+            <div class="informationblog__contenido">
+                <h2 class="contenido__subtitulo">El Origen del Whisky: Una Historia Milenaria</h2>
+                <p class="contenido__texto">
+                    El whisky es una de las bebidas espirituosas más apreciadas en el mundo, con una historia que se
+                    remonta a más de mil años. Su origen es motivo de debate entre Escocia e Irlanda, ambos países
+                    reclaman ser los creadores de este elixir dorado. Los monjes medievales fueron los primeros en
+                    destilar cereales, inicialmente con propósitos medicinales, sin imaginar que estaban creando lo
+                    que se convertiría en una industria multimillonaria.
+                </p>
+
+                <p class="contenido__texto">
+                    La palabra whisky proviene del gaélico "uisge beatha", que significa "agua de vida". Esta
+                    denominación no es casualidad, ya que en sus inicios se consideraba que tenía propiedades
+                    curativas. Con el paso de los siglos, la técnica de destilación se fue perfeccionando, pasando
+                    de pequeñas producciones artesanales en monasterios a las grandes destilerías que conocemos hoy
+                    en día.
+                </p>
+
+                <h2 class="contenido__subtitulo">Tipos de Whisky: Un Mundo de Sabores</h2>
+
+                <p class="contenido__texto">
+                    Existen diversos tipos de whisky, cada uno con características únicas que los distinguen. El
+                    whisky escocés o Scotch, probablemente el más conocido, se divide en cinco categorías
+                    principales: Single Malt (elaborado en una sola destilería con cebada malteada), Single Grain
+                    (hecho con otros granos además de cebada), Blended Malt (mezcla de single malts de diferentes
+                    destilerías), Blended Grain y Blended Scotch Whisky (la categoría más popular que combina
+                    whiskies de malta y de grano).
+                </p>
+
+                <p class="contenido__texto">
+                    El whisky irlandés se caracteriza por su triple destilación, lo que le confiere una suavidad
+                    excepcional y un sabor más ligero. Por otro lado, el bourbon americano debe contener al menos un
+                    51% de maíz en su composición y envejecerse en barricas nuevas de roble carbonizado, lo que le
+                    otorga sus característicos sabores dulces a vainilla y caramelo. El whisky japonés, que ha
+                    ganado reconocimiento mundial en las últimas décadas, sigue métodos similares al escocés pero
+                    con un enfoque meticuloso en la perfección que refleja la cultura japonesa.
+                </p>
+
+                <h2 class="contenido__subtitulo">El Proceso de Elaboración: Del Grano a la Botella</h2>
+
+                <p class="contenido__texto">
+                    La creación del whisky es un proceso fascinante que combina ciencia y arte. Todo comienza con la
+                    selección de los granos, principalmente cebada, que se somete al malteado. Este proceso implica
+                    remojar los granos en agua, permitir su germinación para convertir el almidón en azúcares
+                    fermentables, y luego secarlos en hornos, a menudo con turba, lo que aporta ese característico
+                    sabor ahumado a muchos whiskies escoceses.
+                </p>
+
+                <p class="contenido__texto">
+                    Después viene la molienda y el macerado, donde los granos molidos se mezclan con agua caliente
+                    para extraer los azúcares. El líquido resultante, llamado mosto, se fermenta con levaduras
+                    durante varios días, produciendo un líquido alcohólico de baja graduación conocido como "wash".
+                    La destilación ocurre tradicionalmente en alambiques de cobre, y es aquí donde el maestro
+                    destilador demuestra su experiencia, seleccionando solo la parte central del destilado, conocida
+                    como "el corazón", y descartando las cabezas y las colas.
+                </p>
+
+                <p class="contenido__texto">
+                    El envejecimiento es quizás la etapa más crucial y la que requiere más paciencia. El whisky se
+                    almacena en barricas de roble durante años, donde adquiere su color, complejidad y gran parte de
+                    su sabor. Durante este tiempo, el líquido interactúa con la madera, absorbiendo compuestos que
+                    aportan notas de vainilla, especias, frutas y caramelo. El clima del lugar de envejecimiento
+                    también juega un papel fundamental: en climas más cálidos, el whisky madura más rápido, mientras
+                    que en climas fríos, el proceso es más lento y delicado.
+                </p>
+            </div>
+
+            <div class="informationblog__frase">
+                <blockquote class="frase__texto">
+                    "El whisky no es solo una bebida, es una experiencia que despierta los sentidos y conecta con la
+                    historia y la cultura de su origen."
+                </blockquote>
+            </div>
+
+            <div class="informationblog__contenido">
+                <h2 class="contenido__subtitulo">Las Regiones del Whisky Escocés</h2>
+                <p class="contenido__texto">
+                    Escocia, la meca del whisky, se divide en varias regiones productoras, cada una con su estilo
+                    distintivo. Las Tierras Altas (Highlands) producen whiskies robustos y complejos, con notas que
+                    van desde lo frutal hasta lo especiado. Speyside, técnicamente parte de las Highlands, es la
+                    región con mayor concentración de destilerías y es famosa por sus whiskies elegantes, dulces y
+                    con notas frutales.
+                </p>
+                <p class="contenido__texto">
+                    Las Islas, especialmente Islay, son reconocidas por sus whiskies intensamente ahumados y
+                    turbosos, con toques yodados que evocan el mar. Estas expresiones no son para todos los
+                    paladares, pero los amantes del whisky ahumado las consideran incomparables. Las Lowlands
+                    producen whiskies más ligeros y delicados, perfectos para quienes se inician en este mundo,
+                    mientras que Campbeltown, una pequeña región que alguna vez fue el corazón de la producción
+                    escocesa, ofrece whiskies con carácter salino y complejidad única.
+                </p>
+
+                <h2 class="contenido__subtitulo">Cómo Degustar Whisky Correctamente</h2>
+                <p class="contenido__texto">
+                    La degustación de whisky es un arte que se perfecciona con la práctica. Primero, la elección del
+                    vaso es importante: un vaso tulipán o copa Glencairn concentra los aromas hacia la nariz.
+                    Observa el color del whisky, que puede darte pistas sobre su edad y el tipo de barrica
+                    utilizada. Los tonos más claros suelen indicar un envejecimiento más corto o barricas de
+                    bourbon, mientras que los tonos ámbar oscuro o caoba sugieren mayor maduración o barricas de
+                    jerez.
+                </p>
+                <p class="contenido__texto">
+                    Al acercar la nariz al vaso, hazlo con la boca ligeramente abierta para no saturar el sentido
+                    del olfato con el alcohol. Identifica los aromas: ¿percibes frutas, especias, vainilla, humo,
+                    madera? Al probarlo, toma un pequeño sorbo y déjalo recorrer toda la boca. Algunos puristas
+                    prefieren el whisky sin diluir, mientras que otros añaden unas gotas de agua para "abrir" los
+                    sabores. No hay una forma correcta o incorrecta; lo importante es encontrar lo que más
+                    disfrutes.
+                </p>
+
+                <h2 class="contenido__subtitulo">Maridaje: Whisky y Gastronomía</h2>
+                <p class="contenido__texto">
+                    El whisky puede maridar maravillosamente con diversos alimentos, elevando tanto la bebida como
+                    la comida. Los whiskies ahumados de Islay son compañeros perfectos para salmón ahumado, ostras o
+                    quesos azules fuertes. Los bourbon dulces armonizan increíblemente con postres de chocolate,
+                    caramelo o nueces pecanas. Un single malt especiado puede complementar carnes asadas, cordero o
+                    platos con curry.
+                </p>
+                <p class="contenido__texto">
+                    Para quesos, considera emparejar whiskies suaves con quesos cremosos como brie, mientras que los
+                    whiskies más robustos van bien con quesos curados. El chocolate negro de alta calidad es uno de
+                    los maridajes más celebrados, especialmente con whiskies que tienen notas dulces y frutales.
+                    Experimenta y descubre tus propias combinaciones favoritas.
+                </p>
+            </div>
+
+            <div class="informationblog__formulario">
+                <details class="formulario__details">
+                    <summary class="details__summary">¿Deseas calificar este blog?</summary>
+
+                    <div class="details__form">
+                        <form class="formulario">
+                            <h2 class="formulario__title">Califica Este Blog</h2>
+                            <p class="formulario__subtitulo">Nos encantaría saber tu opinión</p>
+
+                            <div class="formulario">
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="text" autocomplete="off" placeholder="" name="Asunto"
+                                               id="asunto">
+                                        <label for="asunto">Asunto</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error">
+                                        El campo Asunto es obligatorio
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="email" autocomplete="off" placeholder="" name="Email"
+                                               id="email">
+                                        <label for="email">Email</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error error--changed2">
+                                        El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="rating__container" id="ratingContainer">
+                                        <span class="rating__label">Calificación del Blog</span>
+                                        <div class="rating__stars" id="ratingStars">
+                                            <span class="star" data-rating="1"><i class="ri-star-line"></i></span>
+                                            <span class="star" data-rating="2"><i class="ri-star-line"></i></span>
+                                            <span class="star" data-rating="3"><i class="ri-star-line"></i></span>
+                                            <span class="star" data-rating="4"><i class="ri-star-line"></i></span>
+                                            <span class="star" data-rating="5"><i class="ri-star-line"></i></span>
+                                        </div>
+                                        <p class="rating__text" id="ratingText">Selecciona tu calificación</p>
+                                    </div>
+                                    <input type="hidden" id="rating" name="rating">
+                                    <p class="input__error error--changed3">
+                                        Por favor, seleccione una calificación.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                            <textarea autocomplete="off" placeholder="" name="Mensaje"
+                                                      id="mensaje"></textarea>
+                                        <label class="label label--area" for="mensaje">Mensaje</label>
+                                        <span class="box__icon icon--area"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon icon--area"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error error--changed">
+                                        Por favor, ingrese un Mensaje.
+                                    </p>
+                                </div>
+
+                                <button class="formulario__btn" type="submit">Enviar</button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </details>
+
+                <!-- Cuadro del resultado de la calificacion -->
+                <div class="resultado__calificacion" id="resultadoFormulario" style="display:none;">
+                    <div class="resultado__estrellas" id="rStars"></div>
+                    <h4 class="resultado__nombre" id="rNombre"></h4>
+                    <p class="resultado__mensaje" id="rMensaje"></p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ============= DRAWER DEL CARRITO ============= -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+    <header class="cart-header">
+        <h3 class="header__carrito">Carrito De Compras</h3>
+        <button id="cart-close"><i class="ri-close-line"></i></button>
+    </header>
+
+    <div class="cart-body">
+        <ul class="cart-list" id="cart-list"></ul>
+    </div>
+
+    <footer class="cart-footer">
+        <div class="cart-subtotal">
+            <span>Subtotal:</span>
+            <strong id="cart-subtotal">$0.00</strong>
+        </div>
+        <button id="seguir-comprando" class="btn-primary">Seguir Comprando</button>
+        <button id="finalizar-compra" class="btn-primary">Finalizar compra</button>
+    </footer>
+</aside>
+
+<footer class="footer">
+    <div class="footer__subscripcion">
+        <div class="subcripcion__informativa">
+            <div class="informativa__subscribir">
+                <h2 class="subscribir__title">Suscríbete al Boletín Informativo</h2>
+                <p class="subscribir__text">
+                    Recibe en tu correo nuestras últimas novedades y <span>las mejores ofertas especiales.</span>
+                </p>
+            </div>
+
+            <div class="informativa__formulario">
+                <form class="formulario__subcripcion" action="">
+                    <div class="subcripcion__formulario">
+                        <div class="formulario__input">
+                            <input type="email" autocomplete="off" placeholder="Ingresa tu email" name="Email"
+                                   id="email">
+                            <button type="submit">Subcribete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer__enlaces">
+
+        <div class="enlaces__categoriaNosotros">
+            <figure class="categoriaNosotros__logo">
+                <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
+            </figure>
+
+            <ul class="categoriaNosotros__list">
+                <h4 class="list__title">Contactanos</h4>
+
+                <li class="list__item"><strong>Direccion: </strong>Fundacion Tecnologica De Comfenalco</li>
+                <li class="list__item"><strong>Telefono: </strong> +321458924</li>
+                <li class="list__item"><strong>Horarios: </strong> 7:00 - 17:00, Lunes - Viernes</li>
+
+                <h4 class="list__siguenos">Siguenos en</h4>
+
+                <div class="list__icon">
+                    <li class="icon__social"><i class="ri-facebook-fill"></i></li>
+                    <li class="icon__social"><i class="ri-twitter-fill"></i></li>
+                    <li class="icon__social"><i class="ri-instagram-fill"></i></li>
+                    <li class="icon__social"><i class="ri-pinterest-fill"></i></li>
+                </div>
+
+            </ul>
+        </div>
+
+        <div class="enlaces__categoriaPopulares">
+            <h2 class="categoriaPopulares__title">Categorias Populares</h2>
+
+            <ul class="categoriasPopulares__list">
+                <li class="list__item"><a class="item__footer" href="">Lager</a></li>
+                <li class="list__item"><a class="item__footer" href="">Ale</a></li>
+                <li class="list__item"><a class="item__footer" href="">Vino tinto</a></li>
+                <li class="list__item"><a class="item__footer" href="">Vino blanco</a></li>
+                <li class="list__item"><a class="item__footer" href="">Whisky</a></li>
+                <li class="list__item"><a class="item__footer" href="">Vodka</a></li>
+                <li class="list__item"><a class="item__footer" href="">Licores de frutas</a></li>
+                <li class="list__item"><a class="item__footer" href="">Licores herbales</a></li>
+            </ul>
+        </div>
+
+        <div class="enlaces__categoriaProductos">
+            <h2 class="categoriaProductos__title">Productos</h2>
+
+            <ul class="categoriaProductos__list">
+                <li class="list__item"><a class="item__footer" href="">Recién Llegados</a></li>
+                <li class="list__item"><a class="item__footer" href="">Nuevos Productos</a></li>
+                <li class="list__item"><a class="item__footer" href="">Catalogos</a></li>
+                <li class="list__item"><a class="item__footer" href="">Los precios bajan</a></li>
+                <li class="list__item"><a class="item__footer" href="">Las mejores ventas</a></li>
+                <li class="list__item"><a class="item__footer" href="">Mapa del sitio</a></li>
+                <li class="list__item"><a class="item__footer" href="">Paquete y ahorro</a></li>
+                <li class="list__item"><a class="item__footer" href="">Tarjeta de regalo en línea</a></li>
+            </ul>
+        </div>
+
+        <div class="enlaces__instalar">
+            <h2 class="instalar__title">Instalar App</h2>
+
+            <ul class="instalar__list">
+                <li class="list__item">Desde App Store o Google Play</li>
+            </ul>
+
+            <div class="instalar__flex">
+                <figure>
+                    <img th:src="@{/Assets/Img/footer/app.jpg}" alt="">
+                </figure>
+                <figure>
+                    <img th:src="@{/Assets/Img/footer/play.jpg}" alt="">
+                </figure>
+            </div>
+
+            <ul class="instalar__list">
+                <li class="list__item item--pagos">Pasarelas de Pago Seguras</li>
+            </ul>
+
+            <figure>
+                <img th:src="@{/Assets/Img/footer/pay.png}" alt="">
+            </figure>
+        </div>
+
+
+    </div>
+
+    <div class="instalar__copyright">
+        <p class="copyright__text">© <span id="anio__pagina"></span>, Beer-E-ecommer - Todos los Derechos Reservados
+            - Creado por <a href="#"><strong>Nosotros</strong></a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" th:src="@{/Js/BlogInformation.js}"></script>
+</body>
+
+</html>

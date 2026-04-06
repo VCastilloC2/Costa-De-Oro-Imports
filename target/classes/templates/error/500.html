@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 500 - Error interno del servidor</title>
+    <link rel="stylesheet" th:href="@{/Css/Error/Error.css}">
+    <link rel="icon" type="image/png" th:href="@{/Assets/Img/Error/ServerError.png}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 500 con jarra rota -->
+        <div class="error-500">
+            <span class="error-num">5</span>
+            <div class="beer-container">
+                <div class="beer-pitcher">
+                    <!-- Cuerpo principal de la jarra -->
+                    <div class="pitcher-body">
+                        <!-- Burbujas en el interior -->
+                        <div class="bubbles" id="bubbles"></div>
+                        <!-- Líquido de cerveza con gradiente realista -->
+                        <div class="beer-liquid" id="beer-liquid"></div>
+                    </div>
+                    <!-- Base de la jarra -->
+                    <div class="pitcher-base"></div>
+                    <!-- Efectos de vidrio: reflejos y condensación -->
+                    <div class="glass-effects"></div>
+                </div>
+            </div>
+            <div class="beer-container">
+                <div class="beer-pitcher">
+                    <!-- Cuerpo principal de la jarra -->
+                    <div class="pitcher-body">
+                        <!-- Burbujas en el interior -->
+                        <div class="bubbles" id="bubbles"></div>
+                        <!-- Líquido de cerveza con gradiente realista -->
+                        <div class="beer-liquid" id="beer-liquid"></div>
+                    </div>
+                    <!-- Base de la jarra -->
+                    <div class="pitcher-base"></div>
+                    <!-- Efectos de vidrio: reflejos y condensación -->
+                    <div class="glass-effects"></div>
+                </div>
+            </div>
+        </div>
+
+        <h1>¡Error interno del servidor!</h1>
+        <p>Algo salió mal en nuestra cocina de cerveza.
+            La jarra no aguantó la presión y se rompió.</p>
+
+        <!-- Botón de volver -->
+        <a href="javascript:history.back()" class="button">Volver a la página anterior</a>
+
+        <!-- Mensaje adicional -->
+        <div class="additional-info">
+            <p>Estamos trabajando en ello. ¡Prometemos que la próxima ronda correrá por nuestra cuenta!</p>
+        </div>
+    </div>
+
+    <script th:src="@{/Js/Error/Error.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Configuraciones.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title> Configuraciones || Costa De Oro Imports</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
+    <header class="header">
+        <figure class="header__logo">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}"
+                    alt="Logo de la pagina de costa de oro import">
+            </a>
+        </figure>
+
+            <nav class="header__navbar">
+                <div id="close-menu" class="close-menu">×</div>
+                <ul class="navbar__list">
+                    <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
+                    <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
+                    <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
+                    <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
+                    <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
+                </ul>
+            </nav>
+
+            <div class="list__icon">
+
+                <span class="icon__item" id="menu-toggle">
+                    <i class="ri-menu-line"></i>
+                </span>
+
+                <!-- BUSQUEDA PARA MOVIL/TABLET -->
+                <span class="icon__item icon-search-mobile">
+                    <i class="ri-search-line"></i>
+                </span>
+
+                <!-- BUSQUEDA PARA ESCRITORIO -->
+                <span class="icon__item" id="icon-search">
+                    <i class="ri-search-line"></i>
+                </span>
+
+                <!-- Usuario -->
+                <span class="icon__item">
+                    <i class="ri-user-line"></i>
+                    <!-- Cuando el usuario NO está autenticado -->
+                    <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                        <div class="menu__sub">
+                            <a th:href="@{/auth/login}" class="sub__link">
+                                <p class="link__text">Iniciar Sesión</p>
+                            </a>
+                            <a th:href="@{/auth/registro}" class="sub__link">
+                                <p class="link__text">Registro</p>
+                            </a>
+                            <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                                <p class="link__text">Recordar Contraseña</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Cuando el usuario SÍ está autenticado -->
+                    <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                        <div class="menu__sub">
+                            <div class="sub__info">
+                                <i class="ri-user-line"></i>
+                                <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                                </h2>
+                            </div>
+                            <hr>
+                            <a th:href="@{/perfil/}" class="sub__link">
+                                <p class="link__text">Perfil</p>
+                            </a>
+                            <a th:href="@{/admin/principal}" class="sub__link"
+                               sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
+                            <a th:href="@{/perfil/configuration}" class="sub__link">
+                                <p class="link__text">Configuracion</p>
+                            </a>
+                            <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                                <p class="link__text">Notificaciones</p>
+                            </a>
+                            <a th:href="@{/perfil/pedidos}" class="sub__link">
+                                <p class="link__text">Sus Pedidos</p>
+                            </a>
+                            <a th:href="@{/auth/logout}" class="sub__link">
+                                <p class="link__text">Cerrar Sesión</p>
+                            </a>
+                        </div>
+                    </div>
+                </span>
+
+                <!-- Favorito -->
+                <span class="icon__item" id="go-fav">
+                    <i class="ri-heart-3-line"></i>
+                    <span class="icon__badge" id="fav-count"></span>
+                </span>
+
+                <!-- Carrito -->
+                <span class="icon__item" id="cart-icon">
+                    <i class="ri-shopping-cart-2-line"></i>
+                    <span class="icon__badge" id="cart-count"></span>
+                </span>
+            </div>
+    </header>
+
+    <section class="Configuraciones">
+
+        <hr class="hr__horinzontal">
+
+        <div class="Configuraciones__container">
+
+            <aside class="container__nav">
+                <div class="nav__opciones">
+                    <a th:href="@{/perfil/}" class="opciones__btn"><i class="ri-user-line"></i> Perfil</a>
+                    <a href="#" class="opciones__btn active"><i class="ri-settings-2-line"></i> Configuracion</a>
+                    <a th:href="@{/perfil/notificaciones}" class="opciones__btn"><i class="ri-notification-2-line"></i>
+                        Notificaciones</a>
+                    <a th:href="@{/perfil/pedidos}" class="opciones__btn"> <i class="ri-shopping-bag-3-line"></i> Sus
+                        Pedidos</a>
+                    <hr class="hr__separar">
+                    <a th:href="@{/auth/logout}" class="opciones__btn"> <i class="ri-logout-box-r-line"></i> Cerrar
+                        Sesion</a>
+                </div>
+            </aside>
+
+            <hr class="hr__vertical">
+
+            <main class="container__main">
+
+                <div class="main__formulario">
+
+                    <div class="formulario__autenticar">
+
+                        <h2 class="container__title">Activar autenticación en dos pasos</h2>
+                        <p class="container__text">Activa esta opción para proteger tu cuenta con una capa adicional de
+                            seguridad.</p>
+
+                        <div class="container__switch">
+                            <span class="switch__title">Activar autenticación en dos pasos?</span>
+                            <label class="switch__label">
+                                <input type="checkbox" id="autenticacion">
+                                <span class="slider__label"></span>
+                            </label>
+                        </div>
+
+                        <form class="formulario">
+                            <div class="formulario__input">
+                                <div class="custom-select-wrapper">
+                                    <select class="styled-select" id="pregunta1">
+                                        <option disabled selected>Selecciona una pregunta 1</option>
+                                        <option value="Mascota">¿Cuál es el nombre de tu mascota?</option>
+                                        <option value="Colegio">¿Cuál fue tu primer colegio?</option>
+                                        <option value="Nacimiento">¿En qué ciudad naciste?</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
+                                </div>
+                                <p class="input__error error--pregunta1">
+                                    Por favor, seleccione una pregunta
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="Respuesta"
+                                        id="respuesta1">
+                                    <label class="label" for="respuesta1">Respuesta 1</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error error--respuesta1">
+                                    La respuesta de la pregunta es obligatoria
+                                </p>
+                            </div>
+
+                            <div class="formulario__input input--changed">
+                                <div class="custom-select-wrapper">
+                                    <select class="styled-select" id="pregunta2">
+                                        <option disabled selected>Selecciona una pregunta 2</option>
+                                        <option value="Comida">¿Cuál es tu comida favorita?</option>
+                                        <option value="Trabajo">¿Cuál fue tu primer trabajo?</option>
+                                        <option value="Amigo">¿Cómo se llama tu mejor amigo ?</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
+                                </div>
+                                <p class="input__error error--pregunta2">
+                                    Por favor, seleccione una pregunta
+                                </p>
+                            </div>
+
+                            <div class="formulario__input input--changed">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="Respuesta"
+                                        id="respuesta2">
+                                    <label class="label" for="respuesta2">Respuesta 2</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error error--respuesta2">
+                                    La respuesta de la pregunta es obligatoria
+                                </p>
+                            </div>
+
+
+                            <div class="formulario__input">
+                                <button class="input__btn" type="submit">Guardar configuración</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="formulario__pass">
+                    <h2 class="pass__title">Cambiar Contraseña</h2>
+
+                    <form class="formulario__contra" th:action="@{/perfil/actualizar-contraseña}" method="post">
+
+                        <div class="formulario__input">
+                            <div class="input-box box--contra">
+                                <input type="password" autocomplete="off" placeholder="" name="currentPassword"
+                                    id="contraseñaAntigua">
+                                <label class="label" for="contraseñaAntigua">Contraseña Antigua</label>
+                                <span class="box__icon icon--changed"><i class="ri-check-line"></i></span>
+                                <span class="box__icon icon--changed"><i class="ri-close-line"></i></span>
+                            </div>
+                            <p class="input__error error--pasword">
+                                La contraseña tiene que ser de 4 a 15 digitos
+                            </p>
+                        </div>
+
+                        <div class="formulario__input">
+                            <div class="input-box box--contra">
+                                <input type="password" autocomplete="off" placeholder="" name="newPassword"
+                                    id="nuevaContraseña">
+                                <label class="label" for="nuevaContraseña">Nueva Contraseña</label>
+                                <span class="box__icon icon--changed"><i class="ri-check-line"></i></span>
+                                <span class="box__icon icon--changed"><i class="ri-close-line"></i></span>
+                            </div>
+                            <p class="input__error error--pasword">
+                                La contraseña tiene que ser de 4 a 15 digitos
+                            </p>
+                        </div>
+
+                        <div class="formulario__input">
+                            <div class="input-box box--contra">
+                                <input type="password" autocomplete="off" placeholder="" name="ConfirmarNuevaContraseña"
+                                    id="CNContraseña">
+                                <label class="label" for="CNContraseña">Confirmar Nueva
+                                    Contraseña</label>
+                                <span class="box__icon icon--changed"><i class="ri-check-line"></i></span>
+                                <span class="box__icon icon--changed"><i class="ri-close-line"></i></span>
+                            </div>
+                            <p class="input__error error--pasword">
+                                Ambas contraseña tienen que ser iguales.
+                            </p>
+                        </div>
+
+                        <div class="registre__link">
+                            <p>No recuerdas tu contraseña actual?<a th:href="@{/auth/recordar-contrasenna}">Restablece tu
+                                    contraseña</a>
+                            </p>
+                        </div>
+
+                        <button class="formulario__button" type="submit">Cambiar Contraseña</button>
+                    </form>
+                </div>
+
+                <div class="eliminar__cuenta">
+                    <div class="delete__container">
+                        <h2 class="container__title">Eliminar Cuenta</h2>
+
+                        <p class="container__text">
+                            ¿Quieres eliminar tu cuenta?
+                        </p>
+                        <p class="container__text">
+                            Esta cuenta contiene 12 pedidos. Al eliminar su cuenta se eliminarán todos los detalles del
+                            pedido asociados a ella.
+                        </p>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="confirm-delete">
+                            <label class="wrapper__text" for="confirm-delete">Confirmo la desactivación de mi
+                                cuenta</label>
+                        </div>
+                        <button class="btn-delete" id="delete-btn" disabled>Desactivar cuenta</button>
+                    </div>
+                </div>
+
+            </main>
+
+        </div>
+    </section>
+
+    <!-- ============= DRAWER DEL CARRITO ============= -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer">
+        <header class="cart-header">
+            <h3 class="header__carrito">Carrito De Compras</h3>
+            <button id="cart-close"><i class="ri-close-line"></i></button>
+        </header>
+
+        <div class="cart-body">
+            <ul class="cart-list" id="cart-list"></ul>
+        </div>
+
+        <footer class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal:</span>
+                <strong id="cart-subtotal">$0.00</strong>
+            </div>
+            <button id="seguir-comprando" class="btn-primary">Seguir Comprando</button>
+            <button id="finalizar-compra" class="btn-primary">Finalizar compra</button>
+        </footer>
+    </aside>
+
+    <footer class="footer">
+        <div class="footer__subscripcion">
+            <div class="subcripcion__informativa">
+                <div class="informativa__subscribir">
+                    <h2 class="subscribir__title">Suscríbete al Boletín Informativo</h2>
+                    <p class="subscribir__text">
+                        Recibe en tu correo nuestras últimas novedades y <span>las mejores ofertas especiales.</span>
+                    </p>
+                </div>
+
+                <div class="informativa__formulario">
+                    <form class="formulario__subcripcion" action="">
+                        <div class="subcripcion__formulario">
+                            <div class="formulario__input">
+                                <input type="email" autocomplete="off" placeholder="Ingresa tu email" name="Email"
+                                    id="email">
+                                <button type="submit">Subcribete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer__enlaces">
+
+            <div class="enlaces__categoriaNosotros">
+                <figure class="categoriaNosotros__logo">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
+                </figure>
+
+                <ul class="categoriaNosotros__list">
+                    <h4 class="list__title">Contactanos</h4>
+
+                    <li class="list__item"><strong>Direccion: </strong>Fundacion Tecnologica De Comfenalco</li>
+                    <li class="list__item"><strong>Telefono: </strong> +321458924</li>
+                    <li class="list__item"><strong>Horarios: </strong> 7:00 - 17:00, Lunes - Viernes</li>
+
+                    <h4 class="list__siguenos">Siguenos en</h4>
+
+                    <div class="list__icon">
+                        <li class="icon__social"><i class="ri-facebook-fill"></i></li>
+                        <li class="icon__social"><i class="ri-twitter-fill"></i></li>
+                        <li class="icon__social"><i class="ri-instagram-fill"></i></li>
+                        <li class="icon__social"><i class="ri-pinterest-fill"></i></li>
+                    </div>
+
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaPopulares">
+                <h2 class="categoriaPopulares__title">Categorias Populares</h2>
+
+                <ul class="categoriasPopulares__list">
+                    <li class="list__item"><a class="item__footer" href="">Lager</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Ale</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino tinto</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino blanco</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Whisky</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vodka</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores de frutas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores herbales</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaProductos">
+                <h2 class="categoriaProductos__title">Productos</h2>
+
+                <ul class="categoriaProductos__list">
+                    <li class="list__item"><a class="item__footer" href="">Recién Llegados</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Nuevos Productos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Catalogos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Los precios bajan</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Las mejores ventas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Mapa del sitio</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Paquete y ahorro</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Tarjeta de regalo en línea</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__instalar">
+                <h2 class="instalar__title">Instalar App</h2>
+
+                <ul class="instalar__list">
+                    <li class="list__item">Desde App Store o Google Play</li>
+                </ul>
+
+                <div class="instalar__flex">
+                    <figure>
+                        <img th:src="@{/Assets/Img/footer/app.jpg}" alt="">
+                    </figure>
+                    <figure>
+                        <img th:src="@{/Assets/Img/footer/play.jpg}" alt="">
+                    </figure>
+                </div>
+
+                <ul class="instalar__list">
+                    <li class="list__item item--pagos">Pasarelas de Pago Seguras</li>
+                </ul>
+
+                <figure>
+                    <img th:src="@{/Assets/Img/footer/pay.png}" alt="">
+                </figure>
+            </div>
+
+
+        </div>
+
+        <div class="instalar__copyright">
+            <p class="copyright__text">© <span id="anio__pagina"></span>, Beer-E-ecommer - Todos los Derechos Reservados
+                - Creado por <a href="#"><strong>Nosotros</strong></a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" th:src="@{/Js/Configuraciones.js}"></script>
+</body>
+
+</html>

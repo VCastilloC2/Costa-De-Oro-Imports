@@ -1,0 +1,399 @@
+@import url("./style.css");
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+
+.blog__information {
+    position: relative;
+    min-height: 100vh;
+    padding: 100px 0;
+}
+
+.blog__information .information__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__informationblog {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.informationblog__titulos {
+    width: 100%;
+}
+
+.informationblog__titulos .titulos__principal {
+    text-align: center;
+    font: 600 2.3rem var(--typografiaGeist);
+}
+
+.titulos__tiempo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    text-align: center;
+    font: 500 0.88rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+.container__informationblog .informationblog__imagen {
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.informationblog__imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+
+.informationblog__contenido {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.informationblog__contenido .contenido__texto {
+    font: 500 0.89rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+.informationblog__contenido .contenido__subtitulo {
+    font: 700 1.6rem var(--typografiaGeist);
+    color: var(--colorDark);
+    margin-top: 0.5rem;
+}
+
+.informationblog__frase {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.informationblog__frase .frase__texto {
+    width: 80%;
+    font: italic 600 2.5rem var(--typografiaGeist);
+    text-align: center;
+    color: var(--colorCafe);
+}
+
+.informationblog__formulario {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.formulario__details .details__summary {
+    font: 600 1.2rem var(--typografiaGeist);
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.details__summary::after {
+    content: "\ea4e";
+    font-family: "remixicon";
+    font-size: 1.3rem;
+    transition: transform .3s ease;
+}
+
+.formulario__details[open] .details__summary::after {
+    transform: rotate(180deg);
+}
+
+.formulario__details summary {
+    list-style: none;
+}
+
+.formulario__details summary::-webkit-details-marker {
+    display: none;
+}
+
+.details__form {
+    padding: 0.5rem 0;
+}
+
+.formulario .formulario__title {
+    text-align: center;
+    font: 600 1.8rem var(--typografiaGeist);
+    margin: 2rem 0 0.5rem 0;
+}
+
+.formulario .formulario__subtitulo {
+    text-align: center;
+    font: 500 1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+    margin-bottom: 2rem;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box label {
+    font: 600 1rem var(--typografiaUrbanist);
+    position: absolute;
+    color: #8d8d8d;
+    pointer-events: none;
+    background-color: transparent;
+    left: 20px;
+    top: 18px;
+    transform: translateY(0.6rem);
+    transition: all 0.3s ease;
+}
+
+.input-box input {
+    margin: 10px 0 10px 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    font: 600 1rem var(--typografiaUrbanist);
+    border-radius: 8px;
+    width: 100%;
+    height: 55px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+.input-box input:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.input-box input:focus~label,
+.input-box input:not(:placeholder-shown)~label {
+    background-color: #fff;
+    transform: translateY(-100%) translateX(-10px) scale(0.9);
+    padding: 0 5px;
+    color: #8e6b43;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 100px;
+}
+
+.input-box textarea {
+    margin: 10px 0 10px 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    font: 600 1rem var(--typografiaUrbanist);
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    letter-spacing: 1px;
+    outline: none;
+    field-sizing: content;
+}
+
+
+.input-box textarea:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.input-box textarea:focus~label,
+.input-box textarea:not(:placeholder-shown)~label {
+    background-color: #fff;
+    transform: translateY(-100%) translateX(-10px) scale(0.9);
+    padding: 0 5px;
+    color: #8e6b43;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 100px;
+}
+
+
+.box__icon i {
+    position: absolute;
+    top: 25px;
+    left: 95%;
+    font: 900 1.2rem var(--typografiaUrbanist);
+
+}
+
+.box__icon .ri-check-line {
+    background-color: #34A853;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.box__icon .ri-close-line {
+    background-color: #fd1f1f;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.input-box.input-error label {
+    color: #fd1f1f !important;
+}
+
+.input__error {
+    font: 600 1rem var(--typografiaUrbanist);
+    width: 100%;
+    margin: 10px 0 10px 0px;
+    display: none;
+}
+
+.error--changed {
+    margin: 10px 0 20px 0px;
+}
+
+.error--changed2 {
+    margin: 10px 0 20px 0px;
+}
+
+.error--changed3 {
+    margin: 20px 0 10px 0px;
+}
+
+.swal-title {
+    font: 600 2rem var(--typografiaUrbanist);
+}
+
+.swal-popup {
+    font: var(--typografiaUrbanist);
+}
+
+/* Estilos para el sistema de calificación */
+.rating__container {
+    margin: 10px 0 10px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+.rating__container:focus-within {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.rating__label {
+    font: 600 1rem var(--typografiaUrbanist);
+    color: #8d8d8d;
+    margin-bottom: 5px;
+}
+
+.rating__stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star {
+    font-size: 2.5rem;
+    color: #e4e4e7;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+
+.star:hover,
+.star.active {
+    color: var(--colorCafe);
+    transform: scale(1.1);
+}
+
+.star:active {
+    transform: scale(0.95);
+}
+
+.rating__text {
+    font: 500 0.95rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+    min-height: 24px;
+}
+
+.rating__container.input-error {
+    border: 2px solid #fd1f1f !important;
+}
+
+.rating__container.input-error .rating__label {
+    color: #fd1f1f !important;
+}
+
+
+.formulario .formulario__btn {
+    font: 700 1.2rem var(--typografiaUrbanist);
+    background-color: var(--colorCafe);
+    color: #fff;
+    width: 100%;
+    height: 55px;
+    border-radius: 5px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color .7s ease;
+}
+
+/* Resultado de la calificacion */
+.resultado__calificacion {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.resultado__estrellas {
+    font-size: 2rem;
+    color: var(--colorCafe);
+    margin-bottom: 0.5rem;
+}
+
+.resultado__nombre {
+    font: 700 1.2rem var(--typografiaUrbanist);
+    margin-bottom: 0.5rem;
+}
+
+.resultado__mensaje {
+    font: 500 1rem var(--typografiaUrbanist);
+    color: #444;
+}
