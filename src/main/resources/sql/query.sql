@@ -1,28 +1,28 @@
 -- NO TOCAR POR NADA DEL MUNDO
 
-select * from bov48mrwisf1cr3wxsfy.empresa;
+select * from bavvf4s090pwxhxvgmfc.empresa;
 
-select * from bov48mrwisf1cr3wxsfy.rol;
+select * from bavvf4s090pwxhxvgmfc.rol;
 
-select * from bov48mrwisf1cr3wxsfy.usuario;
+select * from bavvf4s090pwxhxvgmfc.usuario;
 
-select * from bov48mrwisf1cr3wxsfy.producto;
+select * from bavvf4s090pwxhxvgmfc.producto;
 
-select * from bov48mrwisf1cr3wxsfy.categoria;
+select * from bavvf4s090pwxhxvgmfc.categoria;
 
-select * from bov48mrwisf1cr3wxsfy.sub_categorias;
+select * from bavvf4s090pwxhxvgmfc.sub_categorias;
 
-select * from bov48mrwisf1cr3wxsfy.compra;
+select * from bavvf4s090pwxhxvgmfc.compra;
 
-select * from bov48mrwisf1cr3wxsfy.detalle_venta;
+select * from bavvf4s090pwxhxvgmfc.detalle_venta;
 
-select * from bov48mrwisf1cr3wxsfy.historia;
+select * from bavvf4s090pwxhxvgmfc.historia;
 
-select * from bov48mrwisf1cr3wxsfy.comentario;
+select * from bavvf4s090pwxhxvgmfc.comentario;
 
-select * from bov48mrwisf1cr3wxsfy.peticiones;
+select * from bavvf4s090pwxhxvgmfc.peticiones;
 
-select * from bov48mrwisf1cr3wxsfy.factura_proveedor;
+select * from bavvf4s090pwxhxvgmfc.factura_proveedor;
 
 SELECT
     p.producto_id,
@@ -69,7 +69,7 @@ HAVING ABS(c.subtotal - SUM(dv.subtotal)) > 1;
 
 
 
-Select * from bov48mrwisf1cr3wxsfy.producto where categoria_id = 1;
+Select * from bavvf4s090pwxhxvgmfc.producto where categoria_id = 1;
 
 
 -- Proyeccion de ventas totales (consulta)
