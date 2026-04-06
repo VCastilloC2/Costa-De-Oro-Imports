@@ -14,7 +14,7 @@ public class AIController {
 
     private final AIHttp aiHttp;
 
-    @GetMapping("/chat")
+    @PostMapping("/chat")
     public ResponseEntity<Map<String, String>> ask(
             @RequestBody Map<String, String> body) {
 

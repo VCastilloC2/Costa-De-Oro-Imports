@@ -8,9 +8,17 @@ const sendBtn = document.getElementById("sendBtn");
 const typingRow = document.getElementById("typingRow");
 const emptyState = document.getElementById("emptyState");
 const statusDot = document.getElementById("statusDot");
+const statusText = document.getElementById("statusText");
 
 // ── Estado ─────────────────────────────────────────────────────
 let isLoading = false;
+
+// ── ChatId persistente (mantiene contexto del chat) ──────────────────────────
+let chatId = localStorage.getItem("chatId");
+if (!chatId) {
+    chatId = "user-" + Math.random().toString(36).substring(2);
+    localStorage.setItem("chatId", chatId);
+}
 
 // ── Auto-resize del textarea ───────────────────────────────────
 userInput.addEventListener("input", () => {
@@ -26,8 +34,6 @@ userInput.addEventListener("keydown", (e) => {
     }
 });
 
-
-
 // ── Enviar mensaje ─────────────────────────────────────────────
 async function sendMessage() {
     const text = userInput.value.trim();
@@ -38,15 +44,49 @@ async function sendMessage() {
     clearInput();
     setLoading(true);
 
+    setStatus("connecting"); // 🔥 AQUÍ
+
     try {
         const reply = await fetchAI(text);
         appendMessage("bot", reply);
+
+        setStatus("online"); // 🔥 SI TODO SALE BIEN
     } catch (err) {
-        appendMessage("bot", `⚠️ ${err.message || "No se pudo conectar con el servidor."}`, true);
+        appendMessage("bot", `⚠️ ${err.message || "Error"}`, true);
+
+        setStatus("offline"); // 🔥 SI FALLA
     } finally {
         setLoading(false);
     }
 }
+
+// ── Chequiando la conección ────────────────────────────────────────
+async function checkConnection() {
+    try {
+        setStatus("connecting");
+
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: "ping",
+                chatId: "health-check"
+            })
+        });
+
+        if (!res.ok) throw new Error();
+
+        setStatus("online");
+    } catch (e) {
+        setStatus("offline");
+    }
+}
+
+// Ejecutar al iniciar
+checkConnection();
+
+// 🔁 Reintentar cada 5 segundos
+setInterval(checkConnection, 5000);
 
 // ── Sugerencias rápidas ────────────────────────────────────────
 function sendSuggestion(text) {
@@ -81,7 +121,10 @@ async function fetchAI(message) {
             "Content-Type": "application/json",
             "Accept": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+            message,
+            chatId // 🔥 aquí va
+        }),
     });
 
     if (!response.ok) {
@@ -119,7 +162,7 @@ function appendMessage(role, text, isError = false) {
 
     const bubble = document.createElement("div");
     bubble.className = `bubble${isError ? " error" : ""}`;
-    bubble.textContent = text;
+    bubble.innerHTML = marked.parse(text);
 
     row.appendChild(avatar);
     row.appendChild(bubble);
