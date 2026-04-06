@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
@@ -7,8 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/ChatBot.css}" />
     <link rel="stylesheet" th:href="@{/Css/Dashboard.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -396,7 +396,7 @@
                     </div>
                 </div>
 
-                <h2 class="body__title">Productos mas vendidos</h2>
+                <h2 class="body__title">Productos más vendidos</h2>
 
                 <div class="body__card">
                     <div class="card__item" th:each="producto, iterStat : ${productosMasVendidos}">
@@ -464,12 +464,73 @@
                 </div>
             </section>
         </main>
+
+        <!-- 🔥 CHATBOT (solo una vez) -->
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="ri-robot-2-line"></i>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+
+            <div class="chat-wrapper">
+
+                <div class="chat-header">
+                    <div class="avatar">
+                        <i class="ri-robot-2-line"></i>
+                    </div>
+
+                    <div class="header-info">
+                        <h1>Asistente</h1>
+                        <p>
+                            <span class="status-dot offline" id="statusDot"></span>
+                            <span id="statusText">Desconectado</span>
+                        </p>
+                    </div>
+
+                    <button class="clear-btn" onclick="clearChat()">
+                        <i class="ri-delete-bin-6-line"></i>
+                    </button>
+
+                    <button class="close-btn" onclick="toggleChat()">✕</button>
+                </div>
+
+                <div class="chat-body" id="chatBody">
+                    <div class="empty-state" id="emptyState">
+                        <i class="ri-chat-smile-2-line"></i>
+                        <p><strong>¡Hola! ¿En qué puedo ayudarte?</strong></p>
+                    </div>
+
+                    <div class="msg bot" id="typingRow" style="display:none">
+                        <div class="msg-avatar">
+                            <i class="ri-robot-2-line"></i>
+                        </div>
+                        <div class="typing-indicator show">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-footer">
+                    <div class="input-row">
+                        <textarea id="userInput" rows="1" placeholder="Escribe..."></textarea>
+
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                            <i class="ri-send-plane-fill"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script th:src="@{/Js/Dashboard.js}"></script>
+    <script th:src="@{/Js/ChatBot.js}"></script>
 </body>
 
 </html>

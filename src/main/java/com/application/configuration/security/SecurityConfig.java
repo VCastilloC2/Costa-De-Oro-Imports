@@ -69,11 +69,11 @@ public class SecurityConfig {
                         .requestMatchers("/", "/Assets/**", "/Js/**", "/Css/**").permitAll()
 
                         .requestMatchers(
-                                "/**", // Todas las rutas
                                 "/error/**", // Rutas de error
+
                                 // Rutas de Ia
-                                "/ia/**",
-                                "/ia/ask",
+                                "/api/**",
+                                "/api/chat",
                                 
                                 // Rutas de Webjars para Swagger
                                 "/webjars/**")
