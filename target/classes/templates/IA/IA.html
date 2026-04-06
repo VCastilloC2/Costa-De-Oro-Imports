@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chat Assistant</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="ChatBot.css" />
+</head>
+
+<body>
+
+    <body>
+
+    <!-- BOTÓN FLOTANTE -->
+    <div class="chat-toggle" onclick="toggleChat()">
+        <i class="ri-robot-2-line"></i>
+    </div>
+    <!-- CHAT -->
+    <div class="chat-container" id="chatContainer">
+
+        <div class="chat-wrapper">
+
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="avatar">
+                    <i class="ri-robot-2-line"></i>
+                </div>
+                <div class="header-info">
+                    <h1>Asistente</h1>
+                    <p><span class="status-dot offline" id="statusDot"></span> En línea</p>
+                </div>
+
+                <button class="clear-btn" onclick="clearChat()">
+                    <i class="ri-delete-bin-6-line"></i>
+                </button>
+
+                <!-- BOTÓN CERRAR -->
+                <button class="close-btn" onclick="toggleChat()">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-body" id="chatBody">
+                <div class="empty-state" id="emptyState">
+                    <i class="ri-chat-smile-2-line"></i>
+                    <p>
+                        <strong>¡Hola! ¿En qué puedo ayudarte?</strong>
+                    </p>
+                </div>
+
+                <div class="msg bot" id="typingRow" style="display:none">
+                    <div class="msg-avatar"><i class="ri-robot-2-line"></i></div>
+                    <div class="typing-indicator show">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="chat-footer">
+                <div class="input-row">
+                    <textarea id="userInput" rows="1" placeholder="Escribe..."></textarea>
+
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <i class="ri-send-plane-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="ChatBot.js"></script>
+</body>
+
+</html>

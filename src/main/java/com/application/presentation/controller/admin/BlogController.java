@@ -2,27 +2,19 @@ package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
-import com.application.persistence.entity.usuario.enums.EIdentificacion;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.historia.request.HistoriaCreateRequest;
 import com.application.presentation.dto.historia.response.HistoriaResponse;
-import com.application.presentation.dto.usuario.request.CreateClienteRequest;
-import com.application.presentation.dto.usuario.response.ClienteResponse;
-import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
-import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.historia.HistoriaService;
 import com.application.service.interfaces.usuario.UsuarioService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
-
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 

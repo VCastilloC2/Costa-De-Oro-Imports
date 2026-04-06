@@ -1,11 +1,9 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
-import com.application.persistence.entity.pqrs.enums.EEstadoPeticion;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.peticion.response.PeticionResponse;
-import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.PeticionService;
 import com.application.service.interfaces.usuario.UsuarioService;
@@ -13,9 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
-
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
