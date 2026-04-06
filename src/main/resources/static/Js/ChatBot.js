@@ -11,6 +11,7 @@ const statusDot = document.getElementById("statusDot");
 
 // ── Estado ─────────────────────────────────────────────────────
 let isLoading = false;
+const chatId = "user-" + Math.random().toString(36).substring(2);
 
 // ── Auto-resize del textarea ───────────────────────────────────
 userInput.addEventListener("input", () => {
@@ -25,8 +26,6 @@ userInput.addEventListener("keydown", (e) => {
         sendMessage();
     }
 });
-
-
 
 // ── Enviar mensaje ─────────────────────────────────────────────
 async function sendMessage() {
