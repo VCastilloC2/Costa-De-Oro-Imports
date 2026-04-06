@@ -3,7 +3,9 @@ package com.application.configuration.custom;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.service.interfaces.EmailService;
+import com.application.utils.JwtUtils;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
     private final UsuarioRepository usuarioRepository;
     private final EmailService emailService;
+    private final JwtUtils jwtUtils;
 
     @Override
     public void onAuthenticationSuccess(
@@ -47,6 +50,17 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         if (usuario != null) {
             this.emailService.sendEmailLoginSuccessful(usuario, request);
         }
+
+        String accessToken = jwtUtils.createToken(authentication);
+
+        // Creación de la cookie para JWT
+        Cookie cookie = new Cookie("access_token", accessToken);
+        cookie.setHttpOnly(true); // para que no se pueda acceder a la cookie por JS
+        //cookie.setSecure(true); // para que la cookie solo se envié mediante conexiones cifradas (HTTPS)
+        cookie.setPath("/"); // asi nos aseguramos de que esté en todas las rutas del sitio web
+        cookie.setMaxAge(60 * 60 * 24); // tiempo de expiración de la cookie en segundos (1 día), coincide con la expiración del token
+
+        response.addCookie(cookie);
 
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 

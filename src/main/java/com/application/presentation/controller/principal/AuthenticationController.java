@@ -7,14 +7,20 @@ import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.persistence.entity.empresa.enums.ESector;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.GeneralResponse;
+import com.application.presentation.dto.usuario.request.AuthLoginRequest;
 import com.application.presentation.dto.usuario.request.CompleteUsuarioProfileRequest;
 import com.application.presentation.dto.usuario.request.CreateUsuarioRequest;
 import com.application.service.interfaces.empresa.EmpresaService;
 import com.application.service.interfaces.usuario.UsuarioService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/auth")
