@@ -85,9 +85,6 @@ async function checkConnection() {
 // Ejecutar al iniciar
 checkConnection();
 
-// 🔁 Reintentar cada 5 segundos
-setInterval(checkConnection, 5000);
-
 // ── Sugerencias rápidas ────────────────────────────────────────
 function sendSuggestion(text) {
     userInput.value = text;
