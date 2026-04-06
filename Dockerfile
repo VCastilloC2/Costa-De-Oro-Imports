@@ -1,7 +1,7 @@
 # ============================
 # Etapa 1: Construcción
 # ============================
-FROM eclipse-temurin:21-jdk-jammy AS builder
+FROM eclipse-temurin:25-jdk-jammy AS builder
 WORKDIR /app
 
 # Copiar solo Maven wrapper y config para cache
@@ -19,7 +19,7 @@ RUN ./mvnw clean package -DskipTests --batch-mode
 # ============================
 # Etapa 2: Producción ligera
 # ============================
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 WORKDIR /app
 
 # Copiar JAR generado
