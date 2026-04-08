@@ -1,3 +1,4 @@
+SET SQL_SAFE_UPDATES = 0;
 
 -- Insertar compras 2025
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 3911958, 4655230, '2025/07/07', 1669, null, 'PAGADO', 'TARJETA_CREDITO');
@@ -12026,7 +12027,6 @@ insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, su
 --insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, subtotal) values (71, 13423, 11, 0, 0);
 --insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, subtotal) values (82, 15787, 44, 0, 0);
 
-
 UPDATE detalle_venta
 SET cantidad = FLOOR(1 + (RAND() * 2));
 
@@ -12044,11 +12044,15 @@ END
 WHERE estado = 'CANCELADO';
 SET SQL_SAFE_UPDATES = 1;
 
+SET SQL_SAFE_UPDATES = 0;
+
 -- Actualizar precio_unitario y subtotal en detalle_venta
 UPDATE detalle_venta dv
-INNER JOIN producto p ON dv.producto_id = p.producto_id
-SET dv.precio_unitario = p.precio,
-    dv.subtotal = dv.cantidad * p.precio;
+    INNER JOIN producto p ON dv.producto_id = p.producto_id
+    SET dv.precio_unitario = p.precio,
+        dv.subtotal = dv.cantidad * p.precio;
+
+SET SQL_SAFE_UPDATES = 1;
     
 -- Actualizar subtotal y total en compra
 UPDATE compra c
@@ -12061,5 +12065,3 @@ JOIN (
 SET 
     c.subtotal = dv_sum.suma_subtotal,
     c.total = dv_sum.suma_subtotal * 1.19;
-    
-    
