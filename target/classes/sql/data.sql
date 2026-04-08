@@ -1,4 +1,4 @@
-USE bavvf4s090pwxhxvgmfc;
+USE db_beer;
 
 -- Insertar roles
 INSERT INTO rol (rol_id, rol) VALUES
