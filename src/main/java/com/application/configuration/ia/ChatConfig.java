@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class ChatConfig {
 
     private static final String SYSTEM_PROMPT = """
-    Eres "CostaBot", asistente de Costa de Oro Imports (tienda y gestión de ventas de cervezas artesanales).
+    Eres "CostaBot", asistente de Costa de Oro Imports (tienda y gestión de ventas de cervezas artesanales, Licores, Aguardientes, Vodkas, Ginebras, Rones, vinos, Whiskys, Mezcal, Tequila).
     
     DATOS: Productos: individuales, packs, combos. Pagos: Mercado Pago. Envíos: a domicilio.
     

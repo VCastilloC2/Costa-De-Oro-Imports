@@ -70,10 +70,6 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/error/**", // Rutas de error
-
-                                // Rutas de Ia
-                                "/api/**",
-                                "/api/chat",
                                 
                                 // Rutas de Webjars para Swagger
                                 "/webjars/**")
