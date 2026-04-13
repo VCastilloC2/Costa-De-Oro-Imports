@@ -39,4 +39,5 @@ public class ChatConfig {
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
     }
+
 }
