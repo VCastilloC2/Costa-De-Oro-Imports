@@ -528,3 +528,88 @@
     cursor: pointer;
     color: var(--muted);
 }
+
+.chat-toggle {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 62px;
+    height: 62px;
+
+    background: linear-gradient(135deg, #c17a4a, #8b4f2e);
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 999;
+
+    /* 🔥 profundidad real */
+    box-shadow:
+            0 10px 25px rgba(0,0,0,0.25),
+            0 4px 12px rgba(193, 122, 74, 0.35);
+
+    /* 🔥 animaciones suaves */
+    transition:
+            transform 0.25s cubic-bezier(.2,.8,.2,1),
+            box-shadow 0.25s ease,
+            filter 0.25s ease;
+
+    /* 🔥 animación flotante */
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ✨ Hover elegante */
+.chat-toggle:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow:
+            0 14px 35px rgba(0,0,0,0.3),
+            0 6px 18px rgba(193, 122, 74, 0.5);
+    filter: brightness(1.05);
+}
+
+/* 💥 Click */
+.chat-toggle:active {
+    transform: scale(0.95);
+}
+
+/* ✨ Glow suave */
+.chat-toggle::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c17a4a, #8b4f2e);
+    filter: blur(12px);
+    opacity: 0.35;
+    z-index: -1;
+}
+
+/* 🎯 SVG más limpio */
+.chat-toggle svg {
+    width: 26px;
+    height: 26px;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+/* mini animación del icono */
+.chat-toggle:hover svg {
+    transform: scale(1.1);
+}
+
+/* 🌊 animación flotante */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.chat-toggle.active svg {
+    transform: rotate(90deg);
+}

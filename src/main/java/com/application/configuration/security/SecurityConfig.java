@@ -67,14 +67,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         // Configurar endpoints públicos estáticos (sin autenticación)
                         .requestMatchers("/", "/Assets/**", "/Js/**", "/Css/**").permitAll()
-
+                        .requestMatchers("/**", "/blog/**").permitAll()
+                        .requestMatchers("/carrito").authenticated()
                         .requestMatchers(
                                 "/error/**", // Rutas de error
-
-                                // Rutas de Ia
-                                "/api/**",
-                                "/api/chat",
-                                
                                 // Rutas de Webjars para Swagger
                                 "/webjars/**")
                         .permitAll()

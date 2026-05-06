@@ -1,5 +1,6 @@
 package com.application.service.http;
 
+import com.application.configuration.ia.CostaBotPromptTemplate;
 import com.application.service.interfaces.AIService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
@@ -14,6 +15,7 @@ public class AIHttp implements AIService {
 
     private final ChatClient chatClient;
     private final ChatMemory chatMemory;
+    private final CostaBotPromptTemplate template;
 
     @Value("${app.ai.negacion-respuesta}")
     private String mensajeNegacion;
@@ -21,12 +23,15 @@ public class AIHttp implements AIService {
     @Override
     public String preguntar(String mensaje, String chatId) {
         try {
+
+            String mensajeLimpio = mensaje.strip()
+                    .replaceAll("\\s+", " ");
+
+            String prompt = template.buildPrompt(mensajeLimpio, chatId);
+
             String respuesta = chatClient
                     .prompt()
-                    .user(
-                            mensaje.strip() // Quita multiples espacios en el inicio y en el fin
-                                    .replaceAll("\\s+", " ") // Reduce múltiples espacios a uno
-                    )
+                    .user(prompt)
                     .advisors(
                             PromptChatMemoryAdvisor.builder(chatMemory)
                                     .conversationId(chatId)
@@ -44,5 +49,7 @@ public class AIHttp implements AIService {
         } catch (Exception e) {
             return "Error al conectar con la IA. Intenta nuevamente.";
         }
+
     }
+
 }
