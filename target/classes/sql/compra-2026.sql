@@ -8,7 +8,7 @@ SELECT
     0.19,
     0, -- luego se calcula
     0,
-    DATE_ADD('2026-01-01', INTERVAL FLOOR(RAND()*365) DAY),
+    DATE_ADD('2026-01-01', INTERVAL FLOOR(RAND()*151) DAY),
     FLOOR(1 + (RAND()*2000)), -- usuarios random
     ELT(FLOOR(1 + RAND()*8),
         NULL,
