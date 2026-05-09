@@ -71,7 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/carrito").authenticated()
                         .requestMatchers(
                                 "/error/**", // Rutas de error
-                                // Rutas de Webjars para Swagger
+                                "/api/chat",
                                 "/webjars/**")
                         .permitAll()
                         // Configurar endpoints NO ESPECIFICADOS

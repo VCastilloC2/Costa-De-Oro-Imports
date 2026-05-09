@@ -1,5 +1,7 @@
 package com.application.service.interfaces;
 
+import reactor.core.publisher.Flux;
+
 public interface AIService {
-    String preguntar(String mensaje, String chatId);
+    Flux<String> preguntar(String mensaje);
 }
