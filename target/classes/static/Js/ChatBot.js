@@ -104,13 +104,12 @@ function fetchAIStream(message) {
 
         const bubble = appendStreamingMessage();
 
-        let timeout;
+        eventSource.onmessage = (event) => {
 
-        const resetTimeout = () => {
+            const token = event.data;
 
-            clearTimeout(timeout);
-
-            timeout = setTimeout(() => {
+            // FIN DEL STREAM
+            if (token === "[DONE]") {
 
                 eventSource.close();
 
@@ -119,17 +118,8 @@ function fetchAIStream(message) {
 
                 resolve(fullResponse);
 
-            }, 1200);
-        };
-
-        eventSource.onopen = () => {
-
-            resetTimeout();
-        };
-
-        eventSource.onmessage = (event) => {
-
-            const token = event.data;
+                return;
+            }
 
             if (!token) return;
 
@@ -142,13 +132,9 @@ function fetchAIStream(message) {
 
                 scrollToBottom();
             });
-
-            resetTimeout();
         };
 
         eventSource.onerror = () => {
-
-            clearTimeout(timeout);
 
             eventSource.close();
 
@@ -157,7 +143,6 @@ function fetchAIStream(message) {
                 reject();
 
             } else {
-
                 resolve(fullResponse);
             }
         };
@@ -165,72 +150,75 @@ function fetchAIStream(message) {
 }
 
 // ─────────────────────────────────────────
-// BURBUJA STREAM
+// BURBUJA STREAM - VERSIÓN CORREGIDA
 // ─────────────────────────────────────────
 function appendStreamingMessage() {
-
     // ocultar typing mientras aparece mensaje real
     typingRow.style.display = "none";
 
     const row = document.createElement("div");
-
     row.className = "msg bot";
 
     const avatar = document.createElement("div");
-
     avatar.className = "msg-avatar";
-
-    avatar.innerHTML =
-        '<i class="ri-robot-2-line"></i>';
+    avatar.innerHTML = '<i class="ri-robot-2-line"></i>';
 
     const bubble = document.createElement("div");
-
     bubble.className = "bubble";
 
     row.appendChild(avatar);
-
     row.appendChild(bubble);
 
-    chatBody.appendChild(row);
+    // Insertar antes del typingRow también
+    if (typingRow && typingRow.parentNode === chatBody) {
+        chatBody.insertBefore(row, typingRow);
+    } else {
+        chatBody.appendChild(row);
+    }
 
     scrollToBottom();
+
+    // Mostrar typing row después por si acaso
+    typingRow.style.display = "flex";
 
     return bubble;
 }
 
 // ─────────────────────────────────────────
-// MENSAJE NORMAL
+// MENSAJE NORMAL - VERSIÓN CORREGIDA
 // ─────────────────────────────────────────
 function appendMessage(role, text, isError = false) {
+    // Ocultar empty state si existe
+    hideEmptyState();
 
     const row = document.createElement("div");
-
     row.className = `msg ${role}`;
 
     const avatar = document.createElement("div");
-
-    avatar.className =
-        role === "bot"
-            ? "msg-avatar"
-            : "msg-avatar user-av";
-
-    avatar.innerHTML =
-        role === "bot"
-            ? '<i class="ri-robot-2-line"></i>'
-            : '<i class="ri-user-3-line"></i>';
+    avatar.className = role === "bot" ? "msg-avatar" : "msg-avatar user-av";
+    avatar.innerHTML = role === "bot"
+        ? '<i class="ri-robot-2-line"></i>'
+        : '<i class="ri-user-3-line"></i>';
 
     const bubble = document.createElement("div");
-
-    bubble.className =
-        `bubble${isError ? " error" : ""}`;
-
+    bubble.className = `bubble${isError ? " error" : ""}`;
     bubble.innerHTML = marked.parse(text);
 
     row.appendChild(avatar);
-
     row.appendChild(bubble);
 
-    chatBody.insertBefore(row, typingRow);
+    // 🔥 CAMBIO IMPORTANTE: Insertar ANTES del typingRow
+    // Esto asegura que los mensajes mantengan el orden correcto
+    if (typingRow && typingRow.nextSibling) {
+        chatBody.insertBefore(row, typingRow);
+    } else {
+        chatBody.insertBefore(row, typingRow);
+    }
+
+    // Asegurar que typingRow siempre esté al final (pero antes del empty state invisible)
+    if (typingRow && typingRow.parentNode === chatBody) {
+        // typingRow ya está donde debe estar
+    }
 
     scrollToBottom();
 }
@@ -278,25 +266,18 @@ function setStatus(status) {
 }
 
 // ─────────────────────────────────────────
-// LOADING
+// LOADING - VERSIÓN CORREGIDA
 // ─────────────────────────────────────────
 function setLoading(state) {
-
     isLoading = state;
-
     sendBtn.disabled = state;
 
-    // 🔥 mostrar punticos mientras responde
     if (state) {
-
         typingRow.style.display = "flex";
-
     } else {
-
         typingRow.style.display = "none";
     }
 }
-
 // ─────────────────────────────────────────
 // CLEAR CHAT
 // ─────────────────────────────────────────

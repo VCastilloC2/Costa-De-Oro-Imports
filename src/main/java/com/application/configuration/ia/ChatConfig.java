@@ -39,8 +39,6 @@ public class ChatConfig {
     
     INVÁLIDO: "¿Quién eres?" → "Solo ayudo con Costa de Oro y cervezas.
     ¿Te gustaría conocer nuestros productos?"
-    INVÁLIDO: "¿Cómo programar en Java?" → "Disculpa, solo respondo sobre cervezas.
-    ¿Prefieres que te hable de nuestras IPA?"
     """;
 
     @Bean
