@@ -106,7 +106,6 @@ function fetchAIStream(message) {
 
         let timeout;
 
-        // reinicia temporizador
         const resetTimeout = () => {
 
             clearTimeout(timeout);
@@ -130,22 +129,19 @@ function fetchAIStream(message) {
 
         eventSource.onmessage = (event) => {
 
-            const token = event.data?.trim();
+            const token = event.data;
 
             if (!token) return;
 
-            if (!token || token.trim() === "") {
-                return;
-            }
-
             fullResponse += token;
 
-            // 🔥 MÁS RÁPIDO
             requestAnimationFrame(() => {
-                bubble.innerHTML = marked.parse(fullResponse);
-            });
 
-            scrollToBottom();
+                bubble.innerHTML =
+                    marked.parse(fullResponse);
+
+                scrollToBottom();
+            });
 
             resetTimeout();
         };

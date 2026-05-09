@@ -18,7 +18,6 @@ public class AIHttp implements AIService {
 
     @Override
     public Flux<String> preguntar(String mensaje) {
-
         return chatClient
                 .prompt()
                 .user(mensaje)
