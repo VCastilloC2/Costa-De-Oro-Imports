@@ -23,9 +23,57 @@ public class AIHttp implements AIService {
                 .user(mensaje)
                 .stream()
                 .content()
-                .switchIfEmpty(Flux.just(mensajeNegacion))
-                .onErrorResume(e ->
-                        Flux.just("Error al conectar con la IA."));
-    }
 
+                // 🔥 FILTRAR instrucciones y markdown
+                .filter(token -> {
+                    // Eliminar tokens que contienen instrucciones
+                    if (token == null || token.trim().isEmpty()) return false;
+
+                    String lowerToken = token.toLowerCase();
+
+                    // Patrones de instrucciones a filtrar
+                    return !lowerToken.contains("instrucción") &&
+                            !lowerToken.contains("instruction") &&
+                            !lowerToken.contains("restriccion") &&
+                            !lowerToken.contains("restriction") &&
+                            !lowerToken.contains("## instrucción") &&
+                            !lowerToken.contains("## instruction") &&
+                            !lowerToken.contains("**instrucción") &&
+                            !lowerToken.contains("markdown") &&
+                            !lowerToken.contains("formato") &&
+                            !token.startsWith("##") &&
+                            !token.startsWith("#") &&
+                            !token.startsWith("**Instrucción") &&
+                            !token.matches(".*\\d+\\..*"); // Elimina "1.", "2.", etc.
+                })
+
+                // Buffer para unir tokens correctamente
+                .bufferUntil(token ->
+                        token.endsWith(" ")
+                                || token.endsWith("\n")
+                                || token.matches(".*[.!?]+$")
+                )
+
+                .map(tokens -> {
+
+                    String resultado =
+                            String.join("", tokens);
+
+                    return resultado
+                            .replaceAll("\\s+", " ");
+                })
+
+                // 🔥 FIN DEL STREAM
+                .concatWith(Flux.just("[DONE]"))
+
+                .switchIfEmpty(
+                        Flux.just(mensajeNegacion)
+                )
+
+                .onErrorResume(e ->
+                        Flux.just(
+                                "Lo siento, estoy teniendo problemas técnicos con la IA. Por favor, intenta de nuevo."
+                        )
+                );
+    }
 }

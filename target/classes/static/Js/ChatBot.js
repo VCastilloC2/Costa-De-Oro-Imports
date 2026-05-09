@@ -89,59 +89,63 @@ async function sendMessage() {
 }
 
 // ─────────────────────────────────────────
-// STREAM IA
+// STREAM IA - VERSIÓN CORREGIDA (con signos de puntuación)
 // ─────────────────────────────────────────
 function fetchAIStream(message) {
-
     return new Promise((resolve, reject) => {
-
         let fullResponse = "";
+        let lastTokenWasSpace = true;
+        let lastTokenEndedWithPunctuation = false;
 
-        const url =
-            `${API_URL}?message=${encodeURIComponent(message)}`;
-
+        const url = `${API_URL}?message=${encodeURIComponent(message)}`;
         const eventSource = new EventSource(url);
-
         const bubble = appendStreamingMessage();
 
         eventSource.onmessage = (event) => {
-
             const token = event.data;
 
-            // FIN DEL STREAM
             if (token === "[DONE]") {
-
                 eventSource.close();
-
-                bubble.innerHTML =
-                    marked.parse(fullResponse);
-
+                bubble.innerHTML = marked.parse(fullResponse);
                 resolve(fullResponse);
-
                 return;
             }
 
             if (!token) return;
 
-            fullResponse += token;
+            // 🔥 CORRECCIÓN: Determinar si el token necesita espacio antes
+            let tokenCorregido = token;
+
+            // Caracteres que NO necesitan espacio antes
+            const noSpaceBefore = /^[.,;:!?¡¿)\]}'"]/;
+            // Caracteres que indican que el token anterior terminó sin espacio
+            const endsWithPunctuation = /[.,;:!?¡¿)\]}'"]$/;
+
+            const needsSpace = fullResponse.length > 0 &&
+                !lastTokenWasSpace &&
+                !lastTokenEndedWithPunctuation &&
+                !noSpaceBefore.test(token);
+
+            if (needsSpace) {
+                tokenCorregido = " " + token;
+            }
+
+            fullResponse += tokenCorregido;
+
+            // Actualizar estado para el próximo token
+            lastTokenWasSpace = tokenCorregido.endsWith(" ");
+            lastTokenEndedWithPunctuation = endsWithPunctuation.test(tokenCorregido);
 
             requestAnimationFrame(() => {
-
-                bubble.innerHTML =
-                    marked.parse(fullResponse);
-
+                bubble.innerHTML = marked.parse(fullResponse);
                 scrollToBottom();
             });
         };
 
         eventSource.onerror = () => {
-
             eventSource.close();
-
             if (!fullResponse) {
-
                 reject();
-
             } else {
                 resolve(fullResponse);
             }
