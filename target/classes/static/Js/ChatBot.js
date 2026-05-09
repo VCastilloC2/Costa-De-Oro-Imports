@@ -1,159 +1,206 @@
-// ── Configuración ──────────────────────────────────────────────
-const API_URL = "/api/chat"; // ← endpoint de Spring AI
+// ─────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────
+const API_URL = "/api/chat";
 
-// ── Referencias DOM ────────────────────────────────────────────
+// ─────────────────────────────────────────
+// DOM
+// ─────────────────────────────────────────
 const chatBody = document.getElementById("chatBody");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 const typingRow = document.getElementById("typingRow");
-const emptyState = document.getElementById("emptyState");
+
 const statusDot = document.getElementById("statusDot");
 const statusText = document.getElementById("statusText");
 
-// ── Estado ─────────────────────────────────────────────────────
+const emptyState = document.getElementById("emptyState");
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
 let isLoading = false;
 
-// ── ChatId persistente (mantiene contexto del chat) ──────────────────────────
-let chatId = localStorage.getItem("chatId");
-if (!chatId) {
-    chatId = "user-" + Math.random().toString(36).substring(2);
-    localStorage.setItem("chatId", chatId);
-}
+// ─────────────────────────────────────────
+// STATUS INICIAL
+// ─────────────────────────────────────────
+setStatus("online");
 
-// ── Auto-resize del textarea ───────────────────────────────────
-userInput.addEventListener("input", () => {
-    userInput.style.height = "0px"; // 🔥 clave anti-glitch
-    userInput.style.height = userInput.scrollHeight + "px";
-});
-
-// ── Enter / Shift+Enter ────────────────────────────────────────
+// ─────────────────────────────────────────
+// ENTER
+// ─────────────────────────────────────────
 userInput.addEventListener("keydown", (e) => {
+
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
     }
 });
 
-// ── Enviar mensaje ─────────────────────────────────────────────
+// ─────────────────────────────────────────
+// AUTO RESIZE
+// ─────────────────────────────────────────
+userInput.addEventListener("input", () => {
+
+    userInput.style.height = "auto";
+    userInput.style.height =
+        userInput.scrollHeight + "px";
+});
+
+// ─────────────────────────────────────────
+// ENVIAR MENSAJE
+// ─────────────────────────────────────────
 async function sendMessage() {
+
     const text = userInput.value.trim();
+
     if (!text || isLoading) return;
 
     hideEmptyState();
+
     appendMessage("user", text);
+
     clearInput();
+
     setLoading(true);
 
-    setStatus("connecting"); // 🔥 AQUÍ
+    setStatus("connecting");
 
     try {
-        const reply = await fetchAI(text);
-        appendMessage("bot", reply);
 
-        setStatus("online"); // 🔥 SI TODO SALE BIEN
-    } catch (err) {
-        appendMessage("bot", `⚠️ ${err.message || "Error"}`, true);
+        await fetchAIStream(text);
 
-        setStatus("offline"); // 🔥 SI FALLA
+        setStatus("online");
+
+    } catch (error) {
+
+        appendMessage(
+            "bot",
+            "⚠️ Error al conectar con la IA.",
+            true
+        );
+
+        setStatus("offline");
+
     } finally {
+
         setLoading(false);
     }
 }
 
-// ── Chequiando la conección ────────────────────────────────────────
-async function checkConnection() {
-    try {
-        setStatus("connecting");
+// ─────────────────────────────────────────
+// STREAM IA - VERSIÓN CORREGIDA (con signos de puntuación)
+// ─────────────────────────────────────────
+function fetchAIStream(message) {
+    return new Promise((resolve, reject) => {
+        let fullResponse = "";
+        let lastTokenWasSpace = true;
+        let lastTokenEndedWithPunctuation = false;
 
-        const res = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                message: "ping",
-                chatId: "health-check"
-            })
-        });
+        const url = `${API_URL}?message=${encodeURIComponent(message)}`;
+        const eventSource = new EventSource(url);
+        const bubble = appendStreamingMessage();
 
-        if (!res.ok) throw new Error();
+        eventSource.onmessage = (event) => {
+            const token = event.data;
 
-        setStatus("online");
-    } catch (e) {
-        setStatus("offline");
-    }
-}
+            if (token === "[DONE]") {
+                eventSource.close();
+                bubble.innerHTML = marked.parse(fullResponse);
+                resolve(fullResponse);
+                return;
+            }
 
-// Ejecutar al iniciar
-checkConnection();
+            if (!token) return;
 
-// ── Sugerencias rápidas ────────────────────────────────────────
-function sendSuggestion(text) {
-    userInput.value = text;
-    sendMessage();
-}
+            // 🔥 CORRECCIÓN: Determinar si el token necesita espacio antes
+            let tokenCorregido = token;
 
-function setStatus(status) {
-    statusDot.classList.remove("online", "offline", "connecting");
+            // Caracteres que NO necesitan espacio antes
+            const noSpaceBefore = /^[.,;:!?¡¿)\]}'"]/;
+            // Caracteres que indican que el token anterior terminó sin espacio
+            const endsWithPunctuation = /[.,;:!?¡¿)\]}'"]$/;
 
-    if (status === "online") {
-        statusDot.classList.add("online");
-        statusText.textContent = "En línea";
-    }
+            const needsSpace = fullResponse.length > 0 &&
+                !lastTokenWasSpace &&
+                !lastTokenEndedWithPunctuation &&
+                !noSpaceBefore.test(token);
 
-    if (status === "offline") {
-        statusDot.classList.add("offline");
-        statusText.textContent = "Sin conexión";
-    }
+            if (needsSpace) {
+                tokenCorregido = " " + token;
+            }
 
-    if (status === "connecting") {
-        statusDot.classList.add("connecting");
-        statusText.textContent = "Conectando...";
-    }
-}
+            fullResponse += tokenCorregido;
 
-// ── Llamada al backend Spring AI ──────────────────────────────
-async function fetchAI(message) {
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        },
-        body: JSON.stringify({
-            message,
-            chatId // 🔥 aquí va
-        }),
+            // Actualizar estado para el próximo token
+            lastTokenWasSpace = tokenCorregido.endsWith(" ");
+            lastTokenEndedWithPunctuation = endsWithPunctuation.test(tokenCorregido);
+
+            requestAnimationFrame(() => {
+                bubble.innerHTML = marked.parse(fullResponse);
+                scrollToBottom();
+            });
+        };
+
+        eventSource.onerror = () => {
+            eventSource.close();
+            if (!fullResponse) {
+                reject();
+            } else {
+                resolve(fullResponse);
+            }
+        };
     });
-
-    if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        throw new Error(
-            errorText
-                ? `Error ${response.status}: ${errorText}`
-                : `Error del servidor (${response.status})`
-        );
-    }
-
-    const data = await response.json();
-
-    return (
-        data.response ??
-        data.content ??
-        data.message ??
-        data.result ??
-        JSON.stringify(data)
-    );
 }
 
-// ── Agregar burbuja de mensaje ─────────────────────────────────
+// ─────────────────────────────────────────
+// BURBUJA STREAM - VERSIÓN CORREGIDA
+// ─────────────────────────────────────────
+function appendStreamingMessage() {
+    // ocultar typing mientras aparece mensaje real
+    typingRow.style.display = "none";
+
+    const row = document.createElement("div");
+    row.className = "msg bot";
+
+    const avatar = document.createElement("div");
+    avatar.className = "msg-avatar";
+    avatar.innerHTML = '<i class="ri-robot-2-line"></i>';
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+
+    // Insertar antes del typingRow también
+    if (typingRow && typingRow.parentNode === chatBody) {
+        chatBody.insertBefore(row, typingRow);
+    } else {
+        chatBody.appendChild(row);
+    }
+
+    scrollToBottom();
+
+    // Mostrar typing row después por si acaso
+    typingRow.style.display = "flex";
+
+    return bubble;
+}
+
+// ─────────────────────────────────────────
+// MENSAJE NORMAL - VERSIÓN CORREGIDA
+// ─────────────────────────────────────────
 function appendMessage(role, text, isError = false) {
-    const isBot = role === "bot";
+    // Ocultar empty state si existe
+    hideEmptyState();
 
     const row = document.createElement("div");
     row.className = `msg ${role}`;
 
     const avatar = document.createElement("div");
-    avatar.className = isBot ? "msg-avatar" : "msg-avatar user-av";
-    avatar.innerHTML = isBot
+    avatar.className = role === "bot" ? "msg-avatar" : "msg-avatar user-av";
+    avatar.innerHTML = role === "bot"
         ? '<i class="ri-robot-2-line"></i>'
         : '<i class="ri-user-3-line"></i>';
 
@@ -164,56 +211,146 @@ function appendMessage(role, text, isError = false) {
     row.appendChild(avatar);
     row.appendChild(bubble);
 
-    chatBody.insertBefore(row, typingRow);
+    // 🔥 CAMBIO IMPORTANTE: Insertar ANTES del typingRow
+    // Esto asegura que los mensajes mantengan el orden correcto
+    if (typingRow && typingRow.nextSibling) {
+        chatBody.insertBefore(row, typingRow);
+    } else {
+        chatBody.insertBefore(row, typingRow);
+    }
+
+    // Asegurar que typingRow siempre esté al final (pero antes del empty state invisible)
+    if (typingRow && typingRow.parentNode === chatBody) {
+        // typingRow ya está donde debe estar
+    }
+
     scrollToBottom();
 }
 
-// ── Loading / typing indicator ─────────────────────────────────
+// ─────────────────────────────────────────
+// STATUS
+// ─────────────────────────────────────────
+function setStatus(status) {
+
+    statusDot.classList.remove(
+        "online",
+        "offline",
+        "connecting"
+    );
+
+    switch (status) {
+
+        case "online":
+
+            statusDot.classList.add("online");
+
+            statusText.textContent =
+                "En línea";
+
+            break;
+
+        case "offline":
+
+            statusDot.classList.add("offline");
+
+            statusText.textContent =
+                "Sin conexión";
+
+            break;
+
+        case "connecting":
+
+            statusDot.classList.add("connecting");
+
+            statusText.textContent =
+                "Escribiendo...";
+
+            break;
+    }
+}
+
+// ─────────────────────────────────────────
+// LOADING - VERSIÓN CORREGIDA
+// ─────────────────────────────────────────
 function setLoading(state) {
     isLoading = state;
     sendBtn.disabled = state;
-    typingRow.style.display = state ? "flex" : "none";
 
-    if (state) scrollToBottom();
+    if (state) {
+        typingRow.style.display = "flex";
+    } else {
+        typingRow.style.display = "none";
+    }
 }
-
-// ── Limpiar chat ───────────────────────────────────────────────
+// ─────────────────────────────────────────
+// CLEAR CHAT
+// ─────────────────────────────────────────
 function clearChat() {
-    Array.from(chatBody.children).forEach((el) => {
-        if (el.id !== "typingRow" && el.id !== "emptyState") {
-            el.remove();
-        }
-    });
+
+    Array.from(chatBody.children)
+        .forEach((el) => {
+
+            if (
+                el.id !== "typingRow" &&
+                el.id !== "emptyState"
+            ) {
+                el.remove();
+            }
+        });
 
     showEmptyState();
 }
 
-// ── Empty state ────────────────────────────────────────────────
+// ─────────────────────────────────────────
+// EMPTY STATE
+// ─────────────────────────────────────────
 function hideEmptyState() {
-    if (emptyState) emptyState.style.display = "none";
+
+    if (emptyState) {
+        emptyState.style.display = "none";
+    }
 }
 
 function showEmptyState() {
-    if (emptyState) emptyState.style.display = "";
+
+    if (emptyState) {
+        emptyState.style.display = "block";
+    }
 }
 
-// ── Scroll ────────────────────────────────────────────────────
+// ─────────────────────────────────────────
+// SCROLL
+// ─────────────────────────────────────────
 function scrollToBottom() {
+
     requestAnimationFrame(() => {
-        chatBody.scrollTop = chatBody.scrollHeight;
+
+        chatBody.scrollTop =
+            chatBody.scrollHeight;
     });
 }
 
-// ── Focus automático ───────────────────────────────────────────
-userInput.focus();
-
-// ── Limpiar input ──────────────────────────────────────────────
+// ─────────────────────────────────────────
+// CLEAR INPUT
+// ─────────────────────────────────────────
 function clearInput() {
+
     userInput.value = "";
+
     userInput.style.height = "auto";
 }
 
+// ─────────────────────────────────────────
+// TOGGLE CHAT
+// ─────────────────────────────────────────
 function toggleChat() {
-    const chat = document.getElementById("chatContainer");
-    chat.classList.toggle("active");
+
+    document
+        .getElementById("chatContainer")
+        .classList.toggle("active");
 }
+
+// ─────────────────────────────────────────
+// FOCUS
+// ─────────────────────────────────────────
+userInput.focus();

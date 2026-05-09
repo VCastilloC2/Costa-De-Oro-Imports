@@ -2,10 +2,10 @@ package com.application.presentation.controller.ia;
 
 import com.application.service.http.AIHttp;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/api")
@@ -14,16 +14,12 @@ public class AIController {
 
     private final AIHttp aiHttp;
 
-    @PostMapping("/chat")
-    public ResponseEntity<Map<String, String>> ask(
-            @RequestBody Map<String, String> body) {
-
-        String mensaje = body.get("message");
-        String chatId = body.getOrDefault("chatId", "default");
-
-        String respuesta = aiHttp.preguntar(mensaje, chatId);
-
-        return ResponseEntity.ok(Map.of("response", respuesta));
+    @GetMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ServerSentEvent<String>> askStream(@RequestParam String message) {
+        return aiHttp.preguntar(message)
+                .map(token ->
+                        ServerSentEvent.builder(token).build()
+                );
     }
 
 }
