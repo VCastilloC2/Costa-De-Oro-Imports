@@ -104,12 +104,6 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
 
-        <!-- JDBC Chat Memory Repository -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-chat-memory-repository-jdbc</artifactId>
-        </dependency>
-
         <!-- Spring Boot Devtolls -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
