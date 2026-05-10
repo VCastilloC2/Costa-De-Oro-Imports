@@ -1,0 +1,35 @@
+{
+  "groups": [
+    {
+      "name": "groq",
+      "type": "com.application.configuration.ia.GroqProperties",
+      "sourceType": "com.application.configuration.ia.GroqProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "groq.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.application.configuration.ia.GroqProperties"
+    },
+    {
+      "name": "groq.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.application.configuration.ia.GroqProperties"
+    },
+    {
+      "name": "groq.chat-endpoint",
+      "type": "java.lang.String",
+      "sourceType": "com.application.configuration.ia.GroqProperties"
+    },
+    {
+      "name": "groq.model",
+      "type": "java.lang.String",
+      "sourceType": "com.application.configuration.ia.GroqProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}
