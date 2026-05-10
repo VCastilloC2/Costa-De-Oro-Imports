@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/chat")
 @RequiredArgsConstructor
-public class ChatController {
+public class RagController {
 
-    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+    private static final Logger log = LoggerFactory.getLogger(RagController.class);
 
     private final LlmService llmService;
 
