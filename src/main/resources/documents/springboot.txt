@@ -53,3 +53,274 @@ Además, la aplicación integra servicios externos como:
 - Groq API para generación de respuestas mediante inteligencia artificial
 
 Gracias a Spring Boot, el sistema puede ejecutarse como una aplicación independiente y lista para producción, simplificando la configuración del servidor y facilitando el despliegue de la plataforma.
+
+¿Qué es Spring Boot?
+
+Spring Boot es un framework desarrollado sobre Spring Framework que facilita la creación de aplicaciones Java modernas, escalables y listas para producción. Su principal objetivo es reducir la configuración manual y acelerar el desarrollo de aplicaciones web, APIs REST y microservicios.
+
+Spring Boot permite construir aplicaciones backend utilizando un enfoque basado en:
+
+- Inyección de dependencias
+- Configuración automática
+- Arquitectura multicapa
+- Programación orientada a objetos
+- Integración con bases de datos
+- Seguridad empresarial
+- APIs REST
+- Integración con servicios externos
+
+En Costa de Oro Imports, Spring Boot es la tecnología principal utilizada para desarrollar toda la lógica del sistema de e-commerce especializado en licores importados.
+
+Características principales de Spring Boot:
+
+- Configuración automática (Auto Configuration)
+- Servidor embebido Tomcat
+- Integración sencilla con bases de datos
+- Gestión de dependencias con Maven
+- Seguridad mediante Spring Security
+- Desarrollo rápido de APIs REST
+- Integración con inteligencia artificial
+- Arquitectura escalable y mantenible
+
+Arquitectura del proyecto:
+
+El proyecto utiliza una arquitectura multicapa organizada en:
+
+- Controllers
+- Services
+- Repositories
+- Entities
+- DTOs
+- Configuración
+- Seguridad
+- Integración IA
+
+¿Qué hace cada capa?
+
+Controllers:
+Reciben solicitudes HTTP desde el frontend o clientes externos y devuelven respuestas al usuario.
+
+Services:
+Contienen la lógica de negocio del sistema como autenticación, ventas, gestión de productos y procesamiento de pedidos.
+
+Repositories:
+Gestionan el acceso a la base de datos utilizando Spring Data JPA y Hibernate.
+
+Entities:
+Representan las tablas de la base de datos mediante clases Java.
+
+DTOs:
+Permiten transferir datos entre capas sin exponer directamente las entidades.
+
+Configuración:
+Contiene clases relacionadas con seguridad, beans, APIs y configuración general del sistema.
+
+Seguridad:
+Gestiona autenticación, autorización, JWT y control de acceso.
+
+Integración IA:
+Permite comunicación con modelos LLM, APIs inteligentes y arquitectura RAG.
+
+¿Qué es Spring MVC?
+
+Spring MVC es el módulo de Spring utilizado para construir aplicaciones web basadas en el patrón Modelo-Vista-Controlador.
+
+En Costa de Oro Imports, Spring MVC se utiliza para:
+
+- Manejar rutas HTTP
+- Renderizar vistas Thymeleaf
+- Procesar formularios
+- Controlar respuestas del servidor
+
+¿Qué es Spring Data JPA?
+
+Spring Data JPA simplifica el acceso a bases de datos relacionales utilizando repositorios y Hibernate.
+
+Permite realizar operaciones como:
+
+- Guardar datos
+- Buscar registros
+- Actualizar información
+- Eliminar datos
+- Crear consultas personalizadas
+
+¿Qué es Hibernate?
+
+Hibernate es un ORM (Object Relational Mapping) que convierte objetos Java en registros de base de datos.
+
+Hibernate facilita:
+
+- Persistencia de datos
+- Relaciones entre entidades
+- Consultas automáticas
+- Manejo de transacciones
+
+¿Qué es Thymeleaf?
+
+Thymeleaf es el motor de plantillas utilizado en el frontend del proyecto.
+
+Permite:
+
+- Crear vistas dinámicas
+- Integrar HTML con Spring Boot
+- Mostrar datos del backend
+- Renderizar información del servidor
+
+¿Qué es Spring Security?
+
+Spring Security es el módulo encargado de proteger la aplicación.
+
+En el proyecto se utiliza para:
+
+- Login de usuarios
+- Protección de rutas
+- Roles y permisos
+- Autenticación JWT
+- Seguridad de APIs
+
+¿Qué es JWT?
+
+JWT (JSON Web Token) es un mecanismo de autenticación basado en tokens.
+
+Se utiliza para:
+
+- Mantener sesiones seguras
+- Validar usuarios
+- Autorizar solicitudes HTTP
+
+¿Qué es una API REST?
+
+Una API REST permite que diferentes sistemas se comuniquen mediante HTTP utilizando JSON.
+
+En Costa de Oro Imports las APIs REST permiten:
+
+- Consultas inteligentes
+- Gestión de productos
+- Integración con IA
+- Comunicación frontend-backend
+
+¿Qué es Maven?
+
+Maven es la herramienta de gestión de dependencias utilizada en el proyecto.
+
+Permite:
+
+- Descargar librerías automáticamente
+- Compilar el proyecto
+- Ejecutar pruebas
+- Empaquetar la aplicación
+
+¿Qué es Tomcat?
+
+Tomcat es el servidor embebido incluido en Spring Boot.
+
+Gracias a esto, la aplicación puede ejecutarse directamente utilizando:
+
+mvn spring-boot:run
+
+¿Qué es un endpoint?
+
+Un endpoint es una ruta HTTP utilizada para acceder a funcionalidades del backend.
+
+Ejemplos del proyecto:
+
+- /api/chat/ask
+- /productos
+- /login
+- /admin
+
+¿Qué es un DTO?
+
+DTO significa Data Transfer Object.
+
+Se utiliza para:
+
+- Transferir datos entre capas
+- Evitar exponer entidades
+- Mejorar seguridad
+- Simplificar respuestas JSON
+
+¿Qué es una entidad?
+
+Una entidad es una clase Java que representa una tabla de la base de datos.
+
+Ejemplos:
+
+- Usuario
+- Producto
+- Pedido
+- Categoria
+
+¿Qué es un repositorio?
+
+Un repositorio es una interfaz que permite acceder a la base de datos utilizando Spring Data JPA.
+
+¿Qué es un servicio?
+
+Un servicio contiene la lógica principal del negocio.
+
+Ejemplos:
+
+- Procesar pagos
+- Validar usuarios
+- Gestionar ventas
+- Generar respuestas IA
+
+¿Qué es la inyección de dependencias?
+
+Es un mecanismo de Spring que permite que los objetos sean administrados automáticamente por el contenedor de Spring.
+
+Ejemplo:
+
+@RequiredArgsConstructor
+private final ProductoService productoService;
+
+¿Qué es un Bean?
+
+Un Bean es un objeto administrado por Spring dentro del contenedor IoC.
+
+¿Qué es IoC?
+
+IoC significa Inversión de Control.
+
+Spring se encarga de crear y administrar objetos automáticamente.
+
+¿Qué es una arquitectura multicapa?
+
+Es una forma de organizar el proyecto separando responsabilidades para mejorar:
+
+- Escalabilidad
+- Mantenimiento
+- Organización
+- Reutilización de código
+
+¿Qué tecnologías utiliza Costa de Oro Imports?
+
+- Java 21
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- Thymeleaf
+- MySQL
+- JWT
+- Maven
+- Groq API
+- Cloudinary
+- Mercado Pago
+- APIs REST
+- Inteligencia Artificial RAG
+
+Integración de Inteligencia Artificial:
+
+El sistema implementa integración con modelos de lenguaje utilizando Groq API y arquitectura RAG.
+
+Esto permite:
+
+- Consultas inteligentes
+- Respuestas contextuales
+- Recuperación semántica
+- Procesamiento de documentos
+- Chat IA
+
+Gracias a Spring Boot, Costa de Oro Imports puede ejecutarse como una aplicación moderna, segura y preparada para entornos reales de producción.

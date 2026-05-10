@@ -39,3 +39,30 @@ El sistema también implementa validaciones y filtros para:
 - Mejorar la precisión contextual
 
 La integración de inteligencia artificial dentro del proyecto permite modernizar la experiencia de usuario y demostrar la aplicación práctica de tecnologías emergentes dentro de un sistema de comercio electrónico desarrollado con Spring Boot.
+
+¿Qué es RAG?
+
+RAG significa Retrieval-Augmented Generation, que en español puede traducirse como Generación Aumentada por Recuperación. Es una arquitectura utilizada en inteligencia artificial que combina recuperación de información y generación automática de texto mediante modelos de lenguaje (LLM).
+
+El objetivo principal de un sistema RAG es permitir que un modelo de inteligencia artificial responda preguntas utilizando información real obtenida desde documentos, archivos o bases de conocimiento, en lugar de depender únicamente de información aprendida durante el entrenamiento del modelo.
+
+En un sistema tradicional de IA, el modelo genera respuestas basadas únicamente en su conocimiento previo. En cambio, un sistema RAG primero busca información relevante relacionada con la pregunta del usuario y posteriormente utiliza esa información como contexto para generar una respuesta más precisa y contextualizada.
+
+Esta arquitectura es ampliamente utilizada en aplicaciones modernas porque permite:
+
+- Reducir respuestas incorrectas o inventadas
+- Utilizar información actualizada
+- Consultar documentación privada o empresarial
+- Mejorar precisión contextual
+- Personalizar respuestas según el dominio del sistema
+
+En Costa de Oro Imports, RAG se utiliza para construir un asistente inteligente capaz de responder preguntas relacionadas con:
+
+- Productos disponibles
+- Información académica
+- Documentación técnica
+- Funcionalidades del sistema
+- Arquitectura del proyecto
+- Información almacenada en documentos TXT
+
+Gracias a la integración de RAG, la plataforma puede ofrecer respuestas más inteligentes y alineadas con el contenido real del proyecto.
