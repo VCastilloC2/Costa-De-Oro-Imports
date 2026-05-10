@@ -14,4 +14,11 @@ public class DocumentChunk {
     private String source;
     private String content;
     private double score;
+
+    public DocumentChunk(String id, String source, String content) {
+        this.id = id;
+        this.source = source;
+        this.content = content;
+    }
+
 }
