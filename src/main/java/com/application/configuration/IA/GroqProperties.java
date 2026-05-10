@@ -1,4 +1,4 @@
-package com.application.configuration.IA;
+package com.application.configuration.ia;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "costa")
-public class CostaDeOroProperties {
+@ConfigurationProperties(prefix = "groq")
+public class GroqProperties {
 
     private String baseUrl;
     private String chatEndpoint;
