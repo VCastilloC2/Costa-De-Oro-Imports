@@ -1,0 +1,7 @@
+RAG significa Retrieval-Augmented Generation. Es un patrón de arquitectura para aplicaciones con modelos de lenguaje que combina recuperación de información con generación de texto.
+
+En una aplicación RAG, el sistema primero busca documentos relevantes relacionados con la pregunta del usuario. Luego construye un contexto con esos fragmentos y finalmente envía la pregunta y el contexto a un modelo de lenguaje.
+
+La ventaja de RAG es que permite responder usando información específica de una organización, curso, reglamento o base documental, reduciendo la posibilidad de respuestas inventadas.
+
+Un sistema RAG básico tiene cuatro componentes: carga de documentos, fragmentación o chunking, recuperación de fragmentos relevantes y generación de respuesta usando un LLM.

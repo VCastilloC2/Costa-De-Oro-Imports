@@ -62,4 +62,5 @@ public class GroqClient {
 
         return choice.message().content().trim();
     }
+
 }
