@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public class RagController {
     private final LlmService llmService;
     private final RagService ragService;
 
-    @PostMapping("/api/rag/ask")
+    @PostMapping("/ask")
     @ResponseBody
     public ResponseEntity<RagResponse> ask(@RequestBody RagRequest request) {
         if (request == null || request.question() == null || request.question().isBlank()) {
