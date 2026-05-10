@@ -1,0 +1,5 @@
+Spring Boot es un framework de Java que facilita la creación de aplicaciones web y servicios backend. Permite construir aplicaciones independientes, ejecutables y listas para producción con poca configuración.
+
+Una aplicación Spring Boot típica puede organizarse en capas: controladores, servicios, repositorios, modelos y configuración. Los controladores reciben solicitudes HTTP, los servicios contienen la lógica de negocio y los repositorios gestionan el acceso a datos.
+
+Thymeleaf es un motor de plantillas que puede integrarse con Spring Boot para construir interfaces web del lado del servidor. También es común construir APIs REST que luego son consumidas por un frontend independiente.

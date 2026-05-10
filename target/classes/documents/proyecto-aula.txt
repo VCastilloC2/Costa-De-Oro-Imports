@@ -1,0 +1,5 @@
+El proyecto de aula es una estrategia académica que integra conocimientos de varias asignaturas alrededor de un producto funcional. En el contexto de Desarrollo Web Avanzado, el proyecto debe evidenciar una aplicación web con frontend, backend, base de datos y una integración tecnológica relevante.
+
+Para una demostración académica, el proyecto debe incluir planteamiento del problema, objetivos, arquitectura, modelo de datos, funcionalidades implementadas, pruebas y conclusiones.
+
+Cuando se integra inteligencia artificial, es importante explicar qué datos usa el sistema, cómo se protege la información y qué papel cumple el modelo de lenguaje dentro de la arquitectura.
