@@ -1,5 +1,55 @@
-Spring Boot es un framework de Java que facilita la creación de aplicaciones web y servicios backend. Permite construir aplicaciones independientes, ejecutables y listas para producción con poca configuración.
+Spring Boot es el framework principal utilizado en el desarrollo de Costa de Oro Imports, permitiendo construir una aplicación web moderna para la gestión y venta de licores importados de manera rápida, segura y escalable.
 
-Una aplicación Spring Boot típica puede organizarse en capas: controladores, servicios, repositorios, modelos y configuración. Los controladores reciben solicitudes HTTP, los servicios contienen la lógica de negocio y los repositorios gestionan el acceso a datos.
+El proyecto utiliza Spring Boot como base para implementar toda la lógica del sistema, incluyendo:
 
-Thymeleaf es un motor de plantillas que puede integrarse con Spring Boot para construir interfaces web del lado del servidor. También es común construir APIs REST que luego son consumidas por un frontend independiente.
+- Gestión de usuarios
+- Seguridad y autenticación
+- Administración de productos
+- Gestión de pedidos
+- Integración con APIs externas
+- Servicios REST
+- Procesamiento de pagos
+- Funcionalidades de inteligencia artificial
+
+La arquitectura del sistema está organizada siguiendo el patrón multicapa, separando responsabilidades para facilitar el mantenimiento y escalabilidad de la aplicación.
+
+La estructura principal del proyecto se divide en:
+
+- Controladores (Controllers)
+- Servicios (Services)
+- Repositorios (Repositories)
+- Entidades (Entities)
+- DTOs
+- Configuración de seguridad
+- Configuración de inteligencia artificial
+
+Los controladores se encargan de recibir solicitudes HTTP desde el navegador o desde clientes externos mediante APIs REST. Los servicios contienen la lógica de negocio relacionada con ventas, usuarios, autenticación y procesamiento de información. Los repositorios gestionan el acceso a la base de datos utilizando Spring Data JPA y Hibernate.
+
+El sistema utiliza MySQL como base de datos principal para almacenar información relacionada con:
+
+- Usuarios
+- Productos
+- Categorías
+- Pedidos
+- Carritos de compra
+- Roles
+- Historial de ventas
+
+Para el frontend se implementa Thymeleaf como motor de plantillas del lado del servidor, permitiendo generar vistas dinámicas integradas con Spring Boot. Las páginas HTML son renderizadas utilizando datos enviados desde los controladores.
+
+El proyecto también implementa APIs REST para funcionalidades modernas e integración con inteligencia artificial. Estas APIs permiten:
+
+- Consultas inteligentes
+- Comunicación con modelos LLM
+- Integración RAG
+- Procesamiento de preguntas contextuales
+
+En el área de seguridad se utiliza Spring Security junto con JWT para proteger rutas privadas, controlar permisos y autenticar usuarios dentro del sistema.
+
+Además, la aplicación integra servicios externos como:
+
+- Mercado Pago para procesamiento de pagos
+- Cloudinary para almacenamiento de imágenes
+- Groq API para generación de respuestas mediante inteligencia artificial
+
+Gracias a Spring Boot, el sistema puede ejecutarse como una aplicación independiente y lista para producción, simplificando la configuración del servidor y facilitando el despliegue de la plataforma.

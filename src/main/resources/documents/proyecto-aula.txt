@@ -1,5 +1,54 @@
-El proyecto de aula es una estrategia académica que integra conocimientos de varias asignaturas alrededor de un producto funcional. En el contexto de Desarrollo Web Avanzado, el proyecto debe evidenciar una aplicación web con frontend, backend, base de datos y una integración tecnológica relevante.
+Costa de Oro Imports es un proyecto de aula orientado al desarrollo de una aplicación web de e-commerce para la gestión y comercialización de bebidas alcohólicas importadas. El sistema fue desarrollado utilizando Spring Boot, Thymeleaf, Spring Security, JPA/Hibernate y MySQL, integrando tecnologías modernas para backend, frontend y persistencia de datos.
 
-Para una demostración académica, el proyecto debe incluir planteamiento del problema, objetivos, arquitectura, modelo de datos, funcionalidades implementadas, pruebas y conclusiones.
+La plataforma permite administrar y vender productos como:
 
-Cuando se integra inteligencia artificial, es importante explicar qué datos usa el sistema, cómo se protege la información y qué papel cumple el modelo de lenguaje dentro de la arquitectura.
+- Cervezas importadas
+- Vinos
+- Whiskys
+- Vodkas
+- Ginebras
+- Rones
+- Tequila y Mezcal
+
+El proyecto tiene como propósito aplicar conocimientos adquiridos en Desarrollo Web Avanzado, Ingeniería de Software, Bases de Datos y Seguridad Informática mediante la construcción de una solución funcional, escalable y orientada al comercio electrónico.
+
+La aplicación incluye funcionalidades como:
+
+- Registro e inicio de sesión de usuarios
+- Autenticación y autorización con Spring Security
+- Gestión de productos y categorías
+- Carrito de compras
+- Procesamiento de pedidos
+- Gestión administrativa
+- Integración con Mercado Pago
+- Carga de imágenes con Cloudinary
+- API REST para funcionalidades inteligentes
+- Motor RAG con inteligencia artificial para consultas contextuales
+
+Desde el punto de vista arquitectónico, el sistema sigue una arquitectura multicapa basada en:
+
+- Capa de presentación (Thymeleaf + HTML/CSS/JavaScript)
+- Capa de negocio (Spring Boot Services)
+- Capa de persistencia (JPA/Hibernate)
+- Base de datos relacional MySQL
+- Integración con APIs externas
+
+El sistema también incorpora inteligencia artificial mediante integración con modelos LLM utilizando Groq API, permitiendo consultas inteligentes relacionadas con productos, información contextual y respuestas generadas dinámicamente.
+
+Para el módulo de IA se implementa una arquitectura RAG (Retrieval-Augmented Generation), donde:
+
+- Los documentos son procesados y fragmentados en chunks
+- Se generan embeddings semánticos
+- Se recupera información relevante mediante similitud vectorial
+- El modelo de lenguaje genera respuestas contextualizadas
+
+El proyecto contempla aspectos importantes como:
+
+- Protección de rutas mediante JWT y Spring Security
+- Validación de datos
+- Protección de información sensible
+- Manejo de errores
+- Arquitectura modular
+- Escalabilidad del sistema
+
+La solución busca simular un entorno real de comercio electrónico especializado en licores importados, permitiendo automatizar procesos de gestión de ventas, administración de inventario y experiencia de usuario.

@@ -1,7 +1,41 @@
-RAG significa Retrieval-Augmented Generation. Es un patrón de arquitectura para aplicaciones con modelos de lenguaje que combina recuperación de información con generación de texto.
+RAG (Retrieval-Augmented Generation) es la arquitectura de inteligencia artificial implementada en Costa de Oro Imports para proporcionar respuestas inteligentes y contextualizadas dentro de la plataforma de e-commerce.
 
-En una aplicación RAG, el sistema primero busca documentos relevantes relacionados con la pregunta del usuario. Luego construye un contexto con esos fragmentos y finalmente envía la pregunta y el contexto a un modelo de lenguaje.
+El sistema RAG permite combinar recuperación de información con generación de texto utilizando modelos de lenguaje avanzados (LLM). Gracias a esta arquitectura, la aplicación puede responder preguntas relacionadas con productos, documentación del sistema, políticas de venta y contenido almacenado en la base documental del proyecto.
 
-La ventaja de RAG es que permite responder usando información específica de una organización, curso, reglamento o base documental, reduciendo la posibilidad de respuestas inventadas.
+En Costa de Oro Imports, el módulo RAG fue integrado utilizando Spring Boot y Groq API, permitiendo crear un asistente inteligente capaz de interactuar con los usuarios mediante lenguaje natural.
 
-Un sistema RAG básico tiene cuatro componentes: carga de documentos, fragmentación o chunking, recuperación de fragmentos relevantes y generación de respuesta usando un LLM.
+El flujo general del sistema RAG funciona de la siguiente manera:
+
+1. El usuario realiza una pregunta desde la aplicación web o mediante un endpoint REST.
+2. El sistema procesa la pregunta y genera embeddings semánticos.
+3. Se realiza una búsqueda de similitud para recuperar los fragmentos de texto más relevantes.
+4. Los documentos recuperados se convierten en contexto contextual.
+5. El contexto y la pregunta son enviados al modelo LLM.
+6. El modelo genera una respuesta basada en información real del sistema.
+
+La principal ventaja de utilizar RAG es reducir respuestas incorrectas o inventadas por el modelo de lenguaje, ya que las respuestas se generan utilizando información previamente almacenada y procesada por el sistema.
+
+La arquitectura RAG implementada en el proyecto está compuesta por varios componentes principales:
+
+- Carga de documentos
+- Procesamiento de texto
+- Fragmentación de contenido (chunking)
+- Recuperación semántica
+- Generación de embeddings
+- Ranking de similitud
+- Generación de respuestas mediante LLM
+
+Los documentos utilizados por el sistema incluyen información académica, documentación técnica y datos relacionados con el funcionamiento de la plataforma Costa de Oro Imports.
+
+El proceso de chunking divide documentos extensos en pequeños fragmentos de texto para mejorar la recuperación semántica y aumentar la precisión de las respuestas generadas.
+
+Durante la recuperación de información se utiliza el concepto de Top-K, que permite seleccionar los fragmentos más relevantes según el nivel de similitud semántica entre la pregunta del usuario y los embeddings almacenados.
+
+El sistema también implementa validaciones y filtros para:
+
+- Evitar respuestas vacías
+- Reducir ruido semántico
+- Optimizar tiempos de respuesta
+- Mejorar la precisión contextual
+
+La integración de inteligencia artificial dentro del proyecto permite modernizar la experiencia de usuario y demostrar la aplicación práctica de tecnologías emergentes dentro de un sistema de comercio electrónico desarrollado con Spring Boot.
