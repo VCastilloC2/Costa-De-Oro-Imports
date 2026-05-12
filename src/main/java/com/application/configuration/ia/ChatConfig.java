@@ -71,4 +71,21 @@ public class ChatConfig {
                 .build();
     }
 
+    @Bean
+    public ChatClient chatClient(ChatModel chatModel) {
+        ChatClient.Builder builder = ChatClient.builder(chatModel);
+        // Pront Del Sistema
+        builder.defaultSystem(SYSTEM_PROMPT);
+
+        // Tools locales
+        builder.defaultToolCallbacks(localTools);
+        // MCP externos
+        if (mcpProviders != null) {
+            for (ToolCallbackProvider provider : mcpProviders) {
+                builder.defaultToolCallbacks(provider);
+            }
+        }
+        return builder.build();
+    }
+
 }
