@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "dbhub": {
+
+      "command": "docker",
+
+      "args": [
+
+        "run",
+
+        "-i",
+
+        "--rm",
+
+        "--init",
+
+        "--name",
+        "dbhub",
+
+        "--publish",
+        "9080:9080",
+
+        "bytebase/dbhub",
+
+        "--transport",
+        "stdio",
+
+        "--port",
+        "9080",
+
+        "--dsn",
+        "mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_DOCKER}:${DB_PORT}/${DB_NAME}"
+      ]
+    }
+  }
+}

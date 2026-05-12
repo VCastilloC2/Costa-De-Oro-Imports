@@ -2,6 +2,7 @@ package com.application.configuration.ia;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -54,9 +55,14 @@ public class ChatConfig {
     """;
 
     @Bean
-    public ChatClient chatClient(OllamaChatModel chatModel) {
+    public ChatClient chatClient(
+            OllamaChatModel chatModel,
+            ToolCallbackProvider toolCallbackProvider) {
         return ChatClient.builder(chatModel)
+                // Pront Del Sistema
                 .defaultSystem(SYSTEM_PROMPT)
+                // MCP + Tolls
+                .defaultToolCallbacks(toolCallbackProvider)
                 .build();
     }
 

@@ -15,7 +15,7 @@ public class AIController {
     private final AIHttp aiHttp;
 
     @GetMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> askStream(@RequestParam String message) {
+    public Flux<ServerSentEvent<String>> askStream(@RequestParam("message") String message) {
         return aiHttp.preguntar(message)
                 .map(token ->
                         ServerSentEvent.builder(token).build()

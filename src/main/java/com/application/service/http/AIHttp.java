@@ -72,7 +72,7 @@ public class AIHttp implements AIService {
 
                 .onErrorResume(e ->
                         Flux.just(
-                                "Lo siento, estoy teniendo problemas técnicos con la IA. Por favor, intenta de nuevo."
+                                "Lo siento, estoy teniendo problemas técnicos con la IA. Por favor, intenta de nuevo..."
                         )
                 );
     }
