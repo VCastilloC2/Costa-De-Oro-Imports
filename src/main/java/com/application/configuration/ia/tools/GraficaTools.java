@@ -1,11 +1,9 @@
 package com.application.configuration.ia.tools;
 
-import com.application.presentation.dto.grafica.EstadisticasGeneralesDTO;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.columnasApiladas.StockComprasResponse;
 import com.application.presentation.dto.grafica.comprasRecientes.CompraResumenResponse;
 import com.application.presentation.dto.grafica.historicoVentas.HistoricoVentasResponse;
-import com.application.presentation.dto.grafica.mapaVentas.MapaVentasResponse;
 import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.interfaces.GraficaService;
