@@ -73,7 +73,7 @@ public class SecurityConfig {
                         .requestMatchers("/carrito").authenticated()
                         .requestMatchers(
                                 "/error/**", // Rutas de error
-                                "/api/chat",
+                                "/api/chat", // Ruta de la IA
                                 "/webjars/**")
                         .permitAll()
                         // Configurar endpoints NO ESPECIFICADOS

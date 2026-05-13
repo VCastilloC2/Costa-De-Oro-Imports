@@ -42,37 +42,6 @@ The application requires these environment variables (see `application.propertie
 ## Architecture
 
 ### Package Structure
-```
-com.application/
-├── configuration/          # Spring configuration beans
-│   ├── cloudinary/         # Cloudinary image upload config
-│   ├── custom/             # Custom auth handlers, UserPrincipal, OAuth2
-│   ├── filter/            # reCAPTCHA filter
-│   ├── mvc/               # MVC config (view resolvers, static resources)
-│   ├── payment/           # Mercado Pago SDK initialization
-│   └── security/          # SecurityConfig (Spring Security filter chain)
-├── persistence/
-│   ├── entity/            # JPA entities with Lombok
-│   │   ├── categoria/     # Categoria, SubCategoria
-│   │   ├── compra/        # Compra, DetalleVenta + enums
-│   │   ├── empresa/       # Empresa + sector enum
-│   │   ├── factura/       # FacturaProveedor, DetalleFactura
-│   │   ├── producto/      # Producto + ETipo enum
-│   │   ├── rol/           # Rol + ERol enum
-│   │   └── usuario/       # Usuario + EIdentificacion enum
-│   └── repository/        # Spring Data JPA repositories
-├── presentation/
-│   ├── controller/
-│   │   ├── admin/         # Admin panel controllers (Role: ADMIN)
-│   │   ├── principal/     # Public-facing controllers
-│   │   ├── error/         # Global error handler
-│   │   └── ia/            # AI integration REST controller
-│   └── dto/               # Request/Response DTOs organized by domain
-├── service/
-│   ├── interfaces/        # Service interfaces
-│   └── implementation/    # Service implementations (@Service)
-└── ECommerceBeerApplication.java
-```
 
 ### Key Architectural Patterns
 

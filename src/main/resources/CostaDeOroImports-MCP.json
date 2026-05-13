@@ -7,6 +7,7 @@
         "-i",
         "--rm",
         "--init",
+        "--pull=always",
         "--name",
         "dbhub",
         "--publish",
@@ -17,7 +18,7 @@
         "--port",
         "9080",
         "--dsn",
-        "mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_DOCKER}:${DB_PORT}/${DB_NAME}"
+        "mysql://root:0220@host.docker.internal:3306/db_beer?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
       ]
     }
   }

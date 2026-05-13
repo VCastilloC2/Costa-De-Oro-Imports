@@ -14,10 +14,10 @@ public class ToolConfig {
     private final UsuarioTools usuarioTools;
 
     @Bean
-    public ToolCallbackProvider localTools() {
+    public ToolCallbackProvider customTools() {
+
         return MethodToolCallbackProvider.builder()
                 .toolObjects(usuarioTools)
                 .build();
     }
-
 }

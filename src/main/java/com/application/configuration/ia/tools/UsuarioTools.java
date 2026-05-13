@@ -1,18 +1,12 @@
 package com.application.configuration.ia.tools;
 
-import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
-import com.application.presentation.dto.general.response.BaseResponse;
-import com.application.presentation.dto.general.response.GeneralResponse;
-import com.application.presentation.dto.usuario.request.*;
-import com.application.presentation.dto.usuario.response.*;
+import com.application.presentation.dto.usuario.response.ClienteResponse;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 import org.springframework.ai.tool.annotation.Tool;
-
-import java.util.List;
+import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -24,36 +18,93 @@ public class UsuarioTools {
             name = "obtener_usuario_por_correo",
             description = "Obtiene un usuario usando el correo electrónico"
     )
-    @PreAuthorize("hasRole('ADMIN')")
-    public Usuario getUsuarioByCorreo(String correo) {
-        return usuarioService.getUsuarioByCorreo(correo);
+    public String getUsuarioByCorreo(
+            @ToolParam(description = "Correo del usuario a buscar") String correo) {
+        try {
+            Usuario u = usuarioService.getUsuarioByCorreo(correo);
+            return """
+                    Usuario encontrado:
+                    ID: %d
+                    Nombre: %s
+                    Correo: %s
+                    Rol: %s
+                    Estado: %s
+                    """.formatted(
+                    u.getUsuarioId(),
+                    (u.getNombres() != null && u.getApellidos()!= null) ? u.getNombres()+" "+u.getApellidos() : "No especificado",
+                    u.getCorreo(),
+                    u.getRol() != null ? u.getRol().getName() : "No especificado",
+                    u.isEnabled() ? "Activo" : "Inactivo"
+            );
+        } catch (Exception e) {
+            return "Usuario no encontrado con correo: " + correo;
+        }
     }
 
     @Tool(
             name = "obtener_total_clientes",
             description = "Obtiene el total de clientes registrados"
     )
-    @PreAuthorize("hasRole('ADMIN')")
-    public Long getTotalClientes() {
-        return usuarioService.getTotalClientes();
+    public String getTotalClientes() {
+        Long total = usuarioService.getTotalClientes();
+        return "Total de clientes registrados: " + total;
     }
 
     @Tool(
             name = "obtener_cliente_por_id",
             description = "Obtiene un cliente usando su ID"
     )
-    @PreAuthorize("hasRole('ADMIN')")
-    public ClienteResponse getClienteById(Long clienteId) {
-        return usuarioService.getClienteById(clienteId);
+    public String getClienteById(Long clienteId) {
+        try {
+            ClienteResponse cliente = usuarioService.getClienteById(clienteId);
+            return """
+                    Cliente encontrado:
+                    ID: %d
+                    Nombre: %s
+                    Correo: %s
+                    Teléfono: %s
+                    Dirección: %s
+                    """.formatted(
+                    cliente.clienteId(),
+                    cliente.nombres() != null ? cliente.nombres() : "No especificado",
+                    cliente.correo() != null ? cliente.correo() : "No especificado",
+                    cliente.telefono() != null ? cliente.telefono() : "No especificado",
+                    cliente.direccion() != null ? cliente.direccion() : "No especificado"
+            );
+        } catch (Exception e) {
+            return "Cliente no encontrado con ID: " + clienteId;
+        }
     }
+
+    /*
 
     @Tool(
             name = "obtener_proveedor_por_id",
             description = "Obtiene un proveedor usando su ID"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public ProveedorResponse getProveedorById(Long proveedorId) {
-        return usuarioService.getProveedorById(proveedorId);
+    public String getProveedorById(Long proveedorId) {
+        try {
+            ProveedorResponse proveedor = usuarioService.getProveedorById(proveedorId);
+            return """
+                    🏢 Proveedor encontrado:
+                    ID: %d
+                    Nombre: %s
+                    Correo: %s
+                    Teléfono: %s
+                    Dirección: %s
+                    Estado: %s
+                    """.formatted(
+                    proveedor.getId(),
+                    proveedor.getNombre() != null ? proveedor.getNombre() : "No especificado",
+                    proveedor.getCorreo() != null ? proveedor.getCorreo() : "No especificado",
+                    proveedor.getTelefono() != null ? proveedor.getTelefono() : "No especificado",
+                    proveedor.getDireccion() != null ? proveedor.getDireccion() : "No especificado",
+                    proveedor.isActivo() ? "Activo" : "Inactivo"
+            );
+        } catch (Exception e) {
+            return "❌ Proveedor no encontrado con ID: " + proveedorId;
+        }
     }
 
     @Tool(
@@ -61,8 +112,23 @@ public class UsuarioTools {
             description = "Obtiene los usuarios con gastos del último año"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UsuarioGastoResponse> getUsuarioGastoUltimoAnio() {
-        return usuarioService.getUsuarioGastoUltimoAnio();
+    public String getUsuarioGastoUltimoAnio() {
+        List<UsuarioGastoResponse> usuarios = usuarioService.getUsuarioGastoUltimoAnio();
+
+        if (usuarios == null || usuarios.isEmpty()) {
+            return "📊 No hay usuarios con gastos registrados en el último año.";
+        }
+
+        StringBuilder result = new StringBuilder("💰 TOP USUARIOS CON MAYOR GASTO (Último año):\n\n");
+        for (int i = 0; i < usuarios.size(); i++) {
+            UsuarioGastoResponse u = usuarios.get(i);
+            result.append(String.format("%d. %s - Total gastado: $%.2f\n",
+                    i + 1,
+                    u.getNombre() != null ? u.getNombre() : "Usuario " + u.getId(),
+                    u.getTotalGasto()
+            ));
+        }
+        return result.toString();
     }
 
     @Tool(
@@ -70,8 +136,21 @@ public class UsuarioTools {
             description = "Obtiene estadísticas de los proveedores"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ProveedorEstadisticasResponse> getProveedorConEstadisticas() {
-        return usuarioService.getProveedorConEstadisticas();
+    public String getProveedorConEstadisticas() {
+        List<ProveedorEstadisticasResponse> proveedores = usuarioService.getProveedorConEstadisticas();
+
+        if (proveedores == null || proveedores.isEmpty()) {
+            return "📊 No hay estadísticas de proveedores disponibles.";
+        }
+
+        StringBuilder result = new StringBuilder("📈 ESTADÍSTICAS DE PROVEEDORES:\n\n");
+        for (ProveedorEstadisticasResponse p : proveedores) {
+            result.append(String.format("🏢 %s\n", p.getNombreProveedor()));
+            result.append(String.format("   📦 Productos suministrados: %d\n", p.getTotalProductos()));
+            result.append(String.format("   💰 Ventas totales: $%.2f\n", p.getVentasTotales()));
+            result.append(String.format("   ⭐ Calificación promedio: %.1f/5\n\n", p.getCalificacionPromedio()));
+        }
+        return result.toString();
     }
 
     @Tool(
@@ -79,8 +158,23 @@ public class UsuarioTools {
             description = "Obtiene la lista de proveedores activos"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ProveedorProductoResponse> getProveedoresActivos() {
-        return usuarioService.getProveedoresActivos();
+    public String getProveedoresActivos() {
+        List<ProveedorProductoResponse> proveedores = usuarioService.getProveedoresActivos();
+
+        if (proveedores == null || proveedores.isEmpty()) {
+            return "📋 No hay proveedores activos registrados.";
+        }
+
+        StringBuilder result = new StringBuilder("✅ PROVEEDORES ACTIVOS:\n\n");
+        for (ProveedorProductoResponse p : proveedores) {
+            result.append(String.format("🏢 %s - %s\n",
+                    p.getNombreProveedor(),
+                    p.getCategoria() != null ? p.getCategoria() : "Sin categoría"
+            ));
+            result.append(String.format("   📞 %s\n", p.getTelefono() != null ? p.getTelefono() : "Sin teléfono"));
+            result.append(String.format("   📦 %d productos disponibles\n\n", p.getCantidadProductos()));
+        }
+        return result.toString();
     }
 
     @Tool(
@@ -88,8 +182,17 @@ public class UsuarioTools {
             description = "Crea un nuevo usuario"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse createUser(CreateUsuarioRequest request) {
-        return usuarioService.createUser(request);
+    public String createUser(CreateUsuarioRequest request) {
+        try {
+            BaseResponse response = usuarioService.createUser(request);
+            if (response.isSuccess()) {
+                return "✅ Usuario creado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al crear usuario: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al crear usuario: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -97,8 +200,17 @@ public class UsuarioTools {
             description = "Crea un nuevo cliente"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse createCliente(CreateClienteRequest request) {
-        return usuarioService.createCliente(request);
+    public String createCliente(CreateClienteRequest request) {
+        try {
+            BaseResponse response = usuarioService.createCliente(request);
+            if (response.isSuccess()) {
+                return "✅ Cliente creado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al crear cliente: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al crear cliente: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -106,8 +218,17 @@ public class UsuarioTools {
             description = "Crea un nuevo proveedor"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse createProveedor(CreateProveedorRequest request) {
-        return usuarioService.createProveedor(request);
+    public String createProveedor(CreateProveedorRequest request) {
+        try {
+            BaseResponse response = usuarioService.createProveedor(request);
+            if (response.isSuccess()) {
+                return "✅ Proveedor creado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al crear proveedor: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al crear proveedor: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -115,11 +236,17 @@ public class UsuarioTools {
             description = "Actualiza la información de un cliente"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse updateCliente(
-            Long clienteId,
-            CreateClienteRequest request
-    ) {
-        return usuarioService.updateCliente(clienteId, request);
+    public String updateCliente(Long clienteId, CreateClienteRequest request) {
+        try {
+            BaseResponse response = usuarioService.updateCliente(clienteId, request);
+            if (response.isSuccess()) {
+                return "✅ Cliente con ID " + clienteId + " actualizado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al actualizar cliente: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al actualizar cliente con ID " + clienteId + ": " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -127,11 +254,17 @@ public class UsuarioTools {
             description = "Actualiza la información de un proveedor"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse updateProveedor(
-            Long proveedorId,
-            CreateProveedorRequest request
-    ) {
-        return usuarioService.updateProveedor(proveedorId, request);
+    public String updateProveedor(Long proveedorId, CreateProveedorRequest request) {
+        try {
+            BaseResponse response = usuarioService.updateProveedor(proveedorId, request);
+            if (response.isSuccess()) {
+                return "✅ Proveedor con ID " + proveedorId + " actualizado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al actualizar proveedor: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al actualizar proveedor con ID " + proveedorId + ": " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -139,11 +272,17 @@ public class UsuarioTools {
             description = "Actualiza la información del usuario autenticado"
     )
     @PreAuthorize("isAuthenticated()")
-    public GeneralResponse updateUser(
-            CustomUserPrincipal principal,
-            UpdateUsuarioRequest request
-    ) {
-        return usuarioService.updateUser(principal, request);
+    public String updateUser(CustomUserPrincipal principal, UpdateUsuarioRequest request) {
+        try {
+            GeneralResponse response = usuarioService.updateUser(principal, request);
+            if (response.isSuccess()) {
+                return "✅ Usuario actualizado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al actualizar usuario: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al actualizar usuario: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -151,11 +290,17 @@ public class UsuarioTools {
             description = "Completa el perfil del usuario autenticado"
     )
     @PreAuthorize("isAuthenticated()")
-    public GeneralResponse completeUserProfile(
-            CustomUserPrincipal principal,
-            CompleteUsuarioProfileRequest request
-    ) {
-        return usuarioService.completeUserProfile(principal, request);
+    public String completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest request) {
+        try {
+            GeneralResponse response = usuarioService.completeUserProfile(principal, request);
+            if (response.isSuccess()) {
+                return "✅ Perfil completado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al completar perfil: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al completar perfil: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -163,11 +308,17 @@ public class UsuarioTools {
             description = "Actualiza la foto del usuario autenticado"
     )
     @PreAuthorize("isAuthenticated()")
-    public GeneralResponse setUserPhoto(
-            CustomUserPrincipal principal,
-            SetUsuarioPhotoRequest request
-    ) {
-        return usuarioService.setUserPhoto(principal, request);
+    public String setUserPhoto(CustomUserPrincipal principal, SetUsuarioPhotoRequest request) {
+        try {
+            GeneralResponse response = usuarioService.setUserPhoto(principal, request);
+            if (response.isSuccess()) {
+                return "✅ Foto de perfil actualizada exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al actualizar foto: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al actualizar foto: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -175,11 +326,17 @@ public class UsuarioTools {
             description = "Actualiza la contraseña del usuario autenticado"
     )
     @PreAuthorize("isAuthenticated()")
-    public BaseResponse updatePassword(
-            CustomUserPrincipal principal,
-            UpdatePasswordRequest request
-    ) {
-        return usuarioService.updatePassword(principal, request);
+    public String updatePassword(CustomUserPrincipal principal, UpdatePasswordRequest request) {
+        try {
+            BaseResponse response = usuarioService.updatePassword(principal, request);
+            if (response.isSuccess()) {
+                return "✅ Contraseña actualizada exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al actualizar contraseña: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al actualizar contraseña: " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -187,8 +344,17 @@ public class UsuarioTools {
             description = "Deshabilita o habilita un usuario"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse changeEstadoUsuario(Long usuarioId) {
-        return usuarioService.changeEstadoUsuario(usuarioId);
+    public String changeEstadoUsuario(Long usuarioId) {
+        try {
+            BaseResponse response = usuarioService.changeEstadoUsuario(usuarioId);
+            if (response.isSuccess()) {
+                return "✅ Cambio de estado aplicado exitosamente al usuario ID " + usuarioId + ".\n" + response.getMessage();
+            } else {
+                return "❌ Error al cambiar estado: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al cambiar estado del usuario ID " + usuarioId + ": " + e.getMessage();
+        }
     }
 
     @Tool(
@@ -196,8 +362,18 @@ public class UsuarioTools {
             description = "Elimina un usuario usando su ID"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public BaseResponse deleteUsuario(Long usuarioId) {
-        return usuarioService.deleteUsuario(usuarioId);
+    public String deleteUsuario(Long usuarioId) {
+        try {
+            BaseResponse response = usuarioService.deleteUsuario(usuarioId);
+            if (response.isSuccess()) {
+                return "✅ Usuario con ID " + usuarioId + " eliminado exitosamente.\n" + response.getMessage();
+            } else {
+                return "❌ Error al eliminar usuario: " + response.getMessage();
+            }
+        } catch (Exception e) {
+            return "❌ Error al eliminar usuario con ID " + usuarioId + ": " + e.getMessage();
+        }
     }
+     */
 
 }
