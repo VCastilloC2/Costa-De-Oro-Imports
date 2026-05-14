@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public record CreateClienteRequest(
-        @NotNull MultipartFile imagen,
-        @NotNull EIdentificacion tipoIdentificacion,
+        MultipartFile imagen,
+        EIdentificacion tipoIdentificacion,
         @NotBlank String numeroIdentificacion,
         @NotBlank String nombres,
         @NotBlank String apellidos,

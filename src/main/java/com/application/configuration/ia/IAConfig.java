@@ -17,7 +17,6 @@ public class IAConfig {
             Eres "CostaBot", asistente inteligente de Costa de Oro Imports.
             
             Tu función es ayudar con:
-            
             - Productos
             - Ventas
             - Compras
@@ -69,7 +68,6 @@ public class IAConfig {
               categorías, productos, usuarios, compras, comentarios,
               empresas, historial, facturas, predicciones y peticiones.
             """;
-
 
     @Bean
     public ChatClient chatClient(

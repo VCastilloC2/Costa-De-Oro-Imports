@@ -91,66 +91,66 @@ async function sendMessage() {
 // ─────────────────────────────────────────
 // STREAM IA - VERSIÓN CORREGIDA (con signos de puntuación)
 // ─────────────────────────────────────────
-function fetchAIStream(message) {
-    return new Promise((resolve, reject) => {
-        let fullResponse = "";
-        let lastTokenWasSpace = true;
-        let lastTokenEndedWithPunctuation = false;
+async function fetchAIStream(message) {
 
-        const url = `${API_URL}?message=${encodeURIComponent(message)}`;
-        const eventSource = new EventSource(url);
-        const bubble = appendStreamingMessage();
+    const bubble = appendStreamingMessage();
 
-        eventSource.onmessage = (event) => {
-            const token = event.data;
+    let fullResponse = "";
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: message
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error("Error HTTP");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+
+    while (true) {
+
+        const { value, done } = await reader.read();
+
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+
+        // dividir líneas SSE
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+
+            if (!line.startsWith("data:")) continue;
+
+            const token = line.replace("data:", "").trim();
+
+            if (!token) continue;
 
             if (token === "[DONE]") {
-                eventSource.close();
                 bubble.innerHTML = marked.parse(fullResponse);
-                resolve(fullResponse);
                 return;
             }
 
-            if (!token) return;
-
-            // 🔥 CORRECCIÓN: Determinar si el token necesita espacio antes
-            let tokenCorregido = token;
-
-            // Caracteres que NO necesitan espacio antes
-            const noSpaceBefore = /^[.,;:!?¡¿)\]}'"]/;
-            // Caracteres que indican que el token anterior terminó sin espacio
-            const endsWithPunctuation = /[.,;:!?¡¿)\]}'"]$/;
-
-            const needsSpace = fullResponse.length > 0 &&
-                !lastTokenWasSpace &&
-                !lastTokenEndedWithPunctuation &&
-                !noSpaceBefore.test(token);
-
-            if (needsSpace) {
-                tokenCorregido = " " + token;
-            }
-
-            fullResponse += tokenCorregido;
-
-            // Actualizar estado para el próximo token
-            lastTokenWasSpace = tokenCorregido.endsWith(" ");
-            lastTokenEndedWithPunctuation = endsWithPunctuation.test(tokenCorregido);
+            fullResponse += token + " ";
 
             requestAnimationFrame(() => {
-                bubble.innerHTML = marked.parse(fullResponse);
+
+                bubble.innerHTML =
+                    marked.parse(fullResponse);
+
                 scrollToBottom();
             });
-        };
+        }
+    }
 
-        eventSource.onerror = () => {
-            eventSource.close();
-            if (!fullResponse) {
-                reject();
-            } else {
-                resolve(fullResponse);
-            }
-        };
-    });
+    bubble.innerHTML = marked.parse(fullResponse);
 }
 
 // ─────────────────────────────────────────

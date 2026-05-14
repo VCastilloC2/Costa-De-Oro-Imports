@@ -1,5 +1,6 @@
 package com.application.presentation.controller.ia;
 
+import com.application.presentation.dto.chat.request.ChatRequest;
 import com.application.service.http.AIHttp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -14,9 +15,12 @@ public class AIController {
 
     private final AIHttp aiHttp;
 
-    @GetMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> askStream(@RequestParam("message") String message) {
-        return aiHttp.preguntar(message)
+    @PostMapping(
+            value = "/chat",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE
+    )
+    public Flux<ServerSentEvent<String>> askStream(@RequestBody ChatRequest request) {
+        return aiHttp.preguntar(request.message())
                 .map(token ->
                         ServerSentEvent.builder(token).build()
                 );

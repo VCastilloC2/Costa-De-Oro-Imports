@@ -1,18 +1,8 @@
 package com.application.configuration.ia.tools;
 
-import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
-import com.application.presentation.dto.grafica.columnasApiladas.StockComprasResponse;
-import com.application.presentation.dto.grafica.comprasRecientes.CompraResumenResponse;
-import com.application.presentation.dto.grafica.historicoVentas.HistoricoVentasResponse;
-import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
-import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.interfaces.GraficaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

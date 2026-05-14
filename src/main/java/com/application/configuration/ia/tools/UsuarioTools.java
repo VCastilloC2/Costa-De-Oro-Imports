@@ -4,24 +4,13 @@ import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
-import com.application.presentation.dto.usuario.response.ClienteResponse;
+import com.application.presentation.dto.usuario.request.*;
+import com.application.presentation.dto.usuario.response.*;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
-import org.springframework.security.access.prepost.PreAuthorize;
-import com.application.presentation.dto.usuario.response.ProveedorResponse;
-import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
-import com.application.presentation.dto.usuario.response.ProveedorEstadisticasResponse;
-import com.application.presentation.dto.usuario.response.ProveedorProductoResponse;
-import com.application.presentation.dto.usuario.request.CreateUsuarioRequest;
-import com.application.presentation.dto.usuario.request.CreateClienteRequest;
-import com.application.presentation.dto.usuario.request.CreateProveedorRequest;
-import com.application.presentation.dto.usuario.request.UpdateUsuarioRequest;
-import com.application.presentation.dto.usuario.request.CompleteUsuarioProfileRequest;
-import com.application.presentation.dto.usuario.request.SetUsuarioPhotoRequest;
-import com.application.presentation.dto.usuario.request.UpdatePasswordRequest;
 import java.util.List;
 
 @Component
@@ -47,7 +36,7 @@ public class UsuarioTools {
                     Estado: %s
                     """.formatted(
                     u.getUsuarioId(),
-                    (u.getNombres() != null && u.getApellidos()!= null) ? u.getNombres()+" "+u.getApellidos() : "No especificado",
+                    (u.getNombres() != null && u.getApellidos() != null) ? u.getNombres() + " " + u.getApellidos() : "No especificado",
                     u.getCorreo(),
                     u.getRol() != null ? u.getRol().getName() : "No especificado",
                     u.isEnabled() ? "Activo" : "Inactivo"
@@ -193,7 +182,18 @@ public class UsuarioTools {
 
     @Tool(
             name = "crear_usuario",
-            description = "Crea un nuevo usuario"
+            description = """
+                    Crea un nuevo cliente.
+                    
+                    Valores válidos para tipoIdentificacion:
+                    CC = Cédula de Ciudadanía
+                    CE = Cédula de Extranjería
+                    DE = Documento de Extranjería
+                    NIT = Número de Identificación Tributaria
+                    PP = Pasaporte
+                    TE = Tarjeta de Extranjería
+                    TI = Tarjeta de Identidad
+                    """
     )
     public String createUser(CreateUsuarioRequest request) {
         try {
@@ -210,7 +210,18 @@ public class UsuarioTools {
 
     @Tool(
             name = "crear_cliente",
-            description = "Crea un nuevo cliente"
+            description = """
+                    Crea un nuevo cliente.
+                    
+                    Valores válidos para tipoIdentificacion:
+                    CC = Cédula de Ciudadanía
+                    CE = Cédula de Extranjería
+                    DE = Documento de Extranjería
+                    NIT = Número de Identificación Tributaria
+                    PP = Pasaporte
+                    TE = Tarjeta de Extranjería
+                    TI = Tarjeta de Identidad
+                    """
     )
     public String createCliente(CreateClienteRequest request) {
         try {
@@ -283,7 +294,7 @@ public class UsuarioTools {
     public String updateUser(CustomUserPrincipal principal, UpdateUsuarioRequest request) {
         try {
             GeneralResponse response = usuarioService.updateUser(principal, request);
-            if (response.mensaje().equals("Sus datos se han actualizado exitosamente") ) {
+            if (response.mensaje().equals("Sus datos se han actualizado exitosamente")) {
                 return response.mensaje();
             } else {
                 return "Sus datos no se han actualizado: " + response.mensaje();
