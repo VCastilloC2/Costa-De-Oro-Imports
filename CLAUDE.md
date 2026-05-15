@@ -42,36 +42,59 @@ The application requires these environment variables (see `application.propertie
 ## Architecture
 
 ### Package Structure
+
 ```
-com.application/
-├── configuration/          # Spring configuration beans
-│   ├── cloudinary/         # Cloudinary image upload config
-│   ├── custom/             # Custom auth handlers, UserPrincipal, OAuth2
-│   ├── filter/            # reCAPTCHA filter
-│   ├── mvc/               # MVC config (view resolvers, static resources)
-│   ├── payment/           # Mercado Pago SDK initialization
-│   └── security/          # SecurityConfig (Spring Security filter chain)
-├── persistence/
-│   ├── entity/            # JPA entities with Lombok
-│   │   ├── categoria/     # Categoria, SubCategoria
-│   │   ├── compra/        # Compra, DetalleVenta + enums
-│   │   ├── empresa/       # Empresa + sector enum
-│   │   ├── factura/       # FacturaProveedor, DetalleFactura
-│   │   ├── producto/      # Producto + ETipo enum
-│   │   ├── rol/           # Rol + ERol enum
-│   │   └── usuario/       # Usuario + EIdentificacion enum
-│   └── repository/        # Spring Data JPA repositories
-├── presentation/
-│   ├── controller/
-│   │   ├── admin/         # Admin panel controllers (Role: ADMIN)
-│   │   ├── principal/     # Public-facing controllers
-│   │   ├── error/         # Global error handler
-│   │   └── ia/            # AI integration REST controller
-│   └── dto/               # Request/Response DTOs organized by domain
-├── service/
-│   ├── interfaces/        # Service interfaces
-│   └── implementation/    # Service implementations (@Service)
-└── ECommerceBeerApplication.java
+com.application
+├── configuration
+│   ├── cloudinary          - Cloudinary storage config
+│   ├── custom              - Custom security components
+│   ├── filter              - reCAPTCHA filter
+│   ├── mvc                 - Spring MVC configuration
+│   ├── payment             - Mercado Pago configuration
+│   └── ia                  - AI integration configuration and tools
+│       ├── IAConfig.java   - Main AI configuration
+│       ├── ToolConfig.java - Tools configuration
+│       └── tools           - AI-powered tools for various entities
+│           ├── UsuarioTools.java
+│           ├── CategoriaTools.java
+│           ├── ComentarioTools.java
+│           ├── CompraTools.java
+│           ├── EmailTools.java
+│           ├── EmpresaTools.java
+│           ├── FacturaProveedorTools.java
+│           ├── GraficaTools.java
+│           ├── HistoriaTools.java
+│           ├── PrediccionTools.java
+│           └── ProductoTools.java
+├── persistence
+│   ├── entity              - JPA entities
+│   │   ├── categoria
+│   │   ├── comentario
+│   │   ├── compra
+│   │   ├── empresa
+│   │   ├── factura
+│   │   ├── pqrs
+│   │   ├── producto
+│   │   ├── rol
+│   │   └── usuario
+│   └── repository          - Spring Data JPA repositories
+├── presentation
+│   ├── controller          - MVC controllers
+│   │   ├── admin           - Admin controllers
+│   │   ├── error           - Global error handler
+│   │   └── principal       - Public-facing controllers
+│   └── dto                 - Data Transfer Objects
+│       ├── categoria
+│       ├── comentario
+│       ├── compra
+│       ├── empresa
+│       ├── factura
+│       ├── general
+│       └── grafica         - Graphics/chart DTOs
+├── service
+│   ├── interfaces          - Service interfaces
+│   └── implementation      - Service implementations
+└── Application.java        - Main Spring Boot application
 ```
 
 ### Key Architectural Patterns
@@ -102,6 +125,8 @@ com.application/
 - `AIService` uses Spring AI with OpenAI-compatible API (configurable for Ollama)
 - Default model: `gemma3:latest` (configurable via `OPENAI_MODEL`)
 - REST endpoint: `/ia/ask` (see `AIController`)
+- Additional AI-powered tools located in `com.application.configuration.ia.tools` providing specialized functionality for entities like Usuario, Categoria, Compra, etc.
+- AI configuration includes `IAConfig` and `ToolConfig` classes in `com.application.configuration.ia`
 
 ### External Services
 

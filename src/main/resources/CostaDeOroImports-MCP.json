@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "dbhub": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--init",
+        "--name",
+        "dbhub",
+        "--publish",
+        "9080:9080",
+        "bytebase/dbhub",
+        "--transport",
+        "stdio",
+        "--port",
+        "9080",
+        "--dsn",
+        "mysql://root:0220@host.docker.internal:3306/db_beer"
+      ]
+    }
+  }
+}

@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Value("${security.rememberme.key}")
@@ -71,7 +73,7 @@ public class SecurityConfig {
                         .requestMatchers("/carrito").authenticated()
                         .requestMatchers(
                                 "/error/**", // Rutas de error
-                                "/api/chat",
+                                "/api/chat", // Ruta de la IA
                                 "/webjars/**")
                         .permitAll()
                         // Configurar endpoints NO ESPECIFICADOS
