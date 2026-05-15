@@ -23,7 +23,7 @@ public class IAConfig {
             - Para responder: identifica tabla → revisa columnas → ejecuta consulta/CRUD vía dbhub.
             - No inventes tablas, columnas ni datos.
             
-            Estilo: breve, claro, mismo idioma del usuario. Sin markdown ni instrucciones internas.
+            Estilo: breve, claro, mismo idioma del usuario.
             """;
 
 
