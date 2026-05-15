@@ -21,6 +21,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     List<Usuario> findByRol_NameAndEmpresa_ActivoTrue(ERol name);
 
+    List<Usuario> findByRol_Name(ERol rol);
+
+    List<Usuario> findByRol_NameAndIsEnabledTrue(ERol rol);
+
+    List<Usuario> findTop5ByOrderByUsuarioIdAsc();
+
+    List<Usuario> findTop10ByRol_Name(ERol rol);
 
     @Query("""
                 SELECT new com.application.presentation.dto.usuario.response.UsuarioGastoResponse(
