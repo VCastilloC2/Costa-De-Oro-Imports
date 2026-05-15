@@ -1,392 +1,298 @@
 package com.application.configuration.ia.tools;
 
-import com.application.configuration.custom.CustomUserPrincipal;
-import com.application.persistence.entity.usuario.Usuario;
-import com.application.presentation.dto.general.response.BaseResponse;
-import com.application.presentation.dto.general.response.GeneralResponse;
-import com.application.presentation.dto.usuario.request.*;
-import com.application.presentation.dto.usuario.response.*;
-import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
-import java.util.List;
+import com.application.persistence.entity.rol.Rol;
+import com.application.persistence.entity.rol.enums.ERol;
+import com.application.persistence.entity.usuario.Usuario;
+import com.application.persistence.entity.usuario.enums.EIdentificacion;
+import com.application.persistence.repository.RolRepository;
+import com.application.persistence.repository.UsuarioRepository;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
 @RequiredArgsConstructor
 public class UsuarioTools {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
+    private final PasswordEncoder encoder;
 
     @Tool(
-            name = "obtener_usuario_por_correo",
-            description = "Obtiene un usuario usando el correo electrónico"
+            name = "buscar_usuario_por_correo",
+            description = """
+                    Busca un usuario por correo electrónico.
+                    Retorna información básica del usuario.
+                    """
     )
-    public String getUsuarioByCorreo(
-            @ToolParam(description = "Correo del usuario a buscar") String correo) {
-        try {
-            Usuario u = usuarioService.getUsuarioByCorreo(correo);
-            return """
-                    Usuario encontrado:
+    public String buscarUsuarioPorCorreo(String correo) {
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElse(null);
+
+        if (usuario == null) {
+            return "No existe un usuario con el correo: " + correo;
+        }
+
+        return """
+                Usuario encontrado:
+                                
+                ID: %d
+                Nombre: %s %s
+                Correo: %s
+                Teléfono: %s
+                Rol: %s
+                Estado: %s
+                """
+                .formatted(
+                        usuario.getUsuarioId(),
+                        usuario.getNombres(),
+                        usuario.getApellidos(),
+                        usuario.getCorreo(),
+                        usuario.getTelefono(),
+                        usuario.getRol() != null
+                                ? usuario.getRol().getName().name()
+                                : "SIN ROL",
+                        usuario.isEnabled()
+                                ? "ACTIVO"
+                                : "INACTIVO"
+                );
+    }
+
+    @Tool(
+            name = "listar_usuarios",
+            description = """
+                    Lista todos los usuarios registrados.
+                    """
+    )
+    public String listarUsuarios() {
+
+        var usuarios = usuarioRepository.findAll();
+
+        if (usuarios.isEmpty()) {
+            return "No hay usuarios registrados.";
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        for (Usuario usuario : usuarios) {
+
+            builder.append("""
+                                        
                     ID: %d
-                    Nombre: %s
+                    Nombre: %s %s
                     Correo: %s
                     Rol: %s
                     Estado: %s
+                    -------------------------
                     """.formatted(
-                    u.getUsuarioId(),
-                    (u.getNombres() != null && u.getApellidos() != null) ? u.getNombres() + " " + u.getApellidos() : "No especificado",
-                    u.getCorreo(),
-                    u.getRol() != null ? u.getRol().getName() : "No especificado",
-                    u.isEnabled() ? "Activo" : "Inactivo"
-            );
-        } catch (Exception e) {
-            return "Usuario no encontrado con correo: " + correo;
-        }
-    }
-
-    @Tool(
-            name = "obtener_total_clientes",
-            description = "Obtiene el total de clientes registrados"
-    )
-    public String getTotalClientes() {
-        Long total = usuarioService.getTotalClientes();
-        return "Total de clientes registrados: " + total;
-    }
-
-    @Tool(
-            name = "obtener_cliente_por_id",
-            description = "Obtiene un cliente usando su ID"
-    )
-    public String getClienteById(Long clienteId) {
-        try {
-            ClienteResponse cliente = usuarioService.getClienteById(clienteId);
-            return """
-                    Cliente encontrado:
-                    ID: %d
-                    Nombre: %s
-                    Correo: %s
-                    Teléfono: %s
-                    Dirección: %s
-                    Numero de Identificación: %s
-                    """.formatted(
-                    cliente.clienteId(),
-                    cliente.nombres() != null ? cliente.nombres() : "No especificado",
-                    cliente.correo() != null ? cliente.correo() : "No especificado",
-                    cliente.telefono() != null ? cliente.telefono() : "No especificado",
-                    cliente.direccion() != null ? cliente.direccion() : "No especificado",
-                    cliente.numeroIdentificacion() != null ? cliente.numeroIdentificacion() : "No especificado"
-            );
-        } catch (Exception e) {
-            return "Cliente no encontrado con ID: " + clienteId;
-        }
-    }
-
-
-    @Tool(
-            name = "obtener_proveedor_por_id",
-            description = "Obtiene un proveedor usando su ID"
-    )
-    public String getProveedorById(Long proveedorId) {
-        try {
-            ProveedorResponse proveedor = usuarioService.getProveedorById(proveedorId);
-            return """
-                    Proveedor encontrado:
-                    ID: %d
-                    Nombre: %s
-                    Correo: %s
-                    Teléfono: %s
-                    Dirección: %s
-                    Teléfono de la empresa: %s
-                    Dirección de la empresa: %s
-                    Ciudad: %s
-                    """.formatted(
-                    proveedor.proveedorId(),
-                    proveedor.nombres() != null ? proveedor.nombres() : "No especificado",
-                    proveedor.correo() != null ? proveedor.correo() : "No especificado",
-                    proveedor.telefono() != null ? proveedor.telefono() : "No especificado",
-                    proveedor.direccion() != null ? proveedor.direccion() : "No especificado",
-                    proveedor.telefonoEmpresa() != null ? proveedor.telefonoEmpresa() : "No especificado",
-                    proveedor.direccionEmpresa() != null ? proveedor.direccionEmpresa() : "No especificado",
-                    proveedor.ciudad() != null ? proveedor.ciudad() : "No especificado"
-            );
-        } catch (Exception e) {
-            return "Proveedor no encontrado con ID: " + proveedorId;
-        }
-    }
-
-    @Tool(
-            name = "obtener_usuarios_con_mayor_gasto",
-            description = "Obtiene los usuarios con gastos del último año"
-    )
-    public String getUsuarioGastoUltimoAnio() {
-        List<UsuarioGastoResponse> usuarios = usuarioService.getUsuarioGastoUltimoAnio();
-
-        if (usuarios == null || usuarios.isEmpty()) {
-            return "No hay usuarios con gastos registrados en el último año.";
-        }
-
-        StringBuilder result = new StringBuilder("TOP USUARIOS CON MAYOR GASTO (Último año):\n\n");
-        for (int i = 0; i < usuarios.size(); i++) {
-            UsuarioGastoResponse u = usuarios.get(i);
-            result.append(String.format("%d. %s - Total gastado: $%.2f\n",
-                    i + 1,
-                    u.nombreCompleto() != null ? u.nombreCompleto() : "Usuario " + u.usuarioId(),
-                    u.totalGastado()
+                    usuario.getUsuarioId(),
+                    usuario.getNombres(),
+                    usuario.getApellidos(),
+                    usuario.getCorreo(),
+                    usuario.getRol() != null
+                            ? usuario.getRol().getName().name()
+                            : "SIN ROL",
+                    usuario.isEnabled()
+                            ? "ACTIVO"
+                            : "INACTIVO"
             ));
         }
-        return result.toString();
-    }
 
-    @Tool(
-            name = "obtener_estadisticas_proveedores",
-            description = "Obtiene estadísticas de los proveedores"
-    )
-    public String getProveedorConEstadisticas() {
-        List<ProveedorEstadisticasResponse> proveedores = usuarioService.getProveedorConEstadisticas();
-
-        if (proveedores == null || proveedores.isEmpty()) {
-            return "No hay estadísticas de proveedores disponibles.";
-        }
-
-        StringBuilder result = new StringBuilder("ESTADÍSTICAS DE PROVEEDORES:\n\n");
-        for (ProveedorEstadisticasResponse p : proveedores) {
-            result.append(String.format("%s\n", p.nombreCompleto()));
-            result.append(String.format("   Ventas Totales Ganadas: $%.2f\n", p.totalGanado()));
-            result.append(String.format("   Ventas Totales Gastada: %.1f/5\n\n", p.totalGastado()));
-        }
-        return result.toString();
-    }
-
-    @Tool(
-            name = "obtener_proveedores_activos",
-            description = "Obtiene la lista de proveedores activos"
-    )
-    public String getProveedoresActivos() {
-        List<ProveedorProductoResponse> proveedores = usuarioService.getProveedoresActivos();
-
-        if (proveedores == null || proveedores.isEmpty()) {
-            return "No hay proveedores activos registrados.";
-        }
-
-        StringBuilder result = new StringBuilder("PROVEEDORES ACTIVOS:\n\n");
-        for (ProveedorProductoResponse p : proveedores) {
-            result.append(String.format("%s - %s\n",
-                    p.nombreUsuario(),
-                    p.nombreEmpresa()
-            ));
-        }
-        return result.toString();
+        return builder.toString();
     }
 
     @Tool(
             name = "crear_usuario",
             description = """
-                    Crea un nuevo cliente.
-                    
-                    Valores válidos para tipoIdentificacion:
-                    CC = Cédula de Ciudadanía
-                    CE = Cédula de Extranjería
-                    DE = Documento de Extranjería
-                    NIT = Número de Identificación Tributaria
-                    PP = Pasaporte
-                    TE = Tarjeta de Extranjería
-                    TI = Tarjeta de Identidad
+                    Crea un nuevo usuario.
+                    Necesita:
+                    - nombres
+                    - apellidos
+                    - correo
+                    - password
+                    - telefono
+                    - tipoIdentificacion
+                    - numeroIdentificacion
                     """
     )
-    public String createUser(CreateUsuarioRequest request) {
-        try {
-            BaseResponse response = usuarioService.createUser(request);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al crear usuario: " + e.getMessage();
-        }
-    }
+    public String crearUsuario(
+            String nombres,
+            String apellidos,
+            String correo,
+            String password,
+            String telefono,
+            String tipoIdentificacion,
+            String numeroIdentificacion
+    ) {
 
-    @Tool(
-            name = "crear_cliente",
-            description = """
-                    Crea un nuevo cliente.
-                    
-                    Valores válidos para tipoIdentificacion:
-                    CC = Cédula de Ciudadanía
-                    CE = Cédula de Extranjería
-                    DE = Documento de Extranjería
-                    NIT = Número de Identificación Tributaria
-                    PP = Pasaporte
-                    TE = Tarjeta de Extranjería
-                    TI = Tarjeta de Identidad
-                    """
-    )
-    public String createCliente(CreateClienteRequest request) {
-        try {
-            BaseResponse response = usuarioService.createCliente(request);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al crear cliente: " + e.getMessage();
+        if (usuarioRepository.existsByCorreo(correo)) {
+            return "El correo ya está registrado.";
         }
-    }
 
-    @Tool(
-            name = "crear_proveedor",
-            description = "Crea un nuevo proveedor"
-    )
-    public String createProveedor(CreateProveedorRequest request) {
-        try {
-            BaseResponse response = usuarioService.createProveedor(request);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al crear proveedor: " + e.getMessage();
-        }
-    }
+        EIdentificacion identificacion;
 
-    @Tool(
-            name = "actualizar_cliente",
-            description = "Actualiza la información de un cliente"
-    )
-    public String updateCliente(Long clienteId, CreateClienteRequest request) {
         try {
-            BaseResponse response = usuarioService.updateCliente(clienteId, request);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
+            identificacion = EIdentificacion.valueOf(
+                    tipoIdentificacion.toUpperCase()
+            );
         } catch (Exception e) {
-            return "Error al actualizar cliente con ID " + clienteId + ": " + e.getMessage();
+            return "Tipo de identificación inválido.";
         }
-    }
 
-    @Tool(
-            name = "actualizar_proveedor",
-            description = "Actualiza la información de un proveedor"
-    )
-    public String updateProveedor(Long proveedorId, CreateProveedorRequest request) {
-        try {
-            BaseResponse response = usuarioService.updateProveedor(proveedorId, request);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al actualizar proveedor con ID " + proveedorId + ": " + e.getMessage();
-        }
+        ERol tipoRol = identificacion == EIdentificacion.NIT
+                ? ERol.PERSONA_JURIDICA
+                : ERol.PERSONA_NATURAL;
+
+        Rol rol = rolRepository.findByName(tipoRol)
+                .orElseThrow(() ->
+                        new RuntimeException("Rol no encontrado"));
+
+        Usuario usuario = Usuario.builder()
+                .nombres(nombres)
+                .apellidos(apellidos)
+                .correo(correo)
+                .telefono(telefono)
+                .tipoIdentificacion(identificacion)
+                .numeroIdentificacion(numeroIdentificacion)
+                .password(encoder.encode(password))
+                .imagen("perfil-user.jpg")
+                .rol(rol)
+                .isEnabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .build();
+
+        usuarioRepository.save(usuario);
+
+        return """
+                Usuario creado exitosamente.
+                                
+                ID: %d
+                Nombre: %s %s
+                Correo: %s
+                Rol: %s
+                """
+                .formatted(
+                        usuario.getUsuarioId(),
+                        usuario.getNombres(),
+                        usuario.getApellidos(),
+                        usuario.getCorreo(),
+                        rol.getName().name()
+                );
     }
 
     @Tool(
             name = "actualizar_usuario",
-            description = "Actualiza la información del usuario autenticado"
+            description = """
+                    Actualiza un usuario existente por ID.
+                    """
     )
-    public String updateUser(CustomUserPrincipal principal, UpdateUsuarioRequest request) {
-        try {
-            GeneralResponse response = usuarioService.updateUser(principal, request);
-            if (response.mensaje().equals("Sus datos se han actualizado exitosamente")) {
-                return response.mensaje();
-            } else {
-                return "Sus datos no se han actualizado: " + response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al actualizar usuario: " + e.getMessage();
+    public String actualizarUsuario(
+            Long usuarioId,
+            String nombres,
+            String apellidos,
+            String telefono,
+            String direccion
+    ) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElse(null);
+
+        if (usuario == null) {
+            return "Usuario no encontrado.";
         }
+
+        usuario.setNombres(nombres);
+        usuario.setApellidos(apellidos);
+        usuario.setTelefono(telefono);
+        usuario.setDireccion(direccion);
+
+        usuarioRepository.save(usuario);
+
+        return """
+                Usuario actualizado exitosamente.
+                                
+                ID: %d
+                Nombre: %s %s
+                """
+                .formatted(
+                        usuario.getUsuarioId(),
+                        usuario.getNombres(),
+                        usuario.getApellidos()
+                );
     }
 
     @Tool(
-            name = "completar_perfil_usuario",
-            description = "Completa el perfil del usuario autenticado"
+            name = "cambiar_estado_usuario",
+            description = """
+                    Habilita o deshabilita un usuario.
+                    """
     )
-    public String completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest request) {
-        try {
-            GeneralResponse response = usuarioService.completeUserProfile(principal, request);
-            if (response.mensaje().equals("Registro completado exitosamente.")) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al completar perfil: " + e.getMessage();
-        }
-    }
+    public String cambiarEstadoUsuario(Long usuarioId) {
 
-    @Tool(
-            name = "actualizar_foto_usuario",
-            description = "Actualiza la foto del usuario autenticado"
-    )
-    public String setUserPhoto(CustomUserPrincipal principal, SetUsuarioPhotoRequest request) {
-        try {
-            GeneralResponse response = usuarioService.setUserPhoto(principal, request);
-            if (response.mensaje().equals("Imagen asignada exitosamente")) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al actualizar foto: " + e.getMessage();
-        }
-    }
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElse(null);
 
-    @Tool(
-            name = "actualizar_password_usuario",
-            description = "Actualiza la contraseña del usuario autenticado"
-    )
-    public String updatePassword(CustomUserPrincipal principal, UpdatePasswordRequest request) {
-        try {
-            BaseResponse response = usuarioService.updatePassword(principal, request);
-            if (response.success()) {
-                return "Contraseña actualizada exitosamente.\n" + response.mensaje();
-            } else {
-                return "Error al actualizar contraseña: " + response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al actualizar contraseña: " + e.getMessage();
+        if (usuario == null) {
+            return "Usuario no encontrado.";
         }
-    }
 
-    @Tool(
-            name = "deshabilitar_usuario",
-            description = "Deshabilita o habilita un usuario"
-    )
-    public String changeEstadoUsuario(Long usuarioId) {
-        try {
-            BaseResponse response = usuarioService.changeEstadoUsuario(usuarioId);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al cambiar estado del usuario ID " + usuarioId + ": " + e.getMessage();
-        }
+        usuario.setEnabled(!usuario.isEnabled());
+        usuario.setAccountNonLocked(!usuario.isAccountNonExpired());
+        usuario.setCredentialsNonExpired(!usuario.isCredentialsNonExpired());
+
+        usuarioRepository.save(usuario);
+
+        return usuario.isEnabled()
+                ? "Usuario habilitado correctamente."
+                : "Usuario deshabilitado correctamente.";
     }
 
     @Tool(
             name = "eliminar_usuario",
-            description = "Elimina un usuario usando su ID"
+            description = """
+                    Elimina lógicamente un usuario por id.
+                    """
     )
-    public String deleteUsuario(Long usuarioId) {
-        try {
-            BaseResponse response = usuarioService.deleteUsuario(usuarioId);
-            if (response.success()) {
-                return response.mensaje();
-            } else {
-                return response.mensaje();
-            }
-        } catch (Exception e) {
-            return "Error al eliminar usuario con ID " + usuarioId + ": " + e.getMessage();
+    public String eliminarUsuario(Long usuarioId) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElse(null);
+
+        if (usuario == null) {
+            return "Usuario no encontrado.";
         }
+
+        usuario.setAccountNonLocked(false);
+
+        usuarioRepository.delete(usuario);
+
+        return "Usuario eliminado correctamente.";
+    }
+
+    @Tool(
+            name = "eliminar_usuario",
+            description = """
+                    Elimina lógicamente un usuario por correo.
+                    """
+    )
+    public String eliminarUsuarioPorCorreo(String correo) {
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElse(null);
+
+        if (usuario == null) {
+            return "Usuario no encontrado.";
+        }
+
+        usuario.setAccountNonLocked(false);
+
+        usuarioRepository.delete(usuario);
+
+        return "Usuario eliminado correctamente.";
     }
 
 }

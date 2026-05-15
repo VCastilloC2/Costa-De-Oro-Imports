@@ -7,18 +7,17 @@
         "-i",
         "--rm",
         "--init",
-        "--pull=always",
         "--name",
         "dbhub",
         "--publish",
         "9080:9080",
-        "bytebase/dbhub",
+        "bytebase/dbhub:latest",
         "--transport",
         "stdio",
         "--port",
         "9080",
         "--dsn",
-        "mysql://root:0220@host.docker.internal:3306/db_beer?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+        "mysql://root:0220@host.docker.internal:3306/db_beer"
       ]
     }
   }
