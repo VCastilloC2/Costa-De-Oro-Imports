@@ -32,6 +32,7 @@ public class UsuarioTools {
             name = "crear_usuario",
             description = """
                     Crea un nuevo usuario.
+                    Usa siempre este tool cuando el usuario pida registrar, crear o añadir usuarios.
                     Parámetros requeridos:
                     - nombres, apellidos, correo, password
                     - telefono, tipoIdentificacion (CC, TI, NIT, Pasaporte)
