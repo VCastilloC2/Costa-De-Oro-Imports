@@ -11,7 +11,7 @@
         "dbhub",
         "--publish",
         "9080:9080",
-        "bytebase/dbhub:latest",
+        "bytebase/dbhub",
         "--transport",
         "stdio",
         "--port",

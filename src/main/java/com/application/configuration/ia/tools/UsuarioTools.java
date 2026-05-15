@@ -25,8 +25,75 @@ public class UsuarioTools {
     private final PasswordEncoder encoder;
 
     // Límites para evitar sobrecarga
-    private static final int MAX_RESULTADOS = 50;
-    private static final int MAX_PROVEEDORES = 30;
+    private static final int MAX_RESULTADOS = 5;
+    private static final int MAX_PROVEEDORES = 5;
+
+    @Tool(
+            name = "crear_usuario",
+            description = """
+                    Crea un nuevo usuario.
+                    Parámetros requeridos:
+                    - nombres, apellidos, correo, password
+                    - telefono, tipoIdentificacion (CC, TI, NIT, Pasaporte)
+                    - numeroIdentificacion
+                    """
+    )
+    public String crearUsuario(
+            String nombres,
+            String apellidos,
+            String correo,
+            String password,
+            String telefono,
+            String tipoIdentificacion,
+            String numeroIdentificacion
+    ) {
+        // Validaciones básicas
+        if (nombres == null || nombres.isBlank() || apellidos == null || apellidos.isBlank()) {
+            return "Nombre y apellido son requeridos.";
+        }
+
+        if (correo == null || correo.isBlank() || !correo.contains("@")) {
+            return "Correo inválido.";
+        }
+
+        if (usuarioRepository.existsByCorreo(correo)) {
+            return "El correo ya está registrado.";
+        }
+
+        EIdentificacion identificacion;
+        try {
+            identificacion = EIdentificacion.valueOf(tipoIdentificacion.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return "Tipo de identificación inválido. Opciones: CC, TI, NIT, PASAPORTE";
+        }
+
+        ERol tipoRol = identificacion == EIdentificacion.NIT
+                ? ERol.PERSONA_JURIDICA
+                : ERol.PERSONA_NATURAL;
+
+        Rol rol = rolRepository.findByName(tipoRol)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+        Usuario usuario = Usuario.builder()
+                .nombres(nombres)
+                .apellidos(apellidos)
+                .correo(correo)
+                .telefono(telefono)
+                .tipoIdentificacion(identificacion)
+                .numeroIdentificacion(numeroIdentificacion)
+                .password(encoder.encode(password))
+                .imagen("perfil-user.jpg")
+                .rol(rol)
+                .isEnabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .build();
+
+        usuarioRepository.save(usuario);
+
+        return "Usuario creado exitosamente. ID: " + usuario.getUsuarioId() + ", Correo: " + correo;
+    }
 
     @Tool(
             name = "buscar_usuario_por_correo",
@@ -56,7 +123,7 @@ public class UsuarioTools {
                 - rol (requerido): ADMIN, PROVEEDOR, INVITADO, PERSONA_CONTACTO, PERSONA_JURIDICA, PERSONA_NATURAL
                 - soloActivos (optional): true/false para filtrar por estado
                 
-                Máximo de resultados: 50 usuarios.
+                Máximo de resultados: 5 usuarios.
                 """
     )
     public String listarUsuariosPorRol(
@@ -135,73 +202,6 @@ public class UsuarioTools {
     public String obtenerTotalClientes() {
         Long total = usuarioService.getTotalClientes();
         return "Total de clientes registrados: " + total;
-    }
-
-    @Tool(
-            name = "crear_usuario",
-            description = """
-                    Crea un nuevo usuario.
-                    Parámetros requeridos:
-                    - nombres, apellidos, correo, password
-                    - telefono, tipoIdentificacion (CC, TI, NIT, Pasaporte)
-                    - numeroIdentificacion
-                    """
-    )
-    public String crearUsuario(
-            String nombres,
-            String apellidos,
-            String correo,
-            String password,
-            String telefono,
-            String tipoIdentificacion,
-            String numeroIdentificacion
-    ) {
-        // Validaciones básicas
-        if (nombres == null || nombres.isBlank() || apellidos == null || apellidos.isBlank()) {
-            return "Nombre y apellido son requeridos.";
-        }
-
-        if (correo == null || correo.isBlank() || !correo.contains("@")) {
-            return "Correo inválido.";
-        }
-
-        if (usuarioRepository.existsByCorreo(correo)) {
-            return "El correo ya está registrado.";
-        }
-
-        EIdentificacion identificacion;
-        try {
-            identificacion = EIdentificacion.valueOf(tipoIdentificacion.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return "Tipo de identificación inválido. Opciones: CC, TI, NIT, PASAPORTE";
-        }
-
-        ERol tipoRol = identificacion == EIdentificacion.NIT
-                ? ERol.PERSONA_JURIDICA
-                : ERol.PERSONA_NATURAL;
-
-        Rol rol = rolRepository.findByName(tipoRol)
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-
-        Usuario usuario = Usuario.builder()
-                .nombres(nombres)
-                .apellidos(apellidos)
-                .correo(correo)
-                .telefono(telefono)
-                .tipoIdentificacion(identificacion)
-                .numeroIdentificacion(numeroIdentificacion)
-                .password(encoder.encode(password))
-                .imagen("perfil-user.jpg")
-                .rol(rol)
-                .isEnabled(true)
-                .accountNonExpired(true)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
-                .build();
-
-        usuarioRepository.save(usuario);
-
-        return "Usuario creado exitosamente. ID: " + usuario.getUsuarioId() + ", Correo: " + correo;
     }
 
     @Tool(

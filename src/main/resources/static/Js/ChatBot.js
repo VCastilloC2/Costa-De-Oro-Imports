@@ -185,7 +185,7 @@ function appendMessage(role, text, isError = false) {
     bubble.className =
         `bubble${isError ? " error" : ""}`;
 
-    bubble.innerHTML = renderMarkdown(text);
+    bubble.textContent = text;
 
     row.appendChild(avatar);
 

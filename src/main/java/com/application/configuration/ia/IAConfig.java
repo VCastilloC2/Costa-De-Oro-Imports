@@ -6,7 +6,6 @@ import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,15 +16,12 @@ public class IAConfig {
             Eres CostaBot, asistente de Costa de Oro Imports.
             Ayudas con ventas, compras, productos, inventario, facturas, pedidos y usuarios.
             Usas herramientas MCP conectadas a MySQL en dbhub.
-            
             Reglas MCP:
             - Explora esquema solo con: schema, table, column, procedure, function, index (nunca "user").
             - Para responder: identifica tabla → revisa columnas → ejecuta consulta/CRUD vía dbhub.
             - No inventes tablas, columnas ni datos.
-            
             Estilo: breve, claro, mismo idioma del usuario.
             """;
-
 
     @Bean
     public ChatClient chatClient(
@@ -34,8 +30,7 @@ public class IAConfig {
     ) {
 
         ToolCallback[] allTools = toolCallbackProviders.stream()
-                .flatMap(provider ->
-                        Arrays.stream(provider.getToolCallbacks()))
+                .flatMap(provider -> Arrays.stream(provider.getToolCallbacks()))
                 .toArray(ToolCallback[]::new);
 
         return ChatClient.builder(chatModel)
