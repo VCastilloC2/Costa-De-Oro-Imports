@@ -22,6 +22,16 @@ const emptyState = document.getElementById("emptyState");
 let isLoading = false;
 
 // ─────────────────────────────────────────
+// MARKDOWN
+// ─────────────────────────────────────────
+function renderMarkdown(text) {
+
+    return DOMPurify.sanitize(
+        marked.parse(text)
+    );
+}
+
+// ─────────────────────────────────────────
 // STATUS INICIAL
 // ─────────────────────────────────────────
 setStatus("online");
@@ -111,7 +121,7 @@ async function fetchAI(message) {
 
     const text = await response.text();
 
-    bubble.textContent = text;
+    bubble.innerHTML = renderMarkdown(text);
 
     scrollToBottom();
 }
@@ -175,7 +185,7 @@ function appendMessage(role, text, isError = false) {
     bubble.className =
         `bubble${isError ? " error" : ""}`;
 
-    bubble.textContent = text;
+    bubble.innerHTML = renderMarkdown(text);
 
     row.appendChild(avatar);
 
