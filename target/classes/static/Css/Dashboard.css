@@ -1004,3 +1004,137 @@
 .td__color {
     color: #6b7280;
 }
+
+/* Sección Simplex */
+.body__simplex {
+    margin: 40px 0 20px 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.simplex__header {
+    padding: 20px 25px 10px 25px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.simplex__title {
+    font: 600 1.5rem var(--typografiaGeist);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2c3e2f;
+}
+
+.simplex__title i {
+    color: #5a4636;
+    font-size: 1.8rem;
+}
+
+.simplex__subtitle {
+    font: 400 0.9rem var(--typografiaUrbanist);
+    color: #6c757d;
+    margin: 8px 0 0 0;
+}
+
+.simplex__buttons {
+    display: flex;
+    gap: 15px;
+    padding: 15px 25px;
+    background: #fafbfc;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.simplex__btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 40px;
+    font: 600 0.9rem var(--typografiaGeist);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.simplex__btn i {
+    font-size: 1.2rem;
+}
+
+.simplex__btn--beer {
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.simplex__btn--beer:hover {
+    background: #fffbeb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.simplex__btn--whisky {
+    color: #8b5a2b;
+    border: 1px solid #e2c8a3;
+}
+
+.simplex__btn--whisky:hover {
+    background: #fdf6ed;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.15);
+}
+
+.simplex__result {
+    padding: 20px 25px;
+    min-height: 300px;
+    transition: all 0.3s ease;
+}
+
+.simplex__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    color: #adb5bd;
+}
+
+.simplex__empty i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: #dee2e6;
+}
+
+.simplex__empty p {
+    font: 500 1rem var(--typografiaGeist);
+    margin: 0;
+    color: #6c757d;
+}
+
+.simplex__empty small {
+    font: 400 0.8rem var(--typografiaUrbanist);
+    margin-top: 8px;
+}
+
+/* Animación del loader */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .simplex__buttons {
+        flex-direction: column;
+    }
+    .simplex__btn {
+        justify-content: center;
+    }
+    .simplex__result {
+        padding: 15px;
+    }
+}
