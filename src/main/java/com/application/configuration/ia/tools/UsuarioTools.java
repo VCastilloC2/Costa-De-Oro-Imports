@@ -1,17 +1,18 @@
 package com.application.configuration.ia.tools;
 
-import com.application.presentation.dto.usuario.response.ProveedorProductoResponse;
-import com.application.service.interfaces.usuario.UsuarioService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import com.application.persistence.entity.rol.Rol;
 import com.application.persistence.entity.rol.enums.ERol;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
 import com.application.persistence.repository.RolRepository;
 import com.application.persistence.repository.UsuarioRepository;
+import com.application.presentation.dto.usuario.response.ProveedorProductoResponse;
+import com.application.service.interfaces.usuario.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +32,21 @@ public class UsuarioTools {
     @Tool(
             name = "crear_usuario",
             description = """
-                    Crea un nuevo usuario.
-                    Usa siempre este tool cuando el usuario pida registrar, crear o añadir usuarios.
-                    Parámetros requeridos:
-                    - nombres, apellidos, correo, password
-                    - telefono, tipoIdentificacion (CC, TI, NIT, Pasaporte)
-                    - numeroIdentificacion
+                    Crea un nuevo usuario en el sistema.
+                    Usa esta herramienta cuando el usuario quiera:
+                    registrar, crear, añadir, ingresar, guardar o dar de alta un usuario, cliente, proveedor o persona.
+                    También cuando diga cosas como:
+                    - crear cuenta
+                    - registrar cliente
+                    - añadir proveedor
+                    - nuevo usuario
+                    - guardar persona
+                    - registrar empleado
+                    Datos requeridos:
+                    nombres, apellidos, correo, password, telefono, tipoIdentificacion y numeroIdentificacion.
+                    Tipos de identificación válidos:
+                    CC, TI, NIT, PASAPORTE.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String crearUsuario(
@@ -99,8 +109,16 @@ public class UsuarioTools {
     @Tool(
             name = "buscar_usuario_por_correo",
             description = """
-                    Busca un usuario por correo electrónico.
-                    Retorna información básica del usuario.
+                    Busca y muestra información de un usuario usando su correo electrónico.
+                    Usa esta herramienta cuando el usuario quiera:
+                    buscar, consultar, encontrar, verificar, revisar o ver datos de un usuario por correo.
+                    Ejemplos:
+                    - buscar usuario por correo
+                    - consultar cliente
+                    - ver información de un correo
+                    - existe este usuario
+                    - mostrar datos del usuario
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String buscarUsuarioPorCorreo(String correo) {
@@ -119,13 +137,14 @@ public class UsuarioTools {
     @Tool(
             name = "listar_usuarios_por_rol",
             description = """
-                Herramienta para listar usuarios del sistema por rol.
-                Parámetros:
-                - rol (requerido): ADMIN, PROVEEDOR, INVITADO, PERSONA_CONTACTO, PERSONA_JURIDICA, PERSONA_NATURAL
-                - soloActivos (optional): true/false para filtrar por estado
-                
-                Máximo de resultados: 5 usuarios.
-                """
+                    Lista usuarios según su rol dentro del sistema.
+                    Usa esta herramienta cuando el usuario quiera:
+                    ver usuarios, listar clientes, mostrar proveedores, consultar administradores o filtrar usuarios por tipo.
+                    Roles válidos:
+                    ADMIN, PROVEEDOR, INVITADO, PERSONA_CONTACTO, PERSONA_JURIDICA, PERSONA_NATURAL.
+                    Puede filtrar solo usuarios activos.
+                    Máximo 5 resultados.
+                    """
     )
     public String listarUsuariosPorRol(
             String rol,
@@ -161,19 +180,23 @@ public class UsuarioTools {
 
         } catch (IllegalArgumentException e) {
             return """
-                Rol inválido.
-                Roles válidos:
-                ADMIN, PROVEEDOR, INVITADO, PERSONA_CONTACTO, PERSONA_JURIDICA, PERSONA_NATURAL
-                """;
+                    Rol inválido.
+                    Roles válidos:
+                    ADMIN, PROVEEDOR, INVITADO, PERSONA_CONTACTO, PERSONA_JURIDICA, PERSONA_NATURAL
+                    """;
         }
     }
 
     @Tool(
             name = "listar_proveedores_activos",
             description = """
-                Lista proveedores activos del sistema (máximo 30).
-                Retorna: id, empresa, nombre del proveedor
-                """
+                    Muestra proveedores activos registrados en el sistema.
+                    Usa esta herramienta cuando el usuario quiera:
+                    ver proveedores, listar empresas proveedoras, consultar proveedores activos o buscar proveedores disponibles.
+                    Retorna:
+                    ID, empresa y nombre del proveedor.
+                    Máximo 5 resultados.
+                    """
     )
     public String listarProveedoresActivos() {
         List<ProveedorProductoResponse> proveedores = usuarioService.getProveedoresActivos()
@@ -197,8 +220,11 @@ public class UsuarioTools {
     @Tool(
             name = "obtener_total_clientes",
             description = """
-                Obtiene el total de clientes registrados.
-                """
+                    Obtiene la cantidad total de clientes registrados.
+                    Usa esta herramienta cuando el usuario quiera:
+                    contar clientes, saber cuántos clientes existen, ver total de usuarios o consultar estadísticas de clientes.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
+                    """
     )
     public String obtenerTotalClientes() {
         Long total = usuarioService.getTotalClientes();
@@ -208,8 +234,12 @@ public class UsuarioTools {
     @Tool(
             name = "actualizar_usuario",
             description = """
-                    Actualiza un usuario existente por ID.
-                    Parámetros: usuarioId, nombres, apellidos, telefono, direccion
+                    Actualiza información de un usuario existente mediante su ID.
+                    Usa esta herramienta cuando el usuario quiera:
+                    editar usuario, modificar cliente, actualizar datos, cambiar teléfono, cambiar dirección o corregir información.
+                    Puede actualizar:
+                    nombres, apellidos, telefono y direccion.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String actualizarUsuario(
@@ -238,7 +268,10 @@ public class UsuarioTools {
     @Tool(
             name = "cambiar_estado_usuario",
             description = """
-                    Habilita o deshabilita un usuario por ID.
+                    Habilita o deshabilita un usuario del sistema usando su ID.
+                    Usa esta herramienta cuando el usuario quiera:
+                    activar usuario, desactivar cuenta, bloquear usuario, suspender usuario, habilitar acceso o cambiar estado.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String cambiarEstadoUsuario(Long usuarioId) {
@@ -251,16 +284,20 @@ public class UsuarioTools {
         usuario.setEnabled(nuevoEstado);
         usuario.setAccountNonLocked(nuevoEstado);
         usuario.setCredentialsNonExpired(nuevoEstado);
+        usuario.setAccountNonExpired(nuevoEstado);
 
         usuarioRepository.save(usuario);
 
-        return "Usuario " + (nuevoEstado ? "habilitado" : "deshabilitado") + " correctamente.";
+        return "Usuario " + (nuevoEstado ? "deshabilitado" : "habilitado") + " correctamente.";
     }
 
     @Tool(
             name = "eliminar_usuario_por_id",
             description = """
-                    Elimina lógicamente un usuario por ID.
+                    Elimina un usuario usando su ID.
+                    Usa esta herramienta cuando el usuario quiera:
+                    eliminar usuario, borrar cuenta, quitar cliente, remover usuario o desactivar permanentemente un registro.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String eliminarUsuarioPorId(Long usuarioId) {
@@ -278,7 +315,10 @@ public class UsuarioTools {
     @Tool(
             name = "eliminar_usuario_por_correo",
             description = """
-                    Elimina lógicamente un usuario por correo.
+                    Elimina un usuario usando su correo electrónico.
+                    Usa esta herramienta cuando el usuario quiera:
+                    eliminar usuario por correo, borrar cuenta, remover cliente o quitar un usuario usando email.
+                    Siempre usa esta herramienta si la solicitud del usuario coincide aunque sea parcialmente.
                     """
     )
     public String eliminarUsuarioPorCorreo(String correo) {
