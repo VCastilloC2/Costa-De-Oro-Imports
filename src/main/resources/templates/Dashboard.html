@@ -43,6 +43,26 @@
 <body>
     <div class="container__dashboard">
 
+        <!-- MODAL PARA MOSTRAR EL REPORTE DE POWER BI -->
+        <div class="modal__overlay" id="modalPowerBI">
+            <div class="modal__contenido">
+                <div class="modal__header">
+                    <h2>Reporte Power BI</h2>
+                    <button class="modal__cerrar" id="cerrarModalPBI">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <iframe
+                            id="powerbiIframe"
+                            src=""
+                            width="100%"
+                            height="100%"
+                            style="border: none; min-height: 500px;"
+                            allowfullscreen="true">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
@@ -124,6 +144,29 @@
                 </div>
 
                 <div class="header__admin">
+
+                    <!-- BOTÓN POWER BI — agregar aquí -->
+                    <div class="powerbi__dropdown">
+                        <button class="powerbi__btn" id="powerbiBtnMain" style="background: #f59e0b; border-radius: 50px; padding: 10px 20px;">
+                            <i class='bx bxl-microsoft'></i>
+                            <span>Power BI</span>
+                            <i class='bx bx-chevron-down powerbi__arrow'></i>
+                        </button>
+                        <div class="powerbi__options" id="powerbiOptions">
+                            <!-- Opción 1: Ver reporte - Icono de archivo/documento -->
+                            <button class="powerbi__option" id="btnVerModal">
+                                <i class='bx bx-file'></i> <!-- Icono cambiado -->
+                                <span>Ver reporte</span>
+                            </button>
+
+                            <!-- Opción 2: Descargar - Icono de descarga -->
+                            <button class="powerbi__option" id="btnDescargarPBI">
+                                <i class="bx bx-arrow-to-bottom"></i><!-- Icono correcto, se mantiene -->
+                                <span>Descargar</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Icono de notificaciones -->
                     <div class="header__notifications">
                         <i id="notifIcon" class="ri-notification-3-line"></i>
@@ -265,29 +308,19 @@
                 <!-- SECCIÓN OPTIMIZACIÓN SIMPLEX -->
                 <div class="body__simplex">
                     <div class="simplex__header">
-                        <h2 class="simplex__title">
-                            <i class="ri-function-line"></i> Optimización con Método Simplex
-                        </h2>
-                        <p class="simplex__subtitle">
-                            Investigación de Operaciones - Álgebra del Simplex aplicado a modelos de producción de cerveza y whisky. Resuelve problemas de optimización lineal para maximizar beneficios o minimizar costos, considerando restricciones de recursos y demanda.
-                        </p>
+                        <h2 class="simplex__title">Optimizacion con Metodo Simplex</h2>
+                        <p class="simplex__subtitle">Investigacion de Operaciones - Algebra del Simplex aplicado a modelos del Excel</p>
                     </div>
-
                     <div class="simplex__buttons">
-                        <button id="btnResolverCerveza" class="simplex__btn simplex__btn--beer">
-                            <i class="ri-beer-line"></i> Resolver Modelo Cerveza
-                        </button>
-                        <button id="btnResolverWhisky" class="simplex__btn simplex__btn--whisky">
-                            <i class="ri-cup-line"></i> Resolver Modelo Whisky
-                        </button>
+                        <button id="btnResolverCerveza" class="simplex__btn simplex__btn--beer">Cerveza</button>
+                        <button id="btnResolverWhisky" class="simplex__btn simplex__btn--whisky">Whisky</button>
+                        <button id="btnResolverRon" class="simplex__btn simplex__btn--rum">Ron</button>
+                        <button id="btnResolverVino" class="simplex__btn simplex__btn--wine">Vino</button>
                     </div>
-
                     <div id="simplexResult" class="simplex__result">
-                        <!-- Aquí se mostrarán los resultados de la optimización -->
                         <div class="simplex__empty">
-                            <i class="ri-lightbulb-flash-line"></i>
                             <p>Selecciona un modelo para ejecutar el algoritmo Simplex</p>
-                            <small>Basado en los datos del modelo</small>
+                            <small>Basado en Modelo</small>
                         </div>
                     </div>
                 </div>
@@ -569,27 +602,14 @@
     <script th:src="@{/Js/Dashboard.js}"></script>
     <script th:src="@{/Js/ChatBot.js}"></script>
     <script th:src="@{/Js/simplexSolver.js}"></script>
-    <!-- Inicialización de los botones del Simplex -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Verificar que simplexSolver esté cargado
             if (window.simplexSolver) {
-                const btnCerveza = document.getElementById('btnResolverCerveza');
-                const btnWhisky = document.getElementById('btnResolverWhisky');
-
-                if (btnCerveza) {
-                    btnCerveza.addEventListener('click', function() {
-                        window.simplexSolver.resolverModelo(window.simplexSolver.ModeloCerveza);
-                    });
-                }
-
-                if (btnWhisky) {
-                    btnWhisky.addEventListener('click', function() {
-                        window.simplexSolver.resolverModelo(window.simplexSolver.ModeloWhisky);
-                    });
-                }
-            } else {
-                console.error('No se pudo cargar simplexSolver.js');
+                const s = window.simplexSolver;
+                document.getElementById('btnResolverCerveza')?.addEventListener('click', () => s.resolverModelo(s.ModeloCerveza));
+                document.getElementById('btnResolverWhisky')?.addEventListener('click', () => s.resolverModelo(s.ModeloWhisky));
+                document.getElementById('btnResolverRon')?.addEventListener('click', () => s.resolverModelo(s.ModeloRon));
+                document.getElementById('btnResolverVino')?.addEventListener('click', () => s.resolverModelo(s.ModeloVino));
             }
         });
     </script>

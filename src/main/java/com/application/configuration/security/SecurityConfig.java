@@ -46,6 +46,9 @@ public class SecurityConfig {
             RecaptchaFilter recaptchaFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin()) // Permite iframes del mismo origen
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                         .invalidSessionUrl("/auth/login")

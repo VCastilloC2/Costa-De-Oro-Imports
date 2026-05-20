@@ -1,4 +1,78 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
+    // ---- POWER BI DROPDOWN ----
+    const powerbiBtn = document.getElementById('powerbiBtnMain');
+    const powerbiOptions = document.getElementById('powerbiOptions');
+
+    if (powerbiBtn && powerbiOptions) {
+
+        // Abrir/cerrar dropdown
+        powerbiBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            powerbiOptions.classList.toggle('open');
+        });
+
+        // Cerrar al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!powerbiBtn.contains(e.target) && !powerbiOptions.contains(e.target)) {
+                powerbiOptions.classList.remove('open');
+            }
+        });
+
+        // Evitar que clics dentro del menú lo cierren solos
+        powerbiOptions.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // ---- BOTÓN VER REPORTE (Modal) ----
+        const btnVerModal = document.getElementById('btnVerModal');
+        const modal = document.getElementById('modalPowerBI');
+        const btnCerrarModal = document.getElementById('cerrarModalPBI');
+        const iframe = document.getElementById('powerbiIframe');
+
+        if (btnVerModal && modal) {
+
+            btnVerModal.addEventListener('click', function(e) {
+                e.stopPropagation();
+                powerbiOptions.classList.remove('open');
+
+                // URL del Power BI
+                const urlReporte = 'https://app.powerbi.com/reportEmbed?reportId=TU_REPORT_ID&autoAuth=true&ctid=TU_TENANT_ID';
+                iframe.src = urlReporte;
+
+                modal.classList.add('open');
+            });
+
+            btnCerrarModal.addEventListener('click', function() {
+                modal.classList.remove('open');
+                iframe.src = ''; // Detener carga al cerrar
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('open');
+                    iframe.src = '';
+                }
+            });
+        }
+
+        // ---- BOTÓN DESCARGAR ----
+        const btnDescargar = document.getElementById('btnDescargarPBI');
+
+        if (btnDescargar) {
+            btnDescargar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                powerbiOptions.classList.remove('open');
+
+                // ✅ Ruta correcta dentro de /static/Assets/Dashboard/
+                const link = document.createElement('a');
+                link.href = '/Assets/Dashboard/Costa de Oro Imports.pbix';
+                link.download = 'Costa de Oro Imports.pbix';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+    }
 
     // Efecto glassmorphism solo al hacer scroll
     const header = document.querySelector('.content__header');
@@ -90,6 +164,57 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".ingresos__text strong").forEach((el) => {
         const finalValue = parseInt(el.textContent.replace(/\D/g, ""));
         animateCounter(el, 0, finalValue, 1500, false, "+");
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // === POWER BI DROPDOWN ===
+        const powerbiBtn = document.getElementById('powerbiBtnMain');
+        const powerbiOptions = document.getElementById('powerbiOptions');
+
+        if (powerbiBtn && powerbiOptions) {
+            // Alternar el dropdown al hacer clic en el botón
+            powerbiBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                powerbiOptions.classList.toggle('open');
+            });
+
+            // Cerrar el dropdown al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (!powerbiBtn.contains(e.target) && !powerbiOptions.contains(e.target)) {
+                    powerbiOptions.classList.remove('open');
+                }
+            });
+
+            // Prevenir que los clics en las opciones cierren el dropdown inmediatamente
+            const options = document.querySelectorAll('.powerbi__option');
+            options.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Aquí puedes agregar la lógica para cada opción
+                    console.log('Opción clickeada:', this.id);
+                    powerbiOptions.classList.remove('open');
+                });
+            });
+        }
+
+        // === MODAL POWER BI (si existe) ===
+        const btnVerModal = document.getElementById('btnVerModal');
+        if (btnVerModal) {
+            btnVerModal.addEventListener('click', function() {
+                // Aquí va la lógica para abrir el modal
+                console.log('Ver reporte - Abrir modal');
+                // Ejemplo: mostrar modal
+                // document.getElementById('powerbiModal').classList.add('open');
+            });
+        }
+
+        const btnDescargarPBI = document.getElementById('btnDescargarPBI');
+        if (btnDescargarPBI) {
+            btnDescargarPBI.addEventListener('click', function() {
+                console.log('Descargar - Iniciar descarga');
+                // Aquí va la lógica para descargar
+            });
+        }
     });
 
     // ===== GRAFICA DE INGRESOS
