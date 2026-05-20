@@ -43,6 +43,26 @@
 <body>
     <div class="container__dashboard">
 
+        <!-- MODAL PARA MOSTRAR EL REPORTE DE POWER BI -->
+        <div class="modal__overlay" id="modalPowerBI">
+            <div class="modal__contenido">
+                <div class="modal__header">
+                    <h2>Reporte Power BI</h2>
+                    <button class="modal__cerrar" id="cerrarModalPBI">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <iframe
+                            id="powerbiIframe"
+                            src=""
+                            width="100%"
+                            height="100%"
+                            style="border: none; min-height: 500px;"
+                            allowfullscreen="true">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
@@ -124,6 +144,29 @@
                 </div>
 
                 <div class="header__admin">
+
+                    <!-- BOTÓN POWER BI — agregar aquí -->
+                    <div class="powerbi__dropdown">
+                        <button class="powerbi__btn" id="powerbiBtnMain" style="background: #f59e0b; border-radius: 50px; padding: 10px 20px;">
+                            <i class='bx bxl-microsoft'></i>
+                            <span>Power BI</span>
+                            <i class='bx bx-chevron-down powerbi__arrow'></i>
+                        </button>
+                        <div class="powerbi__options" id="powerbiOptions">
+                            <!-- Opción 1: Ver reporte - Icono de archivo/documento -->
+                            <button class="powerbi__option" id="btnVerModal">
+                                <i class='bx bx-file'></i> <!-- Icono cambiado -->
+                                <span>Ver reporte</span>
+                            </button>
+
+                            <!-- Opción 2: Descargar - Icono de descarga -->
+                            <button class="powerbi__option" id="btnDescargarPBI">
+                                <i class="bx bx-arrow-to-bottom"></i><!-- Icono correcto, se mantiene -->
+                                <span>Descargar</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Icono de notificaciones -->
                     <div class="header__notifications">
                         <i id="notifIcon" class="ri-notification-3-line"></i>
