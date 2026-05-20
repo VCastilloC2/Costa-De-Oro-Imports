@@ -1005,12 +1005,102 @@
     color: #6b7280;
 }
 
-/* Sección Simplex */
+/* ===== BOTONES SIMPLEX CON COLORES PERSONALIZADOS ===== */
+.simplex__buttons {
+    display: flex;
+    gap: 12px;
+    padding: 15px 25px;
+    background: #fafbfc;
+    border-bottom: 1px solid #eef2f6;
+    flex-wrap: wrap;
+}
+
+/* Estilo base de todos los botones */
+.simplex__btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font: 600 0.85rem var(--typografiaGeist);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--colorWhite);
+    color: var(--colorDark);
+}
+
+/* Botón Cerveza */
+.simplex__btn--beer {
+    background: var(--colorWhite);
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+}
+
+.simplex__btn--beer:hover {
+    background: #f59e0b;
+    color: var(--colorWhite);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Botón Whisky */
+.simplex__btn--whisky {
+    background: var(--colorWhite);
+    color: #8e705c;
+    border: 1px solid #8e705c;
+}
+
+.simplex__btn--whisky:hover {
+    background: #8e705c;
+    color: var(--colorWhite);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 112, 92, 0.3);
+}
+
+/* Botón Ron */
+.simplex__btn--rum {
+    background: var(--colorWhite);
+    color: #71717a;
+    border: 1px solid #71717a;
+}
+
+.simplex__btn--rum:hover {
+    background: #71717a;
+    color: var(--colorWhite);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(113, 113, 122, 0.3);
+}
+
+/* Botón Vino */
+.simplex__btn--wine {
+    background: var(--colorWhite);
+    color: #5a4636;
+    border: 1px solid #5a4636;
+}
+
+.simplex__btn--wine:hover {
+    background: #5a4636;
+    color: var(--colorWhite);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(90, 70, 54, 0.3);
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .simplex__buttons {
+        flex-direction: column;
+    }
+    .simplex__btn {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+/* ===== SECCION SIMPLEX - ESTILOS COMPLETOS ===== */
 .body__simplex {
     margin: 40px 0 20px 0;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: var(--colorWhite);
+    border-radius: 15px;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
@@ -1020,77 +1110,20 @@
 }
 
 .simplex__title {
-    font: 600 1.5rem var(--typografiaGeist);
+    font: 600 1.3rem var(--typografiaGeist);
     margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
     color: #2c3e2f;
 }
 
-.simplex__title i {
-    color: #5a4636;
-    font-size: 1.8rem;
-}
-
 .simplex__subtitle {
-    font: 400 0.9rem var(--typografiaUrbanist);
-    color: #6c757d;
+    font: 400 0.85rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
     margin: 8px 0 0 0;
-}
-
-.simplex__buttons {
-    display: flex;
-    gap: 15px;
-    padding: 15px 25px;
-    background: #fafbfc;
-    border-bottom: 1px solid #eef2f6;
-}
-
-.simplex__btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 40px;
-    font: 600 0.9rem var(--typografiaGeist);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.simplex__btn i {
-    font-size: 1.2rem;
-}
-
-.simplex__btn--beer {
-    color: #d97706;
-    border: 1px solid #fde68a;
-}
-
-.simplex__btn--beer:hover {
-    background: #fffbeb;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-}
-
-.simplex__btn--whisky {
-    color: #8b5a2b;
-    border: 1px solid #e2c8a3;
-}
-
-.simplex__btn--whisky:hover {
-    background: #fdf6ed;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.15);
 }
 
 .simplex__result {
     padding: 20px 25px;
     min-height: 300px;
-    transition: all 0.3s ease;
 }
 
 .simplex__empty {
@@ -1099,14 +1132,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 20px;
-    color: #adb5bd;
-}
-
-.simplex__empty i {
-    font-size: 48px;
-    margin-bottom: 15px;
-    color: #dee2e6;
+    padding: 50px 20px;
+    color: var(--colorLigth);
 }
 
 .simplex__empty p {
@@ -1118,23 +1145,271 @@
 .simplex__empty small {
     font: 400 0.8rem var(--typografiaUrbanist);
     margin-top: 8px;
+    color: var(--colorLigth);
 }
 
-/* Animación del loader */
+/* Loader */
+.simplex-loading {
+    text-align: center;
+    padding: 50px;
+    background: var(--colorWhite);
+    border-radius: 15px;
+}
+
+.loader {
+    width: 45px;
+    height: 45px;
+    margin: 0 auto 15px;
+    border: 3px solid #e9ecef;
+    border-top: 3px solid #5a4636;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
-    from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+/* Contenedor resultados */
+.simplex-container {
+    font-family: var(--typografiaGeist);
+    background: var(--colorWhite);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Tarjetas de resumen */
+.simplex-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-card {
+    background: var(--colorWhite);
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.summary-label {
+    font: 500 0.7rem var(--typografiaGeist);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--colorLigth);
+    margin-bottom: 8px;
+}
+
+.summary-value {
+    font: 700 1.4rem var(--typografiaGeist);
+    color: #2c3e2f;
+    margin-bottom: 5px;
+}
+
+.summary-desc {
+    font: 400 0.65rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+/* Dos columnas */
+.simplex-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .simplex-two-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Solución óptima */
+.simplex-solution {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid #f3f4f6;
+}
+
+.simplex-solution h3 {
+    font: 600 0.9rem var(--typografiaGeist);
+    margin: 0 0 15px 0;
+    color: #2d3e2b;
+}
+
+.solution-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.solution-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.solution-name {
+    font: 500 0.85rem var(--typografiaGeist);
+    color: #4a3728;
+}
+
+.solution-value {
+    font: 700 0.85rem var(--typografiaGeist);
+    color: #2e7d32;
+}
+
+.solution-solver {
+    font-size: 0.7rem;
+    color: #dc3545;
+    margin-left: 8px;
+}
+
+.solution-check {
+    color: #2e7d32;
+    margin-left: 8px;
+}
+
+/* Datos económicos */
+.simplex-economics {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid #f3f4f6;
+}
+
+.simplex-economics h3 {
+    font: 600 0.9rem var(--typografiaGeist);
+    margin: 0 0 15px 0;
+    color: #2d3e2b;
+}
+
+.simplex-economics table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.simplex-economics th {
+    padding: 10px 8px;
+    text-align: left;
+    background: #e9ecef;
+    font: 600 0.75rem var(--typografiaGeist);
+    color: #495057;
+}
+
+.simplex-economics td {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font: 400 0.8rem var(--typografiaUrbanist);
+}
+
+.simplex-economics td.margin-value {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+/* Gráfica */
+.simplex-chart {
+    padding: 0 20px 20px 20px;
+}
+
+.simplex-chart h3 {
+    font: 600 0.9rem var(--typografiaGeist);
+    margin: 0 0 15px 0;
+    color: #2d3e2b;
+}
+
+/* Restricciones */
+.simplex-constraints {
+    padding: 20px;
+    background: #fefcf8;
+    border-top: 1px solid #f0e6d8;
+    border-bottom: 1px solid #f0e6d8;
+}
+
+.simplex-constraints h3 {
+    font: 600 0.9rem var(--typografiaGeist);
+    margin: 0 0 15px 0;
+    color: #2d3e2b;
+}
+
+.constraint-row {
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    background: var(--colorWhite);
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+}
+
+.constraint-row.active {
+    border-left: 4px solid #2e7d32;
+    background: #f9fff9;
+}
+
+.constraint-desc {
+    font: 500 0.8rem var(--typografiaGeist);
+    margin-bottom: 6px;
+    color: #2c3e2f;
+}
+
+.constraint-status {
+    font: 400 0.75rem var(--typografiaUrbanist);
+    color: #495057;
+}
+
+/* Footer */
+.simplex-footer {
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--colorLigth);
+    padding: 15px;
+    border-top: 1px solid #eef2f6;
+    background: #fafbfc;
+    font-family: var(--typografiaGeist);
+}
+
+.error-card {
+    background: #fff5f5;
+    border-left: 4px solid #dc3545;
+    padding: 20px;
+    border-radius: 12px;
+    font-family: var(--typografiaGeist);
+    color: #dc3545;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .simplex__buttons {
-        flex-direction: column;
-    }
-    .simplex__btn {
-        justify-content: center;
-    }
     .simplex__result {
         padding: 15px;
+    }
+    .simplex-summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .simplex-two-columns {
+        padding: 15px;
+    }
+    .simplex-constraints {
+        padding: 15px;
+    }
+    .simplex-chart {
+        padding: 0 15px 15px 15px;
     }
 }
