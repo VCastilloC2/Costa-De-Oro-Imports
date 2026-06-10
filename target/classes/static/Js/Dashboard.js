@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 powerbiOptions.classList.remove('open');
 
                 // URL del Power BI
-                const urlReporte = 'https://app.powerbi.com/reportEmbed?reportId=TU_REPORT_ID&autoAuth=true&ctid=TU_TENANT_ID';
+                const urlReporte = 'https://app.powerbi.com/view?r=eyJrIjoiMDg3YjJkMWMtNzMxNS00YjJkLThlZTYtYTZhZGFiYzVlNTM4IiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9';
                 iframe.src = urlReporte;
 
                 modal.classList.add('open');
