@@ -71,4 +71,5 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }
