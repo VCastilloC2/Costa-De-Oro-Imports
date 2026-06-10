@@ -9,6 +9,8 @@ updates:
     allow:
       - dependency-type: "direct"
     open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: "io.modelcontextprotocol.sdk:mcp-core"
 
   # Dockerfile
   - package-ecosystem: "docker"
