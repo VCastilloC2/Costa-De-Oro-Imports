@@ -44,12 +44,30 @@ public class ImagenServiceImpl implements ImagenService {
 
         try {
             if (!imagen.isEmpty()) {
-                int index = imagen.getOriginalFilename().indexOf("."); // hola.jpg
-                String extension = "." + imagen.getOriginalFilename().substring(index + 1);
-                String nombreFoto = System.currentTimeMillis() + extension;
+
+                String original = imagen.getOriginalFilename();
+
+                if (original == null || !original.contains(".")) {
+                    throw new IllegalArgumentException("El archivo no tiene una extensión válida.");
+                }
+
+                String extension = original.substring(original.lastIndexOf('.') + 1)
+                        .toLowerCase();
+
+                if (!extension.matches("jpg|jpeg|png|gif|webp")) {
+                    throw new IllegalArgumentException("Formato de imagen no permitido.");
+                }
+
+                String nombreFoto = System.currentTimeMillis() + "." + extension;
+
+                Path carpeta = Paths.get(directorio).toAbsolutePath().normalize();
+                Path rutaCompleta = carpeta.resolve(nombreFoto).normalize();
+
+                if (!rutaCompleta.startsWith(carpeta)) {
+                    throw new SecurityException("Ruta de archivo inválida.");
+                }
 
                 byte[] bytesImagen = imagen.getBytes();
-                Path rutaCompleta = Paths.get(directorio + nombreFoto);
                 Files.write(rutaCompleta, bytesImagen);
 
                 return nombreFoto;
@@ -57,7 +75,8 @@ public class ImagenServiceImpl implements ImagenService {
                 return null;
             }
         } catch (IOException e) {
-            throw new RuntimeException("error: ha ocurrido un error al guardar la imagen " + e.getMessage() + e);
+            throw new RuntimeException("error: ha ocurrido un error al guardar la imagen " + e.getMessage(), e);
         }
     }
+
 }
