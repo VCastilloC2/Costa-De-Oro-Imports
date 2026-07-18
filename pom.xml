@@ -193,7 +193,7 @@
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
-            <version>3.8.6</version>
+            <version>3.8.7</version>
         </dependency>
 
         <!-- SDK Mercado Pago -->
