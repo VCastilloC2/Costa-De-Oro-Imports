@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -42,7 +42,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <spring-ai.version>2.0.0-RC2</spring-ai.version>
+        <spring-ai.version>2.0.0</spring-ai.version>
 
         <!-- FIX seguridad Tomcat -->
         <tomcat.version>10.1.55</tomcat.version>
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>4.5.2</version>
+            <version>4.6.0</version>
         </dependency>
 
         <!-- Java Mail Sender -->
@@ -193,14 +193,14 @@
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
-            <version>3.8.6</version>
+            <version>3.8.7</version>
         </dependency>
 
         <!-- SDK Mercado Pago -->
         <dependency>
             <groupId>com.mercadopago</groupId>
             <artifactId>sdk-java</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-beanutils</groupId>
