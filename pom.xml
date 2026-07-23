@@ -189,6 +189,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>4.2.16.Final</version>
+        </dependency>
+
         <!-- weka -->
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
