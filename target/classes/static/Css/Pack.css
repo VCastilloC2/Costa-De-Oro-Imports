@@ -1,0 +1,138 @@
+@import url("./style.css");
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+
+.productos {
+    min-height: 100vh;
+    padding: 100px 0;
+}
+
+/* Flex Container */
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.flex__productos {
+    display: block;
+    /* Cambia de grid a block */
+    max-width: 1345px;
+}
+
+.flex__productos-track {
+    display: grid;
+    /* Mueve el grid aquí */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    justify-items: center;
+}
+
+@media (max-width: 1024px) {
+    .flex__productos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .flex__productos {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 16px;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: none !important;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+}
+
+.card.active-page {
+    display: flex !important;
+}
+
+.card {
+    transition: opacity 0.3s ease;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    margin-left: 5rem;
+    width: 100%;
+    position: static;
+    /* Elimina posicionamiento absoluto */
+    left: auto;
+    top: auto;
+}
+
+.pagination__Numbers {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pagination__Numbers .button__pagination {
+    font: 600 1.2rem "Urbanist";
+    width: 45px;
+    height: 45px;
+    border: 1px solid #ccc;
+    display: flex;
+    cursor: pointer;
+    color: var(--colorLigth);
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color .2s ease, color .2s ease-in;
+}
+
+.pagination__Numbers .button__pagination.active {
+    background-color: var(--colorCafe);
+    border: none;
+    color: var(--colorWhite);
+}
+
+.pagination__Numbers .button__pagination:hover {
+    background-color: var(--colorCafe);
+    border: 1px solid var(--colorCafe);
+    color: #ffffff;
+}
+
+.pagination button {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    background-color: transparent;
+    font: 700 1.4rem "Urbanist";
+    color: var(--colorLigth);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color .4s ease, color .4s ease-in;
+}
+
+.pagination button:hover {
+    background-color: var(--colorCafe);
+    border: 1px solid var(--colorCafe);
+    color: #ffffff;
+}

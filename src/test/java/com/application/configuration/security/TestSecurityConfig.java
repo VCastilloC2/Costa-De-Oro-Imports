@@ -2,6 +2,7 @@ package com.application.configuration.security;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,7 +19,7 @@ public class TestSecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()) // Deshabilita CSRF para tests
+                .csrf(Customizer.withDefaults())
                 .formLogin(form -> form.disable()) // Deshabilita el form login por defecto
                 .httpBasic(httpBasic -> httpBasic.disable()); // Deshabilita http basic
 

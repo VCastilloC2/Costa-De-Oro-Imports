@@ -38,6 +38,8 @@
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 
 <body>
@@ -599,9 +601,9 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
-    <script th:src="@{/Js/Dashboard.js}"></script>
-    <script th:src="@{/Js/ChatBot.js}"></script>
-    <script th:src="@{/Js/simplexSolver.js}"></script>
+    <script type="module" th:src="@{/Js/Dashboard.js}"></script>
+    <script type="module" th:src="@{/Js/ChatBot.js}"></script>
+    <script type="module" th:src="@{/Js/simplexSolver.js}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (window.simplexSolver) {

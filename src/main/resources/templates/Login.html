@@ -19,6 +19,8 @@
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 
 <body th:data-mensaje-error="${mensajeError}" th:data-mensaje-exitoso="${mensajeExitoso}" th:data-login-success="${loginSuccess}" th:data-rol="${rol}" th:data-next="${next}">
@@ -36,6 +38,11 @@
         </div>
 
         <form class="form" th:action="@{/auth/login}" method="post">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+
             <h1 class="formulario__title">Iniciar Sesión</h1>
 
             <span class="formulario__title2">Use su correo y contraseña para iniciar sesión</span>

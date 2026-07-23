@@ -1,0 +1,330 @@
+@import url("./style.css");
+
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+.contactos {
+    min-height: 100vh;
+    padding: 150px 0 80px 0;
+}
+
+.contactos__contenidos {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+
+}
+
+.contactos__contenidos .contenidos__item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+}
+
+.contactos__contenidos .item--map {
+    padding: 0 100px;
+}
+
+.contactos__contenidos .item--form {
+    border: 1px solid #ccc;
+    padding: 50px 50px 50px 0;
+    margin: 0 2rem;
+}
+
+.item__informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.item__informacion .informacion__subtitulo {
+    font: 500 1rem var(--typografiaUrbanist);
+
+
+}
+
+.item__informacion .informacion__titulo {
+    font: 700 1.8rem var(--typografiaGeist);
+    width: 600px;
+}
+
+.item__informacion .informacion__titulosecundario {
+    font: 700 1.2rem var(--typografiaUrbanist);
+}
+
+.item__informacion .informacion__list {
+    list-style: none;
+}
+
+.informacion__list li i {
+    margin-right: 1rem;
+    color: var(--colorDark);
+}
+
+.informacion__list li {
+    font: 400 1.2rem var(--typografiaUrbanist);
+    margin-bottom: 1rem;
+}
+
+
+
+.form .formulario__title {
+    font: 400 1.2rem var(--typografiaUrbanist);
+    margin-bottom: 0.2rem;
+}
+
+.form .formulario__title2 {
+    font: 700 1.8rem var(--typografiaGeist);
+}
+
+
+.input-box {
+    position: relative;
+}
+
+.input-box label {
+    font: 600 1rem var(--typografiaUrbanist);
+    position: absolute;
+    color: #8d8d8d;
+    pointer-events: none;
+    background-color: transparent;
+    left: 20px;
+    top: 18px;
+    transform: translateY(0.6rem);
+    transition: all 0.3s ease;
+}
+
+.input-box input {
+    margin: 10px 0 10px 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    font: 600 1rem var(--typografiaUrbanist);
+    border-radius: 8px;
+    width: 900px;
+    height: 55px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+.input-box input:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.input-box input:focus~label,
+.input-box input:not(:placeholder-shown)~label {
+    background-color: #fff;
+    transform: translateY(-100%) translateX(-10px) scale(0.9);
+    padding: 0 5px;
+    color: #8e6b43;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 100px;
+}
+
+.input-box textarea {
+    margin: 10px 0 20px 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    font: 600 1rem var(--typografiaUrbanist);
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+    min-height: 150px;
+    max-height: 150px;
+    letter-spacing: 1px;
+    outline: none;
+    field-sizing: content;
+    box-sizing: border-box;
+}
+
+
+.input-box textarea:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.input-box textarea:focus~label,
+.input-box textarea:not(:placeholder-shown)~label {
+    background-color: #fff;
+    transform: translateY(-100%) translateX(-10px) scale(0.9);
+    padding: 0 5px;
+    color: #8e6b43;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 100px;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    width: 900px;
+    margin: 10px 0 10px 0px;
+}
+
+.styled-select {
+    width: 100%;
+    height: 55px;
+    padding: 12px 16px;
+    padding-right: 40px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font: 600 1rem var(--typografiaUrbanist);
+    color: #8d8d8d;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color .1s ease, outline .1s ease;
+}
+
+
+.styled-select option {
+    color: #333;
+    background-color: #ffffff;
+    font: 600 1rem var(--typografiaUrbanist);
+}
+
+.styled-select:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
+}
+
+.styled-select.input-error {
+    border-color: #fd1f1f !important;
+}
+
+
+
+.custom-arrow {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    font-size: 16px;
+    color: #666;
+    pointer-events: none;
+}
+
+.custom-arrow.rotate {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+
+
+.box__icon i {
+    position: absolute;
+    top: 25px;
+    left: 95%;
+    font: 900 1.2rem var(--typografiaUrbanist);
+
+}
+
+.box__icon .ri-check-line {
+    background-color: #34A853;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.box__icon .ri-close-line {
+    background-color: #fd1f1f;
+    border-radius: 50%;
+    padding: 1px 1px;
+    color: #fff;
+    display: none;
+}
+
+.input-box.input-error label {
+    color: #fd1f1f !important;
+}
+
+.input__error {
+    font: 600 1rem var(--typografiaUrbanist);
+    width: 500px;
+    margin: 0 0 15px 0px;
+    display: none;
+}
+
+
+.error--changed {
+    margin: 30px 0 0 33px;
+}
+
+
+.input__advertencia i {
+    font-size: 1.7rem;
+    margin: -5px 10px 0 0;
+}
+
+.swal-title {
+    font: 600 2rem var(--typografiaUrbanist);
+}
+
+.swal-popup {
+    font: var(--typografiaUrbanist);
+}
+
+
+.form .formulario__btn {
+    font: 700 1.2rem var(--typografiaUrbanist);
+    background-color: var(--colorCafe);
+    color: #fff;
+    width: 100%;
+    width: 200px;
+    height: 55px;
+    border-radius: 5px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+    transition: background-color .7s ease;
+}
+
+/* .form .formulario__btn:hover {
+    background-color: #0034de;
+} */
+
+.testimonios__card {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.card__imgtestimonio img {
+    border-radius: 50%;
+    max-width: 100%;
+    width: 70px;
+
+}
+
+.testimonios__description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.testimonios__description .description__title {
+    font: 600 1.2rem var(--typografiaGeist);
+}
+
+.testimonios__description :is(.description__rol, .description__phone, .description__email) {
+    font: 400 1rem var(--typografiaUrbanist);
+}

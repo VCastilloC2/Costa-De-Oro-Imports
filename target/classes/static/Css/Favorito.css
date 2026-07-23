@@ -1,0 +1,223 @@
+@import url("./style.css");
+
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
+
+.table__container {
+    min-height: 100vh;
+    position: relative;
+    padding-top: 150px;
+}
+
+.container__enlaces {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+.container__enlaces a {
+    font: 500 1.1rem var(--typografiaUrbanist);
+    text-decoration: none;
+    color: #000000;
+
+}
+
+.container__enlaces a:hover {
+    text-decoration: underline;
+}
+
+
+/* Notificaciones */
+.container__table {
+    background-color: var(--color-tercario);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 10px 0 0 120px;
+    position: absolute;
+    z-index: 1;
+}
+
+.notification__title {
+    font: 700 2.5rem var(--typografiaGeist);
+    color: #000000;
+    margin: 0 0 10px 150px;
+    letter-spacing: 1px;
+}
+
+.notification__there {
+    font: 500 1.1rem var(--typografiaUrbanist);
+    color: #000000;
+    margin: 0 0 0 150px;
+    letter-spacing: 1px;
+}
+
+/* Tabla */
+.notification__table-container {
+    overflow-x: auto;
+}
+
+.notification__table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    min-width: 800px;
+}
+
+.estado {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.estado-stock {
+    background-color: #1e7e34;
+}
+
+.estado-agotado {
+    background-color: #dc3545;
+}
+
+.content__carrito {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    font: 600 0.85rem var(--typografiaUrbanist);
+    color: #fff;
+    background-color: #1e7e34;
+}
+
+.notification__table tbody tr:hover {
+    background-color: #f4fbff;
+    transition: background-color 0.7s ease;
+}
+
+.notification__table th {
+    padding: 14px 16px;
+    background-color: #f0f3f2;
+    text-align: center;
+    vertical-align: top;
+    border-bottom: 1px solid #e0e0e0;
+    font: 600 1.2rem var(--typografiaGeist);
+}
+
+.notification__table td {
+    padding: 10px 16px 10px 16px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font: 600 1rem var(--typografiaUrbanist);
+    cursor: pointer;
+}
+
+
+.content__icon {
+    border: none;
+    background-color: transparent;
+}
+
+.content__icon i {
+    cursor: pointer;
+    font: 400 23px var(--typografiaUrbanist);
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 5px 5px;
+    color: #6b7280;
+}
+
+.list__icon {
+    margin-left: 1.5rem;
+    display: flex;
+    gap: 1.3rem;
+}
+
+/*Pagination de la tabla  */
+.table__pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.4rem 0 0.8rem 0;
+}
+
+.pagination__span .span__description {
+    font: 500 1rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+.pagination__button .button__pasar {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    font: 500 0.9rem var(--typografiaGeist);
+    color: var(--colorLigth);
+    border-radius: 8px;
+    border: none;
+    background-color: #eee;
+    outline: none;
+}
+
+.pagination__button .pasar--anterior {
+    margin-right: 0.1rem;
+}
+
+
+
+.pagination__button .pasar--siguiente {
+    border: 1px solid #ddd;
+    background-color: transparent;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
+}
+
+.pagination__button .pasar--siguiente:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
+}
+
+.pagination__button .button__item {
+    width: 40px;
+    margin-right: 0.3rem;
+    height: 40px;
+    cursor: pointer;
+    font: 500 0.9rem var(--typografiaGeist);
+    background-color: transparent;
+    color: var(--colorLigth);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
+}
+
+.pagination__button .button__item.active {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
+}
+
+.pagination__button .button__item:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
+}
+
+.swal-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-weight: 600;
+}
+
+.swal-popup {
+    font-family: 'Urbanist', sans-serif !important;
+}
