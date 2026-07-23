@@ -19,6 +19,8 @@
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 
 <body th:data-mensaje-error="${mensajeError}" th:data-mensaje-exitoso="${mensajeExitoso}" th:data-login-success="${loginSuccess}" th:data-rol="${rol}" th:data-next="${next}">
