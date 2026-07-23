@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Perfil.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title> Perfil || Costa De Oro Imports</title>
+    <meta name="description" content="">
+    <meta name="autor" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+</head>
+
+<body th:data-mensaje="${mensaje}">
+    <header class="header">
+
+        <figure class="header__logo">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+            </a>
+        </figure>
+
+        <nav class="header__navbar">
+            <div id="close-menu" class="close-menu">×</div>
+            <ul class="navbar__list">
+                <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
+                <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
+                <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
+                <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
+                <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
+            </ul>
+        </nav>
+
+        <div class="list__icon">
+            <span class="icon__item" id="menu-toggle">
+                    <i class="ri-menu-line"></i>
+                </span>
+
+            <!-- BUSQUEDA PARA MOVIL/TABLET -->
+            <span class="icon__item icon-search-mobile">
+                    <i class="ri-search-line"></i>
+                </span>
+
+            <!-- BUSQUEDA PARA ESCRITORIO -->
+            <span class="icon__item" id="icon-search">
+                <i class="ri-search-line"></i>
+            </span>
+
+            <!-- Usuario -->
+            <span class="icon__item">
+                <i class="ri-user-line"></i>
+                <!-- Cuando el usuario NO está autenticado -->
+                <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                    <div class="menu__sub">
+                        <a th:href="@{/auth/login}" class="sub__link">
+                            <p class="link__text">Iniciar Sesión</p>
+                        </a>
+                        <a th:href="@{/auth/registro}" class="sub__link">
+                            <p class="link__text">Registro</p>
+                        </a>
+                        <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                            <p class="link__text">Recordar Contraseña</p>
+                        </a>
+                    </div>
+                </div>
+                <!-- Cuando el usuario SÍ está autenticado -->
+                <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                    <div class="menu__sub">
+                        <div class="sub__info">
+                            <i class="ri-user-line"></i>
+                            <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                            </h2>
+                        </div>
+                        <hr>
+                        <a th:href="@{/perfil/}" class="sub__link">
+                            <p class="link__text">Perfil</p>
+                        </a>
+                        <a th:href="@{/admin/principal}" class="sub__link"
+                           sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
+                        <a th:href="@{/perfil/configuration}" class="sub__link">
+                            <p class="link__text">Configuracion</p>
+                        </a>
+                        <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                            <p class="link__text">Notificaciones</p>
+                        </a>
+                        <a th:href="@{/perfil/pedidos}" class="sub__link">
+                            <p class="link__text">Sus Pedidos</p>
+                        </a>
+                        <a th:href="@{/auth/logout}" class="sub__link">
+                            <p class="link__text">Cerrar Sesión</p>
+                        </a>
+                    </div>
+                </div>
+            </span>
+
+            <!-- Favorito -->
+            <span class="icon__item" id="go-fav">
+                <i class="ri-heart-3-line"></i>
+                <span class="icon__badge" id="fav-count"></span>
+            </span>
+
+            <!-- Carrito -->
+            <span class="icon__item" id="cart-icon">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span class="icon__badge" id="cart-count"></span>
+            </span>
+        </div>
+    </header>
+
+    <section class="perfil">
+
+        <hr class="hr__horinzontal">
+
+        <div class="perfil__container">
+
+            <aside class="container__nav">
+                <div class="nav__opciones">
+                    <a href="#" class="opciones__btn active"><i class="ri-user-line"></i> Perfil</a>
+                    <a th:href="@{/perfil/configuration}" class="opciones__btn"><i class="ri-settings-2-line"></i>
+                        Configuracion</a>
+                    <a th:href="@{/perfil/notificaciones}" class="opciones__btn"><i class="ri-notification-2-line"></i>
+                        Notificaciones</a>
+                    <a th:href="@{/perfil/pedidos}" class="opciones__btn"> <i class="ri-shopping-bag-3-line"></i> Sus
+                        Pedidos</a>
+                    <hr class="hr__separar">
+                    <a th:href="@{/auth/logout}" class="opciones__btn"> <i class="ri-logout-box-r-line"></i> Cerrar
+                        Sesion</a>
+                </div>
+            </aside>
+
+            <hr class="hr__vertical">
+
+            <main class="container__main">
+                <div class="main__perfil">
+                    <div class="perfil__user">
+                        <div class="perfil__card">
+                            <h2 class="card__title">Cambiar perfil</h2>
+                            <p class="card__text">Cambia tu foto de perfil desde aquí</p>
+
+                            <form id="formFoto" th:action="@{/perfil/colocar-imagen-usuario}" method="post"
+                                  enctype="multipart/form-data">
+                                <div class="card__img--user">
+                                    <figure class="img__user">
+                                        <img id="preview" th:src="${urlImagenUsuario}"
+                                             th:alt="${usuario.imagen}">
+                                    </figure>
+
+                                    <div class="img__btn">
+                                        <div class="btn__item">
+                                            <!-- Input de tipo file -->
+                                            <input type="file" id="fileInput" name="imagenUsuarioNueva"
+                                                   accept="image/*" hidden>
+
+                                            <!-- Input oculto con el nombre de la imagen original -->
+                                            <input type="hidden" id="imagenUsuario" name="imagenUsuarioOriginal"
+                                                   th:value="${usuario.imagen}">
+
+                                            <button type="button" class="item__button button--subir"
+                                                    id="btnSubir">Subir
+                                            </button>
+                                            <button type="button" class="item__button button--restablecer"
+                                                    id="btnRestablecer">Restablecer
+                                            </button>
+                                        </div>
+                                        <p class="btn__text">JPG, GIF o PNG permitidos. Tamaño máximo de 800K</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="user__informacion">
+                            <h2 class="informacion__title">Información del perfil</h2>
+
+                            <p class="informacion__text">
+                                Aquí puedes consultar y actualizar los datos asociados a tu perfil. <br>
+                                Recuerda mantener tu información personal actualizada para garantizar una mejor experiencia en la plataforma.
+                            </p>
+
+                            <div class="informacion__datos">
+                                    <span class="datos__nombre">
+                                        <strong>Nombre completo:</strong>
+                                        <span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span>
+                                    </span>
+                                <span class="datos__telelfono">
+                                        <strong>Telefono:</strong>
+                                        <span th:text="${usuario.telefono}"></span>
+                                    </span>
+                                <span class="datos__correo">
+                                        <strong>Correo:</strong>
+                                        <span th:text="${usuario.correo}"></span>
+                                    </span>
+                                <span class="datos__identificacion">
+                                        <strong>Tipo identificacion:</strong>
+                                        <span th:text="${usuario.tipoIdentificacion.descripcion}"></span>
+                                    </span>
+                                <span class="datos__ubicacion">
+                                        <strong>Identificacion:</strong>
+                                        <span th:text="${usuario.numeroIdentificacion}"></span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="perfil__personales">
+
+                        <h2 class="personales__titles">Datos personales</h2>
+                        <p class="personales__text">Para cambiar tus datos personales, edita y guarda desde aquí</p>
+
+                        <form class="personales__formulario" th:action="@{/perfil/actualizar-usuario}" method="post">
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="nombres" id="nombre"
+                                        th:value="${usuario.nombres}">
+                                    <label class="label" for="nombre">Nombre</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error">
+                                    El nombre debe tener al menos 3 letras y no contener números.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="apellidos" id="apellido"
+                                        th:value="${usuario.apellidos}">
+                                    <label class="label" for="apellido">Apellido</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error">
+                                    El nombre debe tener al menos 3 letras y no contener números.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="custom-select-wrapper">
+                                    <select class="styled-select" name="tipoIdentificacion" id="tipoIdentificacion"
+                                        required>
+                                        <option disabled selected>Tipo De Identificación</option>
+                                        <option th:each="tipo : ${tiposIdentificacion}" th:value="${tipo.name()}"
+                                            th:text="${tipo.descripcion}"
+                                            th:selected="${tipo.name() == usuario.tipoIdentificacion.name()}"></option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon1"></i>
+                                </div>
+                                <p class="input__error error--tipoIdentificacion">
+                                    Por favor, seleccione un tipo de identificación.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="numeroIdentificacion"
+                                        id="identificacion" th:value="${usuario.numeroIdentificacion}">
+                                    <label for="identificacion">Identificacion</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error">
+                                    La cédula debe contener entre 6 y 10 dígitos numéricos.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="email" autocomplete="off" placeholder="" name="correo" id="email1"
+                                        th:value="${usuario.correo}">
+                                    <label for="email">Email</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error error--changed2">
+                                    El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
+                                <div class="input-box">
+                                    <input type="text" autocomplete="off" placeholder="" name="telefono" id="telefono"
+                                        th:value="${usuario.telefono}">
+                                    <label for="telefono">Telefono</label>
+                                    <span class="box__icon"><i class="ri-check-line"></i></span>
+                                    <span class="box__icon"><i class="ri-close-line"></i></span>
+                                </div>
+                                <p class="input__error">
+                                    El teléfono solo puede contener numeros y el maximo son 10 digitos.
+                                </p>
+                            </div>
+
+
+                            <div class="formulario__input formulario__btn-container">
+                                <button class="formulario__btn" type="submit">Guardar</button>
+                                <button class="formulario__btn btn--cancelar" type="submit">Cancelar</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div th:if="${usuario.empresa != null}">
+                        <div class="perfil__user user--empresa">
+
+                            <div class="perfil__card">
+                                <h2 class="card__title title--empresa">Cambiar Empresa</h2>
+                                <p class="card__text">Cambia la foto de perfil de la empresa</p>
+
+                                <form id="formFotoEmpresa" th:action="@{/perfil/colocar-imagen-empresa}" method="post"
+                                    enctype="multipart/form-data">
+                                    <div class="card__img--user">
+                                        <figure class="img__user user--empresar">
+                                            <img id="previewEmpresa"
+                                                th:src="${urlImagenEmpresa}"
+                                                th:alt="${usuario.empresa.imagen}">
+                                        </figure>
+
+                                        <div class="img__btn">
+                                            <div class="btn__item">
+                                                <input type="file" id="fileInputEmpresa" name="imagenEmpresaNueva"
+                                                    accept="image/*" hidden>
+                                                <!-- Input oculto con el nombre de la imagen original -->
+                                                <input type="hidden" id="imagenEmpresa" name="imagenEmpresaOriginal"
+                                                    th:value="${usuario.empresa.imagen}">
+                                                <!-- Botón dinámico -->
+                                                <button type="button" class="item__button button--subir"
+                                                    id="btnSubirEmpresa">Subir
+                                                </button>
+                                                <button type="button" class="item__button button--restablecer"
+                                                    id="btnRestablecerEmpresa">Restablecer
+                                                </button>
+                                            </div>
+                                            <p class="btn__text">JPG, GIF o PNG permitidos. Tamaño máximo de 800K</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="empresa__informacion">
+                                <h2 class="informacion__title">Información de la empresa</h2>
+
+                                <p class="informacion__text">
+                                    En esta sección puedes visualizar la información registrada de tu empresa y realizar cambios únicamente sobre los datos habilitados para edición.
+                                    Los datos legales, como NIT y razón social, son permanentes y no pueden modificarse desde esta sección por motivos de seguridad y cumplimiento normativo.
+                                </p>
+
+                                <div class="empresas__datos">
+                                    <span class="datos__nit">
+                                        <strong>Nit:</strong> <span th:text="${usuario.empresa.nit}"></span>
+                                    </span>
+                                    <span class="datos__social">
+                                        <strong>Razon Social:</strong> <span
+                                            th:text="${usuario.empresa.razonSocial}"></span>
+                                    </span>
+                                    <span class="datos__ciudad">
+                                        <strong>Ciudad:</strong> <span th:text="${usuario.empresa.ciudad}"></span>
+                                    </span>
+                                    <span class="datos__direccion">
+                                        <strong>Direccion:</strong> <span th:text="${usuario.empresa.direccion}"></span>
+                                    </span>
+                                    <span class="datos__correo">
+                                        <strong>Correo:</strong> <span th:text="${usuario.empresa.correo}"></span>
+                                    </span>
+                                    <span class="datos__telefono">
+                                        <strong>Telefono:</strong> <span th:text="${usuario.empresa.telefono}"></span>
+                                    </span>
+                                    <span class="datos__sector">
+                                        <strong>Sector:</strong>
+                                        <span th:text="${usuario.empresa.eSector.name()}"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="perfil__empresa">
+                            <h2 class="empresa__titles">Datos empresa</h2>
+                            <p class="empresa__text">Si pertenece alguna empresa rellene el siguiente formulario</p>
+
+                            <form class="empresa__formulario" th:action="@{/perfil/actualizar-empresa}" method="post">
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="text" autocomplete="off" placeholder="" name="Nit" id="nit"
+                                            th:value="${usuario.empresa.nit}" disabled>
+                                        <label class="label" for="nit">Nit</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error">
+                                        El NIT no puede estar vacío y debe contener solo números.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="text" autocomplete="off" placeholder="" name="RazonSocial"
+                                            id="razonSocial" th:value="${usuario.empresa.razonSocial}" disabled>
+                                        <label class="label" for="razonSocial">Razon Social</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error">
+                                        La razón social solo puede contener letras, espacios y debe tener entre 3 y 50
+                                        caracteres.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="custom-select-wrapper wrapper--top">
+                                        <select class="styled-select" name="ciudad" id="Ciudad">
+                                            <option disabled selected>Ciudad</option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon2"></i>
+                                    </div>
+                                    <p class="input__error error--ciudad">
+                                        Por favor, seleccione una ciudad.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="text" autocomplete="off" placeholder="" name="direccion"
+                                            id="direccion" th:value="${usuario.empresa.direccion}">
+                                        <label for="direccion">Direccion</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error error--direccion">
+                                        Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle
+                                        45
+                                        #10-23,
+                                        130002).
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="email" autocomplete="off" placeholder="" name="correo" id="correo"
+                                            th:value="${usuario.empresa.correo}">
+                                        <label for="correo">Email</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error error--changed2">
+                                        El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input">
+                                    <div class="input-box">
+                                        <input type="text" autocomplete="off" placeholder="" name="telefono" id="phone"
+                                            th:value="${usuario.empresa.telefono}">
+                                        <label for="phone">Telefono</label>
+                                        <span class="box__icon"><i class="ri-check-line"></i></span>
+                                        <span class="box__icon"><i class="ri-close-line"></i></span>
+                                    </div>
+                                    <p class="input__error">
+                                        El teléfono solo puede contener numeros y el maximo son 10 digitos.
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input" id="sector-input">
+                                    <div class="custom-select-wrapper">
+                                        <select class="styled-select" name="sector" id="tipoSector">
+                                            <option disabled selected>Tipo de sector</option>
+                                            <option th:each="sector : ${sectoresEmpresa}" th:value="${sector.name()}"
+                                                th:text="${sector.name()}"
+                                                th:selected="${sector.name() == usuario.empresa.eSector.name()}">
+                                            </option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down custom-sector" id="arrowIcon"></i>
+                                    </div>
+                                    <p class="input__error error--Tiposector">
+                                        Por favor, un tipo de sector
+                                    </p>
+                                </div>
+
+                                <div class="formulario__input formulario__container">
+                                    <button class="formulario__btn" type="submit">Guardar</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- ============= DRAWER DEL CARRITO ============= -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer">
+        <header class="cart-header">
+            <h3 class="header__carrito">Carrito De Compras</h3>
+            <button id="cart-close"><i class="ri-close-line"></i></button>
+        </header>
+
+        <div class="cart-body">
+            <ul class="cart-list" id="cart-list"></ul>
+        </div>
+
+        <footer class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal:</span>
+                <strong id="cart-subtotal">$0.00</strong>
+            </div>
+            <button id="seguir-comprando" class="btn-primary">Seguir Comprando</button>
+            <button id="finalizar-compra" class="btn-primary">Finalizar compra</button>
+        </footer>
+    </aside>
+
+    <footer class="footer">
+        <div class="footer__subscripcion">
+            <div class="subcripcion__informativa">
+                <div class="informativa__subscribir">
+                    <h2 class="subscribir__title">Suscríbete al Boletín Informativo</h2>
+                    <p class="subscribir__text">
+                        Recibe en tu correo nuestras últimas novedades y <span>las mejores ofertas especiales.</span>
+                    </p>
+                </div>
+
+                <div class="informativa__formulario">
+                    <form class="formulario__subcripcion" action="">
+                        <div class="subcripcion__formulario">
+                            <div class="formulario__input">
+                                <input type="email" autocomplete="off" placeholder="Ingresa tu email" name="Email"
+                                    id="email">
+                                <button type="submit">Subcribete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer__enlaces">
+
+            <div class="enlaces__categoriaNosotros">
+                <figure class="categoriaNosotros__logo">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
+                </figure>
+
+                <ul class="categoriaNosotros__list">
+                    <h4 class="list__title">Contactanos</h4>
+
+                    <li class="list__item"><strong>Direccion: </strong>Fundacion Tecnologica De Comfenalco</li>
+                    <li class="list__item"><strong>Telefono: </strong> +321458924</li>
+                    <li class="list__item"><strong>Horarios: </strong> 7:00 - 17:00, Lunes - Viernes</li>
+
+                    <h4 class="list__siguenos">Siguenos en</h4>
+
+                    <div class="list__icon">
+                        <li class="icon__social"><i class="ri-facebook-fill"></i></li>
+                        <li class="icon__social"><i class="ri-twitter-fill"></i></li>
+                        <li class="icon__social"><i class="ri-instagram-fill"></i></li>
+                        <li class="icon__social"><i class="ri-pinterest-fill"></i></li>
+                    </div>
+
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaPopulares">
+                <h2 class="categoriaPopulares__title">Categorias Populares</h2>
+
+                <ul class="categoriasPopulares__list">
+                    <li class="list__item"><a class="item__footer" href="">Lager</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Ale</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino tinto</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino blanco</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Whisky</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vodka</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores de frutas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores herbales</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaProductos">
+                <h2 class="categoriaProductos__title">Productos</h2>
+
+                <ul class="categoriaProductos__list">
+                    <li class="list__item"><a class="item__footer" href="">Recién Llegados</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Nuevos Productos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Catalogos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Los precios bajan</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Las mejores ventas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Mapa del sitio</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Paquete y ahorro</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Tarjeta de regalo en línea</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__instalar">
+                <h2 class="instalar__title">Instalar App</h2>
+
+                <ul class="instalar__list">
+                    <li class="list__item">Desde App Store o Google Play</li>
+                </ul>
+
+                <div class="instalar__flex">
+                    <figure>
+                        <img th:src="@{/Assets/Img/footer/app.jpg}" alt="">
+                    </figure>
+                    <figure>
+                        <img th:src="@{/Assets/Img/footer/play.jpg}" alt="">
+                    </figure>
+                </div>
+
+                <ul class="instalar__list">
+                    <li class="list__item item--pagos">Pasarelas de Pago Seguras</li>
+                </ul>
+
+                <figure>
+                    <img th:src="@{/Assets/Img/footer/pay.png}" alt="">
+                </figure>
+            </div>
+
+
+        </div>
+
+        <div class="instalar__copyright">
+            <p class="copyright__text">© <span id="anio__pagina"></span>, Beer-E-ecommer - Todos los Derechos Reservados
+                - Creado por <a href="#"><strong>Nosotros</strong></a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" th:src="@{/Js/Perfil.js}"></script>
+</body>
+
+</html>

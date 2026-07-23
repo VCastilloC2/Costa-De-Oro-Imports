@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 300 - Múltiples opciones</title>
+    <link rel="stylesheet" th:href="@{/Css/Error/Error.css}">
+    <link rel="icon" type="image/png" th:href="@{/Assets/Img/Error/Error.png}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 300 con varias jarras para elegir -->
+        <div class="error-300">
+            <span class="error-num">3</span>
+            <div class="beer-container">
+                <div class="beer-pitcher">
+                    <!-- Cuerpo principal de la jarra -->
+                    <div class="pitcher-body">
+                        <!-- Burbujas en el interior -->
+                        <div class="bubbles" id="bubbles"></div>
+                        <!-- Líquido de cerveza con gradiente realista -->
+                        <div class="beer-liquid" id="beer-liquid"></div>
+                    </div>
+                    <!-- Base de la jarra -->
+                    <div class="pitcher-base"></div>
+                    <!-- Efectos de vidrio: reflejos y condensación -->
+                    <div class="glass-effects"></div>
+                </div>
+            </div>
+            <div class="beer-container">
+                <div class="beer-pitcher">
+                    <!-- Cuerpo principal de la jarra -->
+                    <div class="pitcher-body">
+                        <!-- Burbujas en el interior -->
+                        <div class="bubbles" id="bubbles"></div>
+                        <!-- Líquido de cerveza con gradiente realista -->
+                        <div class="beer-liquid" id="beer-liquid"></div>
+                    </div>
+                    <!-- Base de la jarra -->
+                    <div class="pitcher-base"></div>
+                    <!-- Efectos de vidrio: reflejos y condensación -->
+                    <div class="glass-effects"></div>
+                </div>
+            </div>
+        </div>
+
+        <h1>Múltiples opciones disponibles</h1>
+        <p>Tu solicitud tiene varios caminos posibles...
+            ¡Elige tu cerveza favorita antes de continuar!</p>
+
+        <!-- Botón de volver -->
+        <a href="javascript:history.back()" class="button">
+            Volver a la página anterior
+        </a>
+
+        <!-- Mensaje divertido -->
+        <div class="additional-info">
+            <p>Cuando hay varias cervezas, ¡la decisión nunca es fácil!</p>
+        </div>
+    </div>
+    <script th:src="@{/Js/Error/Error.js}"></script>
+</body>
+
+</html>

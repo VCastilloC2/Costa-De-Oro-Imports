@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Succesful</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Urbanist', Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        .header {
+            background: #18181b;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            padding: 30px;
+            background: white;
+            border-radius: 0 0 10px 10px;
+        }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #71717a;
+            font-size: 0.9rem;
+        }
+        .security-info {
+            background: #f0f3f2;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .login-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Inicio de Sesión Exitoso</h1>
+        </div>
+        <div class="content">
+            <div style="text-align: center;">
+                <div class="login-icon">🔐</div>
+            </div>
+
+            <h2>Hola, <span th:text="${nombre}">Usuario</span>!</h2>
+
+            <p>Se ha detectado un inicio de sesión en tu cuenta:</p>
+
+            <div class="security-info">
+                <p><strong>Fecha y hora:</strong> [[${fechaLogin != null ? #temporals.format(fechaLogin, 'dd/MM/yyyy HH:mm') : '--'}]]</p>
+                <p><strong>Dispositivo:</strong> [[${dispositivo}]]</p>
+                <p><strong>Ubicación aproximada:</strong> Cartagena, Colombia</p>
+            </div>
+
+            <p>Si reconoces esta actividad, no necesitas hacer nada.</p>
+
+            <p><strong>¿No reconoces este inicio de sesión?</strong></p>
+            <ul>
+                <li>Cambia tu contraseña inmediatamente</li>
+                <li>Revisa tu actividad reciente</li>
+                <li>Contacta con soporte si necesitas ayuda</li>
+            </ul>
+
+            <p>Para mayor seguridad, te recomendamos:</p>
+            <ul>
+                <li>Usar contraseñas seguras</li>
+                <li>No compartir tus credenciales</li>
+                <li>Cerrar sesión en dispositivos públicos</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <p>Sistema de Gestión Integral - Cartagena, Colombia</p>
+            <p>[[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</p>
+        </div>
+    </div>
+</body>
+</html>

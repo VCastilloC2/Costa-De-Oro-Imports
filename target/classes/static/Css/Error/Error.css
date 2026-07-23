@@ -1,0 +1,523 @@
+:root {
+    --color-primario: #13294B;
+    --color-secundario: #FFD500;
+    --color-terciario: #ffffff;
+    --color-principal: #f59e0b;
+    --color-dark: #18181b;
+    --color-light: #71717a;
+    --beer-gold: #FBBF24;
+    --beer-amber: #D97706;
+    --beer-dark: #B45309;
+    --foam-white: #FFFFFF;
+    --glass-transparent: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(0, 0, 0, 0.15);
+    --font-principal: "Poppins", sans-serif;
+    --font-secundaria: "Urbanist", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-principal);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--color-dark);
+    overflow-x: hidden;
+}
+
+.container {
+    text-align: center;
+    background: var(--color-terciario);
+    padding: clamp(30px, 5vw, 50px) clamp(20px, 4vw, 40px);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: min(90vw, 600px);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
+}
+
+h1 {
+    color: var(--color-primario);
+    font-size: clamp(22px, 2.5vw, 32px);
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    color: var(--color-light);
+    font-size: clamp(14px, 1.5vw, 18px);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* ======== Diseño unificado para todos los errores ======== */
+.error-404,
+.error-401,
+.error-400,
+.error-300,
+.error-403,
+.error-500 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(80px, 15vw, 150px);
+    font-weight: bold;
+    color: var(--color-primario);
+    margin-bottom: 30px;
+    gap: clamp(10px, 2vw, 20px);
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.error-num {
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.error-num:hover {
+    transform: translateY(-5px) rotate(5deg);
+}
+
+/* Contenedor de la jarra de cerveza - responsive */
+.beer-container {
+    position: relative;
+    width: clamp(80px, 20vw, 140px);
+    height: clamp(120px, 30vw, 220px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2;
+}
+
+/* Jarra de cerveza realista */
+.beer-pitcher {
+    position: relative;
+    width: 80%;
+    height: 90%;
+    z-index: 2;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Asa de la jarra (handle) */
+.pitcher-handle {
+    position: absolute;
+    right: -12%;
+    top: 40%;
+    width: 20%;
+    height: 27%;
+    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0, #a0a0a0);
+    border-radius: 50px 10px 50px 10px;
+    box-shadow: inset -5px 0 10px rgba(255, 255, 255, 0.3), 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transform: rotate(20deg);
+    z-index: 1;
+}
+
+.pitcher-handle::before {
+    content: '';
+    position: absolute;
+    left: -25%;
+    top: 17%;
+    width: 40%;
+    height: 67%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* Cuerpo principal de la jarra */
+.pitcher-body {
+    position: relative;
+    width: 100%;
+    height: 73%;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(240, 240, 240, 0.5) 50%,
+            rgba(220, 220, 220, 0.7) 100%);
+    border: 3px solid #d0d0d0;
+    border-bottom: 5px solid #b0b0b0;
+    border-radius: 20px 20px 50px 50px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.15), inset -10px 0 20px rgba(255, 255, 255, 0.2);
+    z-index: 3;
+}
+
+.pitcher-body::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 9%;
+    right: 9%;
+    height: 6px;
+    background: linear-gradient(to right, #f0f0f0, #ffffff, #f0f0f0);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Base de la jarra */
+.pitcher-base {
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 57%;
+    height: 7%;
+    background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+    border-radius: 50% 50% 10px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Efectos de vidrio */
+.glass-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.glass-effects::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    width: 18%;
+    height: 27%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+    border-radius: 10px;
+    filter: blur(1px);
+}
+
+.glass-effects::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    left: 15%;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    animation: condensation 5s infinite ease-in-out;
+}
+
+@keyframes condensation {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translateX(0);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateX(5px);
+    }
+}
+
+/* Espuma realista */
+.beer-foam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15%;
+    z-index: 5;
+    overflow: hidden;
+    transition: height 0.5s ease-in-out;
+}
+
+.foam-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--foam-white);
+    border-radius: 50% 50% 0 0;
+    opacity: 0.9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.foam-layer.secondary {
+    height: 70%;
+    width: 90%;
+    left: 5%;
+    background: radial-gradient(circle, #fff 0%, #f8f8f8 100%);
+    animation: foamSettle 4s infinite ease-in-out;
+    border-radius: 40% 60% 0 0;
+}
+
+.foam-layer.tertiary {
+    height: 50%;
+    width: 80%;
+    left: 10%;
+    background: radial-gradient(ellipse, #fff 0%, #f0f0f0 70%, transparent 100%);
+    animation: foamBubble 3s infinite ease-in-out 1s;
+    border-radius: 30% 70% 0 0;
+    opacity: 0.8;
+}
+
+@keyframes foamSettle {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.05);
+    }
+}
+
+@keyframes foamBubble {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateY(-4px) scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Líquido de cerveza */
+.beer-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75%;
+    background: linear-gradient(to top,
+            var(--beer-dark) 0%,
+            var(--beer-amber) 40%,
+            var(--beer-gold) 70%,
+            rgba(251, 191, 36, 0.8) 100%);
+    border-radius: 0 0 15px 15px;
+    z-index: 2;
+    animation: fillBeer 5s infinite alternate ease-in-out;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.2);
+    transition: height 0.5s ease-in-out;
+}
+
+@keyframes fillBeer {
+    0% {
+        height: 65%;
+        background: linear-gradient(to top, var(--beer-dark) 0%, var(--beer-amber) 50%, var(--beer-gold) 100%);
+    }
+
+    100% {
+        height: 85%;
+        background: linear-gradient(to top, var(--beer-amber) 0%, var(--beer-gold) 60%, rgba(251, 191, 36, 0.9) 100%);
+    }
+}
+
+/* Burbujas mejoradas */
+.bubbles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 70%, transparent 100%);
+    border-radius: 50%;
+    animation: bubbleRise 4s infinite linear;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    filter: blur(0.5px);
+}
+
+.bubble::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: bubbleWobble 0.5s infinite alternate;
+}
+
+@keyframes bubbleWobble {
+    0% {
+        transform: translateX(-1px) translateY(-0.5px);
+    }
+
+    100% {
+        transform: translateX(1px) translateY(0.5px);
+    }
+}
+
+@keyframes bubbleRise {
+    0% {
+        bottom: 0;
+        transform: scale(0.3) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0.7;
+    }
+
+    100% {
+        bottom: 100%;
+        transform: scale(1.1) translateX(var(--sway, 0px));
+        opacity: 0;
+    }
+}
+
+.bubble.large {
+    width: 12px !important;
+    height: 12px !important;
+    animation-duration: 5s !important;
+}
+
+.bubble.small {
+    width: 4px !important;
+    height: 4px !important;
+    animation-duration: 2s !important;
+}
+
+/* Botón mejorado */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 30px);
+    color: var(--color-primario);
+    background: linear-gradient(135deg, var(--color-secundario), #ffed4a);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: clamp(14px, 1.5vw, 16px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 213, 0, 0.3);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+.button:hover {
+    background: linear-gradient(135deg, var(--color-primario), #0f1e3a);
+    color: var(--color-secundario);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(19, 41, 75, 0.3);
+}
+
+/* Mensaje adicional */
+.additional-info {
+    margin-top: 25px;
+    font-size: clamp(12px, 1.5vw, 14px);
+    color: var(--color-light);
+    animation: fadeIn 1s ease-in-out 0.5s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Variantes para diferentes errores */
+.beer-pitcher.locked .pitcher-body::after {
+    content: '🔒';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(20px, 4vw, 30px);
+    z-index: 10;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+.beer-pitcher.half-empty .beer-liquid {
+    height: 40%;
+    animation: none;
+}
+
+/* Responsive simplificado */
+@media (max-width: 768px) {
+
+    .error-404,
+    .error-401,
+    .error-400 {
+        gap: 8px;
+    }
+
+    .beer-container {
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .error-404,
+    .error-401,
+    .error-400 {
+        font-size: clamp(60px, 20vw, 80px);
+    }
+
+    .container {
+        padding: 25px 15px;
+    }
+}

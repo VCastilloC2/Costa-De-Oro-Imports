@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "dbhub": {
+      "command": "C:\\Users\\Víctor José Cast2\\AppData\\Roaming\\npm\\dbhub.cmd",
+      "args": [
+        "--transport",
+        "stdio",
+        "--port",
+        "9080",
+        "--dsn",
+        "mysql://root:0220@localhost:3306/db_beer"
+      ]
+    }
+  }
+}
