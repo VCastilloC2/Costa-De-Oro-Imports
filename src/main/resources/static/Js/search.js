@@ -17,9 +17,17 @@
 let searchTimeout;
 let currentQuery = '';
 let isAdminContext = false; // Detectado automáticamente
+let initialized = false;
 
 export function inicializarBusqueda() {
-    const searchInput = document.querySelector('.search-input, #icon-search');
+    if (initialized) return;
+    initialized = true;
+
+    // Detectar input: .search-input, #icon-search, o input dentro de .header__search
+    const searchInput =
+        document.querySelector('.search-input') ||
+        document.querySelector('.header__search input') ||
+        document.querySelector('#icon-search');
 
     if (!searchInput) {
         console.warn('No se encontró input de búsqueda');
@@ -78,6 +86,13 @@ export function inicializarBusqueda() {
             modal?.classList.remove('active');
         }
     });
+}
+
+// Auto-inicialización al cargar el DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarBusqueda);
+} else {
+    inicializarBusqueda();
 }
 
 /**
