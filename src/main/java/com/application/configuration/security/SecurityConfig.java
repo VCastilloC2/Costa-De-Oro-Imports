@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/error/**", // Rutas de error
                                 "/api/chat", // Ruta de la IA
+                                "/api/search/universal", // Búsqueda universal pública
                                 "/webjars/**")
                         .permitAll()
                         // Configurar endpoints NO ESPECIFICADOS
