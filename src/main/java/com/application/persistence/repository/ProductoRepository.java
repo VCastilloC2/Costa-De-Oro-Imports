@@ -175,4 +175,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Encontrar producto por ID y verificar que pertenezca al proveedor
     @Query("SELECT p FROM Producto p WHERE p.productoId = :productoId AND p.proveedor.usuarioId = :proveedorId")
     Optional<Producto> findByIdAndProveedorId(@Param("productoId") Long productoId, @Param("proveedorId") Long proveedorId);
+
+    List<Producto> findByNombreContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrDescripcionContainingIgnoreCase(
+            String nombre,
+            String marca,
+            String descripcion
+    );
+
+
+
 }
