@@ -744,15 +744,4 @@ Este proyecto está bajo la licencia **MIT**. Consulta el archivo [LICENSE](LICE
 
 ---
 
-## 👤 Autor
-
-**Tu Nombre** – Desarrollador principal
-
-- [GitHub](https://github.com/tuusuario)
-- [LinkedIn](https://linkedin.com/in/tuusuario)
-
-Proyecto creado para modernizar la experiencia de e-commerce de Costa de Oro Imports con inteligencia artificial integrada y un enfoque DevOps de primer nivel.
-
----
-
 **Última actualización:** Julio 2026
