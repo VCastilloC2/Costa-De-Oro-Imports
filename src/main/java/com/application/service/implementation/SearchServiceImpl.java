@@ -10,6 +10,7 @@ import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.SearchItemResponse;
 import com.application.presentation.dto.SearchResponse;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,28 @@ public class SearchServiceImpl implements SearchService {
     private final CategoriaRepository categoriaRepository;
     private final UsuarioRepository usuarioRepository;
     private final HistoriaRepository historiaRepository;
+    private final CloudinaryService cloudinaryService;
+
+    private String imagenCloudinary(String imagen) {
+
+        if (imagen == null || imagen.isBlank()) {
+            return null;
+        }
+
+        imagen = imagen.trim();
+
+        if (imagen.startsWith("http://") || imagen.startsWith("https://")) {
+            return imagen;
+        }
+
+        try {
+            return cloudinaryService.getImagenUrl(imagen);
+        } catch (Exception e) {
+            log.warn("No fue posible generar la URL de Cloudinary para '{}'", imagen);
+            return null;
+        }
+    }
+
 
     @Override
     public SearchResponse buscarUniversal(String query, String tipo, int limit) {
@@ -138,9 +161,7 @@ public class SearchServiceImpl implements SearchService {
                 .titulo(p.getNombre())
                 .subtitulo(p.getMarca() + " - " + p.getPais())
                 .descripcion(truncar(p.getDescripcion(), 100))
-                .imagen(p.getImagen())
-                .precio(p.getPrecio())
-                .stock(p.getStock())
+                .imagen(imagenCloudinary(p.getImagen()))
                 .url("/ver?id=" + p.getCodigoProducto())
                 .badge(p.getStock() > 0 ? "En Stock" : "Agotado")
                 .badgeClass(p.getStock() > 0 ? "badge-success" : "badge-danger")
@@ -153,6 +174,7 @@ public class SearchServiceImpl implements SearchService {
                 .type("categoria")
                 .titulo(c.getNombre())
                 .subtitulo("Categoría")
+                .imagen(imagenCloudinary(c.getImagen()))
                 .descripcion(truncar(c.getDescripcion(), 100))
                 .icono("ri-list-unordered")
                 .url("/productos?categoria=" + c.getCategoriaId())
@@ -167,6 +189,7 @@ public class SearchServiceImpl implements SearchService {
                 .type("cliente")
                 .titulo(safe(c.getNombres()) + " " + safe(c.getApellidos()))
                 .subtitulo(safe(c.getCorreo()))
+                .imagen(imagenCloudinary(c.getImagen()))
                 .descripcion("Teléfono: " + safe(c.getTelefono()))
                 .icono("ri-user-line")
                 .url("/admin/clientes/" + c.getUsuarioId())
@@ -182,9 +205,10 @@ public class SearchServiceImpl implements SearchService {
                 .type("proveedor")
                 .titulo(razonSocial.isEmpty() ? safe(p.getNombres()) : razonSocial)
                 .subtitulo(safe(p.getCorreo()))
+                .imagen(imagenCloudinary(p.getImagen()))
                 .descripcion("Teléfono: " + safe(p.getTelefono()))
                 .icono("ri-store-2-line")
-                .url("/admin/provedores/" + p.getUsuarioId())
+                .url("/admin/proveedores/" + p.getUsuarioId())
                 .badge("Proveedor")
                 .badgeClass("badge-warning")
                 .build();
@@ -197,7 +221,7 @@ public class SearchServiceImpl implements SearchService {
                 .titulo(h.getTitulo())
                 .subtitulo("Artículo de Blog")
                 .descripcion(truncar(h.getDescripcion(), 100))
-                .imagen(h.getImagen())
+                .imagen(imagenCloudinary(h.getImagen()))
                 .icono("ri-news-line")
                 .url("/blog/info?id=" + h.getHistoriaId())
                 .badge("Blog")

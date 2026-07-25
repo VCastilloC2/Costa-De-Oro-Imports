@@ -2,6 +2,7 @@ package com.application.service.implementation;
 
 import com.application.service.interfaces.CloudinaryService;
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,15 +75,18 @@ public class CloudinaryServiceImpl implements CloudinaryService {
      */
     @Override
     public String getImagenUrl(String publicId) {
-        if (publicId == null || publicId.isEmpty()) {
+        if (publicId == null || publicId.isBlank()) {
             return null;
         }
 
-        try {
-            return cloudinary.url().secure(true).generate(publicId);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al intentar obtener la url segura de la imagen " + e.getMessage(), e);
-        }
+        return cloudinary.url()
+                .secure(true)
+                .transformation(new Transformation<>()
+                        .crop("fill")
+                        .gravity("auto")
+                        .quality("auto")
+                        .fetchFormat("auto"))
+                .generate(publicId);
     }
 
     /**

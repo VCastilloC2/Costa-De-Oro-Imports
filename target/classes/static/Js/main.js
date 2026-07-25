@@ -12,31 +12,33 @@ export function activarGlassmorphism() {
 }
 
 export function configurarLogout() {
-    const logoutLink = document.querySelector('a[href="/auth/logout"]');
 
-    if (!logoutLink) return;
+    const logoutLinks = document.querySelectorAll(".logout-link");
 
-    logoutLink.addEventListener("click", async (e) => {
-        e.preventDefault();
+    logoutLinks.forEach(link => {
+        link.addEventListener("click", async (e) => {
+            e.preventDefault();
 
-        const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
-        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+            const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 
-        const headers = {};
+            const headers = {};
 
-        if (csrfToken && csrfHeader) {
-            headers[csrfHeader] = csrfToken;
-        }
+            if (csrfToken && csrfHeader) {
+                headers[csrfHeader] = csrfToken;
+            }
 
-        const response = await fetch("/auth/logout", {
-            method: "POST",
-            headers
+            const response = await fetch("/auth/logout", {
+                method: "POST",
+                headers
+            });
+
+            if (response.ok || response.redirected) {
+                window.location.href = "/auth/login?logout";
+            }
         });
-
-        if (response.ok || response.redirected) {
-            window.location.href = "/auth/login?logout";
-        }
     });
+
 }
 
 export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,

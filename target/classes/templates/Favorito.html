@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" th:href="@{/Css/Favorito.css}">
+    <link rel="stylesheet" th:href="@{/Css/search.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,7 +218,7 @@
                         <div class="subcripcion__formulario">
                             <div class="formulario__input">
                                 <input type="email" autocomplete="off" placeholder="Ingresa tu email" name="Email"
-                                    id="email">
+                                       id="email">
                                 <button type="submit">Subcribete</button>
                             </div>
                         </div>
@@ -227,9 +228,12 @@
         </div>
 
         <div class="footer__enlaces">
+
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="">
+                    <a th:href="@{/}">
+                        <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="">
+                    </a>
                 </figure>
 
                 <ul class="categoriaNosotros__list">
@@ -309,9 +313,91 @@
 
         </div>
 
+        <!-- Marcos legales -->
+        <div class="footer__legal">
+            <h3 class="legal__title">Información Legal</h3>
+
+            <ul class="legal__list">
+                <li>
+                    <a th:href="@{/legal/terminos-condiciones}">
+                        Términos y Condiciones
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/politica-privacidad}">
+                        Política de Privacidad
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/cookies}">
+                        Política de Cookies
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/autorizacion-datos}">
+                        Tratamiento de Datos Personales
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/proteccion-consumidor}">
+                        Protección al Consumidor
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/retracto}">
+                        Derecho de Retracto
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/reversion-pago}">
+                        Reversión de Pago
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/pqrs}">
+                        PQRS
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/mayoria-edad}">
+                        Venta Exclusiva para Mayores de Edad
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/ecommerce-cervezas}">
+                        Venta de Cervezas
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/legal/ecommerce-licores}">
+                        Venta de Licores
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/contacto}">
+                        Contáctanos
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <div class="instalar__copyright">
-            <p class="copyright__text">© <span id="anio__pagina"></span>, Beer-E-ecommer - Todos los Derechos Reservados
-                - Creado por <a href="#"><strong>Nosotros</strong></a></p>
+            <p class="copyright__text">
+                © <span id="anio__pagina"></span> Coste De Oro Imports.
+                Todos los derechos reservados.
+                Creado por <strong>Costa de Oro Imports</strong>.
+            </p>
         </div>
     </footer>
 
@@ -319,6 +405,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" th:src="@{/Js/favorito.js}"></script>
+    <script type="module" th:src="@{/Js/search.js}"></script>
 </body>
 
 </html>

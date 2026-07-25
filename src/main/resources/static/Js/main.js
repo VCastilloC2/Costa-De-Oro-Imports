@@ -12,11 +12,20 @@ export function activarGlassmorphism() {
 }
 
 export function configurarLogout() {
-    const logoutLink = document.querySelector('a[href="/auth/logout"]');
 
-    if (!logoutLink) return;
+    document.addEventListener("click", async (e) => {
 
-    logoutLink.addEventListener("click", async (e) => {
+        const link = e.target.closest("a");
+
+        if (!link) return;
+
+        // Verificar que sea un enlace de logout
+        const href = link.getAttribute("href");
+
+        if (href !== "/auth/logout") {
+            return;
+        }
+
         e.preventDefault();
 
         const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
@@ -28,15 +37,20 @@ export function configurarLogout() {
             headers[csrfHeader] = csrfToken;
         }
 
-        const response = await fetch("/auth/logout", {
-            method: "POST",
-            headers
-        });
+        try {
+            const response = await fetch("/auth/logout", {
+                method: "POST",
+                headers
+            });
 
-        if (response.ok || response.redirected) {
-            window.location.href = "/auth/login?logout";
+            if (response.ok || response.redirected) {
+                window.location.href = "/auth/login?logout";
+            }
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
         }
     });
+
 }
 
 export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,

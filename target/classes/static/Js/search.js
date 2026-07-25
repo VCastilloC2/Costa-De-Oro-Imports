@@ -17,10 +17,17 @@
 let searchTimeout;
 let currentQuery = '';
 let isAdminContext = false; // Detectado automáticamente
+let initialized = false;
 
 export function inicializarBusqueda() {
-    const searchInput = document.querySelector('.search-input, #icon-search');
-    const searchContainer = document.querySelector('.search-container, .header__search');
+    if (initialized) return;
+    initialized = true;
+
+    // Detectar input: .search-input, #icon-search, o input dentro de .header__search
+    const searchInput =
+        document.querySelector('.search-input') ||
+        document.querySelector('.header__search input') ||
+        document.querySelector('#icon-search');
 
     if (!searchInput) {
         console.warn('No se encontró input de búsqueda');
@@ -65,36 +72,55 @@ export function inicializarBusqueda() {
         }
     });
 
-    // Cerrar al hacer click fuera
+    // Cerrar al hacer click fuera del input y de los resultados
     document.addEventListener('click', (e) => {
-        const isClickInSearch = searchInput.contains(e.target) ||
-            document.querySelector('.search-results')?.contains(e.target) ||
-            document.querySelector('.search-modal')?.contains(e.target);
+        const modal = document.querySelector('.search-modal');
+        const results = document.querySelector('.search-results');
 
-        if (!isClickInSearch) {
+        const clickedInsideInput = searchInput.contains(e.target);
+        const clickedInsideResults = results && results.contains(e.target);
+        const clickedInsideModal = modal && modal.contains(e.target);
+
+        if (!clickedInsideInput && !clickedInsideResults && !clickedInsideModal) {
             cerrarResultados();
-            document.querySelector('.search-modal')?.classList.remove('active');
+            modal?.classList.remove('active');
         }
     });
 }
 
+// Auto-inicialización al cargar el DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarBusqueda);
+} else {
+    inicializarBusqueda();
+}
+
 /**
  * Ejecutar búsqueda en el servidor
+ * Endpoint: /api/search/universal?q=...&limit=...&tipo=...
  */
 async function ejecutarBusqueda(query) {
     try {
-        // Mostrar loading
         mostrarLoading();
 
-        const endpoint = isAdminContext ? '/api/search/admin' : '/api/search/universal';
+        const endpoint = '/api/search/universal';
         const url = new URL(`${window.location.origin}${endpoint}`);
         url.searchParams.append('q', query);
         url.searchParams.append('limit', isAdminContext ? 10 : 5);
 
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
 
-        if (data.success && data.totalResults > 0) {
+        if (data && data.success && (data.totalResults || 0) > 0) {
             renderizarResultados(data);
         } else {
             mostrarNoResultados(query);
@@ -122,7 +148,7 @@ function renderizarResultados(data) {
         const items = data[tipo];
         if (items && items.length > 0) {
             html += `
-                <div class="results-group" data-type="${tipo}">
+                <div class="results-group" data-type="${escapeHtml(tipo)}">
                     <div class="group-header">
                         <h3 class="group-title">
                             ${getTituloGrupo(tipo)}
@@ -149,11 +175,11 @@ function renderizarResultados(data) {
     resultsContainer.innerHTML = html;
     resultsContainer.style.display = 'block';
 
-    // Agregar event listeners a los items
-    document.querySelectorAll('.search-result-item').forEach(item => {
+    // Event delegation: un solo listener en el contenedor
+    resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
         item.addEventListener('click', () => {
             const url = item.getAttribute('data-url');
-            if (url) {
+            if (url && url !== '#') {
                 window.location.href = url;
             }
         });
@@ -164,29 +190,37 @@ function renderizarResultados(data) {
  * Renderizar un item individual
  */
 function renderizarItem(item) {
-    const badgeClass = item.badgeClass || 'badge-secondary';
-    const icono = item.icono ? `<i class="${item.icono}"></i>` : '';
-    const imagen = item.imagen ? `<img src="${item.imagen}" alt="${item.titulo}" class="item-imagen">` : '';
+    const badgeClass = escapeHtml(item.badgeClass || 'badge-secondary');
+    const icono = item.icono ? `<i class="${escapeHtml(item.icono)}"></i>` : '';
+    const imagen = item.imagen
+        ? `<img src="${escapeHtml(item.imagen)}" alt="${escapeHtml(item.titulo || '')}" class="item-imagen">`
+        : '';
+
+    const precio = (item.precio !== undefined && item.precio !== null && item.precio !== '')
+        ? `$${formatPrice(item.precio)}`
+        : '';
 
     return `
-        <div class="search-result-item" data-url="${item.url}" data-type="${item.type}">
+        <div class="search-result-item"
+             data-url="${escapeHtml(item.url || '#')}"
+             data-type="${escapeHtml(item.type || '')}">
             <div class="item-visual">
                 ${imagen}
                 <div class="item-icono">${icono}</div>
             </div>
-            
+
             <div class="item-content">
                 <div class="item-header">
-                    <p class="item-titulo">${highlightQuery(item.titulo)}</p>
-                    <span class="item-badge ${badgeClass}">${item.badge}</span>
+                    <p class="item-titulo">${highlightQuery(item.titulo || '')}</p>
+                    <span class="item-badge ${badgeClass}">${escapeHtml(item.badge || '')}</span>
                 </div>
-                
-                ${item.subtitulo ? `<p class="item-subtitulo">${item.subtitulo}</p>` : ''}
+
+                ${item.subtitulo ? `<p class="item-subtitulo">${highlightQuery(item.subtitulo)}</p>` : ''}
                 ${item.descripcion ? `<p class="item-descripcion">${highlightQuery(item.descripcion)}</p>` : ''}
-                
-                ${item.precio ? `<p class="item-precio">$${formatPrice(item.precio)}</p>` : ''}
+
+                ${precio ? `<p class="item-precio">${escapeHtml(precio)}</p>` : ''}
             </div>
-            
+
             <div class="item-arrow">
                 <i class="ri-arrow-right-s-line"></i>
             </div>
@@ -209,20 +243,39 @@ function getTituloGrupo(tipo) {
 }
 
 /**
- * Resaltar query en el texto
+ * Resaltar query en el texto (con escape de HTML para evitar XSS)
  */
 function highlightQuery(text) {
-    if (!text || !currentQuery) return text;
+    if (!text) return '';
+    if (!currentQuery) return escapeHtml(text);
 
-    const regex = new RegExp(`(${currentQuery})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
+    // Escapar primero, luego envolver coincidencias en <mark>
+    const escaped = escapeHtml(text);
+    const escapedQuery = escapeHtml(currentQuery).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedQuery})`, 'gi');
+    return escaped.replace(regex, '<mark>$1</mark>');
 }
 
 /**
  * Formatear precio
  */
 function formatPrice(price) {
-    return parseInt(price).toLocaleString('es-CO');
+    const num = Number(price);
+    if (isNaN(num)) return escapeHtml(String(price));
+    return num.toLocaleString('es-CO');
+}
+
+/**
+ * Escape de HTML para evitar XSS al insertar contenido del backend
+ */
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 /**
@@ -248,7 +301,7 @@ function mostrarNoResultados(query) {
             <div class="search-empty">
                 <i class="ri-search-2-line"></i>
                 <h3>No se encontraron resultados</h3>
-                <p>para "<strong>${query}</strong>"</p>
+                <p>para "<strong>${escapeHtml(query)}</strong>"</p>
                 <small>Intenta con otros términos</small>
             </div>
         `;
@@ -286,12 +339,12 @@ function crearModalBusqueda() {
     modal.innerHTML = `
         <div class="search-modal-content">
             <div class="search-modal-header">
-                <input 
-                    type="text" 
-                    class="search-modal-input" 
+                <input
+                    type="text"
+                    class="search-modal-input"
                     placeholder="🔍 Buscar productos, clientes, blog..."
                     autocomplete="off">
-                <button class="search-modal-close">
+                <button class="search-modal-close" type="button">
                     <i class="ri-close-line"></i>
                 </button>
             </div>
@@ -331,7 +384,6 @@ function crearModalBusqueda() {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             abrirModalBusqueda();
-            input.focus();
         }
     });
 }
@@ -340,6 +392,7 @@ function abrirModalBusqueda() {
     const modal = document.querySelector('.search-modal');
     if (modal) {
         modal.classList.add('active');
-        modal.querySelector('.search-modal-input').focus();
+        const input = modal.querySelector('.search-modal-input');
+        if (input) input.focus();
     }
 }

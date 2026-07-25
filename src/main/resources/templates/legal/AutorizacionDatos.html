@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" th:href="@{/Css/legal.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <title>Autorización de Datos || Costa De Oro Imports</title>
+    <meta name="description" content="Autorización para tratamiento de datos personales">
+    <meta name="robots" content="index,follow">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+
+<body>
+<header class="header">
+    <figure class="header__logo">
+        <a th:href="@{/}">
+            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de Costa de Oro Imports">
+        </a>
+    </figure>
+
+    <nav class="header__navbar">
+        <div id="close-menu" class="close-menu">×</div>
+        <ul class="navbar__list">
+            <li class="navbar__item"><a th:href="@{/}" class="navbar__link">Inicio</a></li>
+            <li class="navbar__item"><a th:href="@{/productos}" class="navbar__link">Productos</a></li>
+            <li class="navbar__item"><a th:href="@{/paks}" class="navbar__link">Packs</a></li>
+            <li class="navbar__item"><a th:href="@{/blog}" class="navbar__link">Blog</a></li>
+            <li class="navbar__item"><a th:href="@{/contacto}" class="navbar__link">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <div class="header__actions">
+        <button id="open-menu" class="header__menu-btn">
+            <i class="ri-menu-line"></i>
+        </button>
+    </div>
+</header>
+
+<main class="legal-container">
+    <div class="legal-header">
+        <h1>Autorización para Tratamiento de Datos Personales</h1>
+        <p class="last-update">Conforme a la Ley 1581 de 2012</p>
+    </div>
+
+    <section class="legal-section highlight">
+        <h2>Información del Responsable del Tratamiento</h2>
+        <div class="info-box">
+            <p><strong>Empresa:</strong> Costa De Oro Imports</p>
+            <p><strong>NIT:</strong> 123.456.789-X</p>
+            <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+            <p><strong>Email:</strong> datos@costadeoroimports.com</p>
+            <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+            <p><strong>Oficial de Protección de Datos:</strong> dpo@costadeoroimports.com</p>
+        </div>
+    </section>
+
+    <section class="legal-section">
+        <h2>1. Propósito de la Recolección de Datos</h2>
+        <p>
+            Costa De Oro Imports recopila datos personales con los siguientes propósitos:
+        </p>
+        <ul>
+            <li>Procesar compras y transacciones comerciales</li>
+            <li>Verificar mayoría de edad legal para consumo de bebidas alcohólicas</li>
+            <li>Enviar productos y confirmaciones de compra</li>
+            <li>Cumplir obligaciones legales y tributarias</li>
+            <li>Prevenir fraude y asegurar la seguridad</li>
+            <li>Mejorar servicios y experiencia del usuario</li>
+            <li>Enviar información comercial y promociones (con consentimiento)</li>
+            <li>Atender consultas y solicitudes de soporte</li>
+            <li>Análisis de datos y estadísticas</li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>2. Datos Personales a Recopilar</h2>
+        <p>
+            Autorizo a Costa De Oro Imports para recopilar y procesar los siguientes datos:
+        </p>
+
+        <h3>2.1 Datos de Identificación</h3>
+        <ul>
+            <li>Nombre completo</li>
+            <li>Número de cédula, pasaporte o documento de identidad</li>
+            <li>Fecha de nacimiento</li>
+            <li>Sexo</li>
+        </ul>
+
+        <h3>2.2 Datos de Contacto</h3>
+        <ul>
+            <li>Correo electrónico</li>
+            <li>Número telefónico</li>
+            <li>Dirección de residencia</li>
+            <li>Dirección de envío (si es diferente)</li>
+        </ul>
+
+        <h3>2.3 Datos Comerciales</h3>
+        <ul>
+            <li>Historial de compras</li>
+            <li>Información de pagos</li>
+            <li>Preferencias de productos</li>
+            <li>Reseñas y calificaciones</li>
+        </ul>
+
+        <h3>2.4 Datos Técnicos</h3>
+        <ul>
+            <li>Dirección IP</li>
+            <li>Información del navegador</li>
+            <li>Cookies y datos de sesión</li>
+            <li>Datos de navegación y uso</li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>3. Derechos del Titular de Datos</h2>
+        <p>
+            Como titular de los datos personales, tengo derecho a:
+        </p>
+        <ul>
+            <li>
+                <strong>Derecho de Acceso:</strong> Obtener información sobre si mis datos están siendo
+                tratados y acceder a ellos sin restricciones
+            </li>
+            <li>
+                <strong>Derecho de Rectificación:</strong> Actualizar, modificar o completar mis datos
+                si son imprecisos o incompletos
+            </li>
+            <li>
+                <strong>Derecho de Supresión (Olvido):</strong> Solicitar la eliminación de mis datos
+                bajo ciertas circunstancias
+            </li>
+            <li>
+                <strong>Derecho de Revocación:</strong> Revocar el consentimiento previamente otorgado
+            </li>
+            <li>
+                <strong>Derecho de Restricción:</strong> Limitar el tratamiento de mis datos
+            </li>
+            <li>
+                <strong>Derecho de Portabilidad:</strong> Recibir mis datos en formato estructurado y legible
+            </li>
+            <li>
+                <strong>Derecho a No Ser Perfilado:</strong> No ser objeto de decisiones automatizadas
+            </li>
+            <li>
+                <strong>Derecho a Presentar Reclamaciones:</strong> Ante la Superintendencia de Industria
+                y Comercio (SIC)
+            </li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>4. Procedimiento para Ejercer Derechos</h2>
+        <p>
+            Para ejercer cualquiera de los derechos mencionados, puede:
+        </p>
+        <ol>
+            <li>Enviar un correo a <strong>datos@costadeoroimports.com</strong></li>
+            <li>Escribir a nuestra dirección: Cra. 45 #25-30, Bogotá, Colombia</li>
+            <li>Llamar a nuestro teléfono: +57 (1) 2345-6789</li>
+            <li>Contactar a nuestro Oficial de Protección de Datos: dpo@costadeoroimports.com</li>
+        </ol>
+        <p>
+            <strong>Plazo de Respuesta:</strong> Respondemos dentro de 10 días hábiles desde la
+            recepción de su solicitud.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>5. Transferencia de Datos</h2>
+        <p>
+            Sus datos pueden ser compartidos con:
+        </p>
+        <ul>
+            <li>Proveedores de servicios de pago (PagosFaciles, PlacetoPay, etc.)</li>
+            <li>Empresas de logística y envío (Servientrega, DHL, etc.)</li>
+            <li>Plataformas de verificación de edad</li>
+            <li>Proveedores de hosting y servidores</li>
+            <li>Autoridades competentes si lo requiere la ley</li>
+        </ul>
+        <p>
+            Estos terceros se comprometen a proteger sus datos conforme a la ley.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>6. Seguridad de Datos</h2>
+        <p>
+            Costa De Oro Imports implementa medidas de seguridad técnicas y administrativas tales como:
+        </p>
+        <ul>
+            <li>Encriptación de datos en tránsito y en reposo</li>
+            <li>Acceso controlado mediante autenticación</li>
+            <li>Auditorías de seguridad periódicas</li>
+            <li>Capacitación de personal en protección de datos</li>
+            <li>Política de contraseñas seguras</li>
+            <li>Backups y planes de recuperación</li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>7. Periodo de Retención</h2>
+        <p>
+            Sus datos serán retenidos durante:
+        </p>
+        <ul>
+            <li>
+                <strong>Datos Comerciales:</strong> Mínimo 7 años (por obligaciones tributarias y legales)
+            </li>
+            <li>
+                <strong>Datos de Cuenta:</strong> Mientras la cuenta esté activa + 3 años después
+            </li>
+            <li>
+                <strong>Datos de Marketing:</strong> Hasta que revoque el consentimiento
+            </li>
+            <li>
+                <strong>Datos Técnicos:</strong> Según políticas de privacidad y cookies
+            </li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>8. Consentimiento Informado</h2>
+        <div class="consent-box">
+            <h3>Al usar Costa De Oro Imports, autorizo explícitamente:</h3>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent1" disabled checked>
+                    <span>Recolección, procesamiento y almacenamiento de mis datos personales</span>
+                </label>
+            </div>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent2" disabled checked>
+                    <span>Verificación de mi mayoría de edad y legalidad para comprar bebidas alcohólicas</span>
+                </label>
+            </div>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent3" disabled checked>
+                    <span>Compartir mis datos con proveedores de servicios necesarios para procesar compras</span>
+                </label>
+            </div>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent4">
+                    <span>Envío de información comercial y promociones por correo electrónico</span>
+                </label>
+            </div>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent5">
+                    <span>Uso de datos para análisis, estadísticas y mejora de servicios</span>
+                </label>
+            </div>
+
+            <div class="consent-item">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="consent6">
+                    <span>Visualización de perfiles en redes sociales para personalizacion de anuncios</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <section class="legal-section">
+        <h2>9. Contacto con la Autoridad de Control</h2>
+        <p>
+            Si considera que Costa De Oro Imports ha violado sus derechos de protección de datos,
+            puede presentar una reclamación ante:
+        </p>
+        <div class="contact-info">
+            <p>
+                <strong>Superintendencia de Industria y Comercio (SIC)</strong><br>
+                Carrera 13 #27-00, Bogotá, Colombia<br>
+                Tel: +57 (1) 5925-3000<br>
+                Web: www.sic.gov.co<br>
+                Email: inicio@sic.gov.co
+            </p>
+        </div>
+    </section>
+
+    <div class="acceptance-box highlight">
+        <h3>Aceptación de Autorización</h3>
+        <p>
+            <strong>IMPORTANTE:</strong> Al registrarse o realizar compras en Costa De Oro Imports,
+            usted otorga expresamente su consentimiento para el tratamiento de datos personales
+            conforme a esta autorización y la Ley 1581 de 2012.
+        </p>
+        <p>
+            Esta autorización puede ser revocada en cualquier momento contactando a
+            <strong>datos@costadeoroimports.com</strong>
+        </p>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer__content">
+        <div class="footer__section">
+            <h3>Información Legal</h3>
+            <ul>
+                <li><a th:href="@{/legal/terminos-condiciones}">Términos y Condiciones</a></li>
+                <li><a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a></li>
+                <li><a th:href="@{/legal/mayoria-edad}">Confirmación de Mayoría de Edad</a></li>
+                <li><a th:href="@{/legal/autorizacion-datos}">Autorización de Datos</a></li>
+            </ul>
+        </div>
+        <div class="footer__section">
+            <h3>Información de Compra</h3>
+            <ul>
+                <li><a th:href="@{/legal/ecommerce-cervezas}">E-commerce Cervezas</a></li>
+                <li><a th:href="@{/legal/ecommerce-licores}">E-commerce Licores</a></li>
+                <li><a th:href="@{/legal/cookies}">Política de Cookies</a></li>
+            </ul>
+        </div>
+        <div class="footer__section">
+            <h3>Contacto</h3>
+            <p>Email: datos@costadeoroimports.com</p>
+            <p>Teléfono: +57 (1) 2345-6789</p>
+        </div>
+    </div>
+    <div class="footer__bottom">
+        <p>&copy; 2024 Costa De Oro Imports. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script th:src="@{/Js/legal.js}"></script>
+</body>
+
+</html>
