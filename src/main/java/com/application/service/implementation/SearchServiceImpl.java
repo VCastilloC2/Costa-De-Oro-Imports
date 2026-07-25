@@ -139,8 +139,6 @@ public class SearchServiceImpl implements SearchService {
                 .subtitulo(p.getMarca() + " - " + p.getPais())
                 .descripcion(truncar(p.getDescripcion(), 100))
                 .imagen(p.getImagen())
-                .precio(p.getPrecio())
-                .stock(p.getStock())
                 .url("/ver?id=" + p.getCodigoProducto())
                 .badge(p.getStock() > 0 ? "En Stock" : "Agotado")
                 .badgeClass(p.getStock() > 0 ? "badge-success" : "badge-danger")
