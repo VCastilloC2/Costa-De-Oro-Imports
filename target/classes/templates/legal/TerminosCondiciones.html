@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('Términos y Condiciones | Costa De Oro Imports', 'Términos y condiciones de uso de Costa De Oro Imports — E-commerce de cervezas y licores premium.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Términos y Condiciones', 'Las reglas que rigen tu experiencia en Costa De Oro Imports', 'ri-shield-check-line', 'DOCUMENTO LEGAL VINCULANTE')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'definiciones':'2. Definiciones',
+                'aceptacion':'3. Aceptación',
+                'uso-permitido':'4. Uso Permitido',
+                'restricciones':'5. Restricciones',
+                'edad-legal':'6. Mayoría de Edad',
+                'productos':'7. Productos',
+                'precios':'8. Precios',
+                'pedidos':'9. Pedidos',
+                'pago':'10. Formas de Pago',
+                'envios':'11. Envíos',
+                'devoluciones':'12. Devoluciones',
+                'garantia':'13. Garantías',
+                'responsabilidad':'14. Responsabilidad',
+                'propiedad':'15. Propiedad Intelectual',
+                'contacto':'16. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-customer-service-2-line', '¿Tienes dudas?', 'Estamos para ayudarte')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Términos y Condiciones Generales</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    Bienvenido a <strong>Costa De Oro Imports</strong>. Los presentes Términos y Condiciones
+                    regulan el acceso, navegación y uso de los servicios ofrecidos a través de nuestro sitio
+                    web, aplicación móvil y canales digitales asociados.
+                </p>
+                <p>
+                    Al acceder y utilizar nuestra plataforma, el usuario acepta cumplir con los presentes
+                    Términos y Condiciones, nuestra <a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a>
+                    y todas las leyes y regulaciones aplicables en la República de Colombia.
+                </p>
+            </section>
+
+            <section id="definiciones" class="legal-section">
+                <h2>2. Definiciones</h2>
+                <ul>
+                    <li><strong>Plataforma:</strong> sitio web, aplicación móvil y demás canales digitales de Costa De Oro Imports.</li>
+                    <li><strong>Usuario / Cliente:</strong> persona natural que utiliza los servicios de la plataforma.</li>
+                    <li><strong>Productos:</strong> cervezas, vinos, licores y demás bebidas alcohólicas comercializadas.</li>
+                    <li><strong>Cuenta:</strong> registro personal del usuario que le permite acceder a funcionalidades adicionales.</li>
+                    <li><strong>Pedido:</strong> solicitud de compra realizada por el usuario a través de la plataforma.</li>
+                    <li><strong>Proveedor:</strong> persona jurídica o natural que ofrece productos a través de la plataforma.</li>
+                </ul>
+            </section>
+
+            <section id="aceptacion" class="legal-section">
+                <h2>3. Aceptación de los Términos</h2>
+                <p>
+                    El uso de la plataforma implica la aceptación plena y sin reservas de todos los Términos
+                    y Condiciones aquí establecidos. Si el usuario no está de acuerdo con alguna de estas
+                    disposiciones, deberá abstenerse de utilizar la plataforma.
+                </p>
+                <p>
+                    Costa De Oro Imports se reserva el derecho de modificar estos Términos en cualquier
+                    momento, notificando previamente a los usuarios a través del correo electrónico registrado
+                    o mediante avisos en la plataforma.
+                </p>
+            </section>
+
+            <section id="uso-permitido" class="legal-section">
+                <h2>4. Uso Permitido</h2>
+                <p>El usuario se compromete a utilizar la plataforma de manera responsable y conforme a la ley, incluyendo:</p>
+                <ul>
+                    <li>Proporcionar información veraz, exacta y actualizada al registrarse.</li>
+                    <li>Mantener la confidencialidad de sus credenciales de acceso.</li>
+                    <li>Notificar inmediatamente cualquier uso no autorizado de su cuenta.</li>
+                    <li>Utilizar la plataforma únicamente para fines personales y lícitos.</li>
+                    <li>Respetar los derechos de propiedad intelectual de Costa De Oro Imports y de terceros.</li>
+                </ul>
+            </section>
+
+            <section id="restricciones" class="legal-section">
+                <h2>5. Restricciones</h2>
+                <p>Queda expresamente prohibido:</p>
+                <ul>
+                    <li>Suplantar la identidad de otro usuario o persona.</li>
+                    <li>Realizar actividades fraudulentas, ilegales o que atenten contra el orden público.</li>
+                    <li>Intentar acceder a áreas restringidas o sistemas sin autorización.</li>
+                    <li>Reproducir, distribuir o modificar el contenido de la plataforma sin autorización.</li>
+                    <li>Utilizar la plataforma para revender productos con fines comerciales no autorizados.</li>
+                    <li>Realizar actos de competencia desleal o que afecten la reputación de la marca.</li>
+                </ul>
+            </section>
+
+            <section id="edad-legal" class="legal-section highlight">
+                <h2>6. Verificación de Mayoría de Edad</h2>
+                <p>
+                    De conformidad con la legislación colombiana, la venta de bebidas alcohólicas está
+                    restringida a <strong>mayores de 18 años</strong>. Al realizar cualquier compra en
+                    Costa De Oro Imports, el usuario declara y garantiza bajo juramento que es mayor de edad.
+                </p>
+                <p>
+                    Costa De Oro Imports implementa mecanismos de verificación de edad y se reserva el
+                    derecho de solicitar documentación que acredite la mayoría de edad del comprador.
+                    La entrega de productos a menores de edad está estrictamente prohibida.
+                </p>
+            </section>
+
+            <section id="productos" class="legal-section">
+                <h2>7. Descripción de Productos</h2>
+                <p>
+                    Costa De Oro Imports comercializa cervezas, vinos, whiskys, tequilas, rones, aguardientes,
+                    vodkas, ginebras y otros licores de las mejores marcas nacionales e internacionales.
+                </p>
+                <p>
+                    Las imágenes, descripciones y precios de los productos son referenciales y pueden variar
+                    sin previo aviso. Nos esforzamos por mostrar información precisa, pero no garantizamos
+                    la exactitud absoluta de los colores o detalles de empaque mostrados.
+                </p>
+                <h3>7.1 Disponibilidad</h3>
+                <p>
+                    La disponibilidad de los productos está sujeta al inventario. En caso de que un producto
+                    no esté disponible después de realizada la compra, se notificará al cliente y se procederá
+                    al reembolso total o sustitución según preferencia.
+                </p>
+            </section>
+
+            <section id="precios" class="legal-section">
+                <h2>8. Precios y Disponibilidad</h2>
+                <p>
+                    Todos los precios están expresados en pesos colombianos (COP) e incluyen los impuestos
+                    aplicables, salvo que se indique lo contrario. Los gastos de envío se calculan por separado
+                    y se muestran antes de confirmar el pedido.
+                </p>
+                <p>
+                    Costa De Oro Imports se reserva el derecho de modificar precios en cualquier momento.
+                    Los cambios no afectarán a pedidos ya confirmados y pagados.
+                </p>
+            </section>
+
+            <section id="pedidos" class="legal-section">
+                <h2>9. Realización de Pedidos</h2>
+                <p>El proceso de compra se realiza de la siguiente manera:</p>
+                <ol>
+                    <li>Selección de productos y agregado al carrito de compras.</li>
+                    <li>Revisión del pedido y selección de dirección de envío.</li>
+                    <li>Selección del método de pago y verificación de identidad/edad.</li>
+                    <li>Confirmación y pago del pedido.</li>
+                    <li>Recepción del correo de confirmación con número de pedido.</li>
+                    <li>Preparación y envío del producto.</li>
+                </ol>
+                <p>
+                    Costa De Oro Imports se reserva el derecho de cancelar pedidos que presenten
+                    inconsistencias en los datos, sospecha de fraude o que no cumplan con la verificación
+                    de mayoría de edad.
+                </p>
+            </section>
+
+            <section id="pago" class="legal-section">
+                <h2>10. Formas de Pago</h2>
+                <p>Aceptamos las siguientes formas de pago:</p>
+                <ul>
+                    <li>Tarjetas de crédito (Visa, Mastercard, American Express, Diners Club).</li>
+                    <li>Tarjetas de débito.</li>
+                    <li>PSE (Pagos Seguros en Línea).</li>
+                    <li>Transferencia bancaria.</li>
+                    <li>Mercado Pago y otras plataformas de pago electrónico.</li>
+                    <li>Contra entrega (según disponibilidad y zona).</li>
+                </ul>
+                <p>
+                    Todas las transacciones se procesan a través de plataformas seguras que cumplen con
+                    los estándares PCI-DSS. Costa De Oro Imports no almacena información de tarjetas
+                    de crédito o débito.
+                </p>
+            </section>
+
+            <section id="envios" class="legal-section">
+                <h2>11. Envíos y Entregas</h2>
+                <p>
+                    Realizamos envíos a nivel nacional en Colombia. Los tiempos de entrega varían según
+                    la ciudad y el tipo de envío seleccionado (estándar o express).
+                </p>
+                <h3>11.1 Tiempos de Entrega</h3>
+                <ul>
+                    <li>Ciudades principales: 1 a 3 días hábiles.</li>
+                    <li>Resto del país: 3 a 7 días hábiles.</li>
+                    <li>Zonas rurales: 5 a 10 días hábiles.</li>
+                </ul>
+                <h3>11.2 Condiciones de Entrega</h3>
+                <p>
+                    La entrega se realiza a la persona mayor de edad registrada. Es obligatorio presentar
+                    documento de identidad al momento de la entrega. Si no se encuentra una persona mayor
+                    de edad, el envío no será entregado.
+                </p>
+            </section>
+
+            <section id="devoluciones" class="legal-section">
+                <h2>12. Política de Devoluciones</h2>
+                <p>
+                    Por la naturaleza de nuestros productos (bebidas alcohólicas), las devoluciones se
+                    limitan a las siguientes circunstancias:
+                </p>
+                <ul>
+                    <li>Producto dañado durante el transporte.</li>
+                    <li>Producto diferente al solicitado.</li>
+                    <li>Producto con empaque violado o en mal estado al momento de la entrega.</li>
+                    <li>Errores en la entrega atribuibles a Costa De Oro Imports.</li>
+                </ul>
+                <p>
+                    El usuario tiene derecho de retracto dentro de los <strong>5 días hábiles</strong>
+                    siguientes a la entrega, conforme a la Ley 1480 de 2011 (Estatuto del Consumidor).
+                    El producto debe estar sin abrir y en perfectas condiciones. Ver más detalles en nuestra
+                    <a th:href="@{/legal/retracto}">Política de Derecho de Retracto</a>.
+                </p>
+            </section>
+
+            <section id="garantia" class="legal-section">
+                <h2>13. Garantías</h2>
+                <p>
+                    Todos nuestros productos cuentan con garantía legal de conformidad. En caso de
+                    productos defectuosos o que no correspondan a lo solicitado, el cliente puede
+                    solicitar cambio o reembolso del dinero.
+                </p>
+                <p>
+                    La garantía no cubre daños causados por mal uso, almacenamiento inadecuado,
+                    manipulación indebida o consumo posterior a la fecha de vencimiento.
+                </p>
+            </section>
+
+            <section id="responsabilidad" class="legal-section">
+                <h2>14. Limitación de Responsabilidad</h2>
+                <p>
+                    Costa De Oro Imports no será responsable por:
+                </p>
+                <ul>
+                    <li>Daños indirectos, incidentales o consecuenciales derivados del uso de los productos.</li>
+                    <li>Retrasos atribuibles a la empresa transportadora o causas de fuerza mayor.</li>
+                    <li>Información inexacta proporcionada por el usuario.</li>
+                    <li>Uso indebido de los productos por parte del comprador o terceros.</li>
+                    <li>Interrupciones del servicio por mantenimiento técnico o fallas de internet.</li>
+                </ul>
+            </section>
+
+            <section id="propiedad" class="legal-section">
+                <h2>15. Propiedad Intelectual</h2>
+                <p>
+                    Todo el contenido de la plataforma (textos, imágenes, logos, marcas, diseños, código fuente)
+                    es propiedad de Costa De Oro Imports o de sus respectivos titulares y está protegido por
+                    las leyes de propiedad intelectual de Colombia y los tratados internacionales.
+                </p>
+                <p>
+                    Queda prohibida la reproducción, distribución, comunicación pública o transformación
+                    total o parcial sin autorización previa y por escrito de Costa De Oro Imports.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>16. Contacto</h2>
+                <p>Para cualquier consulta, reclamo o solicitud relacionada con estos Términos y Condiciones:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> legal@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Aceptación de los Términos</h3>
+                    <p>
+                        Al hacer clic en "Aceptar" o al utilizar nuestra plataforma, confirmas que has leído,
+                        entendido y aceptas la totalidad de los presentes Términos y Condiciones, así como
+                        nuestras Políticas de Privacidad y Autorización de Datos.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/autorizacion-datos}">
+                    <i class="ri-file-shield-2-line"></i> Ver Autorización
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

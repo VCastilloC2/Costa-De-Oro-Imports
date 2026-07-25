@@ -2,6 +2,7 @@ package com.application.service.implementation;
 
 import com.application.service.interfaces.CloudinaryService;
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
