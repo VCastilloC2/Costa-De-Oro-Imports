@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="stylesheet" th:href="@{/Css/style.css}">
+    <link rel="stylesheet" th:href="@{/Css/legal.css}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <title>Política de Cookies | Costa De Oro Imports</title>
+    <meta name="description" content="Política de uso de cookies en Costa De Oro Imports.">
+    <meta name="robots" content="index,follow">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+
+<body>
+<div class="legal-page">
+    <div class="hero-legal">
+        <header class="header">
+            <figure class="header__logo">
+                <a th:href="@{/}">
+                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo de Costa de Oro Imports">
+                </a>
+            </figure>
+
+            <nav class="header__navbar">
+                <div id="close-menu" class="close-menu">×</div>
+                <ul class="navbar__list">
+                    <li><a th:href="@{/}" class="navbar__link">Inicio</a></li>
+                    <li><a th:href="@{/paks}" class="navbar__link">Packs</a></li>
+                    <li><a th:href="@{/productos}" class="navbar__link">Productos</a></li>
+                    <li><a th:href="@{/blog}" class="navbar__link">Blog</a></li>
+                    <li><a th:href="@{/contacto}" class="navbar__link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div class="header__actions">
+                <button id="open-menu" class="header__menu-btn">
+                    <i class="ri-menu-line"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="hero-legal__content">
+            <h1 class="hero-legal__title">Política de Cookies</h1>
+            <p class="hero-legal__subtitle">Cómo usamos las cookies para mejorar tu experiencia</p>
+            <span class="hero-legal__badge">
+                <i class="ri-cookie-line"></i> TRANSPARENCIA Y CONTROL
+            </span>
+        </div>
+    </div>
+
+    <main class="legal-container">
+        <aside class="legal-sidebar">
+            <h3 class="legal-sidebar__title">
+                <i class="ri-list-unordered"></i> Contenido
+            </h3>
+            <ul class="legal-sidebar__list">
+                <li><a href="#que-son"><i class="ri-arrow-right-s-line"></i> 1. ¿Qué son las cookies?</a></li>
+                <li><a href="#tipos"><i class="ri-arrow-right-s-line"></i> 2. Tipos de cookies</a></li>
+                <li><a href="#uso"><i class="ri-arrow-right-s-line"></i> 3. ¿Cómo las usamos?</a></li>
+                <li><a href="#terceros"><i class="ri-arrow-right-s-line"></i> 4. Cookies de terceros</a></li>
+                <li><a href="#gestion"><i class="ri-arrow-right-s-line"></i> 5. Gestión de cookies</a></li>
+                <li><a href="#desactivar"><i class="ri-arrow-right-s-line"></i> 6. Desactivar cookies</a></li>
+                <li><a href="#cambios"><i class="ri-arrow-right-s-line"></i> 7. Cambios</a></li>
+                <li><a href="#contacto"><i class="ri-arrow-right-s-line"></i> 8. Contacto</a></li>
+            </ul>
+
+            <div class="legal-sidebar__cta">
+                <i class="ri-settings-3-line"></i>
+                <p>Configura tus preferencias</p>
+                <span>Tú decides qué cookies permites</span>
+            </div>
+        </aside>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Política de Cookies</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="que-son" class="legal-section">
+                <h2>1. ¿Qué son las cookies?</h2>
+                <p>
+                    Las cookies son pequeños archivos de texto que un sitio web almacena en tu dispositivo
+                    (computador, tablet o smartphone) cuando lo visitas. Permiten que la plataforma
+                    recuerde tus acciones y preferencias durante un período determinado.
+                </p>
+                <p>
+                    En Costa De Oro Imports utilizamos cookies para mejorar tu experiencia de navegación,
+                    recordar tus preferencias y ofrecerte contenido personalizado.
+                </p>
+            </section>
+
+            <section id="tipos" class="legal-section">
+                <h2>2. Tipos de cookies que utilizamos</h2>
+                <p>A continuación te mostramos los tipos de cookies que empleamos y su finalidad:</p>
+
+                <table class="legal-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Cookie</th>
+                            <th>Finalidad</th>
+                            <th>Duración</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Técnicas / Esenciales</strong></td>
+                            <td>Permiten el funcionamiento básico del sitio: sesión, carrito, seguridad.</td>
+                            <td>Sesión / 1 año</td>
+                            <td><span class="pill pill--required">Obligatoria</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Personalización</strong></td>
+                            <td>Recuerdan tus preferencias: idioma, ubicación, configuración.</td>
+                            <td>1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Análisis / Rendimiento</strong></td>
+                            <td>Nos permiten medir y analizar la navegación para mejorar el sitio.</td>
+                            <td>2 años</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Publicidad / Marketing</strong></td>
+                            <td>Muestran anuncios personalizados según tus intereses.</td>
+                            <td>1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Redes Sociales</strong></td>
+                            <td>Permiten compartir contenido en redes sociales y rastrear interacciones.</td>
+                            <td>Sesión / 1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="uso" class="legal-section">
+                <h2>3. ¿Cómo usamos las cookies?</h2>
+                <p>Las cookies nos permiten:</p>
+                <ul>
+                    <li><strong>Funcionalidad:</strong> Mantener tu sesión iniciada, recordar productos en tu carrito y procesar compras.</li>
+                    <li><strong>Seguridad:</strong> Detectar actividades fraudulentas y proteger tu cuenta.</li>
+                    <li><strong>Personalización:</strong> Mostrar productos y ofertas relevantes según tu navegación.</li>
+                    <li><strong>Análisis:</strong> Entender cómo interactúas con el sitio para mejorar la experiencia.</li>
+                    <li><strong>Marketing:</strong> Mostrarte anuncios relevantes en otros sitios web y redes sociales.</li>
+                </ul>
+            </section>
+
+            <section id="terceros" class="legal-section">
+                <h2>4. Cookies de terceros</h2>
+                <p>Algunas cookies son colocadas por terceros en nuestro nombre. Los principales terceros que utilizan cookies son:</p>
+                <ul>
+                    <li><strong>Google Analytics:</strong> Análisis de tráfico y comportamiento de usuarios.</li>
+                    <li><strong>Google Ads:</strong> Publicidad personalizada y remarketing.</li>
+                    <li><strong>Facebook Pixel:</strong> Medición de campañas publicitarias.</li>
+                    <li><strong>Mercado Pago:</strong> Procesamiento seguro de pagos.</li>
+                    <li><strong>Cloudflare:</strong> Seguridad y rendimiento del sitio.</li>
+                </ul>
+                <p>
+                    Estos terceros pueden usar las cookies para fines propios conforme a sus propias
+                    políticas de privacidad. Te recomendamos revisarlas:
+                </p>
+                <ul>
+                    <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad de Google</a></li>
+                    <li><a href="https://www.facebook.com/policy.php" target="_blank" rel="noopener">Política de privacidad de Meta</a></li>
+                    <li><a href="https://www.mercadopago.com.co/privacidad" target="_blank" rel="noopener">Política de privacidad de Mercado Pago</a></li>
+                </ul>
+            </section>
+
+            <section id="gestion" class="legal-section">
+                <h2>5. Gestión de cookies</h2>
+                <p>
+                    Puedes gestionar tus preferencias de cookies en cualquier momento a través del
+                    banner de configuración que aparece al visitar nuestro sitio por primera vez,
+                    o haciendo clic en el botón "Configurar cookies" en el pie de página.
+                </p>
+                <p>
+                    También puedes configurar tu navegador para rechazar todas las cookies o para
+                    que te avise cuando se envíe una cookie. Ten en cuenta que, si desactivas
+                    ciertas cookies, algunas funciones del sitio pueden no estar disponibles.
+                </p>
+            </section>
+
+            <section id="desactivar" class="legal-section">
+                <h2>6. Cómo desactivar cookies en tu navegador</h2>
+                <p>A continuación te indicamos cómo desactivar las cookies en los principales navegadores:</p>
+                <ul>
+                    <li><strong>Google Chrome:</strong> Configuración → Privacidad y seguridad → Cookies y otros datos de sitios.</li>
+                    <li><strong>Mozilla Firefox:</strong> Preferencias → Privacidad y seguridad → Cookies y datos del sitio.</li>
+                    <li><strong>Safari:</strong> Preferencias → Privacidad → Cookies y datos de sitios web.</li>
+                    <li><strong>Microsoft Edge:</strong> Configuración → Cookies y permisos del sitio → Cookies y datos del sitio.</li>
+                </ul>
+                <p>
+                    Para más información sobre cookies y cómo administrarlas, visita
+                    <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener">www.allaboutcookies.org</a>.
+                </p>
+            </section>
+
+            <section id="cambios" class="legal-section">
+                <h2>7. Cambios en la política de cookies</h2>
+                <p>
+                    Costa De Oro Imports puede modificar esta Política de Cookies en cualquier momento.
+                    Cualquier cambio será publicado en esta página y, si es significativo, lo notificaremos
+                    mediante un aviso en la plataforma o por correo electrónico.
+                </p>
+                <p>
+                    Te recomendamos revisar esta política periódicamente para estar informado sobre
+                    cómo protegemos tu información.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>8. Contacto</h2>
+                <p>Si tienes preguntas sobre nuestra Política de Cookies, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>📧 Email:</strong> cookies@costadeoroimports.com</p>
+                    <p><strong>📞 Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>📍 Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                </div>
+            </section>
+
+            <div class="acceptance-box">
+                <h3>🍪 Tu Privacidad es Importante</h3>
+                <p>
+                    En Costa De Oro Imports nos comprometemos a usar cookies de manera transparente y
+                    respetuosa con tu privacidad. Puedes cambiar tus preferencias en cualquier momento.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__subscripcion">
+            <div class="subcripcion__informativa">
+                <div class="informativa__subscribir">
+                    <h2 class="subscribir__title">Suscríbete al Boletín Informativo</h2>
+                    <p class="subscribir__text">
+                        Recibe en tu correo nuestras últimas novedades y <span>las mejores ofertas especiales.</span>
+                    </p>
+                </div>
+                <div class="informativa__formulario">
+                    <form class="formulario__subcripcion" action="">
+                        <div class="subcripcion__formulario">
+                            <div class="formulario__input">
+                                <input type="email" autocomplete="off" placeholder="Ingresa tu email" name="Email" id="email">
+                                <button type="submit">Subcribete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer__enlaces">
+            <div class="enlaces__categoriaNosotros">
+                <figure class="categoriaNosotros__logo">
+                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo Costa de Oro Imports">
+                </figure>
+                <ul class="categoriaNosotros__list">
+                    <h4 class="list__title">Contáctanos</h4>
+                    <li class="list__item"><strong>Dirección:</strong> Fundación Tecnológica De Comfenalco</li>
+                    <li class="list__item"><strong>Teléfono:</strong> +321458924</li>
+                    <li class="list__item"><strong>Horarios:</strong> 7:00 - 17:00, Lunes - Viernes</li>
+                    <h4 class="list__siguenos">Síguenos en</h4>
+                    <div class="list__icon">
+                        <li class="icon__social"><i class="ri-facebook-fill"></i></li>
+                        <li class="icon__social"><i class="ri-twitter-fill"></i></li>
+                        <li class="icon__social"><i class="ri-instagram-fill"></i></li>
+                        <li class="icon__social"><i class="ri-pinterest-fill"></i></li>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaPopulares">
+                <h2 class="categoriaPopulares__title">Categorías Populares</h2>
+                <ul class="categoriasPopulares__list">
+                    <li class="list__item"><a class="item__footer" href="">Lager</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Ale</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino tinto</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vino blanco</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Whisky</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Vodka</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores de frutas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Licores herbales</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__categoriaProductos">
+                <h2 class="categoriaProductos__title">Productos</h2>
+                <ul class="categoriaProductos__list">
+                    <li class="list__item"><a class="item__footer" href="">Recién Llegados</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Nuevos Productos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Catálogos</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Los precios bajan</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Las mejores ventas</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Mapa del sitio</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Paquete y ahorro</a></li>
+                    <li class="list__item"><a class="item__footer" href="">Tarjeta de regalo en línea</a></li>
+                </ul>
+            </div>
+
+            <div class="enlaces__instalar">
+                <h2 class="instalar__title">Instalar App</h2>
+                <ul class="instalar__list">
+                    <li class="list__item">Desde App Store o Google Play</li>
+                </ul>
+                <div class="instalar__flex">
+                    <figure><img th:src="@{/Assets/Img/footer/app.jpg}" alt="App Store"></figure>
+                    <figure><img th:src="@{/Assets/Img/footer/play.jpg}" alt="Google Play"></figure>
+                </div>
+                <ul class="instalar__list">
+                    <li class="list__item item--pagos">Pasarelas de Pago Seguras</li>
+                </ul>
+                <figure>
+                    <img th:src="@{/Assets/Img/footer/pay.png}" alt="Pasarelas de pago">
+                </figure>
+            </div>
+        </div>
+
+        <div class="footer__legal">
+            <h3 class="legal__title">Información Legal</h3>
+            <ul class="legal__list">
+                <li><a th:href="@{/legal/terminos-condiciones}">Términos y Condiciones</a></li>
+                <li><a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a></li>
+                <li><a th:href="@{/legal/cookies}">Política de Cookies</a></li>
+                <li><a th:href="@{/legal/autorizacion-datos}">Tratamiento de Datos</a></li>
+                <li><a th:href="@{/legal/proteccion-consumidor}">Protección al Consumidor</a></li>
+                <li><a th:href="@{/legal/retracto}">Derecho de Retracto</a></li>
+                <li><a th:href="@{/legal/reversion-pago}">Reversión de Pago</a></li>
+                <li><a th:href="@{/legal/pqrs}">PQRS</a></li>
+                <li><a th:href="@{/legal/mayoria-edad}">Mayores de Edad</a></li>
+                <li><a th:href="@{/legal/ecommerce-cervezas}">Venta de Cervezas</a></li>
+                <li><a th:href="@{/legal/ecommerce-licores}">Venta de Licores</a></li>
+                <li><a th:href="@{/contacto}">Contáctanos</a></li>
+            </ul>
+        </div>
+
+        <div class="instalar__copyright">
+            <p class="copyright__text">
+                © <span id="anio__pagina"></span> Costa De Oro Imports.
+                Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script th:src="@{/Js/legal.js}"></script>
+</body>
+
+</html>
