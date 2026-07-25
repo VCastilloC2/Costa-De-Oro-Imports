@@ -29,16 +29,7 @@
 
 <body>
 <div class="legal-page">
-                    <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo de Costa de Oro Imports">
 
-                <ul class="navbar__list">
-                    <li><a th:href="@{/}" class="navbar__link">Inicio</a></li>
-                    <li><a th:href="@{/paks}" class="navbar__link">Packs</a></li>
-                    <li><a th:href="@{/productos}" class="navbar__link">Productos</a></li>
-            </nav>
-
-            <div class="header__actions">
-                <button id="open-menu" class="header__menu-btn">
     <div th:replace="~{fragments/legal :: header}"></div>
 
     <div th:replace="~{fragments/legal :: hero('Política de Cookies', 'Cómo usamos las cookies para mejorar tu experiencia', 'ri-cookie-line', 'TRANSPARENCIA Y CONTROL')}"></div>
