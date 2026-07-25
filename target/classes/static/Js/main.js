@@ -13,21 +13,31 @@ export function activarGlassmorphism() {
 
 export function configurarLogout() {
 
-    const logoutLinks = document.querySelectorAll(".logout-link");
+    document.addEventListener("click", async (e) => {
 
-    logoutLinks.forEach(link => {
-        link.addEventListener("click", async (e) => {
-            e.preventDefault();
+        const link = e.target.closest("a");
 
-            const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
-            const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+        if (!link) return;
 
-            const headers = {};
+        // Verificar que sea un enlace de logout
+        const href = link.getAttribute("href");
 
-            if (csrfToken && csrfHeader) {
-                headers[csrfHeader] = csrfToken;
-            }
+        if (href !== "/auth/logout") {
+            return;
+        }
 
+        e.preventDefault();
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+        const headers = {};
+
+        if (csrfToken && csrfHeader) {
+            headers[csrfHeader] = csrfToken;
+        }
+
+        try {
             const response = await fetch("/auth/logout", {
                 method: "POST",
                 headers
@@ -36,7 +46,9 @@ export function configurarLogout() {
             if (response.ok || response.redirected) {
                 window.location.href = "/auth/login?logout";
             }
-        });
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
     });
 
 }
