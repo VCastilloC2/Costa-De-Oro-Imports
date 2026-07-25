@@ -27,300 +27,275 @@
 </head>
 
 <body>
-<header class="header">
-    <figure class="header__logo">
-        <a th:href="@{/}">
-            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de Costa de Oro Imports">
-        </a>
-    </figure>
+<div class="legal-page">
 
-    <nav class="header__navbar">
-        <div id="close-menu" class="close-menu">×</div>
-        <ul class="navbar__list">
-            <li class="navbar__item"><a th:href="@{/}" class="navbar__link">Inicio</a></li>
-            <li class="navbar__item"><a th:href="@{/productos}" class="navbar__link">Productos</a></li>
-            <li class="navbar__item"><a th:href="@{/paks}" class="navbar__link">Packs</a></li>
-            <li class="navbar__item"><a th:href="@{/blog}" class="navbar__link">Blog</a></li>
-            <li class="navbar__item"><a th:href="@{/contacto}" class="navbar__link">Contacto</a></li>
-        </ul>
-    </nav>
+    <div th:replace="~{fragments/legal :: header}"></div>
 
-    <div class="header__actions">
-        <button id="open-menu" class="header__menu-btn">
-            <i class="ri-menu-line"></i>
-        </button>
-    </div>
-</header>
+    <div th:replace="~{fragments/legal :: hero('Política de Privacidad', 'Cómo recopilamos, usamos y protegemos tu información personal', 'ri-lock-2-line', 'CONFIDENCIALIDAD Y PROTECCIÓN')}"></div>
 
-<main class="legal-container">
-    <div class="legal-header">
-        <h1>Política de Privacidad</h1>
-        <p class="last-update">Última actualización: Enero 2024</p>
-    </div>
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'informacion-recopilada':'2. Información que Recopilamos',
+                'uso-informacion':'3. Cómo Usamos la Información',
+                'compartir-datos':'4. Compartir de Datos',
+                'seguridad':'5. Seguridad de Datos',
+                'derechos':'6. Tus Derechos',
+                'cookies':'7. Cookies y Tecnologías de Rastreo',
+                'retencion':'8. Retención de Datos',
+                'menores':'9. Privacidad de Menores',
+                'enlaces':'10. Enlaces Externos',
+                'cambios':'11. Cambios a esta Política',
+                'contacto':'12. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-shield-keyhole-line', 'Tus datos seguros', 'Cumplimos la Ley 1581 de 2012')}"></div>
+        </th:block>
 
-    <nav class="table-of-contents">
-        <h2>Tabla de Contenidos</h2>
-        <ul>
-            <li><a href="#introduccion">1. Introducción</a></li>
-            <li><a href="#informacion-recopilada">2. Información que Recopilamos</a></li>
-            <li><a href="#uso-informacion">3. Cómo Usamos la Información</a></li>
-            <li><a href="#compartir-datos">4. Compartir de Datos</a></li>
-            <li><a href="#seguridad">5. Seguridad de Datos</a></li>
-            <li><a href="#derechos">6. Sus Derechos</a></li>
-            <li><a href="#cookies">7. Cookies y Tecnologías de Rastreo</a></li>
-            <li><a href="#retencion">8. Retención de Datos</a></li>
-            <li><a href="#menores">9. Privacidad de Menores</a></li>
-            <li><a href="#enlaces">10. Enlaces Externos</a></li>
-            <li><a href="#cambios">11. Cambios a esta Política</a></li>
-            <li><a href="#contacto">12. Contacto</a></li>
-        </ul>
-    </nav>
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Política de Privacidad</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
 
-    <section id="introduccion" class="legal-section">
-        <h2>1. Introducción</h2>
-        <p>
-            En Costa De Oro Imports, respetamos su privacidad y nos comprometemos a proteger sus datos
-            personales. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y
-            salvaguardamos su información cuando utiliza nuestro sitio web y servicios.
-        </p>
-        <p>
-            Cumplimos con la Ley 1581 de 2012 sobre Protección de Datos Personales en Colombia y
-            otras regulaciones de privacidad aplicables.
-        </p>
-    </section>
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    En Costa De Oro Imports respetamos tu privacidad y nos comprometemos a proteger tus datos
+                    personales. Esta Política de Privacidad explica de forma transparente cómo recopilamos,
+                    usamos, divulgamos y salvaguardamos tu información cuando utilizas nuestro sitio web,
+                    aplicación móvil y demás servicios asociados.
+                </p>
+                <p>
+                    Cumplimos con la <strong>Ley 1581 de 2012</strong> sobre Protección de Datos Personales
+                    en Colombia, su Decreto Reglamentario 1377 de 2013 y demás normas concordantes y complementarias.
+                </p>
+            </section>
 
-    <section id="informacion-recopilada" class="legal-section">
-        <h2>2. Información que Recopilamos</h2>
+            <section id="informacion-recopilada" class="legal-section">
+                <h2>2. Información que Recopilamos</h2>
 
-        <h3>2.1 Información Proporcionada Directamente</h3>
-        <ul>
-            <li><strong>Datos de Registro:</strong> Nombre, apellido, correo electrónico, teléfono, dirección</li>
-            <li><strong>Datos de Compra:</strong> Historial de pedidos, métodos de pago, direcciones de envío</li>
-            <li><strong>Información de Perfil:</strong> Foto de perfil, preferencias, información de documento</li>
-            <li><strong>Comunicaciones:</strong> Mensajes, comentarios, reseñas y calificaciones</li>
-            <li><strong>Información de Contacto:</strong> Consultas, solicitudes de soporte, PQRS</li>
-        </ul>
+                <h3>2.1 Información que nos proporcionas directamente</h3>
+                <ul>
+                    <li><strong>Datos de registro:</strong> nombre, apellido, correo electrónico, teléfono, dirección.</li>
+                    <li><strong>Datos de compra:</strong> historial de pedidos, métodos de pago, direcciones de envío.</li>
+                    <li><strong>Información de perfil:</strong> foto de perfil, preferencias, información de documento de identidad.</li>
+                    <li><strong>Comunicaciones:</strong> mensajes, comentarios, reseñas y calificaciones que nos envías.</li>
+                    <li><strong>Información de contacto:</strong> consultas, solicitudes de soporte y PQRS.</li>
+                </ul>
 
-        <h3>2.2 Información Recopilada Automáticamente</h3>
-        <ul>
-            <li><strong>Datos de Navegación:</strong> Dirección IP, tipo de navegador, páginas visitadas</li>
-            <li><strong>Datos de Dispositivo:</strong> Tipo de dispositivo, sistema operativo, resolución</li>
-            <li><strong>Cookies y Tracking:</strong> Información de sesión, preferencias, historial de navegación</li>
-            <li><strong>Datos de Localización:</strong> Ubicación aproximada basada en IP (con consentimiento)</li>
-            <li><strong>Datos de Uso:</strong> Duración de sesión, clics, búsquedas, interacciones</li>
-        </ul>
+                <h3>2.2 Información recopilada automáticamente</h3>
+                <ul>
+                    <li><strong>Datos de navegación:</strong> dirección IP, tipo de navegador, páginas visitadas.</li>
+                    <li><strong>Datos de dispositivo:</strong> tipo de dispositivo, sistema operativo, resolución de pantalla.</li>
+                    <li><strong>Cookies y tracking:</strong> información de sesión, preferencias, historial de navegación.</li>
+                    <li><strong>Datos de localización aproximada:</strong> derivada de tu dirección IP (con consentimiento).</li>
+                    <li><strong>Datos de uso:</strong> duración de la sesión, clics, búsquedas, interacciones.</li>
+                </ul>
 
-        <h3>2.3 Información de Terceros</h3>
-        <ul>
-            <li>Datos de procesadores de pago</li>
-            <li>Información de verificación de edad</li>
-            <li>Datos de empresas de envío y logística</li>
-            <li>Información de redes sociales (si se conecta con ellas)</li>
-        </ul>
-    </section>
+                <h3>2.3 Información de terceros</h3>
+                <ul>
+                    <li>Datos de procesadores de pago (estado y resultado de transacciones).</li>
+                    <li>Información de verificación de edad y validación de identidad.</li>
+                    <li>Datos de empresas de envío y logística (entregas y devoluciones).</li>
+                    <li>Información de redes sociales, en caso de que te conectes a través de ellas.</li>
+                </ul>
+            </section>
 
-    <section id="uso-informacion" class="legal-section">
-        <h2>3. Cómo Usamos la Información</h2>
-        <p>Utilizamos los datos recopilados para:</p>
-        <ul>
-            <li>Procesar y cumplir con sus pedidos</li>
-            <li>Verificar que usted tiene mayoría de edad legal para comprar</li>
-            <li>Enviar confirmaciones de pedidos y actualizaciones de envío</li>
-            <li>Procesar pagos y prevenir fraude</li>
-            <li>Responder a sus consultas y solicitudes de soporte</li>
-            <li>Personalizar su experiencia en el sitio</li>
-            <li>Enviar ofertas, promociones y actualizaciones (con consentimiento)</li>
-            <li>Mejorar nuestros servicios y realizar análisis</li>
-            <li>Cumplir con obligaciones legales y normativas</li>
-            <li>Investigar y prevenir actividades fraudulentas</li>
-            <li>Mantener la seguridad del sitio</li>
-        </ul>
-    </section>
+            <section id="uso-informacion" class="legal-section">
+                <h2>3. Cómo Usamos la Información</h2>
+                <p>Utilizamos los datos recopilados para las siguientes finalidades:</p>
+                <ul>
+                    <li>Procesar y dar cumplimiento a tus pedidos.</li>
+                    <li>Verificar que tienes la mayoría de edad legal para comprar.</li>
+                    <li>Enviar confirmaciones de pedidos y actualizaciones de envío.</li>
+                    <li>Procesar pagos y prevenir fraude.</li>
+                    <li>Responder a tus consultas y solicitudes de soporte.</li>
+                    <li>Personalizar tu experiencia dentro de la plataforma.</li>
+                    <li>Enviar ofertas, promociones y actualizaciones (previa autorización).</li>
+                    <li>Mejorar nuestros servicios y realizar análisis internos.</li>
+                    <li>Cumplir con obligaciones legales, contables y regulatorias.</li>
+                    <li>Investigar y prevenir actividades fraudulentas o ilícitas.</li>
+                    <li>Mantener la seguridad e integridad de la plataforma.</li>
+                </ul>
+            </section>
 
-    <section id="compartir-datos" class="legal-section">
-        <h2>4. Compartir de Datos</h2>
-        <p>
-            Costa De Oro Imports no vende sus datos personales. Sin embargo, compartimos información
-            con terceros en las siguientes circunstancias:
-        </p>
+            <section id="compartir-datos" class="legal-section">
+                <h2>4. Compartir de Datos</h2>
+                <p>
+                    Costa De Oro Imports <strong>no vende ni comercializa</strong> tus datos personales.
+                    Sin embargo, compartimos información con terceros en las siguientes circunstancias:
+                </p>
 
-        <h3>4.1 Proveedores de Servicios</h3>
-        <ul>
-            <li>Procesadores de pago (para transacciones seguras)</li>
-            <li>Empresas de logística y envío</li>
-            <li>Proveedores de hosting y servidores</li>
-            <li>Servicios de análisis y marketing</li>
-            <li>Plataformas de verificación de edad</li>
-        </ul>
+                <h3>4.1 Proveedores de servicios</h3>
+                <ul>
+                    <li>Procesadores de pago (para transacciones seguras).</li>
+                    <li>Empresas de logística y transporte.</li>
+                    <li>Proveedores de hosting, infraestructura cloud y servicios TI.</li>
+                    <li>Servicios de analítica, marketing y publicidad digital.</li>
+                    <li>Plataformas de verificación de edad y validación de identidad.</li>
+                </ul>
 
-        <h3>4.2 Cumplimiento Legal</h3>
-        <ul>
-            <li>Autoridades gubernamentales si se requiere por ley</li>
-            <li>Fuerzas de seguridad en investigaciones criminales</li>
-            <li>Autoridades de aduanas para envíos internacionales</li>
-        </ul>
+                <h3>4.2 Cumplimiento legal</h3>
+                <ul>
+                    <li>Autoridades gubernamentales cuando sea exigido por la ley.</li>
+                    <li>Fuerzas de seguridad en investigaciones criminales.</li>
+                    <li>Autoridades aduaneras para envíos internacionales.</li>
+                </ul>
 
-        <h3>4.3 Transferencia de Datos</h3>
-        <ul>
-            <li>En caso de fusión, adquisición o venta de activos</li>
-            <li>Con su consentimiento explícito</li>
-            <li>Para cumplir con regulaciones aplicables</li>
-        </ul>
-    </section>
+                <h3>4.3 Transferencia de datos</h3>
+                <ul>
+                    <li>En caso de fusión, adquisición, escisión o venta de activos.</li>
+                    <li>Con tu consentimiento explícito y previo.</li>
+                    <li>Para cumplir con regulaciones aplicables.</li>
+                </ul>
+            </section>
 
-    <section id="seguridad" class="legal-section">
-        <h2>5. Seguridad de Datos</h2>
-        <p>
-            Implementamos medidas de seguridad técnicas, administrativas y físicas para proteger
-            sus datos personales:
-        </p>
-        <ul>
-            <li>Encriptación SSL/TLS en todas las conexiones</li>
-            <li>Firewalls y sistemas de detección de intrusos</li>
-            <li>Autenticación de dos factores (disponible)</li>
-            <li>Acceso restringido a datos sensibles</li>
-            <li>Auditorías de seguridad regulares</li>
-            <li>Cumplimiento con estándares PCI-DSS para pagos</li>
-            <li>Políticas de privacidad para empleados</li>
-        </ul>
-        <p>
-            Sin embargo, tenga en cuenta que ningún sistema es 100% seguro. No podemos garantizar
-            seguridad absoluta contra ataques cibernéticos.
-        </p>
-    </section>
+            <section id="seguridad" class="legal-section">
+                <h2>5. Seguridad de Datos</h2>
+                <p>
+                    Implementamos medidas de seguridad técnicas, administrativas y físicas para proteger
+                    tus datos personales contra acceso no autorizado, pérdida, alteración o destrucción:
+                </p>
+                <ul>
+                    <li>Encriptación SSL/TLS en todas las conexiones.</li>
+                    <li>Firewalls y sistemas de detección de intrusos.</li>
+                    <li>Autenticación multifactor disponible para cuentas administrativas.</li>
+                    <li>Acceso restringido a datos sensibles (principio de mínimo privilegio).</li>
+                    <li>Auditorías de seguridad regulares y pruebas de penetración.</li>
+                    <li>Cumplimiento con estándares PCI-DSS para procesamiento de pagos.</li>
+                    <li>Políticas internas de privacidad y acuerdos de confidencialidad con el personal.</li>
+                </ul>
+                <div class="highlight">
+                    <p>
+                        <strong>Aviso:</strong> aunque implementamos medidas robustas, ningún sistema es 100% seguro.
+                        No podemos garantizar seguridad absoluta frente a ataques cibernéticos sofisticados.
+                    </p>
+                </div>
+            </section>
 
-    <section id="derechos" class="legal-section">
-        <h2>6. Sus Derechos</h2>
-        <p>
-            Conforme a la ley de protección de datos, tiene derecho a:
-        </p>
-        <ul>
-            <li><strong>Acceso:</strong> Solicitar copia de sus datos personales</li>
-            <li><strong>Rectificación:</strong> Corregir datos inexactos o incompletos</li>
-            <li><strong>Eliminación:</strong> Solicitar la eliminación de sus datos (derecho al olvido)</li>
-            <li><strong>Restricción:</strong> Limitar el procesamiento de sus datos</li>
-            <li><strong>Portabilidad:</strong> Recibir sus datos en formato estructurado</li>
-            <li><strong>Oposición:</strong> Optar por no recibir marketing</li>
-            <li><strong>Reclamo:</strong> Presentar reclamos ante autoridades de protección de datos</li>
-        </ul>
-        <p>
-            Para ejercer estos derechos, contáctenos a <strong>privacidad@costadeoroimports.com</strong>
-        </p>
-    </section>
+            <section id="derechos" class="legal-section">
+                <h2>6. Tus Derechos</h2>
+                <p>
+                    Conforme a la ley de protección de datos vigente en Colombia, tienes los siguientes derechos:
+                </p>
+                <ul>
+                    <li><strong>Acceso:</strong> solicitar copia de tus datos personales que tenemos en nuestro poder.</li>
+                    <li><strong>Rectificación:</strong> corregir datos inexactos, incompletos o desactualizados.</li>
+                    <li><strong>Eliminación:</strong> solicitar la eliminación de tus datos (derecho al olvido).</li>
+                    <li><strong>Restricción:</strong> limitar el procesamiento de tus datos en ciertos casos.</li>
+                    <li><strong>Portabilidad:</strong> recibir tus datos en un formato estructurado y de uso común.</li>
+                    <li><strong>Oposición:</strong> optar por no recibir comunicaciones de marketing.</li>
+                    <li><strong>Reclamo:</strong> presentar quejas ante las autoridades de protección de datos.</li>
+                </ul>
+                <p>
+                    Para ejercer estos derechos, escríbenos a
+                    <a th:href="@{/legal/autorizacion-datos}"><strong>privacidad@costadeoroimports.com</strong></a>
+                    o consulta el procedimiento completo en nuestra
+                    <a th:href="@{/legal/autorizacion-datos}">Autorización de Datos</a>.
+                </p>
+            </section>
 
-    <section id="cookies" class="legal-section">
-        <h2>7. Cookies y Tecnologías de Rastreo</h2>
-        <p>
-            Utilizamos cookies y similares tecnologías para mejorar su experiencia:
-        </p>
-        <ul>
-            <li><strong>Cookies Esenciales:</strong> Necesarias para funciones básicas del sitio</li>
-            <li><strong>Cookies de Rendimiento:</strong> Recopilan datos sobre el uso del sitio</li>
-            <li><strong>Cookies de Funcionalidad:</strong> Recuerdan preferencias y configuraciones</li>
-            <li><strong>Cookies de Marketing:</strong> Permiten personalizar anuncios</li>
-        </ul>
-        <p>
-            Puede controlar las cookies a través de la configuración de su navegador. Sin embargo,
-            deshabilitarlas puede afectar funciones del sitio.
-        </p>
-    </section>
+            <section id="cookies" class="legal-section">
+                <h2>7. Cookies y Tecnologías de Rastreo</h2>
+                <p>
+                    Utilizamos cookies y tecnologías similares para mejorar tu experiencia:
+                </p>
+                <ul>
+                    <li><strong>Cookies esenciales:</strong> necesarias para el funcionamiento básico del sitio.</li>
+                    <li><strong>Cookies de rendimiento:</strong> recopilan datos sobre el uso del sitio para mejorar la experiencia.</li>
+                    <li><strong>Cookies de funcionalidad:</strong> recuerdan tus preferencias y configuraciones.</li>
+                    <li><strong>Cookies de marketing:</strong> permiten personalizar anuncios en otros sitios.</li>
+                </ul>
+                <p>
+                    Puedes controlar las cookies a través de la configuración de tu navegador o del banner
+                    de preferencias. Sin embargo, deshabilitarlas puede afectar algunas funciones del sitio.
+                    Conoce más en nuestra <a th:href="@{/legal/cookies}">Política de Cookies</a>.
+                </p>
+            </section>
 
-    <section id="retencion" class="legal-section">
-        <h2>8. Retención de Datos</h2>
-        <p>
-            Retenemos datos personales durante el tiempo necesario para cumplir con los fines
-            especificados:
-        </p>
-        <ul>
-            <li><strong>Datos de Cuenta:</strong> Mientras la cuenta esté activa (o 3 años después de inactividad)</li>
-            <li><strong>Datos de Transacciones:</strong> 7 años (por requisitos tributarios y legales)</li>
-            <li><strong>Datos de Marketing:</strong> Hasta que se opte por no recibir</li>
-            <li><strong>Datos de Cookies:</strong> Según la configuración del navegador</li>
-        </ul>
-    </section>
+            <section id="retencion" class="legal-section">
+                <h2>8. Retención de Datos</h2>
+                <p>
+                    Retenemos los datos personales durante el tiempo necesario para cumplir con los fines
+                    especificados y las obligaciones legales aplicables:
+                </p>
+                <ul>
+                    <li><strong>Datos de cuenta:</strong> mientras la cuenta esté activa, o hasta 3 años después del cierre.</li>
+                    <li><strong>Datos de transacciones:</strong> mínimo 7 años (por requisitos tributarios y contables).</li>
+                    <li><strong>Datos de marketing:</strong> hasta que ejerzas tu derecho de oposición o supresión.</li>
+                    <li><strong>Datos de cookies:</strong> según la configuración de tu navegador y la política aplicable.</li>
+                </ul>
+            </section>
 
-    <section id="menores" class="legal-section">
-        <h2>9. Privacidad de Menores</h2>
-        <p>
-            <strong>Costa De Oro Imports no está dirigido a menores de edad.</strong> Nuestros servicios
-            se limitan a personas mayores de edad legal para el consumo de bebidas alcohólicas.
-        </p>
-        <p>
-            Si descubrimos que un menor ha proporcionado información personal, eliminaremos esos datos
-            inmediatamente. Si cree que un menor ha accedido a nuestro sitio, contáctenos de inmediato.
-        </p>
-    </section>
+            <section id="menores" class="legal-section">
+                <h2>9. Privacidad de Menores</h2>
+                <div class="highlight">
+                    <p>
+                        <strong>Costa De Oro Imports no está dirigido a menores de edad.</strong>
+                        Nuestros servicios se limitan a personas mayores de edad legal para el consumo
+                        de bebidas alcohólicas.
+                    </p>
+                </div>
+                <p>
+                    Si detectamos que un menor ha proporcionado información personal, procederemos a
+                    eliminar esos datos de inmediato. Si sospechas que un menor ha accedido a nuestro
+                    sitio, por favor contáctanos para tomar las medidas correspondientes.
+                </p>
+            </section>
 
-    <section id="enlaces" class="legal-section">
-        <h2>10. Enlaces Externos</h2>
-        <p>
-            Nuestro sitio contiene enlaces a terceros. No somos responsables de sus políticas de privacidad.
-            Le recomendamos revisar sus declaraciones de privacidad antes de proporcionar información.
-        </p>
-    </section>
+            <section id="enlaces" class="legal-section">
+                <h2>10. Enlaces Externos</h2>
+                <p>
+                    Nuestro sitio puede contener enlaces a sitios web de terceros (proveedores, aliados,
+                    redes sociales, etc.). No somos responsables de las prácticas de privacidad ni del
+                    contenido de esos sitios. Te recomendamos revisar sus respectivas políticas de privacidad
+                    antes de proporcionar cualquier información personal.
+                </p>
+            </section>
 
-    <section id="cambios" class="legal-section">
-        <h2>11. Cambios a esta Política</h2>
-        <p>
-            Podemos actualizar esta Política de Privacidad periódicamente. Le notificaremos de cambios
-            materiales por correo electrónico o mediante un aviso prominente en el sitio. Su uso continuado
-            del sitio constituye aceptación de cambios.
-        </p>
-    </section>
+            <section id="cambios" class="legal-section">
+                <h2>11. Cambios a esta Política</h2>
+                <p>
+                    Podemos actualizar esta Política de Privacidad periódicamente para reflejar cambios
+                    legales, técnicos o comerciales. Te notificaremos cualquier cambio material a través
+                    del correo electrónico registrado o mediante un aviso prominente dentro de la plataforma.
+                </p>
+                <p>
+                    El uso continuado del sitio después de la publicación de los cambios constituye tu
+                    aceptación de la nueva política. Te recomendamos revisarla periódicamente.
+                </p>
+            </section>
 
-    <section id="contacto" class="legal-section">
-        <h2>12. Contacto</h2>
-        <p>
-            Si tiene preguntas sobre esta Política de Privacidad o sus derechos, contáctenos:
-        </p>
-        <div class="contact-info">
-            <p><strong>Email de Privacidad:</strong> privacidad@costadeoroimports.com</p>
-            <p><strong>Oficial de Protección de Datos:</strong> dpo@costadeoroimports.com</p>
-            <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
-            <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
-        </div>
-    </section>
+            <section id="contacto" class="legal-section">
+                <h2>12. Contacto</h2>
+                <p>
+                    Si tienes preguntas sobre esta Política de Privacidad o quieres ejercer tus derechos,
+                    contáctanos a través de los siguientes medios:
+                </p>
+                <div class="contact-info">
+                    <p><strong>Email de Privacidad:</strong> privacidad@costadeoroimports.com</p>
+                    <p><strong>Oficial de Protección de Datos:</strong> dpo@costadeoroimports.com</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                </div>
+            </section>
 
-    <div class="acceptance-box">
-        <h3>Aceptación de Política de Privacidad</h3>
-        <p>
-            Al utilizar Costa De Oro Imports, reconoce que ha leído y entiende esta Política de Privacidad.
-            Si tiene dudas sobre cómo manejamos sus datos, contáctenos antes de usar nuestros servicios.
-        </p>
-    </div>
-</main>
+            <div class="acceptance-box">
+                <h3>Aceptación de la Política de Privacidad</h3>
+                <p>
+                    Al utilizar Costa De Oro Imports, reconoces que has leído y comprendido esta Política
+                    de Privacidad. Si tienes dudas sobre cómo manejamos tus datos, te invitamos a
+                    contactarnos antes de usar nuestros servicios.
+                </p>
+            </div>
+        </article>
+    </main>
 
-<footer class="footer">
-    <div class="footer__content">
-        <div class="footer__section">
-            <h3>Información Legal</h3>
-            <ul>
-                <li><a th:href="@{/legal/terminos-condiciones}">Términos y Condiciones</a></li>
-                <li><a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a></li>
-                <li><a th:href="@{/legal/mayoria-edad}">Confirmación de Mayoría de Edad</a></li>
-                <li><a th:href="@{/legal/autorizacion-datos}">Autorización de Datos</a></li>
-            </ul>
-        </div>
-        <div class="footer__section">
-            <h3>Información de Compra</h3>
-            <ul>
-                <li><a th:href="@{/legal/ecommerce-cervezas}">E-commerce Cervezas</a></li>
-                <li><a th:href="@{/legal/ecommerce-licores}">E-commerce Licores</a></li>
-                <li><a th:href="@{/legal/cookies}">Política de Cookies</a></li>
-            </ul>
-        </div>
-        <div class="footer__section">
-            <h3>Contacto</h3>
-            <p>Email: legal@costadeoroimports.com</p>
-            <p>Teléfono: +57 (1) 2345-6789</p>
-        </div>
-    </div>
-    <div class="footer__bottom">
-        <p>&copy; 2024 Costa De Oro Imports. Todos los derechos reservados.</p>
-    </div>
-</footer>
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
 
-<script th:src="@{/Js/legal.js}"></script>
+<div th:replace="~{fragments/legal :: scripts}"></div>
 </body>
-
 </html>

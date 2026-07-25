@@ -75,18 +75,15 @@ public class CloudinaryServiceImpl implements CloudinaryService {
      */
     @Override
     public String getImagenUrl(String publicId) {
-        if (publicId == null || publicId.isBlank()) {
+        if (publicId == null || publicId.isEmpty()) {
             return null;
         }
 
-        return cloudinary.url()
-                .secure(true)
-                .transformation(new Transformation<>()
-                        .crop("fill")
-                        .gravity("auto")
-                        .quality("auto")
-                        .fetchFormat("auto"))
-                .generate(publicId);
+        try {
+            return cloudinary.url().secure(true).generate(publicId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al intentar obtener la url segura de la imagen " + e.getMessage(), e);
+        }
     }
 
     /**

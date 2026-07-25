@@ -10,6 +10,12 @@
         "--dsn",
         "mysql://root:0220@localhost:3306/db_beer"
       ]
+    },
+    "filesystem": {
+      "command": "C:\\Users\\Víctor José Cast2\\AppData\\Roaming\\npm\\mcp-server-filesystem.cmd",
+      "args": [
+        "C:\\Users\\Víctor José Cast2\\Documentos\\Proyectos\\Costa-De-Oro-Imports\\src\\main\\resources\\Docs"
+      ]
     }
   }
 }

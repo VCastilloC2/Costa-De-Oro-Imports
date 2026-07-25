@@ -2,10 +2,12 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{fragments/legal :: head('Términos y Condiciones | Costa De Oro Imports', 'Términos y condiciones de uso de Costa De Oro Imports - E-commerce de cervezas y licores premium.')}"></head>
+<head th:replace="~{fragments/legal :: head('Términos y Condiciones | Costa De Oro Imports', 'Términos y condiciones de uso de Costa De Oro Imports — E-commerce de cervezas y licores premium.')}"></head>
 
 <body>
 <div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
 
     <div th:replace="~{fragments/legal :: hero('Términos y Condiciones', 'Las reglas que rigen tu experiencia en Costa De Oro Imports', 'ri-shield-check-line', 'DOCUMENTO LEGAL VINCULANTE')}"></div>
 
@@ -55,12 +57,12 @@
             <section id="definiciones" class="legal-section">
                 <h2>2. Definiciones</h2>
                 <ul>
-                    <li><strong>Plataforma:</strong> Sitio web, aplicación móvil y demás canales digitales de Costa De Oro Imports.</li>
-                    <li><strong>Usuario / Cliente:</strong> Persona natural que utiliza los servicios de la plataforma.</li>
-                    <li><strong>Productos:</strong> Cervezas, vinos, licores y demás bebidas alcohólicas comercializadas.</li>
-                    <li><strong>Cuenta:</strong> Registro personal del usuario que le permite acceder a funcionalidades adicionales.</li>
-                    <li><strong>Pedido:</strong> Solicitud de compra realizada por el usuario a través de la plataforma.</li>
-                    <li><strong>Proveedor:</strong> Persona jurídica o natural que ofrece productos a través de la plataforma.</li>
+                    <li><strong>Plataforma:</strong> sitio web, aplicación móvil y demás canales digitales de Costa De Oro Imports.</li>
+                    <li><strong>Usuario / Cliente:</strong> persona natural que utiliza los servicios de la plataforma.</li>
+                    <li><strong>Productos:</strong> cervezas, vinos, licores y demás bebidas alcohólicas comercializadas.</li>
+                    <li><strong>Cuenta:</strong> registro personal del usuario que le permite acceder a funcionalidades adicionales.</li>
+                    <li><strong>Pedido:</strong> solicitud de compra realizada por el usuario a través de la plataforma.</li>
+                    <li><strong>Proveedor:</strong> persona jurídica o natural que ofrece productos a través de la plataforma.</li>
                 </ul>
             </section>
 
@@ -86,7 +88,7 @@
                     <li>Mantener la confidencialidad de sus credenciales de acceso.</li>
                     <li>Notificar inmediatamente cualquier uso no autorizado de su cuenta.</li>
                     <li>Utilizar la plataforma únicamente para fines personales y lícitos.</li>
-                    <li>Respetar los derechos de propiedad intelectual de Costa De Oro Imports y terceros.</li>
+                    <li>Respetar los derechos de propiedad intelectual de Costa De Oro Imports y de terceros.</li>
                 </ul>
             </section>
 
@@ -171,12 +173,12 @@
                 <h2>10. Formas de Pago</h2>
                 <p>Aceptamos las siguientes formas de pago:</p>
                 <ul>
-                    <li>Tarjetas de crédito (Visa, Mastercard, American Express, Diners Club)</li>
-                    <li>Tarjetas de débito</li>
-                    <li>PSE (Pagos Seguros en Línea)</li>
-                    <li>Transferencia bancaria</li>
-                    <li>Mercado Pago y otras plataformas de pago electrónico</li>
-                    <li>Contra entrega (según disponibilidad y zona)</li>
+                    <li>Tarjetas de crédito (Visa, Mastercard, American Express, Diners Club).</li>
+                    <li>Tarjetas de débito.</li>
+                    <li>PSE (Pagos Seguros en Línea).</li>
+                    <li>Transferencia bancaria.</li>
+                    <li>Mercado Pago y otras plataformas de pago electrónico.</li>
+                    <li>Contra entrega (según disponibilidad y zona).</li>
                 </ul>
                 <p>
                     Todas las transacciones se procesan a través de plataformas seguras que cumplen con
@@ -193,9 +195,9 @@
                 </p>
                 <h3>11.1 Tiempos de Entrega</h3>
                 <ul>
-                    <li>Ciudades principales: 1 a 3 días hábiles</li>
-                    <li>Resto del país: 3 a 7 días hábiles</li>
-                    <li>Zonas rurales: 5 a 10 días hábiles</li>
+                    <li>Ciudades principales: 1 a 3 días hábiles.</li>
+                    <li>Resto del país: 3 a 7 días hábiles.</li>
+                    <li>Zonas rurales: 5 a 10 días hábiles.</li>
                 </ul>
                 <h3>11.2 Condiciones de Entrega</h3>
                 <p>
@@ -212,10 +214,10 @@
                     limitan a las siguientes circunstancias:
                 </p>
                 <ul>
-                    <li>Producto dañado durante el transporte</li>
-                    <li>Producto diferente al solicitado</li>
-                    <li>Producto con empaque violado o en mal estado</li>
-                    <li>Errores en la entrega atribuibles a Costa De Oro Imports</li>
+                    <li>Producto dañado durante el transporte.</li>
+                    <li>Producto diferente al solicitado.</li>
+                    <li>Producto con empaque violado o en mal estado al momento de la entrega.</li>
+                    <li>Errores en la entrega atribuibles a Costa De Oro Imports.</li>
                 </ul>
                 <p>
                     El usuario tiene derecho de retracto dentro de los <strong>5 días hábiles</strong>
@@ -257,7 +259,7 @@
                 <p>
                     Todo el contenido de la plataforma (textos, imágenes, logos, marcas, diseños, código fuente)
                     es propiedad de Costa De Oro Imports o de sus respectivos titulares y está protegido por
-                    las leyes de propiedad intelectual de Colombia y tratados internacionales.
+                    las leyes de propiedad intelectual de Colombia y los tratados internacionales.
                 </p>
                 <p>
                     Queda prohibida la reproducción, distribución, comunicación pública o transformación
@@ -269,21 +271,25 @@
                 <h2>16. Contacto</h2>
                 <p>Para cualquier consulta, reclamo o solicitud relacionada con estos Términos y Condiciones:</p>
                 <div class="contact-info">
-                    <p><strong>📧 Email:</strong> legal@costadeoroimports.com</p>
-                    <p><strong>📞 Teléfono:</strong> +57 (1) 2345-6789</p>
-                    <p><strong>📍 Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
-                    <p><strong>🕐 Horario de atención:</strong> Lunes a Viernes de 7:00 a 17:00</p>
+                    <p><strong>Email:</strong> legal@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
                 </div>
             </section>
 
-            <div class="acceptance-box">
-                <h3>⚠ Aceptación de los Términos</h3>
-                <p>
-                    Al hacer clic en "Aceptar" o al utilizar nuestra plataforma, el usuario confirma que
-                    ha leído, entendido y acepta la totalidad de los presentes Términos y Condiciones,
-                    así como nuestras <a th:href="@{/legal/politica-privacidad}" style="color: #f59e0b;">Políticas de Privacidad</a>
-                    y <a th:href="@{/legal/autorizacion-datos}" style="color: #f59e0b;">Autorización de Datos</a>.
-                </p>
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Aceptación de los Términos</h3>
+                    <p>
+                        Al hacer clic en "Aceptar" o al utilizar nuestra plataforma, confirmas que has leído,
+                        entendido y aceptas la totalidad de los presentes Términos y Condiciones, así como
+                        nuestras Políticas de Privacidad y Autorización de Datos.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/autorizacion-datos}">
+                    <i class="ri-file-shield-2-line"></i> Ver Autorización
+                </a>
             </div>
         </article>
     </main>

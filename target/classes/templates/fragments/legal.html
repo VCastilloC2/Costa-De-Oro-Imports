@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
+<!-- ===========================================================
+     HEAD — incluye todos los CSS, fuentes, librerías y meta.
+     Parámetros: title (string), description (string)
+=========================================================== -->
 <head th:fragment="head (title, description)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -29,9 +33,10 @@
 <body>
 
 <!-- ===========================================================
-     HEADER (idéntico al Index.html)
+     HEADER — barra de navegación fija (idéntico a Index.html)
+     Se invoca UNA vez por página con: <div th:replace="~{fragments/legal :: header}"></div>
 =========================================================== -->
-<header class="header" th:fragment="header">
+<header th:fragment="header" class="header">
     <figure class="header__logo">
         <a th:href="@{/}">
             <img th:src="@{/Assets/Img/logos/Logo_Dashboard.png}" alt="Logo de Costa de Oro Imports">
@@ -57,30 +62,58 @@
 </header>
 
 <!-- ===========================================================
-     HERO del documento legal
+     HERO — banner superior con título y badge.
+     Parámetros: titulo, subtitulo, icono (clase ri-*), badge (texto del chip)
+     Uso: <div th:replace="~{fragments/legal :: hero('Título', 'Subtítulo', 'ri-icon-line', 'BADGE')}"></div>
 =========================================================== -->
-<div th:fragment="hero" class="hero-legal">
-    <header class="header" th:replace="~{::header}"></header>
-
+<div th:fragment="hero (titulo, subtitulo, icono, badge)" class="hero-legal">
     <div class="hero-legal__content">
         <span class="hero-legal__breadcrumb">
             <i class="ri-home-4-line"></i>
             <a th:href="@{/}">Inicio</a>
             <i class="ri-arrow-right-s-line"></i>
-            <span>Documento Legal</span>
+            <span th:text="${titulo}">Documento</span>
         </span>
-        <h1 class="hero-legal__title">Documento Legal</h1>
-        <p class="hero-legal__subtitle">Costa De Oro Imports</p>
+        <h1 class="hero-legal__title" th:text="${titulo}">Documento Legal</h1>
+        <p class="hero-legal__subtitle" th:text="${subtitulo}">Costa De Oro Imports</p>
         <span class="hero-legal__badge">
-            <i class="ri-shield-check-line"></i> DOCUMENTO LEGAL
+            <i th:class="${icono}"></i> <th:block th:text="${badge}">DOCUMENTO LEGAL</th:block>
         </span>
     </div>
 </div>
 
 <!-- ===========================================================
-     FOOTER (idéntico al Index.html)
+     SIDEBAR — tabla de contenidos con CTA inferior.
+     Parámetros:
+       - sections: Map<idSeccion, etiquetaVisible>
+       - ctaIcon, ctaTitle, ctaSubtitle: textos del bloque CTA inferior
+     Uso:
+       <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-icon', 'Título', 'Subtítulo')}"></div>
 =========================================================== -->
-<footer class="footer" th:fragment="footer">
+<aside th:fragment="sidebar (sections, ctaIcon, ctaTitle, ctaSubtitle)" class="legal-sidebar">
+    <h3 class="legal-sidebar__title">
+        <i class="ri-list-unordered"></i> Contenido
+    </h3>
+    <ul class="legal-sidebar__list">
+        <li th:each="entry : ${sections}">
+            <a th:href="'#' + ${entry.key}">
+                <i class="ri-arrow-right-s-line"></i>
+                <th:block th:text="${entry.value}">Sección</th:block>
+            </a>
+        </li>
+    </ul>
+
+    <div class="legal-sidebar__cta">
+        <i th:class="${ctaIcon}"></i>
+        <p th:text="${ctaTitle}">¿Tienes dudas?</p>
+        <span th:text="${ctaSubtitle}">Estamos para ayudarte</span>
+    </div>
+</aside>
+
+<!-- ===========================================================
+     FOOTER — pie de página completo (idéntico a Index.html)
+=========================================================== -->
+<footer th:fragment="footer" class="footer">
     <div class="footer__subscripcion">
         <div class="subcripcion__informativa">
             <div class="informativa__subscribir">
@@ -168,33 +201,95 @@
         </div>
     </div>
 
+    <!-- Marcos legales -->
     <div class="footer__legal">
         <h3 class="legal__title">Información Legal</h3>
+
         <ul class="legal__list">
-            <li><a th:href="@{/legal/terminos-condiciones}">Términos y Condiciones</a></li>
-            <li><a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a></li>
-            <li><a th:href="@{/legal/cookies}">Política de Cookies</a></li>
-            <li><a th:href="@{/legal/autorizacion-datos}">Tratamiento de Datos</a></li>
-            <li><a th:href="@{/legal/proteccion-consumidor}">Protección al Consumidor</a></li>
-            <li><a th:href="@{/legal/retracto}">Derecho de Retracto</a></li>
-            <li><a th:href="@{/legal/reversion-pago}">Reversión de Pago</a></li>
-            <li><a th:href="@{/legal/pqrs}">PQRS</a></li>
-            <li><a th:href="@{/legal/mayoria-edad}">Mayores de Edad</a></li>
-            <li><a th:href="@{/legal/ecommerce-cervezas}">Venta de Cervezas</a></li>
-            <li><a th:href="@{/legal/ecommerce-licores}">Venta de Licores</a></li>
-            <li><a th:href="@{/contacto}">Contáctanos</a></li>
+            <li>
+                <a th:href="@{/legal/terminos-condiciones}">
+                    Términos y Condiciones
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/politica-privacidad}">
+                    Política de Privacidad
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/cookies}">
+                    Política de Cookies
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/autorizacion-datos}">
+                    Tratamiento de Datos Personales
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/proteccion-consumidor}">
+                    Protección al Consumidor
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/retracto}">
+                    Derecho de Retracto
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/reversion-pago}">
+                    Reversión de Pago
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/pqrs}">
+                    PQRS
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/mayoria-edad}">
+                    Venta Exclusiva para Mayores de Edad
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/ecommerce-cervezas}">
+                    Venta de Cervezas
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/legal/ecommerce-licores}">
+                    Venta de Licores
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/contacto}">
+                    Contáctanos
+                </a>
+            </li>
         </ul>
     </div>
 
     <div class="instalar__copyright">
         <p class="copyright__text">
-            © <span id="anio__pagina"></span> Costa De Oro Imports.
+            © <span id="anio__pagina"></span> Coste De Oro Imports.
             Todos los derechos reservados.
+            Creado por <strong>Costa de Oro Imports</strong>.
         </p>
     </div>
 </footer>
 
-<!-- Scripts comunes -->
+<!-- Scripts comunes (SweetAlert2 + lógica legal) -->
 <th:block th:fragment="scripts">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{/Js/legal.js}"></script>
