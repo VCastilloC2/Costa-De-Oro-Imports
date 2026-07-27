@@ -1,10 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<head th:replace="~{fragments/legal :: head('Protección al Consumidor | Costa De Oro Imports', 'Tus derechos como consumidor conforme al Estatuto del Consumidor colombiano.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Protección al Consumidor', 'Tus derechos como consumidor y cómo Costa De Oro Imports los garantiza', 'ri-shield-user-line', 'ESTATUTO DEL CONSUMIDOR')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'derechos':'2. Tus Derechos',
+                'deberes':'3. Tus Deberes',
+                'garantias':'4. Garantías Legales',
+                'calidad':'5. Calidad e Idoneidad',
+                'informacion':'6. Derecho a la Información',
+                'publicidad':'7. Publicidad Engañosa',
+                'sic':'8. Superintendencia (SIC)',
+                'contacto':'9. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-verified-badge-line', 'Tus derechos', 'Protegidos por la ley')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Protección al Consumidor</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    En Costa De Oro Imports respetamos y protegemos los derechos de todos nuestros
+                    consumidores conforme a lo establecido en la <strong>Ley 1480 de 2011</strong>
+                    (Estatuto del Consumidor) y demás normas concordantes.
+                </p>
+                <p>
+                    Este documento resume los principales derechos que te asisten como consumidor,
+                    las garantías que ofrecemos y los mecanismos para hacer valer tus derechos
+                    ante las autoridades competentes.
+                </p>
+            </section>
+
+            <section id="derechos" class="legal-section">
+                <h2>2. Tus Derechos como Consumidor</h2>
+                <p>Conforme al Estatuto del Consumidor (art. 3 y ss.), tienes los siguientes derechos:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-eye-line"></i></div>
+                        <h4 class="legal-card__title">Información clara y veraz</h4>
+                        <p class="legal-card__text">Recibir información completa, clara, veraz, transparente y oportuna sobre los productos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-checkbox-circle-line"></i></div>
+                        <h4 class="legal-card__title">Calidad e idoneidad</h4>
+                        <p class="legal-card__text">Recibir productos que cumplan con las características y calidades informadas.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-shield-check-line"></i></div>
+                        <h4 class="legal-card__title">Protección contra riesgos</h4>
+                        <p class="legal-card__text">Ser protegido contra riesgos para tu salud y seguridad al consumir los productos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-question-mark"></i></div>
+                        <h4 class="legal-card__title">Derecho a reclamar</h4>
+                        <p class="legal-card__text">Obtener protección frente a productos defectuosos o servicios prestados de manera deficiente.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-book-open-line"></i></div>
+                        <h4 class="legal-card__title">Educación y formación</h4>
+                        <p class="legal-card__text">Recibir educación sobre consumo responsable y sostenible.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-scales-3-line"></i></div>
+                        <h4 class="legal-card__title">No abusar de tu posición</h4>
+                        <p class="legal-card__text">Que el proveedor no abuse de su posición dominante para imponer condiciones injustas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="deberes" class="legal-section">
+                <h2>3. Tus Deberes como Consumidor</h2>
+                <p>Como consumidor, también tienes responsabilidades:</p>
+                <ul>
+                    <li>Leer y comprender la información sobre los productos antes de comprarlos.</li>
+                    <li>Cumplir con las obligaciones de pago acordadas.</li>
+                    <li>Utilizar los productos conforme a su naturaleza y finalidad.</li>
+                    <li>Informar al proveedor sobre cualquier inconformidad o defecto detectado.</li>
+                    <li>Verificar la mayoría de edad al adquirir bebidas alcohólicas.</li>
+                    <li>Consumir de manera responsable los productos adquiridos.</li>
+                    <li>Actuar de buena fe en sus relaciones con el proveedor.</li>
+                </ul>
+            </section>
+
+            <section id="garantias" class="legal-section highlight">
+                <h2>4. Garantías Legales que Ofrecemos</h2>
+                <p>
+                    Conforme al artículo 7 y siguientes de la Ley 1480 de 2011, todos los productos
+                    comercializados en Costa De Oro Imports cuentan con las siguientes garantías:
+                </p>
+                <ul>
+                    <li><strong>Garantía de calidad e idoneidad:</strong> los productos cumplen con las características prometidas y son aptos para el uso destinado.</li>
+                    <li><strong>Garantía legal:</strong> los productos están libres de defectos de fabricación y son seguros para el consumidor.</li>
+                    <li><strong>Garantía de seguridad:</strong> los productos no representan riesgos para la salud o integridad del consumidor.</li>
+                    <li><strong>Garantía de conformidad:</strong> el producto recibido corresponde exactamente al producto adquirido.</li>
+                </ul>
+                <div class="info-box">
+                    <p><strong>Término de la garantía:</strong> 30 días calendario para productos no perecederos contados a partir de la entrega.</p>
+                </div>
+            </section>
+
+            <section id="calidad" class="legal-section">
+                <h2>5. Calidad e Idoneidad de los Productos</h2>
+                <p>
+                    Costa De Oro Imports garantiza la calidad de todos los productos comercializados
+                    en su plataforma. Esto significa que:
+                </p>
+                <ul>
+                    <li>Las bebidas comercializadas cumplen con los registros sanitarios vigentes (INVIMA).</li>
+                    <li>Los productos importados cuentan con los permisos de la DIAN.</li>
+                    <li>Las fechas de vencimiento son verificadas antes del despacho.</li>
+                    <li>El empaque y presentación corresponden a los ofrecidos en el sitio web.</li>
+                    <li>Los productos son almacenados y transportados bajo condiciones adecuadas.</li>
+                </ul>
+                <p>
+                    Si recibes un producto defectuoso, diferente al solicitado o en mal estado,
+                    tienes derecho a solicitar cambio, devolución o reembolso conforme a la ley.
+                </p>
+            </section>
+
+            <section id="informacion" class="legal-section">
+                <h2>6. Derecho a la Información</h2>
+                <p>
+                    Conforme al artículo 23 del Estatuto del Consumidor, te informamos claramente:
+                </p>
+                <ul>
+                    <li><strong>Características del producto:</strong> descripción, marca, país de origen, grado de alcohol, volumen, ingredientes.</li>
+                    <li><strong>Precio total:</strong> valor del producto, impuestos, costos de envío y cualquier otro cargo.</li>
+                    <li><strong>Plazos y condiciones de entrega:</strong> fechas estimadas, transportadora, condiciones de recibo.</li>
+                    <li><strong>Política de devoluciones:</strong> condiciones, plazos y procedimientos para cambios o devoluciones.</li>
+                    <li><strong>Garantía legal:</strong> términos, alcance y procedimiento para hacerla efectiva.</li>
+                    <li><strong>Medios de pago:</strong> todas las opciones disponibles y sus condiciones.</li>
+                    <li><strong>Identificación del proveedor:</strong> razón social, NIT, dirección y datos de contacto.</li>
+                </ul>
+            </section>
+
+            <section id="publicidad" class="legal-section">
+                <h2>7. Publicidad y Prácticas Comerciales</h2>
+                <p>
+                    Costa De Oro Imports rechaza toda forma de publicidad engañosa y se compromete con
+                    la transparencia en sus prácticas comerciales. Por ello:
+                </p>
+                <ul>
+                    <li>Las imágenes, descripciones y precios publicados corresponden a la realidad del producto.</li>
+                    <li>Las promociones y ofertas tienen condiciones claras y verificables.</li>
+                    <li>No realizamos publicidad dirigida a menores de edad.</li>
+                    <li>Cumplimos con todas las normas de protección al consumidor en nuestras comunicaciones.</li>
+                </ul>
+                <p>
+                    Si consideras que alguna publicidad o práctica comercial vulnera tus derechos,
+                    puedes reportarlo ante la <strong>Superintendencia de Industria y Comercio (SIC)</strong>
+                    o contactarnos directamente para resolver la situación.
+                </p>
+            </section>
+
+            <section id="sic" class="legal-section highlight">
+                <h2>8. Superintendencia de Industria y Comercio (SIC)</h2>
+                <p>
+                    La <strong>Superintendencia de Industria y Comercio</strong> es la autoridad
+                    nacional encargada de proteger los derechos de los consumidores en Colombia.
+                    Puedes acudir a ella si consideras que tus derechos han sido vulnerados:
+                </p>
+                <div class="contact-info">
+                    <p><strong>Superintendencia de Industria y Comercio (SIC)</strong></p>
+                    <p>Carrera 13 #27-00, Bogotá, Colombia</p>
+                    <p>Conmutador: +57 (1) 5925-3000</p>
+                    <p>Web: <a href="https://www.sic.gov.co" target="_blank" rel="noopener">www.sic.gov.co</a></p>
+                    <p>Email: contacto@sic.gov.co</p>
+                    <p>Línea gratuita nacional: 01 8000 910 165</p>
+                </div>
+                <p>
+                    Ante la SIC podrás presentar <strong>quejas</strong> por infracciones al
+                    Estatuto del Consumidor, <strong>denuncias</strong> por prácticas comerciales
+                    abusivas o engañosas, y <strong>reclamaciones</strong> por vulneración de tus
+                    derechos como consumidor.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>9. Contacto</h2>
+                <p>Para cualquier asunto relacionado con tus derechos como consumidor, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> consumidor@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Comprometidos con tus derechos</h3>
+                    <p>
+                        En Costa De Oro Imports trabajamos continuamente para ofrecerte productos
+                        de calidad, información transparente y un servicio que respete todos tus
+                        derechos como consumidor.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/pqrs}">
+                    <i class="ri-customer-service-2-line"></i> Radicar PQRS
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
 </body>
 </html>
