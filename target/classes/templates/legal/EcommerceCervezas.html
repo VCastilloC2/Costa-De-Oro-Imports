@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('E-commerce de Cervezas | Costa De Oro Imports', 'Información legal sobre la venta online de cervezas en Costa De Oro Imports.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('E-commerce de Cervezas', 'Información legal sobre la venta online de cervezas nacionales e importadas', 'ri-beer-line', 'VENTA REGULADA DE CERVEZAS')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'marco-legal':'2. Marco Legal',
+                'licencia':'3. Licencias y Permisos',
+                'verificacion':'4. Verificación de Edad',
+                'productos':'5. Productos Ofrecidos',
+                'envio':'6. Envío y Entrega',
+                'impuestos':'7. Impuestos',
+                'restricciones':'8. Restricciones',
+                'salud':'9. Advertencias de Salud',
+                'contacto':'10. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-government-line', 'Venta regulada', 'Cumplimos todas las normas')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Venta de Cervezas a través de E-commerce</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    Costa De Oro Imports comercializa cervezas nacionales e importadas a través de su
+                    plataforma de comercio electrónico. Este documento describe el marco legal y
+                    regulatorio aplicable, los compromisos que adquirimos con nuestros clientes
+                    y las condiciones específicas de venta de esta categoría de productos.
+                </p>
+                <p>
+                    La venta de cervezas en Colombia está regulada por la <strong>Ley 1816 de 2016</strong>,
+                    el <strong>Decreto 1686 de 2012</strong> y las demás normas concordantes que regulan
+                    el mercado de bebidas alcohólicas.
+                </p>
+            </section>
+
+            <section id="marco-legal" class="legal-section">
+                <h2>2. Marco Legal Aplicable</h2>
+                <p>Nuestra operación de e-commerce de cervezas se fundamenta en las siguientes normas:</p>
+                <ul>
+                    <li><strong>Constitución Política de Colombia</strong> — artículos sobre orden público, salud y libertad de empresa.</li>
+                    <li><strong>Ley 1816 de 2016</strong> — Estatuto de los impuestos al consumo de licores y cervezas.</li>
+                    <li><strong>Ley 1480 de 2011</strong> — Estatuto del Consumidor y derechos de retracto y reversión.</li>
+                    <li><strong>Ley 1581 de 2012</strong> — Protección de datos personales.</li>
+                    <li><strong>Decreto 1686 de 2012</strong> — Regulación del mercado de bebidas alcohólicas.</li>
+                    <li><strong>Resolución 2605 de 2014</strong> — Reglamentación del comercio electrónico.</li>
+                    <li><strong>Resolución 719 de 2015</strong> — Reglas para el expendio de bebidas alcohólicas.</li>
+                </ul>
+            </section>
+
+            <section id="licencia" class="legal-section highlight">
+                <h2>3. Licencias y Permisos</h2>
+                <p>
+                    Costa De Oro Imports cuenta con todas las licencias, permisos y autorizaciones
+                    requeridas por las autoridades colombianas para la importación, distribución
+                    y comercialización de cervezas a través de canales digitales:
+                </p>
+                <ul>
+                    <li>Registro mercantil vigente.</li>
+                    <li>RUT actualizado.</li>
+                    <li>Licencia de funcionamiento municipal.</li>
+                    <li>Registro sanitario INVIMA para productos nacionales.</li>
+                    <li>Permisos de importación DIAN para productos extranjeros.</li>
+                    <li>Certificación de comercio electrónico.</li>
+                    <li>Pólizas de responsabilidad civil extracontractual.</li>
+                </ul>
+                <p>
+                    Toda la documentación puede ser consultada por las autoridades competentes y
+                    por nuestros clientes que lo soliciten formalmente.
+                </p>
+            </section>
+
+            <section id="verificacion" class="legal-section">
+                <h2>4. Verificación de Edad</h2>
+                <p>
+                    En cumplimiento de la normatividad vigente, Costa De Oro Imports implementa un
+                    sistema robusto de verificación de mayoría de edad para la venta de cervezas:
+                </p>
+                <ul>
+                    <li><strong>Verificación al registro:</strong> validación del documento de identidad al crear la cuenta.</li>
+                    <li><strong>Confirmación en checkout:</strong> el usuario debe aceptar que es mayor de 18 años antes de pagar.</li>
+                    <li><strong>Verificación en entrega:</strong> el transportador exigirá documento de identidad original y vigente.</li>
+                    <li><strong>Firma del receptor:</strong> el adulto que recibe debe firmar el comprobante de entrega.</li>
+                    <li><strong>Monitoreo de patrones:</strong> análisis de comportamiento para detectar posibles ventas a menores.</li>
+                </ul>
+                <div class="highlight">
+                    <p>
+                        <strong>La venta de cervezas a menores de 18 años está estrictamente prohibida</strong>
+                        y constituye una infracción legal con sanciones para el establecimiento,
+                        sus representantes y los transportadores involucrados.
+                    </p>
+                </div>
+            </section>
+
+            <section id="productos" class="legal-section">
+                <h2>5. Productos Ofrecidos</h2>
+                <p>Nuestra tienda online ofrece una amplia variedad de cervezas:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-beer-line"></i></div>
+                        <h4 class="legal-card__title">Cervezas Lager</h4>
+                        <p class="legal-card__text">Cervezas rubias, refrescantes y de fermentación baja. Las más populares del mercado.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-cup-line"></i></div>
+                        <h4 class="legal-card__title">Cervezas Ale</h4>
+                        <p class="legal-card__text">Cervezas de fermentación alta con sabores más robustos y complejos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-leaf-line"></i></div>
+                        <h4 class="legal-card__title">Cervezas Artesanales</h4>
+                        <p class="legal-card__text">Producción local con ingredientes seleccionados y sabores únicos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-global-line"></i></div>
+                        <h4 class="legal-card__title">Cervezas Importadas</h4>
+                        <p class="legal-card__text">Alemania, Bélgica, México, EE.UU., Holanda, Italia y más países.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-bowl-line"></i></div>
+                        <h4 class="legal-card__title">Cervezas de Trigo</h4>
+                        <p class="legal-card__text">Weissbier, Witbier y otras variedades con notas frutales y especiadas.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-goblet-line"></i></div>
+                        <h4 class="legal-card__title">Stout y Porter</h4>
+                        <p class="legal-card__text">Cervezas oscuras con cuerpo, notas a café, chocolate y caramelo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="envio" class="legal-section">
+                <h2>6. Envío y Entrega</h2>
+                <p>
+                    La entrega de cervezas se realiza cumpliendo con todos los requisitos legales:
+                </p>
+                <ul>
+                    <li><strong>Identificación obligatoria:</strong> la persona que recibe debe ser mayor de edad y presentar su documento de identidad original y vigente.</li>
+                    <li><strong>Empaque discreto:</strong> utilizamos empaques neutros que no identifican el contenido en el exterior.</li>
+                    <li><strong>Transporte especializado:</strong> trabajamos con transportadoras certificadas para el manejo de bebidas alcohólicas.</li>
+                    <li><strong>Cadena de frío:</strong> cuando es necesario, garantizamos la cadena de frío para preservar la calidad.</li>
+                    <li><strong>Horarios permitidos:</strong> las entregas se realizan en horarios establecidos por la normatividad local.</li>
+                    <li><strong>Zonas restringidas:</strong> no realizamos entregas en zonas donde la ley prohíbe la venta (colegios, hospitales, etc.).</li>
+                </ul>
+            </section>
+
+            <section id="impuestos" class="legal-section">
+                <h2>7. Impuestos y Cargos</h2>
+                <p>
+                    Los precios publicados en cervezas incluyen todos los impuestos nacionales aplicables:
+                </p>
+                <ul>
+                    <li><strong>IVA:</strong> 19% sobre el precio del producto.</li>
+                    <li><strong>Impuesto nacional al consumo de cerveza:</strong> variable según grado de alcohol y categoría (Ley 1816 de 2016).</li>
+                    <li><strong>Impuesto departamental:</strong> cada departamento puede aplicar un impuesto adicional al consumo de cerveza, incluido en el precio final.</li>
+                </ul>
+                <p>
+                    El cliente recibirá factura electrónica con el desglose detallado de todos los
+                    impuestos pagados conforme a la normatividad tributaria colombiana.
+                </p>
+            </section>
+
+            <section id="restricciones" class="legal-section">
+                <h2>8. Restricciones a la Venta</h2>
+                <p>No realizaremos venta de cervezas en los siguientes casos:</p>
+                <ul>
+                    <li>Personas menores de 18 años.</li>
+                    <li>Personas en evidente estado de embriaguez o bajo efectos de sustancias psicoactivas.</li>
+                    <li>Personas con discapacidad mental evidente que les impide comprender la transacción.</li>
+                    <li>Zonas donde la ley prohíbe la venta de bebidas alcohólicas (cerca de colegios, hospitales, centros de salud, etc.).</li>
+                    <li>En días y horarios de ley seca establecidos por las autoridades.</li>
+                    <li>Cantidades que excedan los límites legales establecidos por la normatividad local.</li>
+                    <li>A servidores públicos en ejercicio de sus funciones.</li>
+                </ul>
+            </section>
+
+            <section id="salud" class="legal-section">
+                <h2>9. Advertencias de Salud</h2>
+                <div class="highlight">
+                    <h3>El exceso de alcohol es perjudicial para la salud</h3>
+                    <p>
+                        <strong>Prohíbese el expendio de bebidas embriagantes a menores de edad.</strong>
+                        El consumo excesivo de alcohol afecta tu salud, tu familia y tu comunidad.
+                        Si vas a conducir, no consumas alcohol. Si estás embarazada o en período de
+                        lactancia, evita el consumo de bebidas alcohólicas.
+                    </p>
+                </div>
+                <p>Recomendaciones importantes:</p>
+                <ul>
+                    <li>Consume con responsabilidad y moderación.</li>
+                    <li>No mezcles alcohol con medicamentos.</li>
+                    <li>Si tienes condiciones médicas, consulta a tu médico antes de consumir alcohol.</li>
+                    <li>No conduzcas bajo los efectos del alcohol.</li>
+                    <li>Si sospechas que tú o alguien cercano tiene problemas con el alcohol, busca ayuda profesional.</li>
+                </ul>
+                <p>
+                    <strong>Línea de ayuda nacional:</strong> si tú o alguien que conoces necesita ayuda
+                    por problemas de consumo de alcohol, comunícate con la línea <strong>106</strong> o
+                    consulta a tu EPS.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>10. Contacto</h2>
+                <p>Para cualquier consulta sobre la venta de cervezas, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> cervezas@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Venta Responsable de Cervezas</h3>
+                    <p>
+                        Costa De Oro Imports está comprometida con la venta responsable de cervezas.
+                        Cumplimos con toda la normatividad vigente y trabajamos en alianza con las
+                        autoridades para promover el consumo responsable y prevenir la venta a menores.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/mayoria-edad}">
+                    <i class="ri-shield-user-line"></i> Verificación de Edad
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

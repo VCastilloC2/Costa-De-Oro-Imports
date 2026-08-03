@@ -11,3 +11,18 @@ Dockerfile
 Dockerfile*
 docker-compose*
 compose.y*ml
+
+
+
+.idea
+.vscode
+
+Dockerfile
+docker-compose.yml
+
+### Variables de entorno ###
+*.env
+.env
+.env.docker
+**/*.env
+*/*.env
