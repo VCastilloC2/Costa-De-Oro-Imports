@@ -1,10 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<head th:replace="~{fragments/legal :: head('Reversión de Pago | Costa De Oro Imports', 'Procedimiento y condiciones para solicitar la reversión de pagos conforme al Estatuto del Consumidor.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Reversión de Pago', 'Cómo solicitar la devolución de tu dinero en caso de fraude o incumplimiento', 'ri-bank-card-line', 'PROTECCIÓN FINANCIERA')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'marco-legal':'2. Marco Legal',
+                'causales':'3. Causales de Reversión',
+                'plazos':'4. Plazos',
+                'procedimiento':'5. Procedimiento',
+                'requisitos':'6. Requisitos',
+                'emisor':'7. Obligaciones del Emisor',
+                'vendedor':'8. Obligaciones del Vendedor',
+                'excepciones':'9. Excepciones',
+                'contacto':'10. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-shield-check-line', 'Tu dinero protegido', 'Cumplimos el art. 51 de la Ley 1480')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Reversión de Pago</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    La reversión de pago es el derecho del consumidor a solicitar la devolución del dinero
+                    pagado cuando ha sido víctima de fraude, no ha recibido el producto o cuando se han
+                    realizado cobros no autorizados.
+                </p>
+                <p>
+                    En Costa De Oro Imports trabajamos con pasarelas de pago certificadas que cumplen
+                    con los más altos estándares de seguridad y te permiten solicitar la reversión
+                    de acuerdo con la normatividad vigente.
+                </p>
+            </section>
+
+            <section id="marco-legal" class="legal-section">
+                <h2>2. Marco Legal</h2>
+                <p>El derecho de reversión de pagos se fundamenta en las siguientes normas:</p>
+                <ul>
+                    <li><strong>Ley 1480 de 2011</strong> (Estatuto del Consumidor), artículos 51 y 53.</li>
+                    <li><strong>Decreto 587 de 2016</strong> sobre comercio electrónico y reversión de pagos.</li>
+                    <li><strong>Ley 2277 de 2022</strong> y normas complementarias.</li>
+                    <li>Reglamentos de la Superintendencia Financiera y Superintendencia de Industria y Comercio.</li>
+                </ul>
+            </section>
+
+            <section id="causales" class="legal-section">
+                <h2>3. Causales de Reversión de Pago</h2>
+                <p>Conforme a la ley, el consumidor puede solicitar la reversión del pago cuando:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-alarm-warning-line"></i></div>
+                        <h4 class="legal-card__title">No recibes el producto</h4>
+                        <p class="legal-card__text">El producto adquirido nunca fue entregado en la fecha pactada o dentro del plazo razonable.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-error-warning-line"></i></div>
+                        <h4 class="legal-card__title">Producto no conforme</h4>
+                        <p class="legal-card__text">El producto recibido no corresponde al anunciado o adquirido.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-user-fraud-line"></i></div>
+                        <h4 class="legal-card__title">Suplantación o fraude</h4>
+                        <p class="legal-card__text">El cargo fue realizado sin tu consentimiento o autorización por suplantación de identidad.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-money-dollar-circle-line"></i></div>
+                        <h4 class="legal-card__title">Cobro no reconocido</h4>
+                        <p class="legal-card__text">Se realizó un cargo no correspondiente al producto adquirido o por un valor diferente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="plazos" class="legal-section highlight">
+                <h2>4. Plazos para Solicitar la Reversión</h2>
+                <div class="info-box">
+                    <p><strong>Plazo general:</strong> el consumidor tiene <strong>5 días hábiles</strong> contados a partir de:</p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>La fecha en que se debió entregar el producto y no fue recibido.</li>
+                        <li>La fecha de recepción cuando el producto no corresponde al adquirido.</li>
+                        <li>La fecha en que se detectó el cobro no autorizado o fraudulento.</li>
+                    </ul>
+                </div>
+                <p>
+                    Vencido este plazo sin que se haya solicitado la reversión, se entenderá que el
+                    consumidor está conforme con la compra.
+                </p>
+            </section>
+
+            <section id="procedimiento" class="legal-section">
+                <h2>5. Procedimiento de Reversión</h2>
+                <p>El procedimiento para solicitar la reversión de pago es el siguiente:</p>
+                <div class="legal-steps">
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Solicitud</h4>
+                        <p class="legal-step__text">Presenta tu queja ante la entidad emisora del medio de pago o ante Costa De Oro Imports.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Recepción</h4>
+                        <p class="legal-step__text">La entidad financiera recibe la solicitud y la traslada al vendedor.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Reversión</h4>
+                        <p class="legal-step__text">Se reversa el pago de manera provisional mientras se investiga.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Resolución</h4>
+                        <p class="legal-step__text">La entidad financiera resuelve la solicitud en máximo 15 días hábiles.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="requisitos" class="legal-section">
+                <h2>6. Requisitos para la Solicitud</h2>
+                <p>Para que la solicitud de reversión sea procedente, debes:</p>
+                <ul>
+                    <li>Presentar la queja dentro del plazo legal establecido (5 días hábiles).</li>
+                    <li>Indicar la causal por la cual se solicita la reversión.</li>
+                    <li>Aportar la documentación que respalde la solicitud (factura, comprobante de pago, capturas de pantalla, etc.).</li>
+                    <li>No haber recibido el producto o no estar conforme con el mismo.</li>
+                    <li>Manifestar bajo gravedad de juramento que los hechos relatados son ciertos.</li>
+                </ul>
+                <p>La queja podrás presentarla a través de:</p>
+                <ul>
+                    <li>Tu entidad financiera (banco, emisor de tarjeta, etc.).</li>
+                    <li>El proveedor del medio de pago (Mercado Pago, PSE, etc.).</li>
+                    <li>Directamente con nosotros en: <strong>reversion@costadeoroimports.com</strong></li>
+                </ul>
+            </section>
+
+            <section id="emisor" class="legal-section">
+                <h2>7. Obligaciones del Emisor del Medio de Pago</h2>
+                <p>La entidad financiera o el proveedor del medio de pago debe:</p>
+                <ul>
+                    <li>Recibir y dar trámite a la solicitud de reversión presentada por el consumidor.</li>
+                    <li>Reversar el pago de forma provisional en un plazo no mayor a 2 días hábiles.</li>
+                    <li>Notificar al vendedor sobre la solicitud para que presente sus descargos.</li>
+                    <li>Resolver definitivamente la solicitud en un plazo máximo de 15 días hábiles.</li>
+                    <li>Informar al consumidor sobre el estado y resultado del proceso.</li>
+                </ul>
+            </section>
+
+            <section id="vendedor" class="legal-section">
+                <h2>8. Obligaciones del Vendedor (Costa De Oro Imports)</h2>
+                <p>Como vendedor, Costa De Oro Imports debe:</p>
+                <ul>
+                    <li>Recibir las notificaciones de reversión enviadas por el emisor del medio de pago.</li>
+                    <li>Presentar dentro del plazo los descargos y pruebas que sustenten la entrega conforme del producto.</li>
+                    <li>Demostrar que el consumidor recibió efectivamente el producto o servicio adquirido.</li>
+                    <li>Cooperar con la investigación realizada por la entidad financiera.</li>
+                    <li>Devolver el dinero al consumidor si no logra demostrar la entrega conforme del producto.</li>
+                </ul>
+            </section>
+
+            <section id="excepciones" class="legal-section">
+                <h2>9. Excepciones a la Reversión</h2>
+                <p>La reversión de pago NO procederá en los siguientes casos:</p>
+                <ul>
+                    <li>Cuando el consumidor haya recibido el producto y esté conforme con el mismo.</li>
+                    <li>Cuando la solicitud se presente fuera del plazo legal de 5 días hábiles.</li>
+                    <li>Cuando el consumidor no haya utilizado el producto conforme a su naturaleza y buen uso.</li>
+                    <li>Cuando se haya utilizado de forma indebida o se hayan alterado los sellos de seguridad.</li>
+                    <li>Cuando la queja sea presentada de manera fraudulenta o con información falsa.</li>
+                    <li>Cuando el producto sea perecedero o de uso personal y haya sido abierto.</li>
+                </ul>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>10. Contacto</h2>
+                <p>Si necesitas solicitar una reversión de pago o tienes preguntas sobre el proceso:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> reversion@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                    <p><strong>SIC:</strong> www.sic.gov.co - Superintendencia de Industria y Comercio</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>¿Problemas con tu pago?</h3>
+                    <p>
+                        Si tuviste algún inconveniente con un cargo no reconocido o no recibiste tu producto,
+                        contáctanos de inmediato. Estamos comprometidos con resolver cualquier situación
+                        de forma ágil y transparente.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/contacto}">
+                    <i class="ri-customer-service-2-line"></i> Contactar Soporte
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
 </body>
 </html>

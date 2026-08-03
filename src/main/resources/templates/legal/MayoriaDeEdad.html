@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('Venta a Mayores de Edad | Costa De Oro Imports', 'Política de venta exclusiva a mayores de edad conforme a la normatividad colombiana.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Venta Exclusiva para Mayores de Edad', 'Nuestra política de venta responsable y verificación de mayoría de edad', 'ri-user-shield-line', 'PROTECCIÓN DE MENORES')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'normatividad':'2. Normatividad Aplicable',
+                'politica':'3. Nuestra Política',
+                'verificacion':'4. Proceso de Verificación',
+                'responsabilidades':'5. Responsabilidades del Comprador',
+                'sanciones':'6. Sanciones Legales',
+                'compromiso':'7. Nuestro Compromiso',
+                'reportar':'8. Reportar Venta a Menores',
+                'contacto':'9. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-shield-star-line', 'Cero tolerancia', 'Protegemos a los menores')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Venta Exclusiva para Mayores de Edad</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <div class="legal-feature">
+                <div class="legal-feature__icon">
+                    <i class="ri-goblet-2-line"></i>
+                </div>
+                <div>
+                    <h3 class="legal-feature__title">+18 — Venta Prohibida a Menores de Edad</h3>
+                    <p class="legal-feature__text">
+                        Todos los productos comercializados en Costa De Oro Imports son exclusivamente
+                        para personas mayores de 18 años. Implementamos múltiples mecanismos de
+                        verificación para garantizar el cumplimiento de esta política.
+                    </p>
+                </div>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    Costa De Oro Imports está comprometida con la <strong>venta responsable</strong> de
+                    bebidas alcohólicas. Por tal razón, todos los productos disponibles en nuestra
+                    plataforma están destinados exclusivamente a personas mayores de 18 años,
+                    conforme a la legislación colombiana vigente.
+                </p>
+                <p>
+                    La venta, distribución y consumo de bebidas alcohólicas por menores de edad está
+                    estrictamente prohibida en Colombia y representa un riesgo grave para su salud,
+                    su desarrollo y su futuro. Por ello, asumimos el compromiso de aplicar controles
+                    rigurosos para prevenir cualquier venta a menores.
+                </p>
+            </section>
+
+            <section id="normatividad" class="legal-section">
+                <h2>2. Normatividad Aplicable</h2>
+                <p>La venta exclusiva a mayores de edad se fundamenta en:</p>
+                <ul>
+                    <li><strong>Constitución Política de Colombia</strong> — protección de menores y prevalencia del interés superior del niño.</li>
+                    <li><strong>Código de la Infancia y la Adolescencia (Ley 1098 de 2006)</strong>.</li>
+                    <li><strong>Ley 124 de 1994</strong> — prohibición de venta de bebidas alcohólicas a menores.</li>
+                    <li><strong>Ley 1816 de 2016</strong> — Estatuto de los impuestos al consumo de licores y cervezas.</li>
+                    <li><strong>Decreto 1686 de 2012</strong> — regulación del expendio de bebidas alcohólicas.</li>
+                    <li><strong>Resolución 719 de 2015</strong> — reglas para el expendio de bebidas alcohólicas.</li>
+                </ul>
+            </section>
+
+            <section id="politica" class="legal-section highlight">
+                <h2>3. Nuestra Política de Venta</h2>
+                <p>
+                    Costa De Oro Imports aplica una política de <strong>cero tolerancia</strong> frente
+                    a la venta de bebidas alcohólicas a menores de edad. En concordancia:
+                </p>
+                <ul>
+                    <li><strong>El sitio no está dirigido a menores de edad.</strong> El registro y la compra están reservados a personas mayores de 18 años.</li>
+                    <li><strong>Verificación obligatoria.</strong> Validamos la edad y la identidad del usuario en múltiples puntos del proceso de compra.</li>
+                    <li><strong>Entrega solo a adultos.</strong> El producto solo se entrega a personas que acrediten mayoría de edad con documento de identidad original.</li>
+                    <li><strong>Prohibición de venta por encargo.</strong> No se permite que un adulto compre alcohol para entregarlo a un menor.</li>
+                    <li><strong>Cooperación con autoridades.</strong> Trabajamos activamente con las autoridades para prevenir y denunciar la venta a menores.</li>
+                </ul>
+            </section>
+
+            <section id="verificacion" class="legal-section">
+                <h2>4. Proceso de Verificación de Edad</h2>
+                <p>Nuestro sistema de verificación opera en varias capas:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-user-add-line"></i></div>
+                        <h4 class="legal-card__title">1. Registro</h4>
+                        <p class="legal-card__text">Solicitamos fecha de nacimiento y documento de identidad al crear la cuenta.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-shopping-cart-line"></i></div>
+                        <h4 class="legal-card__title">2. Checkout</h4>
+                        <p class="legal-card__text">Requerimos confirmación expresa de mayoría de edad antes de procesar el pago.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-bank-card-line"></i></div>
+                        <h4 class="legal-card__title">3. Validación</h4>
+                        <p class="legal-card__text">Validamos la información con bases de datos de identificación oficiales.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-truck-line"></i></div>
+                        <h4 class="legal-card__title">4. Entrega</h4>
+                        <p class="legal-card__text">El transportador verifica el documento de identidad original del receptor.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="responsabilidades" class="legal-section">
+                <h2>5. Responsabilidades del Comprador</h2>
+                <p>Al realizar una compra en Costa De Oro Imports, el comprador declara y se compromete a:</p>
+                <ul>
+                    <li>Ser mayor de 18 años de edad.</li>
+                    <li>Proporcionar información veraz y verificable sobre su identidad y edad.</li>
+                    <li>Estar presente al momento de la entrega y presentar su documento de identidad original.</li>
+                    <li>No permitir que un menor de edad consuma los productos adquiridos.</li>
+                    <li>Consumir las bebidas alcohólicas de forma responsable y moderada.</li>
+                    <li>No transferir los productos a terceros que no acrediten mayoría de edad.</li>
+                </ul>
+                <p>
+                    El incumplimiento de estas responsabilidades podrá generar la cancelación del
+                    pedido, la suspensión de la cuenta y las acciones legales que correspondan.
+                </p>
+            </section>
+
+            <section id="sanciones" class="legal-section">
+                <h2>6. Sanciones Legales</h2>
+                <div class="highlight">
+                    <p>
+                        <strong>La venta de bebidas alcohólicas a menores de 18 años está sancionada
+                        con multa, cierre del establecimiento y pena privativa de la libertad.</strong>
+                    </p>
+                </div>
+                <p>Conforme a la normatividad vigente:</p>
+                <ul>
+                    <li><strong>Ley 124 de 1994:</strong> establece multas para quien venda, suministre o permita el consumo de bebidas alcohólicas a menores.</li>
+                    <li><strong>Código Nacional de Policía (Ley 1801 de 2016):</strong> prevé medidas correctivas como multa, decomiso y suspensión de actividad.</li>
+                    <li><strong>Código Penal (Ley 599 de 2000):</strong> artículos 312 y siguientes tipifican como delito la inducción al consumo de menores.</li>
+                </ul>
+                <p>Las sanciones pueden incluir:</p>
+                <ul>
+                    <li>Multas de hasta <strong>5 SMLMV</strong> para establecimientos.</li>
+                    <li>Clausura temporal o definitiva del establecimiento.</li>
+                    <li>Prohibición de ejercer la actividad comercial.</li>
+                    <li>Responsabilidad penal para los representantes legales.</li>
+                </ul>
+            </section>
+
+            <section id="compromiso" class="legal-section">
+                <h2>7. Nuestro Compromiso con la Venta Responsable</h2>
+                <p>Como empresa responsable, Costa De Oro Imports se compromete a:</p>
+                <ul>
+                    <li>Capacitar continuamente a nuestro personal y transportadores en la prevención de venta a menores.</li>
+                    <li>Implementar tecnologías avanzadas de verificación de identidad y edad.</li>
+                    <li>Colaborar con las autoridades y organizaciones civiles comprometidas con la protección de menores.</li>
+                    <li>Promover campañas de concientización sobre el consumo responsable de alcohol.</li>
+                    <li>Reportar cualquier intento de venta a menores a las autoridades competentes.</li>
+                    <li>Mantener canales abiertos para recibir denuncias de venta irregular.</li>
+                </ul>
+            </section>
+
+            <section id="reportar" class="legal-section">
+                <h2>8. ¿Cómo Reportar una Venta a Menores?</h2>
+                <p>
+                    Si tienes conocimiento o sospechas de que se está vendiendo alcohol a menores
+                    a través de nuestra plataforma, te invitamos a reportarlo de inmediato:
+                </p>
+                <div class="contact-info">
+                    <p><strong>Email confidencial:</strong> reportes@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Línea ICBF:</strong> 01 8000 91 80 80 (para reportar vulneración de derechos de menores)</p>
+                    <p><strong>Policía Nacional:</strong> 123 (línea de emergencia)</p>
+                </div>
+                <p>
+                    Tu reporte será tratado con absoluta confidencialidad y nos permitirá tomar
+                    medidas correctivas inmediatas.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>9. Contacto</h2>
+                <p>Para más información sobre nuestra política de venta a mayores de edad:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> responsabilidad@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Consumo Responsable</h3>
+                    <p>
+                        Si decides consumir bebidas alcohólicas, hazlo siempre con responsabilidad.
+                        No conduzcas bajo los efectos del alcohol, no permitas que menores consuman
+                        y respeta las normas de convivencia.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/ecommerce-cervezas}">
+                    <i class="ri-beer-line"></i> Ver Venta de Cervezas
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

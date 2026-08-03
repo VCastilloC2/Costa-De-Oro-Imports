@@ -2,50 +2,27 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
-    <link rel="stylesheet" th:href="@{/Css/style.css}">
-    <link rel="stylesheet" th:href="@{/Css/legal.css}">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
-          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer">
-    <title>E-commerce de Licores | Costa De Oro Imports</title>
-    <meta name="description" content="Información legal sobre la venta de licores a través de Costa De Oro Imports.">
-    <meta name="robots" content="index,follow">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-</head>
+<head th:replace="~{fragments/legal :: head('E-commerce de Licores | Costa De Oro Imports', 'Información legal sobre la venta online de licores en Costa De Oro Imports.')}"></head>
 
 <body>
 <div class="legal-page">
 
     <div th:replace="~{fragments/legal :: header}"></div>
 
-    <div th:replace="~{fragments/legal :: hero('E-commerce de Licores', 'Información legal sobre la venta online de licores', 'ri-goblet-line', 'VENTA RESPONSABLE')}"></div>
+    <div th:replace="~{fragments/legal :: hero('E-commerce de Licores', 'Información legal sobre la venta online de licores nacionales e importados', 'ri-goblet-line', 'VENTA RESPONSABLE DE LICORES')}"></div>
 
     <main class="legal-container">
         <th:block th:with="
             sections=${ {
                 'introduccion':'1. Introducción',
-                'marco-legal':'2. Marco legal',
-                'licencia':'3. Licencia y permisos',
-                'verificacion':'4. Verificación de edad',
-                'productos':'5. Productos ofrecidos',
-                'envio':'6. Envío y entrega',
+                'marco-legal':'2. Marco Legal',
+                'licencia':'3. Licencias y Permisos',
+                'verificacion':'4. Verificación de Edad',
+                'productos':'5. Productos Ofrecidos',
+                'envio':'6. Envío y Entrega',
                 'impuestos':'7. Impuestos',
                 'restricciones':'8. Restricciones',
-                'salud':'9. Advertencias de salud',
+                'salud':'9. Advertencias de Salud',
                 'contacto':'10. Contacto'
             } }">
             <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-government-line', 'Venta regulada', 'Cumplimos todas las normas')}"></div>

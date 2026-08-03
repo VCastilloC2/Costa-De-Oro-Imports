@@ -14,8 +14,9 @@
 
 ### Variables de entorno ###
 *.env
-*.env*
 .env
+*.env.docker
+.env.docker
 **/*.env
 */*.env
 
