@@ -122,3 +122,7 @@ volumes:
   mysql_data:
   redis_data:
   ollama_data:
+
+networks:
+  costa-de-oro-network:
+    driver: bridge

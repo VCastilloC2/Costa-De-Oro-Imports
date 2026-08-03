@@ -43,7 +43,6 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final EmpresaRepository empresaRepository;
     private final RolRepository rolRepository;
-
     private final CloudinaryService cloudinaryService;
     private final EmailService emailService;
     private final PasswordEncoder encoder;
