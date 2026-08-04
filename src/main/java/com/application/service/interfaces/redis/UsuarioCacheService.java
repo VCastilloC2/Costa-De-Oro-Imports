@@ -1,4 +1,4 @@
-package com.application.service.interfaces;
+package com.application.service.interfaces.redis;
 
 import com.application.persistence.entity.usuario.Usuario;
 

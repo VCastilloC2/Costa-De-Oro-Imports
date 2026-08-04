@@ -18,6 +18,7 @@ import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.EmailService;
 import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.empresa.EmpresaService;
+import com.application.service.interfaces.redis.UsuarioCacheService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import com.application.utils.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -46,25 +47,91 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     private final CloudinaryService cloudinaryService;
     private final EmailService emailService;
     private final PasswordEncoder encoder;
+    private final UsuarioCacheService usuarioCacheService;
 
     @Override
-    public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String correo)
+            throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepository.findByCorreo(correo)
-                .orElseThrow(() -> new UsernameNotFoundException("ERROR: el correo '" + correo + "' no existe"));
+        Usuario usuario = null;
+
+        // Intentar Redis únicamente si está disponible
+        if (usuarioCacheService.isRedisAvailable()) {
+
+            usuario = usuarioCacheService.obtenerPorCorreo(correo);
+
+            if (usuario != null) {
+                return new CustomUserPrincipal(usuario);
+            }
+        }
+
+        // Si Redis no existe o no encontró el usuario
+        usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("ERROR: El correo '" + correo + "' no existe")
+                );
+
+        // Guardar en Redis solamente si está disponible
+        if (usuarioCacheService.isRedisAvailable()) {
+            System.out.println("Guardando usuario en Redis");
+            usuarioCacheService.guardar(usuario);
+        }
 
         return new CustomUserPrincipal(usuario);
     }
 
     private Usuario getUsuarioById(Long usuarioId) {
-        return usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new EntityNotFoundException("El usuario con id: " + usuarioId + " no existe"));
+        Usuario usuario = null;
+
+        if (usuarioCacheService.isRedisAvailable()) {
+
+            usuario = usuarioCacheService.obtener(usuarioId);
+
+            if (usuario != null) {
+                return usuario;
+            }
+        }
+
+        usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "El usuario con id: " + usuarioId + " no existe"));
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
+
+        return usuario;
     }
 
     @Override
     public Usuario getUsuarioByCorreo(String correo) {
-        return usuarioRepository.findByCorreo(correo)
-                .orElseThrow(() -> new EntityNotFoundException("error: El correo '" + correo + "' no exite"));
+
+        Usuario usuario = null;
+
+        // Intentar Redis únicamente si está disponible
+        if (usuarioCacheService.isRedisAvailable()) {
+
+            usuario = usuarioCacheService.obtenerPorCorreo(correo);
+
+            if (usuario != null) {
+                return usuario;
+            }
+        }
+
+        // Si Redis no existe o no encontró el usuario
+        usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("ERROR: El correo '" + correo + "' no existe")
+                );
+
+        // Guardar en Redis solamente si está disponible
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
+
+        return usuario;
+
     }
 
     @Override
@@ -160,6 +227,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         }
 
         usuarioRepository.save(usuario);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuario);
+        }
+
         this.emailService.sendWelcomeEmail(usuario);
         return new GeneralResponse("Registro completado exitosamente.");
     }
@@ -195,6 +267,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         }
 
         usuarioRepository.save(usuario);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
 
         return new BaseResponse("Usuario creado exitosamente", true);
     }
@@ -240,6 +316,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
         usuarioRepository.save(usuario);
 
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
+
         return new BaseResponse("Usuario creado exitosamente", true);
     }
 
@@ -275,6 +355,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                 .rol(rolProveedor)
                 .build();
 
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
+
         return createEmpresaProveedor(usuario, proveedorRequest);
     }
 
@@ -302,6 +386,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuario.setEmpresa(empresa);
         usuarioRepository.save(usuario);
 
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.guardar(usuario);
+        }
+
         return new BaseResponse("Proveedor creado exitosamente", true);
     }
 
@@ -318,6 +406,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioActualizado.setCorreo(usuarioRequest.correo());
 
         usuarioRepository.save(usuarioActualizado);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuarioActualizado);
+        }
+
         return new GeneralResponse("Sus datos se han actualizado exitosamente");
     }
 
@@ -345,6 +438,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         cliente.setDireccion(clienteRequest.direccion());
 
         usuarioRepository.save(cliente);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(cliente);
+        }
+
         return new BaseResponse("Cliente actualizado exitosamente", true);
     }
 
@@ -392,7 +490,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         empresaActualizada.setCorreo(proveedorRequest.correoEmpresa());
 
         usuario.setEmpresa(empresaActualizada);
+
         usuarioRepository.save(usuario);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuario);
+        }
 
         return new BaseResponse("Proveedor actualizado exitosamente", true);
     }
@@ -410,6 +513,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         }
 
         usuarioRepository.save(usuarioPhoto);
+
+        usuarioPhoto = usuarioRepository.save(usuarioPhoto);
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuarioPhoto);
+        }
 
         return new GeneralResponse("Imagen asignada exitosamente");
     }
@@ -432,6 +541,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuario.setPassword(encoder.encode(newPassword));
         usuarioRepository.save(usuario);
 
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuario);
+        }
+
         return new BaseResponse("contraseña actualizada exitosamente", true);
     }
 
@@ -447,6 +560,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                 ? "Usuario habilitado exitosamente"
                 : "Usuario deshabilitado exitosamente";
 
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.actualizar(usuario);
+        }
 
         return new BaseResponse(mensaje, true);
     }
@@ -459,6 +575,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         String mensaje = "Usuario eliminado exitosamente";
+
+        if (usuarioCacheService.isRedisAvailable()) {
+            usuarioCacheService.eliminar(usuarioId);
+            usuarioCacheService.eliminarPorCorreo(usuario.getCorreo());
+        }
 
         return new BaseResponse(mensaje, true);
     }

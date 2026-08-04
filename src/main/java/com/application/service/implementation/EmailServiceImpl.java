@@ -5,19 +5,26 @@ import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.service.interfaces.EmailService;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.Type;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +32,9 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+
+    @Value("${spring.mail.username}")
+    private String from;
 
     /**
      * Envía un correo electrónico con contenido HTML generado desde una plantilla Thymeleaf.
@@ -35,22 +45,59 @@ public class EmailServiceImpl implements EmailService {
      * @param variables Variables dinámicas que se inyectan en la plantilla Thymeleaf
      */
     @Override
-    public void sendEmail(String to, String subject, String plantilla, Map<String, Object> variables) {
+    public void sendEmail(String to,
+                          String subject,
+                          String plantilla,
+                          Map<String, Object> variables) {
+
+        // Validar que el dominio del correo tenga registros MX
+        if (!dominioAceptaCorreo(to)) {
+            System.out.println("El dominio del correo no acepta emails: " + to);
+            return;
+        }
+
         MimeMessage message = javaMailSender.createMimeMessage();
+
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, "UTF-8");
+
             Context context = new Context();
             context.setVariables(variables);
 
-            String contenidoHtml = templateEngine.process("email/" + plantilla, context);
+            String contenidoHtml =
+                    templateEngine.process("email/" + plantilla, context);
 
+            helper.setFrom(new InternetAddress(
+                    from,"Costa De Oro Imports"));
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(contenidoHtml, true);
 
             javaMailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("ERROR: no se puedo enviar el email: " + e.getMessage(), e);
+
+        } catch (MailSendException ex) {
+            // El destinatario no existe o fue rechazado
+            System.out.println("Correo rechazado: " + to);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            System.err.println("No fue posible preparar el correo: "
+                    + ex.getMessage());
+        }
+
+    }
+
+    public boolean dominioAceptaCorreo(String email) {
+        try {
+            String dominio = email.substring(email.indexOf("@") + 1);
+
+            Lookup lookup = new Lookup(dominio, Type.MX);
+            Record[] records = lookup.run();
+
+            return records != null && records.length > 0;
+
+        } catch (Exception e) {
+            return false;
         }
     }
 
