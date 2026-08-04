@@ -1,4 +1,9 @@
+import { configurarLogout } from "./main.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Cerrar sesión
+    configurarLogout();
 
     // Efecto glassmorphism solo al hacer scroll
     const header = document.querySelector('.content__header');

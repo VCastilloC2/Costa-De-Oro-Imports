@@ -11,6 +11,48 @@ export function activarGlassmorphism() {
     });
 }
 
+export function configurarLogout() {
+
+    document.addEventListener("click", async (e) => {
+
+        const link = e.target.closest("a");
+
+        if (!link) return;
+
+        // Verificar que sea un enlace de logout
+        const href = link.getAttribute("href");
+
+        if (href !== "/auth/logout") {
+            return;
+        }
+
+        e.preventDefault();
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+        const headers = {};
+
+        if (csrfToken && csrfHeader) {
+            headers[csrfHeader] = csrfToken;
+        }
+
+        try {
+            const response = await fetch("/auth/logout", {
+                method: "POST",
+                headers
+            });
+
+            if (response.ok || response.redirected) {
+                window.location.href = "/auth/login?logout";
+            }
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    });
+
+}
+
 export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,
                                   country = null, type = null, oldPrice = null, description = null, active = null, category = null,
                                   subcategory = null }) {
@@ -664,6 +706,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Menú hamburguesa
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
     //Carrusel del inicio - ACTUALIZADO con la versión del primer archivo
     const slides = document.querySelectorAll(".carousel__slide");

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('E-commerce de Licores | Costa De Oro Imports', 'Información legal sobre la venta online de licores en Costa De Oro Imports.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('E-commerce de Licores', 'Información legal sobre la venta online de licores nacionales e importados', 'ri-goblet-line', 'VENTA RESPONSABLE DE LICORES')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'marco-legal':'2. Marco Legal',
+                'licencia':'3. Licencias y Permisos',
+                'verificacion':'4. Verificación de Edad',
+                'productos':'5. Productos Ofrecidos',
+                'envio':'6. Envío y Entrega',
+                'impuestos':'7. Impuestos',
+                'restricciones':'8. Restricciones',
+                'salud':'9. Advertencias de Salud',
+                'contacto':'10. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-government-line', 'Venta regulada', 'Cumplimos todas las normas')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Venta de Licores a través de E-commerce</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    Costa De Oro Imports es una plataforma de comercio electrónico especializada en la
+                    venta de licores nacionales e importados. Este documento describe el marco legal
+                    y regulatorio bajo el cual operamos, así como los compromisos que adquirimos con
+                    nuestros clientes y con la sociedad.
+                </p>
+                <p>
+                    Nuestra actividad comercial se rige por la legislación colombiana vigente, en
+                    particular la <strong>Ley 1816 de 2016</strong> (Estatuto Tributario sobre licores),
+                    el <strong>Decreto 1686 de 2012</strong> y demás normas concordantes.
+                </p>
+            </section>
+
+            <section id="marco-legal" class="legal-section">
+                <h2>2. Marco Legal Aplicable</h2>
+                <p>Nuestra operación de e-commerce de licores se fundamenta en las siguientes normas:</p>
+                <ul>
+                    <li><strong>Constitución Política de Colombia</strong> — artículos sobre libre empresa y orden público.</li>
+                    <li><strong>Ley 1816 de 2016</strong> — Estatuto de los impuestos al consumo de licores.</li>
+                    <li><strong>Ley 1480 de 2011</strong> — Estatuto del Consumidor.</li>
+                    <li><strong>Ley 1581 de 2012</strong> — Protección de datos personales.</li>
+                    <li><strong>Decreto 1686 de 2012</strong> — Regulación del mercado de licores.</li>
+                    <li><strong>Resolución 2605 de 2014</strong> — Reglamentación del comercio electrónico.</li>
+                </ul>
+            </section>
+
+            <section id="licencia" class="legal-section highlight">
+                <h2>3. Licencias y Permisos</h2>
+                <p>
+                    Costa De Oro Imports cuenta con todas las licencias, permisos y autorizaciones
+                    requeridas por las autoridades colombianas para la importación, distribución y
+                    comercialización de bebidas alcohólicas a través de canales digitales:
+                </p>
+                <ul>
+                    <li>Registro mercantil vigente.</li>
+                    <li>RUT actualizado.</li>
+                    <li>Licencia de funcionamiento municipal.</li>
+                    <li>Registro sanitario INVIMA para productos nacionales.</li>
+                    <li>Permisos de importación DIAN para productos extranjeros.</li>
+                    <li>Certificación de comercio electrónico.</li>
+                    <li>Pólizas de responsabilidad civil.</li>
+                </ul>
+                <p>
+                    Toda la documentación puede ser consultada por las autoridades competentes y por
+                    nuestros clientes que lo soliciten formalmente.
+                </p>
+            </section>
+
+            <section id="verificacion" class="legal-section">
+                <h2>4. Verificación de Edad</h2>
+                <p>
+                    En cumplimiento de la normatividad vigente, Costa De Oro Imports implementa un
+                    sistema de verificación de mayoría de edad que incluye:
+                </p>
+                <ul>
+                    <li><strong>Verificación en línea:</strong> validación del documento de identidad al momento del registro.</li>
+                    <li><strong>Confirmación al checkout:</strong> requerimiento de aceptar la mayoría de edad antes de pagar.</li>
+                    <li><strong>Verificación en entrega:</strong> el transportador exigirá documento de identidad original al momento de la entrega.</li>
+                    <li><strong>Base de datos de menores:</strong> cruzamos información con bases de datos del registro civil para prevenir ventas a menores.</li>
+                </ul>
+                <p>
+                    La venta a menores de 18 años está estrictamente prohibida y constituye una
+                    infracción legal con sanciones para el establecimiento y los responsables.
+                </p>
+            </section>
+
+            <section id="productos" class="legal-section">
+                <h2>5. Productos Ofrecidos</h2>
+                <p>Nuestra tienda online ofrece las siguientes categorías de licores:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-wine-glass-line"></i></div>
+                        <h4 class="legal-card__title">Vinos</h4>
+                        <p class="legal-card__text">Vinos tintos, blancos, rosados y espumosos de las mejores bodegas del mundo.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-goblet-line"></i></div>
+                        <h4 class="legal-card__title">Whiskys</h4>
+                        <p class="legal-card__text">Single malt, blended y bourbons de Escocia, Irlanda, EE.UU. y Japón.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-glass-line"></i></div>
+                        <h4 class="legal-card__title">Tequilas</h4>
+                        <p class="legal-card__text">Tequilas 100% agave azul, reposados, añejos y extra añejos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-flask-line"></i></div>
+                        <h4 class="legal-card__title">Vodkas</h4>
+                        <p class="legal-card__text">Vodkas premium elaborados con los más altos estándares de calidad.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-cup-line"></i></div>
+                        <h4 class="legal-card__title">Rones</h4>
+                        <p class="legal-card__text">Rones blancos, añejos y premium del Caribe y Latinoamérica.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-water-flash-line"></i></div>
+                        <h4 class="legal-card__title">Ginebras</h4>
+                        <p class="legal-card__text">Ginebras artesanales y clásicas para cócteles sofisticados.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="envio" class="legal-section">
+                <h2>6. Envío y Entrega</h2>
+                <p>
+                    La entrega de licores se realiza cumpliendo con todos los requisitos legales:
+                </p>
+                <ul>
+                    <li><strong>Identificación obligatoria:</strong> la persona que recibe debe ser mayor de edad y presentar su documento de identidad original.</li>
+                    <li><strong>Empaque discreto:</strong> utilizamos empaques neutros que no identifican el contenido.</li>
+                    <li><strong>Transporte especializado:</strong> trabajamos únicamente con transportadoras certificadas para el manejo de bebidas alcohólicas.</li>
+                    <li><strong>Horarios permitidos:</strong> las entregas se realizan en horarios establecidos por la normatividad local.</li>
+                    <li><strong>Zonas restringidas:</strong> no realizamos entregas en zonas donde la ley prohíbe la venta de licores.</li>
+                </ul>
+            </section>
+
+            <section id="impuestos" class="legal-section">
+                <h2>7. Impuestos y Cargos</h2>
+                <p>
+                    Los precios publicados incluyen todos los impuestos nacionales aplicables:
+                </p>
+                <ul>
+                    <li><strong>IVA:</strong> 19% sobre el precio del producto.</li>
+                    <li><strong>Impuesto al consumo de licores:</strong> variable según categoría y grado de alcohol.</li>
+                    <li><strong>Impuesto nacional al consumo de cerveza:</strong> para productos cerveceros.</li>
+                </ul>
+                <p>
+                    Adicionalmente, los departamentos pueden aplicar impuestos departamentales al
+                    consumo de licores, los cuales están incluidos en el precio final. El cliente
+                    recibirá factura electrónica con el desglose de todos los impuestos pagados.
+                </p>
+            </section>
+
+            <section id="restricciones" class="legal-section">
+                <h2>8. Restricciones a la Venta</h2>
+                <p>No realizaremos venta de licores en los siguientes casos:</p>
+                <ul>
+                    <li>Personas menores de 18 años.</li>
+                    <li>Personas en evidente estado de embriaguez.</li>
+                    <li>Personas con discapacidad mental evidente.</li>
+                    <li>Zonas donde la ley prohíbe la venta (cerca de colegios, hospitales, etc.).</li>
+                    <li>En días y horarios de ley seca.</li>
+                    <li>Cantidades que excedan los límites legales.</li>
+                </ul>
+            </section>
+
+            <section id="salud" class="legal-section">
+                <h2>9. Advertencias de Salud</h2>
+                <div class="highlight">
+                    <h3>El exceso de alcohol es perjudicial para la salud</h3>
+                    <p>
+                        <strong>Prohíbese el expendio de bebidas embriagantes a menores de edad.</strong>
+                        El consumo de alcohol en exceso afecta tu salud, tu familia y tu comunidad.
+                        Si vas a conducir, no consumas alcohol. Si estás embarazada o en período de
+                        lactancia, evita el consumo de bebidas alcohólicas.
+                    </p>
+                </div>
+                <p>Recomendaciones importantes:</p>
+                <ul>
+                    <li>Consume con responsabilidad y moderación.</li>
+                    <li>No mezcles alcohol con medicamentos.</li>
+                    <li>Si tienes condiciones médicas, consulta a tu médico antes de consumir alcohol.</li>
+                    <li>No conduzcas bajo los efectos del alcohol.</li>
+                    <li>Si sospechas que tú o alguien cercano tiene problemas con el alcohol, busca ayuda profesional.</li>
+                </ul>
+                <p>
+                    <strong>Línea de ayuda:</strong> si tú o alguien que conoces necesita ayuda por
+                    problemas de consumo de alcohol, comunícate con la línea nacional de orientación
+                    <strong>106</strong> o consulta a tu EPS.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>10. Contacto</h2>
+                <p>Para cualquier consulta sobre la venta de licores, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> licores@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Venta Responsable</h3>
+                    <p>
+                        Costa De Oro Imports está comprometida con la venta responsable de bebidas
+                        alcohólicas. Cumplimos con toda la normatividad vigente y trabajamos en
+                        alianza con las autoridades para promover el consumo responsable.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/mayoria-edad}">
+                    <i class="ri-shield-user-line"></i> Verificación de Edad
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

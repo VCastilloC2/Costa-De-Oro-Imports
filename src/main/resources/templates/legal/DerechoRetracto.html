@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('Derecho de Retracto | Costa De Oro Imports', 'Conoce tu derecho de retracto conforme a la Ley 1480 de 2011 - Estatuto del Consumidor.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Derecho de Retracto', 'Información sobre tu derecho a desistir de una compra', 'ri-arrow-go-back-line', 'ESTATUTO DEL CONSUMIDOR')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'alcance':'2. Alcance del Derecho',
+                'plazos':'3. Plazos',
+                'condiciones':'4. Condiciones',
+                'excepciones':'5. Excepciones',
+                'procedimiento':'6. Procedimiento',
+                'reembolso':'7. Reembolso',
+                'devolucion':'8. Devolución del Producto',
+                'costos':'9. Costos',
+                'contacto':'10. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-customer-service-2-line', '¿Necesitas ayuda?', 'Te guiamos en el proceso')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Derecho de Retracto</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    El derecho de retracto es la facultad que tiene el consumidor de devolver un producto
+                    y solicitar la devolución del dinero pagado, sin necesidad de justificación, dentro
+                    de los términos establecidos por la ley.
+                </p>
+                <p>
+                    En Costa De Oro Imports respetamos y garantizamos este derecho conforme a la
+                    <strong>Ley 1480 de 2011</strong> (Estatuto del Consumidor) y sus decretos reglamentarios.
+                </p>
+            </section>
+
+            <section id="alcance" class="legal-section">
+                <h2>2. Alcance del Derecho</h2>
+                <p>
+                    El derecho de retracto aplica para las compras realizadas a través de nuestros canales
+                    digitales (sitio web y aplicación móvil), conforme al artículo 47 de la Ley 1480 de 2011.
+                </p>
+                <p>El consumidor podrá ejercer este derecho siempre que:</p>
+                <ul>
+                    <li>La compra se haya realizado por medios no presenciales o en la que el vendedor haya visitado la vivienda del consumidor.</li>
+                    <li>El producto no haya sido abierto, usado o manipulado.</li>
+                    <li>Se conserve el empaque original y todos sus accesorios.</li>
+                    <li>Se presente la factura de compra.</li>
+                </ul>
+            </section>
+
+            <section id="plazos" class="legal-section highlight">
+                <h2>3. Plazos para Ejercer el Retracto</h2>
+                <div class="info-box">
+                    <p><strong>Plazo general:</strong> <strong>5 días hábiles</strong> contados a partir de la entrega del producto.</p>
+                    <p><strong>Para productos con fecha de vencimiento:</strong> el retracto debe ejercerse antes del vencimiento o en la fecha que establezca la garantía.</p>
+                </div>
+                <p>
+                    Si el consumidor ejerce su derecho de retracto dentro del plazo, se procederá a la
+                    devolución del dinero en los términos previstos en la ley.
+                </p>
+            </section>
+
+            <section id="condiciones" class="legal-section">
+                <h2>4. Condiciones del Producto</h2>
+                <p>Para que proceda el retracto, el producto debe cumplir con las siguientes condiciones:</p>
+                <ul>
+                    <li><strong>Empaque original:</strong> sin abrir, en perfectas condiciones, con todos los sellos de seguridad intactos.</li>
+                    <li><strong>Sin uso:</strong> no debe presentar señales de uso, consumo o apertura.</li>
+                    <li><strong>Accesorios completos:</strong> incluir manuales, etiquetas, certificados y accesorios originales.</li>
+                    <li><strong>Factura de compra:</strong> presentar la factura o comprobante de pago original.</li>
+                    <li><strong>Sin daños:</strong> no debe presentar daños atribuibles al consumidor.</li>
+                </ul>
+            </section>
+
+            <section id="excepciones" class="legal-section">
+                <h2>5. Excepciones al Derecho de Retracto</h2>
+                <p>De conformidad con la ley, NO procede el derecho de retracto en los siguientes casos:</p>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-time-line"></i></div>
+                        <h4 class="legal-card__title">Productos perecederos</h4>
+                        <p class="legal-card__text">Bebidas con fecha de vencimiento próxima o productos con riesgo de caducidad.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-shopping-bag-line"></i></div>
+                        <h4 class="legal-card__title">Productos personalizados</h4>
+                        <p class="legal-card__text">Elaborados conforme a especificaciones del consumidor o claramente personalizados.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-heart-pulse-line"></i></div>
+                        <h4 class="legal-card__title">Productos de uso íntimo</h4>
+                        <p class="legal-card__text">Por razones de higiene y salud, una vez abiertos o manipulados.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-discount-percent-line"></i></div>
+                        <h4 class="legal-card__title">Ofertas y saldos</h4>
+                        <p class="legal-card__text">Productos adquiridos bajo condiciones especiales de venta final.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="procedimiento" class="legal-section">
+                <h2>6. Procedimiento para Ejercer el Retracto</h2>
+                <p>Para ejercer tu derecho de retracto, sigue estos pasos:</p>
+                <div class="legal-steps">
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Solicitud</h4>
+                        <p class="legal-step__text">Contáctanos dentro de los 5 días hábiles posteriores a la entrega.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Aprobación</h4>
+                        <p class="legal-step__text">Validamos tu solicitud y te enviamos las instrucciones de devolución.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Envío</h4>
+                        <p class="legal-step__text">Embala el producto y entrégalo a la transportadora indicada.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">Reembolso</h4>
+                        <p class="legal-step__text">Una vez recibido y verificado, procesamos tu devolución de dinero.</p>
+                    </div>
+                </div>
+                <p>Para iniciar el proceso, escríbenos a <strong>retracto@costadeoroimports.com</strong> indicando:</p>
+                <ul>
+                    <li>Número de pedido.</li>
+                    <li>Fecha de recepción del producto.</li>
+                    <li>Motivo de la devolución (opcional).</li>
+                    <li>Fotografías del producto si presenta algún defecto.</li>
+                </ul>
+            </section>
+
+            <section id="reembolso" class="legal-section">
+                <h2>7. Reembolso del Dinero</h2>
+                <p>
+                    Una vez recibido el producto y verificado que cumple con las condiciones para el retracto,
+                    Costa De Oro Imports procederá a realizar el reembolso en un plazo máximo de:
+                </p>
+                <div class="info-box">
+                    <p><strong>15 días calendario</strong> para devoluciones con retracto válido (art. 51 Ley 1480 de 2011).</p>
+                </div>
+                <p>El reembolso se realizará al mismo método de pago utilizado en la compra original:</p>
+                <ul>
+                    <li>Tarjeta de crédito o débito: el reverso se reflejará según las políticas de tu entidad financiera.</li>
+                    <li>PSE / transferencia: a la cuenta desde donde se realizó el pago.</li>
+                    <li>Mercado Pago: según las políticas de la plataforma.</li>
+                </ul>
+            </section>
+
+            <section id="devolucion" class="legal-section">
+                <h2>8. Devolución del Producto</h2>
+                <p>
+                    El producto debe ser devuelto a la dirección que Costa De Oro Imports indique, en un
+                    plazo máximo de <strong>15 días calendario</strong> contados a partir de la comunicación
+                    de retracto.
+                </p>
+                <p>El producto debe:</p>
+                <ul>
+                    <li>Estar embalado de forma segura para evitar daños durante el transporte.</li>
+                    <li>Incluir todos los accesorios, manuales y documentos originales.</li>
+                    <li>Conservar el empaque original en perfectas condiciones.</li>
+                </ul>
+            </section>
+
+            <section id="costos" class="legal-section">
+                <h2>9. Costos de Devolución</h2>
+                <p>
+                    Los costos de transporte asociados a la devolución del producto por retracto correrán
+                    por cuenta de <strong>Costa De Oro Imports</strong>, sin perjuicio del derecho del
+                    consumidor a reclamar posteriormente la indemnización por daños o desperfectos.
+                </p>
+                <p>
+                    En caso de que el producto presente daños atribuibles al consumidor o no cumpla con
+                    las condiciones aquí descritas, Costa De Oro Imports se reserva el derecho de
+                    rechazar el retracto y devolver el producto en las mismas condiciones.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>10. Contacto</h2>
+                <p>Para ejercer tu derecho de retracto o resolver cualquier duda, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> retracto@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Tu derecho está protegido</h3>
+                    <p>
+                        Si tienes alguna inconformidad con tu pedido, te invitamos a contactarnos primero
+                        para encontrar juntos la mejor solución. Tu satisfacción es nuestra prioridad.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/legal/pqrs}">
+                    <i class="ri-customer-service-2-line"></i> Radicar PQRS
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

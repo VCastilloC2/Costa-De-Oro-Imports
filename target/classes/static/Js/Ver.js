@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, toggleMenu, addProductToCart } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, toggleMenu, addProductToCart, configurarLogout } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     finalizarCompra();
 
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
     // --- Cargar producto seleccionado
     const product = JSON.parse(localStorage.getItem("selectedProduct"));

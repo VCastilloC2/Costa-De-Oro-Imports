@@ -15,4 +15,5 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     @Query("select count(p) from Categoria c join c.productos p where c.id = :categoriaId")
     long countProductosByCategoriaId(@Param("categoriaId") Long categoriaId);
 
+    List<Categoria> findByNombreContainingIgnoreCase(String nombre);
 }

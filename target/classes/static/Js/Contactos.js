@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu, configurarLogout} from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleMenu();
 
+    // Cerrar sesión
+    configurarLogout();
 
     // --- VALIDACIONES DE CONTACTOS ---
     const fieldsContactos = {

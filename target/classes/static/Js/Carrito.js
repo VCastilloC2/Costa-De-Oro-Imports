@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu, configurarLogout} from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initCart();
 
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
     //rellenar la tabla mediante localStogare
     const cartTableBody = document.getElementById("favoritos-body");

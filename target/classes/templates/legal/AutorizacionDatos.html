@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('Autorización de Datos | Costa De Oro Imports', 'Autorización para el tratamiento de datos personales conforme a la Ley 1581 de 2012.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Autorización de Datos Personales', 'Consentimiento informado para el tratamiento de tus datos conforme a la Ley 1581 de 2012', 'ri-shield-user-line', 'PROTECCIÓN DE DATOS')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'responsable':'1. Responsable del Tratamiento',
+                'proposito':'2. Propósito de la Recolección',
+                'datos':'3. Datos Recopilados',
+                'derechos':'4. Derechos del Titular',
+                'procedimiento':'5. Procedimiento para Ejercer Derechos',
+                'transferencia':'6. Transferencia de Datos',
+                'seguridad':'7. Seguridad de Datos',
+                'retencion':'8. Periodo de Retención',
+                'consentimiento':'9. Consentimiento Informado',
+                'autoridad':'10. Autoridad de Control'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-government-line', 'Vigilancia SIC', 'Superintendencia de Industria y Comercio')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Autorización para Tratamiento de Datos Personales</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="responsable" class="legal-section highlight">
+                <h2>1. Información del Responsable del Tratamiento</h2>
+                <div class="info-box">
+                    <p><strong>Empresa:</strong> Costa De Oro Imports S.A.S.</p>
+                    <p><strong>NIT:</strong> 901.234.567-8</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Email:</strong> datos@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Oficial de Protección de Datos:</strong> dpo@costadeoroimports.com</p>
+                </div>
+            </section>
+
+            <section id="proposito" class="legal-section">
+                <h2>2. Propósito de la Recolección de Datos</h2>
+                <p>
+                    Costa De Oro Imports recopila datos personales con los siguientes propósitos:
+                </p>
+                <ul>
+                    <li>Procesar compras y transacciones comerciales.</li>
+                    <li>Verificar mayoría de edad legal para el consumo de bebidas alcohólicas.</li>
+                    <li>Enviar productos y confirmaciones de compra.</li>
+                    <li>Cumplir obligaciones legales, contables y tributarias.</li>
+                    <li>Prevenir fraude y asegurar la seguridad de las operaciones.</li>
+                    <li>Mejorar nuestros servicios y la experiencia del usuario.</li>
+                    <li>Enviar información comercial y promociones (con consentimiento previo).</li>
+                    <li>Atender consultas, peticiones, quejas y reclamos.</li>
+                    <li>Realizar análisis de datos, estadísticas y reportes internos.</li>
+                </ul>
+            </section>
+
+            <section id="datos" class="legal-section">
+                <h2>3. Datos Personales Recopilados</h2>
+                <p>
+                    Autorizo a Costa De Oro Imports para recopilar y procesar los siguientes datos:
+                </p>
+
+                <h3>3.1 Datos de Identificación</h3>
+                <ul>
+                    <li>Nombre completo.</li>
+                    <li>Número de cédula, pasaporte o documento de identidad.</li>
+                    <li>Fecha de nacimiento.</li>
+                    <li>Sexo y datos demográficos.</li>
+                </ul>
+
+                <h3>3.2 Datos de Contacto</h3>
+                <ul>
+                    <li>Correo electrónico.</li>
+                    <li>Número telefónico fijo y/o celular.</li>
+                    <li>Dirección de residencia.</li>
+                    <li>Dirección de envío (si es diferente a la de residencia).</li>
+                </ul>
+
+                <h3>3.3 Datos Comerciales y Transaccionales</h3>
+                <ul>
+                    <li>Historial de compras y pedidos.</li>
+                    <li>Información de pagos (procesada por pasarelas seguras).</li>
+                    <li>Preferencias de productos y categorías favoritas.</li>
+                    <li>Reseñas, calificaciones y comentarios.</li>
+                </ul>
+
+                <h3>3.4 Datos Técnicos y de Navegación</h3>
+                <ul>
+                    <li>Dirección IP y datos de conexión.</li>
+                    <li>Información del navegador y del dispositivo.</li>
+                    <li>Cookies y datos de sesión.</li>
+                    <li>Datos de navegación y uso de la plataforma.</li>
+                </ul>
+            </section>
+
+            <section id="derechos" class="legal-section">
+                <h2>4. Derechos del Titular de los Datos</h2>
+                <p>
+                    Como titular de los datos personales, la ley te reconoce los siguientes derechos:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Derecho de Acceso:</strong> conocer si tus datos están siendo tratados y acceder a ellos sin restricciones.
+                    </li>
+                    <li>
+                        <strong>Derecho de Rectificación:</strong> actualizar, modificar o completar tus datos si son imprecisos o están incompletos.
+                    </li>
+                    <li>
+                        <strong>Derecho de Supresión (olvido):</strong> solicitar la eliminación de tus datos cuando consideres que no se requieren para los fines autorizados.
+                    </li>
+                    <li>
+                        <strong>Derecho de Revocación:</strong> revocar en cualquier momento el consentimiento previamente otorgado.
+                    </li>
+                    <li>
+                        <strong>Derecho de Restricción:</strong> limitar temporalmente el tratamiento de tus datos en ciertos casos.
+                    </li>
+                    <li>
+                        <strong>Derecho de Portabilidad:</strong> recibir tus datos en un formato estructurado, de uso común y lectura mecánica.
+                    </li>
+                    <li>
+                        <strong>Derecho a no ser objeto de decisiones automatizadas:</strong> no ser sometido a decisiones con efectos jurídicos basadas únicamente en tratamiento automatizado.
+                    </li>
+                    <li>
+                        <strong>Derecho a presentar reclamaciones:</strong> ante la Superintendencia de Industria y Comercio (SIC) por violaciones a la normativa de protección de datos.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="procedimiento" class="legal-section">
+                <h2>5. Procedimiento para Ejercer tus Derechos</h2>
+                <p>
+                    Para ejercer cualquiera de los derechos anteriores, puedes contactarnos a través de los siguientes canales:
+                </p>
+                <ol>
+                    <li>Enviar un correo a <strong>datos@costadeoroimports.com</strong> con tu solicitud, nombre completo y número de identificación.</li>
+                    <li>Escribir a nuestra dirección: Cra. 45 #25-30, Bogotá, Colombia.</li>
+                    <li>Llamar a nuestra línea de atención: <strong>+57 (1) 2345-6789</strong>.</li>
+                    <li>Contactar directamente a nuestro Oficial de Protección de Datos: <strong>dpo@costadeoroimports.com</strong>.</li>
+                </ol>
+                <div class="info-box">
+                    <p><strong>Plazo de respuesta:</strong> 10 días hábiles contados a partir de la recepción de tu solicitud.</p>
+                    <p><strong>Documentación requerida:</strong> documento de identidad y, en caso de actuar por medio de apoderado, poder especial.</p>
+                </div>
+            </section>
+
+            <section id="transferencia" class="legal-section">
+                <h2>6. Transferencia y Transmisión de Datos</h2>
+                <p>
+                    Tus datos pueden ser compartidos con los siguientes terceros para poder prestarte nuestros servicios:
+                </p>
+                <ul>
+                    <li>Proveedores de servicios de pago (Mercado Pago, PlacetoPay, PSE).</li>
+                    <li>Empresas de logística y envío (Servientrega, DHL, TCC, etc.).</li>
+                    <li>Plataformas de verificación de edad y antecedentes.</li>
+                    <li>Proveedores de hosting, infraestructura cloud y servicios tecnológicos.</li>
+                    <li>Autoridades competentes cuando sea requerido por la ley.</li>
+                    <li>Proveedores de analítica, marketing y publicidad digital.</li>
+                </ul>
+                <p>
+                    Todos los terceros con los que compartimos datos se comprometen contractualmente a proteger tu información conforme a la Ley 1581 de 2012 y demás normas concordantes.
+                </p>
+            </section>
+
+            <section id="seguridad" class="legal-section">
+                <h2>7. Seguridad de los Datos</h2>
+                <p>
+                    Costa De Oro Imports implementa medidas de seguridad técnicas, humanas y administrativas para proteger tus datos personales:
+                </p>
+                <ul>
+                    <li>Encriptación de datos en tránsito (TLS/SSL) y en reposo.</li>
+                    <li>Acceso controlado mediante autenticación y roles.</li>
+                    <li>Auditorías de seguridad periódicas.</li>
+                    <li>Capacitación continua al personal en protección de datos.</li>
+                    <li>Política robusta de contraseñas y autenticación multifactor.</li>
+                    <li>Backups cifrados y planes de contingencia y recuperación.</li>
+                </ul>
+            </section>
+
+            <section id="retencion" class="legal-section">
+                <h2>8. Periodo de Retención de los Datos</h2>
+                <p>
+                    Conservamos tus datos durante el tiempo necesario para cumplir con los fines autorizados y las obligaciones legales aplicables:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Datos comerciales y contables:</strong> mínimo 7 años (por obligaciones tributarias y legales).
+                    </li>
+                    <li>
+                        <strong>Datos de cuenta:</strong> mientras la cuenta esté activa, más 3 años posteriores a su cierre.
+                    </li>
+                    <li>
+                        <strong>Datos de marketing:</strong> hasta que revoques el consentimiento o solicites la supresión.
+                    </li>
+                    <li>
+                        <strong>Datos técnicos y de navegación:</strong> según lo establecido en la <a th:href="@{/legal/cookies}">Política de Cookies</a> y la normativa vigente.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="consentimiento" class="legal-section">
+                <h2>9. Consentimiento Informado</h2>
+                <div class="consent-box">
+                    <h3>Al usar Costa De Oro Imports, autorizo explícitamente:</h3>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent1" disabled checked>
+                            <span>La recolección, procesamiento y almacenamiento de mis datos personales para los fines descritos.</span>
+                        </label>
+                    </div>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent2" disabled checked>
+                            <span>La verificación de mi mayoría de edad y la legalidad para comprar bebidas alcohólicas.</span>
+                        </label>
+                    </div>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent3" disabled checked>
+                            <span>Compartir mis datos con proveedores de servicios necesarios para procesar mis compras.</span>
+                        </label>
+                    </div>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent4">
+                            <span>El envío de información comercial, promociones y novedades por correo electrónico.</span>
+                        </label>
+                    </div>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent5">
+                            <span>El uso de mis datos para análisis, estadísticas y mejora continua del servicio.</span>
+                        </label>
+                    </div>
+
+                    <div class="consent-item">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="consent6">
+                            <span>La personalización de anuncios y contenido en redes sociales y sitios aliados.</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section id="autoridad" class="legal-section">
+                <h2>10. Contacto con la Autoridad de Control</h2>
+                <p>
+                    Si consideras que Costa De Oro Imports ha vulnerado tus derechos de protección de datos personales, puedes presentar una queja o reclamo ante la autoridad de control competente:
+                </p>
+                <div class="contact-info">
+                    <p><strong>Superintendencia de Industria y Comercio (SIC)</strong></p>
+                    <p>Carrera 13 #27-00, Bogotá, Colombia</p>
+                    <p>Tel: +57 (1) 5925-3000</p>
+                    <p>Web: <a href="https://www.sic.gov.co" target="_blank" rel="noopener">www.sic.gov.co</a></p>
+                    <p>Email: inicio@sic.gov.co</p>
+                </div>
+            </section>
+
+            <div class="acceptance-box">
+                <h3>Importante — Aceptación de la Autorización</h3>
+                <p>
+                    Al registrarte o realizar compras en Costa De Oro Imports, otorgas expresamente tu consentimiento
+                    para el tratamiento de tus datos personales conforme a esta autorización y a la
+                    <strong>Ley 1581 de 2012</strong>.
+                </p>
+                <p>
+                    Esta autorización puede ser revocada en cualquier momento enviando tu solicitud a
+                    <strong>datos@costadeoroimports.com</strong>.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

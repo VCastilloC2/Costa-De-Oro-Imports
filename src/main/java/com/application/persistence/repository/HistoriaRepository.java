@@ -8,4 +8,9 @@ import java.util.List;
 @Repository
 public interface HistoriaRepository extends JpaRepository<Historia, Long> {
     List<Historia> findByActivoTrue();
+    List<Historia> findByTituloContainingIgnoreCaseAndActivoTrue(String titulo);
+    List<Historia> findByTituloContainingIgnoreCaseOrDescripcionContainingIgnoreCase(
+            String titulo,
+            String descripcion
+    );
 }

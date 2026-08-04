@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, toggleMenu} from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, toggleMenu, configurarLogout } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -12,5 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     finalizarCompra();
 
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
 });

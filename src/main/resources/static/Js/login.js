@@ -58,22 +58,22 @@ Object.keys(fields).forEach(fieldId => {
 
 const form = document.querySelector("form");
 const inputs = document.querySelectorAll("input:not([type='checkbox'])");
-const checkbox = document.querySelector(".remember-forgot input");
+const checkbox = document.getElementById("remember");
 const loginBtn = document.querySelector("#loginBtn")
         || document.querySelector(".formulario__btn.g-recaptcha");
 
 // Validación antes de enviar
 function validateForm() {
     let formValid = true;
+
     inputs.forEach(input => {
         const value = input.value.trim();
+
         if (value === "" || !fields[input.id].regex.test(value)) {
             formValid = false;
         }
     });
-    if (!checkbox.checked) {
-        formValid = false;
-    }
+
     return formValid;
 }
 

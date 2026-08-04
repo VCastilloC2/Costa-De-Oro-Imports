@@ -56,7 +56,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         // Creación de la cookie para JWT
         Cookie cookie = new Cookie("access_token", accessToken);
         cookie.setHttpOnly(true); // para que no se pueda acceder a la cookie por JS
-        //cookie.setSecure(true); // para que la cookie solo se envié mediante conexiones cifradas (HTTPS)
+        cookie.setSecure(request.isSecure()); // para que la cookie solo se envié mediante conexiones cifradas (HTTPS)
         cookie.setPath("/"); // asi nos aseguramos de que esté en todas las rutas del sitio web
         cookie.setMaxAge(60 * 60 * 24); // tiempo de expiración de la cookie en segundos (1 día), coincide con la expiración del token
 

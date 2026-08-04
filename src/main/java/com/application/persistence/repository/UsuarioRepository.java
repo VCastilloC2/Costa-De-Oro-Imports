@@ -92,4 +92,43 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             """)
     List<ProveedorEstadisticasResponse> findProveedoresConEstadisticas();
 
+
+    @Query("""
+            SELECT u
+            FROM Usuario u
+            WHERE u.accountNonLocked = true
+            AND (
+            LOWER(u.nombres) LIKE LOWER(CONCAT('%',:query,'%'))
+            OR LOWER(u.apellidos) LIKE LOWER(CONCAT('%',:query,'%'))
+            OR LOWER(u.correo) LIKE LOWER(CONCAT('%',:query,'%'))
+            )
+            AND u.rol.name IN (
+            com.application.persistence.entity.rol.enums.ERol.PERSONA_CONTACTO,
+            com.application.persistence.entity.rol.enums.ERol.PERSONA_NATURAL,
+            com.application.persistence.entity.rol.enums.ERol.PERSONA_JURIDICA,
+            com.application.persistence.entity.rol.enums.ERol.INVITADO
+            )
+            """)
+    List<Usuario> buscarClientes(@Param("query") String query);
+
+    @Query("""
+            SELECT u
+            FROM Usuario u
+            WHERE u.accountNonLocked = true
+            AND u.rol.name =
+            com.application.persistence.entity.rol.enums.ERol.PROVEEDOR
+            AND (
+            LOWER(u.nombres) LIKE LOWER(CONCAT('%',:query,'%'))
+            OR LOWER(u.apellidos) LIKE LOWER(CONCAT('%',:query,'%'))
+            OR LOWER(u.correo) LIKE LOWER(CONCAT('%',:query,'%'))
+            OR LOWER(u.empresa.razonSocial) LIKE LOWER(CONCAT('%',:query,'%'))
+            )
+            """)
+    List<Usuario> buscarProveedores(@Param("query") String query);
+
+    List<Usuario> findByNombresContainingIgnoreCaseOrApellidosContainingIgnoreCaseOrCorreoContainingIgnoreCase(
+            String nombres,
+            String apellidos,
+            String correo
+    );
 }

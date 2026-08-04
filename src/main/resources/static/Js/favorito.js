@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, finalizarCompra, addProductToCart, toggleMenu } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, finalizarCompra, addProductToCart, toggleMenu, configurarLogout } from "./main.js";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     finalizarCompra();
 
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
     //rellenar la tabla con paginación 
     const favTableBody = document.getElementById("favoritos-body");

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('PQRS | Costa De Oro Imports', 'Sistema de Peticiones, Quejas, Reclamos y Sugerencias de Costa De Oro Imports.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Peticiones, Quejas, Reclamos y Sugerencias', 'Tu voz es importante para nosotros. Radica tus PQRS de manera rápida y sencilla.', 'ri-customer-service-2-line', 'ATENCIÓN AL CIUDADANO')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'introduccion':'1. Introducción',
+                'definicion':'2. ¿Qué es una PQRS?',
+                'derecho':'3. Derecho a Radicar PQRS',
+                'canales':'4. Canales de Atención',
+                'procedimiento':'5. Procedimiento',
+                'plazos':'6. Plazos de Respuesta',
+                'formulario':'7. Formulario de Radicación',
+                'recurso':'8. Recursos',
+                'contacto':'9. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-mail-send-line', 'Te escuchamos', 'Tu opinión nos ayuda a mejorar')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Sistema de PQRS</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="introduccion" class="legal-section">
+                <h2>1. Introducción</h2>
+                <p>
+                    Costa De Oro Imports pone a disposición de sus clientes, usuarios y la ciudadanía
+                    en general un sistema de Peticiones, Quejas, Reclamos y Sugerencias (PQRS) para
+                    garantizar el ejercicio efectivo de sus derechos y mejorar continuamente la
+                    calidad de nuestros servicios.
+                </p>
+                <p>
+                    Este sistema opera conforme a los principios de <strong>celeridad, eficacia,
+                    buena fe, contradicción y debido proceso</strong> establecidos en la
+                    <strong>Ley 1437 de 2011</strong> (Código de Procedimiento Administrativo y de lo
+                    Contencioso Administrativo) y la <strong>Ley 1755 de 2015</strong> (Derecho de Petición).
+                </p>
+            </section>
+
+            <section id="definicion" class="legal-section">
+                <h2>2. ¿Qué es una PQRS?</h2>
+                <div class="legal-grid">
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-question-answer-line"></i></div>
+                        <h4 class="legal-card__title">Petición</h4>
+                        <p class="legal-card__text">Solicitud respetuosa para que se resuelva algo relacionado con nuestros servicios o productos.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-emotion-unhappy-line"></i></div>
+                        <h4 class="legal-card__title">Queja</h4>
+                        <p class="legal-card__text">Manifestación de inconformidad por la conducta de un colaborador o por la forma como se prestó un servicio.</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-error-warning-line"></i></div>
+                        <h4 class="legal-card__title">Reclamo</h4>
+                        <p class="legal-card__text">Solicitud para que se revise una actuación que te afecta o vulnera un derecho (ej. incumplimiento en una entrega).</p>
+                    </div>
+                    <div class="legal-card">
+                        <div class="legal-card__icon"><i class="ri-lightbulb-line"></i></div>
+                        <h4 class="legal-card__title">Sugerencia</h4>
+                        <p class="legal-card__text">Propuesta o recomendación que nos ayuda a mejorar nuestros productos, servicios o atención.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="derecho" class="legal-section highlight">
+                <h2>3. Derecho a Radicar PQRS</h2>
+                <p>
+                    Toda persona, natural o jurídica, tiene derecho a presentar peticiones respetuosas
+                    ante Costa De Oro Imports y a obtener respuesta oportuna, completa y de fondo.
+                </p>
+                <p>El derecho de petición incluye:</p>
+                <ul>
+                    <li>El derecho a <strong>formular</strong> peticiones respetuosas.</li>
+                    <li>El derecho a <strong>obtener respuesta</strong> completa, clara y de fondo.</li>
+                    <li>El derecho a <strong>conocer, actualizar y rectificar</strong> la información.</li>
+                    <li>El derecho a presentar <strong>recursos</strong> contra las decisiones que te afecten.</li>
+                </ul>
+            </section>
+
+            <section id="canales" class="legal-section">
+                <h2>4. Canales de Atención</h2>
+                <p>Puedes radicar tus PQRS a través de los siguientes canales:</p>
+                <ul>
+                    <li><strong>Formulario web:</strong> en esta misma página (sección 7).</li>
+                    <li><strong>Correo electrónico:</strong> pqrs@costadeoroimports.com</li>
+                    <li><strong>Teléfono:</strong> +57 (1) 2345-6789 (lunes a viernes, 7:00 a 17:00).</li>
+                    <li><strong>Chat en línea:</strong> disponible en nuestro sitio web en horario de atención.</li>
+                    <li><strong>Presencial:</strong> Cra. 45 #25-30, Bogotá, Colombia.</li>
+                    <li><strong>Redes sociales:</strong> nuestras cuentas oficiales en Facebook, Instagram, Twitter y LinkedIn.</li>
+                </ul>
+            </section>
+
+            <section id="procedimiento" class="legal-section">
+                <h2>5. Procedimiento para Radicar y Resolver una PQRS</h2>
+                <div class="legal-steps">
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">1. Radicación</h4>
+                        <p class="legal-step__text">Presenta tu PQRS por cualquiera de los canales habilitados.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">2. Asignación</h4>
+                        <p class="legal-step__text">Asignamos un número de radicado y un responsable del proceso.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">3. Investigación</h4>
+                        <p class="legal-step__text">Analizamos los hechos y recopilamos la información necesaria.</p>
+                    </div>
+                    <div class="legal-step">
+                        <h4 class="legal-step__title">4. Respuesta</h4>
+                        <p class="legal-step__text">Emitimos una respuesta clara, completa y de fondo a tu solicitud.</p>
+                    </div>
+                </div>
+                <p>Toda PQRS queda registrada en nuestro sistema con:</p>
+                <ul>
+                    <li>Número de radicado único.</li>
+                    <li>Fecha y hora de recepción.</li>
+                    <li>Tipo de solicitud (P, Q, R o S).</li>
+                    <li>Datos del peticionario.</li>
+                    <li>Estado actual de la solicitud.</li>
+                    <li>Respuesta emitida y fecha de respuesta.</li>
+                </ul>
+            </section>
+
+            <section id="plazos" class="legal-section highlight">
+                <h2>6. Plazos de Respuesta</h2>
+                <div class="info-box">
+                    <p><strong>Peticiones generales:</strong> 15 días hábiles siguientes a la radicación.</p>
+                    <p><strong>Peticiones de documentos/información:</strong> 10 días hábiles.</p>
+                    <p><strong>Quejas y reclamos:</strong> 15 días hábiles.</p>
+                    <p><strong>Sugerencias:</strong> 15 días hábiles.</p>
+                    <p><strong>Recursos de reposición:</strong> 10 días hábiles para resolver.</p>
+                    <p><strong>Recursos de apelación:</strong> 15 días hábiles para resolver.</p>
+                </div>
+                <p>
+                    Si no es posible resolver la PQRS en el plazo señalado, te informaremos los
+                    motivos del retraso y el nuevo plazo para la respuesta, conforme al artículo 14
+                    de la Ley 1755 de 2015.
+                </p>
+            </section>
+
+            <section id="formulario" class="legal-section">
+                <h2>7. Formulario de Radicación</h2>
+                <p>
+                    Completa el siguiente formulario para radicar tu PQRS. Los campos marcados con
+                    asterisco (*) son obligatorios. La información proporcionada será tratada
+                    conforme a nuestra
+                    <a th:href="@{/legal/politica-privacidad}">Política de Privacidad</a>.
+                </p>
+
+                <form id="legalForm" class="legal-form" th:action="@{/legal/pqrs/registrar}" method="post">
+                    <div class="legal-form__row">
+                        <div class="legal-form__group">
+                            <label for="nombre">Nombre completo *</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="legal-form__group">
+                            <label for="email">Correo electrónico *</label>
+                            <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
+                        </div>
+                    </div>
+
+                    <div class="legal-form__row">
+                        <div class="legal-form__group">
+                            <label for="documento">Documento de identidad</label>
+                            <input type="text" id="documento" name="documento" placeholder="C.C. / NIT / CE">
+                        </div>
+                        <div class="legal-form__group">
+                            <label for="telefono">Teléfono de contacto</label>
+                            <input type="tel" id="telefono" name="telefono" placeholder="+57 300 000 0000">
+                        </div>
+                    </div>
+
+                    <div class="legal-form__row">
+                        <div class="legal-form__group">
+                            <label for="tipo">Tipo de solicitud *</label>
+                            <select id="tipo" name="tipo" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="Petición">Petición</option>
+                                <option value="Queja">Queja</option>
+                                <option value="Reclamo">Reclamo</option>
+                                <option value="Sugerencia">Sugerencia</option>
+                            </select>
+                        </div>
+                        <div class="legal-form__group">
+                            <label for="numeroPedido">N° de pedido (si aplica)</label>
+                            <input type="text" id="numeroPedido" name="numeroPedido" placeholder="Ej: CDI-000123">
+                        </div>
+                    </div>
+
+                    <div class="legal-form__group">
+                        <label for="asunto">Asunto *</label>
+                        <input type="text" id="asunto" name="asunto" placeholder="Resume tu solicitud en una línea" required>
+                    </div>
+
+                    <div class="legal-form__group">
+                        <label for="mensaje">Descripción *</label>
+                        <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos con detalle tu petición, queja, reclamo o sugerencia..." required></textarea>
+                    </div>
+
+                    <div class="legal-form__group">
+                        <label class="checkbox-custom">
+                            <input type="checkbox" id="aceptaDatos" name="aceptaDatos" required>
+                            <span>Autorizo el tratamiento de mis datos personales conforme a la <a th:href="@{/legal/autorizacion-datos}">Política de Tratamiento de Datos</a>.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="legal-form__submit">
+                        <i class="ri-send-plane-2-line"></i> Radicar Solicitud
+                    </button>
+                </form>
+            </section>
+
+            <section id="recurso" class="legal-section">
+                <h2>8. Recursos y Procedimientos Adicionales</h2>
+                <p>Si no estás conforme con la respuesta a tu PQRS, puedes interponer los siguientes recursos:</p>
+                <ul>
+                    <li><strong>Recurso de reposición:</strong> ante la misma dependencia que emitió la respuesta, dentro de los 10 días hábiles siguientes.</li>
+                    <li><strong>Recurso de apelación:</strong> ante el superior jerárquico del funcionario que decidió, dentro de los 10 días hábiles siguientes.</li>
+                    <li><strong>Recurso de queja:</strong> cuando se rechace un recurso de apelación.</li>
+                </ul>
+                <p>
+                    Adicionalmente, puedes acudir ante la <strong>Superintendencia de Industria y
+                    Comercio (SIC)</strong> para presentar quejas por infracciones a tus derechos como
+                    consumidor.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>9. Contacto</h2>
+                <p>Para cualquier duda sobre el sistema PQRS, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email PQRS:</strong> pqrs@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                    <p><strong>Horario de atención:</strong> lunes a viernes, 7:00 a 17:00</p>
+                    <p><strong>SIC:</strong> www.sic.gov.co</p>
+                </div>
+            </section>
+
+            <div class="legal-cta">
+                <div class="legal-cta__content">
+                    <h3>Tu opinión nos hace mejores</h3>
+                    <p>
+                        Cada petición, queja, reclamo o sugerencia es una oportunidad para mejorar.
+                        Comprometidos con la transparencia y la mejora continua.
+                    </p>
+                </div>
+                <a class="legal-cta__button" th:href="@{/contacto}">
+                    <i class="ri-mail-line"></i> Otros Canales
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

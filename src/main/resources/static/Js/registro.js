@@ -38,7 +38,7 @@ termsLabel.addEventListener("click", (e) => {
             <h3>5. POLÍTICA DE DEVOLUCIONES</h3>
             <p>Aceptamos devoluciones dentro de los 14 días posteriores a la recepción del producto.</p>
             <br>
-            <h4>5.1 PROCEDIMIENTO DE DEVOLUCIÓN</h4>
+            <h4>5.1. PROCEDIMIENTO DE DEVOLUCIÓN</h4>
             <ul>
                 <li><b>Devolución del dinero</b> (solo aplica para casos de garantía y ley de retracto):
                     <ul>
@@ -50,7 +50,7 @@ termsLabel.addEventListener("click", (e) => {
                 <li><b>Cupón</b> para realizar una nueva compra (válido por seis meses a partir de la fecha de creación).</li>
             </ul>
             <br>
-            <h4>5.2 CONDICIONES DEL PRODUCTO PARA DEVOLUCIÓN</h4>
+            <h4>5.2. CONDICIONES DEL PRODUCTO PARA DEVOLUCIÓN</h4>
             <p>El producto deberá devolverse en óptimas condiciones, sin rastros de uso, con etiquetas originales o introducidas en el empaque. Una vez recibido en nuestra bodega, verificaremos las condiciones y según el resultado, se enviará un producto nuevo o se entregará un cupón para otra compra.</p>
             <br>
             <h3>6. PRIVACIDAD Y PROTECCIÓN DE DATOS</h3>

@@ -1,4 +1,10 @@
+import { configurarLogout } from "./main.js";
+
 document.addEventListener("DOMContentLoaded", function() {
+
+    // Cerrar sesión
+    configurarLogout();
+
     // ---- POWER BI DROPDOWN ----
     const powerbiBtn = document.getElementById('powerbiBtnMain');
     const powerbiOptions = document.getElementById('powerbiOptions');

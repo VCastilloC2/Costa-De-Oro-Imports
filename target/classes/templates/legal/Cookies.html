@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/legal :: head('Política de Cookies | Costa De Oro Imports', 'Política de uso de cookies en Costa De Oro Imports.')}"></head>
+
+<body>
+<div class="legal-page">
+
+    <div th:replace="~{fragments/legal :: header}"></div>
+
+    <div th:replace="~{fragments/legal :: hero('Política de Cookies', 'Cómo usamos las cookies para mejorar tu experiencia', 'ri-cookie-line', 'TRANSPARENCIA Y CONTROL')}"></div>
+
+    <main class="legal-container">
+        <th:block th:with="
+            sections=${ {
+                'que-son':'1. ¿Qué son las cookies?',
+                'tipos':'2. Tipos de cookies',
+                'uso':'3. ¿Cómo las usamos?',
+                'terceros':'4. Cookies de terceros',
+                'gestion':'5. Gestión de cookies',
+                'desactivar':'6. Desactivar cookies',
+                'cambios':'7. Cambios',
+                'contacto':'8. Contacto'
+            } }">
+            <div th:replace="~{fragments/legal :: sidebar(${sections}, 'ri-settings-3-line', 'Configura tus preferencias', 'Tú decides qué cookies permites')}"></div>
+        </th:block>
+
+        <article class="legal-content">
+            <div class="legal-header">
+                <h1>Política de Cookies</h1>
+                <span class="last-update">Última actualización: Julio 2026</span>
+            </div>
+
+            <section id="que-son" class="legal-section">
+                <h2>1. ¿Qué son las cookies?</h2>
+                <p>
+                    Las cookies son pequeños archivos de texto que un sitio web almacena en tu dispositivo
+                    (computador, tablet o smartphone) cuando lo visitas. Permiten que la plataforma
+                    recuerde tus acciones y preferencias durante un período determinado.
+                </p>
+                <p>
+                    En Costa De Oro Imports utilizamos cookies para mejorar tu experiencia de navegación,
+                    recordar tus preferencias y ofrecerte contenido personalizado.
+                </p>
+            </section>
+
+            <section id="tipos" class="legal-section">
+                <h2>2. Tipos de cookies que utilizamos</h2>
+                <p>A continuación te mostramos los tipos de cookies que empleamos y su finalidad:</p>
+
+                <table class="legal-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Cookie</th>
+                            <th>Finalidad</th>
+                            <th>Duración</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Técnicas / Esenciales</strong></td>
+                            <td>Permiten el funcionamiento básico del sitio: sesión, carrito, seguridad.</td>
+                            <td>Sesión / 1 año</td>
+                            <td><span class="pill pill--required">Obligatoria</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Personalización</strong></td>
+                            <td>Recuerdan tus preferencias: idioma, ubicación, configuración.</td>
+                            <td>1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Análisis / Rendimiento</strong></td>
+                            <td>Nos permiten medir y analizar la navegación para mejorar el sitio.</td>
+                            <td>2 años</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Publicidad / Marketing</strong></td>
+                            <td>Muestran anuncios personalizados según tus intereses.</td>
+                            <td>1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Redes Sociales</strong></td>
+                            <td>Permiten compartir contenido en redes sociales y rastrear interacciones.</td>
+                            <td>Sesión / 1 año</td>
+                            <td><span class="pill pill--optional">Opcional</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="uso" class="legal-section">
+                <h2>3. ¿Cómo usamos las cookies?</h2>
+                <p>Las cookies nos permiten:</p>
+                <ul>
+                    <li><strong>Funcionalidad:</strong> mantener tu sesión iniciada, recordar productos en tu carrito y procesar compras.</li>
+                    <li><strong>Seguridad:</strong> detectar actividades fraudulentas y proteger tu cuenta.</li>
+                    <li><strong>Personalización:</strong> mostrar productos y ofertas relevantes según tu navegación.</li>
+                    <li><strong>Análisis:</strong> entender cómo interactúas con el sitio para mejorar la experiencia.</li>
+                    <li><strong>Marketing:</strong> mostrarte anuncios relevantes en otros sitios web y redes sociales.</li>
+                </ul>
+            </section>
+
+            <section id="terceros" class="legal-section">
+                <h2>4. Cookies de terceros</h2>
+                <p>Algunas cookies son colocadas por terceros en nuestro nombre. Los principales terceros que utilizan cookies son:</p>
+                <ul>
+                    <li><strong>Google Analytics:</strong> análisis de tráfico y comportamiento de usuarios.</li>
+                    <li><strong>Google Ads:</strong> publicidad personalizada y remarketing.</li>
+                    <li><strong>Facebook Pixel:</strong> medición de campañas publicitarias.</li>
+                    <li><strong>Mercado Pago:</strong> procesamiento seguro de pagos.</li>
+                    <li><strong>Cloudflare:</strong> seguridad y rendimiento del sitio.</li>
+                </ul>
+                <p>
+                    Estos terceros pueden usar las cookies para fines propios conforme a sus propias
+                    políticas de privacidad. Te recomendamos revisarlas:
+                </p>
+                <ul>
+                    <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad de Google</a></li>
+                    <li><a href="https://www.facebook.com/policy.php" target="_blank" rel="noopener">Política de privacidad de Meta</a></li>
+                    <li><a href="https://www.mercadopago.com.co/privacidad" target="_blank" rel="noopener">Política de privacidad de Mercado Pago</a></li>
+                </ul>
+            </section>
+
+            <section id="gestion" class="legal-section">
+                <h2>5. Gestión de cookies</h2>
+                <p>
+                    Puedes gestionar tus preferencias de cookies en cualquier momento a través del
+                    banner de configuración que aparece al visitar nuestro sitio por primera vez,
+                    o haciendo clic en el botón "Configurar cookies" en el pie de página.
+                </p>
+                <p>
+                    También puedes configurar tu navegador para rechazar todas las cookies o para
+                    que te avise cuando se envíe una cookie. Ten en cuenta que, si desactivas
+                    ciertas cookies, algunas funciones del sitio pueden no estar disponibles.
+                </p>
+            </section>
+
+            <section id="desactivar" class="legal-section">
+                <h2>6. Cómo desactivar cookies en tu navegador</h2>
+                <p>A continuación te indicamos cómo desactivar las cookies en los principales navegadores:</p>
+                <ul>
+                    <li><strong>Google Chrome:</strong> Configuración → Privacidad y seguridad → Cookies y otros datos de sitios.</li>
+                    <li><strong>Mozilla Firefox:</strong> Preferencias → Privacidad y seguridad → Cookies y datos del sitio.</li>
+                    <li><strong>Safari:</strong> Preferencias → Privacidad → Cookies y datos de sitios web.</li>
+                    <li><strong>Microsoft Edge:</strong> Configuración → Cookies y permisos del sitio → Cookies y datos del sitio.</li>
+                </ul>
+                <p>
+                    Para más información sobre cookies y cómo administrarlas, visita
+                    <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener">www.allaboutcookies.org</a>.
+                </p>
+            </section>
+
+            <section id="cambios" class="legal-section">
+                <h2>7. Cambios en la política de cookies</h2>
+                <p>
+                    Costa De Oro Imports puede modificar esta Política de Cookies en cualquier momento.
+                    Cualquier cambio será publicado en esta página y, si es significativo, lo notificaremos
+                    mediante un aviso en la plataforma o por correo electrónico.
+                </p>
+                <p>
+                    Te recomendamos revisar esta política periódicamente para estar informado sobre
+                    cómo protegemos tu información.
+                </p>
+            </section>
+
+            <section id="contacto" class="legal-section">
+                <h2>8. Contacto</h2>
+                <p>Si tienes preguntas sobre nuestra Política de Cookies, contáctanos:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> cookies@costadeoroimports.com</p>
+                    <p><strong>Teléfono:</strong> +57 (1) 2345-6789</p>
+                    <p><strong>Dirección:</strong> Cra. 45 #25-30, Bogotá, Colombia</p>
+                </div>
+            </section>
+
+            <div class="acceptance-box">
+                <h3>Tu Privacidad es Importante</h3>
+                <p>
+                    En Costa De Oro Imports nos comprometemos a usar cookies de manera transparente y
+                    respetuosa con tu privacidad. Puedes cambiar tus preferencias en cualquier momento.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <div th:replace="~{fragments/legal :: footer}"></div>
+</div>
+
+<div th:replace="~{fragments/legal :: scripts}"></div>
+</body>
+</html>

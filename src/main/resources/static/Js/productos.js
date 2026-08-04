@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, verProductos, toggleMenu } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, verProductos, toggleMenu, configurarLogout } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     finalizarCompra();
     verProductos();
     toggleMenu();
+
+    // Cerrar sesión
+    configurarLogout();
 
     // ==================== VARIABLES GLOBALES ====================
     let productosOriginales = [];
