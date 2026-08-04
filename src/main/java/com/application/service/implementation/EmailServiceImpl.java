@@ -5,14 +5,18 @@ import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.service.interfaces.EmailService;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -26,6 +30,9 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
+    @Value("${spring.mail.username}")
+    private String from;
+
     /**
      * Envía un correo electrónico con contenido HTML generado desde una plantilla Thymeleaf.
      *
@@ -35,22 +42,41 @@ public class EmailServiceImpl implements EmailService {
      * @param variables Variables dinámicas que se inyectan en la plantilla Thymeleaf
      */
     @Override
-    public void sendEmail(String to, String subject, String plantilla, Map<String, Object> variables) {
+    public void sendEmail(String to,
+                          String subject,
+                          String plantilla,
+                          Map<String, Object> variables) {
+
         MimeMessage message = javaMailSender.createMimeMessage();
+
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, "UTF-8");
+
             Context context = new Context();
             context.setVariables(variables);
 
-            String contenidoHtml = templateEngine.process("email/" + plantilla, context);
+            String contenidoHtml =
+                    templateEngine.process("email/" + plantilla, context);
 
+            helper.setFrom(new InternetAddress(
+                    from,"Costa De Oro Imports"));
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(contenidoHtml, true);
 
+            System.out.println("FROM = " + from);
+            System.out.println("TO = " + to);
+            System.out.println("SUBJECT = " + subject);
+            System.out.println("HTML SIZE = " + contenidoHtml.length());
+
             javaMailSender.send(message);
+
         } catch (MessagingException e) {
             throw new RuntimeException("ERROR: no se puedo enviar el email: " + e.getMessage(), e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("ERROR: codificación no soportada: " + e.getMessage(), e);
         }
     }
 

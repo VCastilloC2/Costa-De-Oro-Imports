@@ -1,7 +1,7 @@
 package com.application.service.implementation.redis;
 
 import com.application.persistence.entity.usuario.Usuario;
-import com.application.service.interfaces.UsuarioCacheService;
+import com.application.service.interfaces.redis.UsuarioCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,4 +212,5 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
             return false;
         }
     }
+
 }
