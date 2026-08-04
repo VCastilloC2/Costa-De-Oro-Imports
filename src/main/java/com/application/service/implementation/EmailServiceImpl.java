@@ -10,18 +10,21 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.Type;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +50,12 @@ public class EmailServiceImpl implements EmailService {
                           String plantilla,
                           Map<String, Object> variables) {
 
+        // Validar que el dominio del correo tenga registros MX
+        if (!dominioAceptaCorreo(to)) {
+            System.out.println("El dominio del correo no acepta emails: " + to);
+            return;
+        }
+
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
@@ -66,17 +75,29 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(subject);
             helper.setText(contenidoHtml, true);
 
-            System.out.println("FROM = " + from);
-            System.out.println("TO = " + to);
-            System.out.println("SUBJECT = " + subject);
-            System.out.println("HTML SIZE = " + contenidoHtml.length());
-
             javaMailSender.send(message);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException("ERROR: no se puedo enviar el email: " + e.getMessage(), e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("ERROR: codificación no soportada: " + e.getMessage(), e);
+        } catch (MailSendException ex) {
+            // El destinatario no existe o fue rechazado
+            System.out.println("Correo rechazado: " + to);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            System.err.println("No fue posible preparar el correo: "
+                    + ex.getMessage());
+        }
+
+    }
+
+    public boolean dominioAceptaCorreo(String email) {
+        try {
+            String dominio = email.substring(email.indexOf("@") + 1);
+
+            Lookup lookup = new Lookup(dominio, Type.MX);
+            Record[] records = lookup.run();
+
+            return records != null && records.length > 0;
+
+        } catch (Exception e) {
+            return false;
         }
     }
 
