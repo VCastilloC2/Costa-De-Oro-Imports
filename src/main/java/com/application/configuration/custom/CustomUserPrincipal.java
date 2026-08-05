@@ -2,6 +2,7 @@ package com.application.configuration.custom;
 
 import com.application.persistence.entity.empresa.Empresa;
 import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.redis.UsuarioRedis;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +34,37 @@ public class CustomUserPrincipal implements UserDetails, OAuth2User {
     // Constructor usado cuando el usuario entre por .fromLogin()
     public CustomUserPrincipal(Usuario usuario) {
         this(usuario, Collections.emptyMap());
+    }
+
+    public CustomUserPrincipal(UsuarioRedis usuario) {
+
+        this.correo = usuario.correo();
+        this.password = usuario.passwordHash();
+
+        this.authorities.add(
+                new SimpleGrantedAuthority(
+                        usuario.autoridad()
+                )
+        );
+
+        this.isEnabled = usuario.enabled();
+
+        this.accountNonExpired =
+                usuario.accountNonExpired();
+
+        this.accountNonLocked =
+                usuario.accountNonLocked();
+
+        this.credentialNonExpired =
+                usuario.credentialsNonExpired();
+
+        this.nombres = usuario.nombres();
+
+        this.apellidos = usuario.apellidos();
+
+        this.empresa = null;
+
+        this.attributes = Collections.emptyMap();
     }
 
     // Constructor usado cuando el usuario entra por .oauth2Login()
