@@ -1,12 +1,18 @@
 package com.application.service.implementation.redis;
 
-import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.redis.UsuarioRedis;
 import com.application.service.interfaces.redis.UsuarioCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,186 +22,262 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UsuarioCacheServiceImpl implements UsuarioCacheService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioCacheService.class);
-    private static final String CACHE_KEY_PREFIX = "usuario:";
-    private static final String CACHE_KEY_EMAIL_PREFIX = "usuario:email:";
-    private static final long CACHE_TTL = 24; // 24 horas
+    private static final Logger logger =
+            LoggerFactory.getLogger(UsuarioCacheServiceImpl.class);
 
-    @Autowired(required = false)
-    private RedisTemplate<String, Object> redisTemplate;
+    private static final String CACHE_KEY_ID =
+            "usuario:id:";
+
+    private static final String CACHE_KEY_EMAIL =
+            "usuario:email:";
+
+    private static final long CACHE_TTL_HOURS = 24;
+
+    private final RedisTemplate<String, UsuarioRedis> redisTemplate;
+
+    public UsuarioCacheServiceImpl(
+            @Qualifier("usuarioRedisTemplate")
+            ObjectProvider<RedisTemplate<String, UsuarioRedis>> provider
+    ) {
+        this.redisTemplate = provider.getIfAvailable();
+    }
 
     /**
      * Obtener usuario del caché por ID
+     *
      * @param usuarioId ID del usuario
      * @return Usuario del caché o null si no existe
      */
     @Override
-    public Usuario obtener(Long usuarioId) {
-        if (redisTemplate == null) {
-            return null; // Redis no disponible
+    public Optional<UsuarioRedis> obtener(Long usuarioId) {
+        if (redisTemplate == null || usuarioId == null) {
+            return Optional.empty();
         }
 
         try {
-            String key = CACHE_KEY_PREFIX + usuarioId;
-            Object obj = redisTemplate.opsForValue().get(key);
+            String key = construirKeyId(usuarioId);
 
-            if (obj instanceof Usuario) {
-                logger.debug("Usuario {} obtenido del caché", usuarioId);
-                return (Usuario) obj;
+            UsuarioRedis usuario =
+                    redisTemplate.opsForValue().get(key);
+
+            if (usuario != null) {
+                logger.debug(
+                        "Usuario {} obtenido desde Redis",
+                        usuarioId
+                );
             }
-            return null;
+
+            return Optional.ofNullable(usuario);
+
         } catch (Exception e) {
-            logger.warn("Error al obtener usuario {} del caché: {}", usuarioId, e.getMessage());
-            return null; // Retorna null, el servicio buscará en BD
+            logger.warn(
+                    "Error al obtener usuario {} desde Redis: {}",
+                    usuarioId,
+                    e.getMessage()
+            );
+
+            return Optional.empty();
         }
     }
 
     /**
      * Obtener usuario del caché por correo
+     *
      * @param correo Correo del usuario
      * @return Usuario del caché o null si no existe
      */
     @Override
-    public Usuario obtenerPorCorreo(String correo) {
-        if (redisTemplate == null) {
-            return null;
+    public Optional<UsuarioRedis> obtenerPorCorreo(String correo) {
+        if (redisTemplate == null || !tieneTexto(correo)) {
+            return Optional.empty();
         }
 
         try {
-            String key = CACHE_KEY_EMAIL_PREFIX + correo;
-            Object obj = redisTemplate.opsForValue().get(key);
+            String correoNormalizado =
+                    normalizarCorreo(correo);
 
-            if (obj instanceof Usuario) {
-                logger.debug("Usuario con correo {} obtenido del caché", correo);
-                return (Usuario) obj;
+            String key =
+                    construirKeyCorreo(correoNormalizado);
+
+            UsuarioRedis usuario =
+                    redisTemplate.opsForValue().get(key);
+
+            if (usuario != null) {
+                logger.debug(
+                        "Usuario {} obtenido desde Redis por correo",
+                        usuario.usuarioId()
+                );
             }
-            return null;
+
+            return Optional.ofNullable(usuario);
+
         } catch (Exception e) {
-            logger.warn("Error al obtener usuario por correo {} del caché: {}", correo, e.getMessage());
-            return null;
+            logger.warn(
+                    "Error al obtener usuario por correo {} desde Redis: {}",
+                    correo,
+                    e.getMessage()
+            );
+
+            return Optional.empty();
         }
     }
 
     /**
      * Guardar usuario en caché
+     *
      * @param usuario Usuario a guardar
      */
     @Override
-    public void guardar(Usuario usuario) {
-        if (redisTemplate == null || usuario == null || usuario.getUsuarioId() == null) {
-            return; // Redis no disponible o datos inválidos
+    public void guardar(UsuarioRedis usuario) {
+        if (!puedeGuardar(usuario)) {
+            return;
         }
 
         try {
-            String keyId = CACHE_KEY_PREFIX + usuario.getUsuarioId();
-            String keyEmail = CACHE_KEY_EMAIL_PREFIX + usuario.getCorreo();
+            guardarClaves(usuario);
 
-            // Guardar por ID
-            redisTemplate.opsForValue().set(
-                    keyId,
-                    usuario,
-                    CACHE_TTL,
-                    TimeUnit.HOURS
+            logger.debug(
+                    "Usuario {} guardado en Redis",
+                    usuario.usuarioId()
             );
 
-            // Guardar por correo (para login rápido)
-            if (usuario.getCorreo() != null && !usuario.getCorreo().isEmpty()) {
-                redisTemplate.opsForValue().set(
-                        keyEmail,
-                        usuario,
-                        CACHE_TTL,
-                        TimeUnit.HOURS
-                );
-            }
-
-            logger.debug("Usuario {} guardado en caché", usuario.getUsuarioId());
         } catch (Exception e) {
-            logger.warn("Error al guardar usuario {} en caché: {}",
-                    usuario.getUsuarioId(), e.getMessage());
-            // No lanzar excepción, continuar con operación normal
+            logger.warn(
+                    "Error al guardar usuario {} en Redis: {}",
+                    usuario.usuarioId(),
+                    e.getMessage()
+            );
         }
     }
 
     /**
      * Actualizar usuario en caché
+     *
      * @param usuario Usuario actualizado
      */
     @Override
-    public void actualizar(Usuario usuario) {
-        if (redisTemplate == null || usuario == null || usuario.getUsuarioId() == null) {
+    public void actualizar(
+            UsuarioRedis usuario,
+            String correoAnterior
+    ) {
+        if (!puedeGuardar(usuario)) {
             return;
         }
 
         try {
-            // Eliminar caché anterior
-            eliminar(usuario.getUsuarioId());
-            // Guardar nuevo caché
-            guardar(usuario);
-            logger.debug("Usuario {} actualizado en caché", usuario.getUsuarioId());
+            String nuevoCorreo =
+                    normalizarCorreo(usuario.correo());
+
+            /*
+             * Si el usuario cambió su correo, eliminamos la clave
+             * correspondiente al correo anterior.
+             */
+            if (tieneTexto(correoAnterior)) {
+                String correoAnteriorNormalizado =
+                        normalizarCorreo(correoAnterior);
+
+                if (!correoAnteriorNormalizado.equals(nuevoCorreo)) {
+                    redisTemplate.delete(
+                            construirKeyCorreo(
+                                    correoAnteriorNormalizado
+                            )
+                    );
+                }
+            }
+
+            guardarClaves(usuario);
+
+            logger.debug(
+                    "Usuario {} actualizado en Redis",
+                    usuario.usuarioId()
+            );
+
         } catch (Exception e) {
-            logger.warn("Error al actualizar usuario {} en caché: {}",
-                    usuario.getUsuarioId(), e.getMessage());
+            logger.warn(
+                    "Error al actualizar usuario {} en Redis: {}",
+                    usuario.usuarioId(),
+                    e.getMessage()
+            );
         }
     }
 
     /**
      * Eliminar usuario del caché
+     *
      * @param usuarioId ID del usuario
      */
     @Override
-    public void eliminar(Long usuarioId) {
+    public void eliminar(
+            Long usuarioId
+    ) {
         if (redisTemplate == null || usuarioId == null) {
             return;
         }
 
         try {
-            String keyId = CACHE_KEY_PREFIX + usuarioId;
-            redisTemplate.delete(keyId);
-            logger.debug("Usuario {} eliminado del caché", usuarioId);
+            List<String> keys = new ArrayList<>();
+
+            keys.add(construirKeyId(usuarioId));
+
+            redisTemplate.delete(keys);
+
+            logger.debug(
+                    "Usuario {} eliminado de Redis",
+                    usuarioId
+            );
+
         } catch (Exception e) {
-            logger.warn("Error al eliminar usuario {} del caché: {}", usuarioId, e.getMessage());
+            logger.warn(
+                    "Error al eliminar usuario {} de Redis: {}",
+                    usuarioId,
+                    e.getMessage()
+            );
         }
     }
 
     /**
      * Eliminar usuario del caché por correo
+     *
      * @param correo Correo del usuario
      */
     @Override
     public void eliminarPorCorreo(String correo) {
-        if (redisTemplate == null || correo == null) {
+        if (redisTemplate == null || !tieneTexto(correo)) {
             return;
         }
 
         try {
-            String keyEmail = CACHE_KEY_EMAIL_PREFIX + correo;
-            redisTemplate.delete(keyEmail);
-            logger.debug("Usuario con correo {} eliminado del caché", correo);
-        } catch (Exception e) {
-            logger.warn("Error al eliminar usuario por correo {} del caché: {}", correo, e.getMessage());
-        }
-    }
+            Optional<UsuarioRedis> usuarioCache =
+                    obtenerPorCorreo(correo);
 
-    /**
-     * Limpiar todo el caché de usuarios
-     */
-    @Override
-    public void limpiarTodo() {
-        if (redisTemplate == null) {
-            return;
-        }
+            List<String> keys = new ArrayList<>();
 
-        try {
-            redisTemplate.delete(redisTemplate.keys(CACHE_KEY_PREFIX + "*"));
-            redisTemplate.delete(redisTemplate.keys(CACHE_KEY_EMAIL_PREFIX + "*"));
-            logger.info("Caché de usuarios limpiado completamente");
+            keys.add(
+                    construirKeyCorreo(
+                            normalizarCorreo(correo)
+                    )
+            );
+
+            usuarioCache
+                    .map(UsuarioRedis::usuarioId)
+                    .ifPresent(usuarioId ->
+                            keys.add(construirKeyId(usuarioId))
+                    );
+
+            redisTemplate.delete(keys);
+
         } catch (Exception e) {
-            logger.warn("Error al limpiar caché de usuarios: {}", e.getMessage());
+            logger.warn(
+                    "Error al eliminar usuario por correo {}: {}",
+                    correo,
+                    e.getMessage()
+            );
         }
     }
 
     /**
      * Verificar si Redis está disponible
+     *
      * @return true si Redis está disponible
      */
     @Override
@@ -205,12 +287,61 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
         }
 
         try {
-            redisTemplate.getConnectionFactory().getConnection().ping();
-            return true;
+            String respuesta = redisTemplate.execute(
+                    (RedisCallback<String>) connection -> connection.ping()
+            );
+
+            return "PONG".equalsIgnoreCase(respuesta);
+
         } catch (Exception e) {
-            logger.warn("Redis no disponible: {}", e.getMessage());
+            logger.warn(
+                    "Redis no disponible: {}",
+                    e.getMessage()
+            );
+
             return false;
         }
+    }
+
+    private void guardarClaves(UsuarioRedis usuario) {
+        redisTemplate.opsForValue().set(
+                construirKeyId(usuario.usuarioId()),
+                usuario,
+                CACHE_TTL_HOURS,
+                TimeUnit.HOURS
+        );
+
+        redisTemplate.opsForValue().set(
+                construirKeyCorreo(usuario.correo()),
+                usuario,
+                CACHE_TTL_HOURS,
+                TimeUnit.HOURS
+        );
+    }
+
+    private boolean puedeGuardar(UsuarioRedis usuario) {
+        return redisTemplate != null
+                && usuario != null
+                && usuario.usuarioId() != null
+                && tieneTexto(usuario.correo());
+    }
+
+    private String construirKeyId(Long usuarioId) {
+        return CACHE_KEY_ID + usuarioId;
+    }
+
+    private String construirKeyCorreo(String correo) {
+        return CACHE_KEY_EMAIL + normalizarCorreo(correo);
+    }
+
+    private String normalizarCorreo(String correo) {
+        return correo
+                .trim()
+                .toLowerCase(Locale.ROOT);
+    }
+
+    private boolean tieneTexto(String valor) {
+        return valor != null && !valor.isBlank();
     }
 
 }
