@@ -1,5 +1,7 @@
 package com.application.configuration.redis;
 
+import com.application.presentation.dto.redis.UsuarioRedis;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,25 +12,27 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @ConditionalOnProperty(
-        prefix = "app.redis",
-        name = "enabled",
-        havingValue = "true"
+        name = "app.redis.enabled",
+        havingValue = "true",
+        matchIfMissing = true
 )
 public class RedisConfig {
 
     @Bean
-    RedisTemplate<String, Object> redisTemplate(
-            RedisConnectionFactory factory) {
+    @Qualifier("usuarioRedisTemplate")
+    public RedisTemplate<String, UsuarioRedis> usuarioRedisTemplate(
+            RedisConnectionFactory connectionFactory
+    ) {
+        RedisTemplate<String, UsuarioRedis> template =
+                new RedisTemplate<>();
 
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-
-        template.setConnectionFactory(factory);
+        template.setConnectionFactory(connectionFactory);
 
         StringRedisSerializer keySerializer =
                 new StringRedisSerializer();
 
-        JacksonJsonRedisSerializer<Object> valueSerializer =
-                new JacksonJsonRedisSerializer<>(Object.class);
+        JacksonJsonRedisSerializer<UsuarioRedis> valueSerializer =
+                new JacksonJsonRedisSerializer<>(UsuarioRedis.class);
 
         template.setKeySerializer(keySerializer);
         template.setHashKeySerializer(keySerializer);

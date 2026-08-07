@@ -1,14 +1,21 @@
 package com.application.service.interfaces.redis;
 
-import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.redis.UsuarioRedis;
+
+import java.util.Optional;
 
 public interface UsuarioCacheService {
-    Usuario obtener(Long usuarioId);
-    Usuario obtenerPorCorreo(String correo);
-    void guardar(Usuario usuario);
-    void actualizar(Usuario usuario);
-    void eliminar(Long usuarioId);
+    Optional<UsuarioRedis> obtener(Long id);
+
+    Optional<UsuarioRedis> obtenerPorCorreo(String correo);
+
+    void guardar(UsuarioRedis usuario);
+
+    void actualizar(UsuarioRedis usuario, String correoAnterior);
+
+    void eliminar(Long id);
+
     void eliminarPorCorreo(String correo);
-    void limpiarTodo();
+
     boolean isRedisAvailable();
 }

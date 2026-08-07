@@ -50,7 +50,6 @@ export function configurarLogout() {
             console.error("Error al cerrar sesión:", error);
         }
     });
-
 }
 
 export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,

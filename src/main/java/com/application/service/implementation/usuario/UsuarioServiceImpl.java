@@ -11,6 +11,7 @@ import com.application.persistence.repository.RolRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
+import com.application.presentation.dto.redis.UsuarioRedis;
 import com.application.presentation.dto.usuario.request.*;
 import com.application.presentation.dto.usuario.response.*;
 import com.application.service.implementation.ImagenServiceImpl;
@@ -20,6 +21,7 @@ import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.empresa.EmpresaService;
 import com.application.service.interfaces.redis.UsuarioCacheService;
 import com.application.service.interfaces.usuario.UsuarioService;
+import com.application.service.mapper.UsuarioRedisMapper;
 import com.application.utils.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -36,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,90 +51,53 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     private final EmailService emailService;
     private final PasswordEncoder encoder;
     private final UsuarioCacheService usuarioCacheService;
+    private final UsuarioRedisMapper usuarioRedisMapper;
 
     @Override
     public UserDetails loadUserByUsername(String correo)
             throws UsernameNotFoundException {
 
-        Usuario usuario = null;
-
-        // Intentar Redis únicamente si está disponible
         if (usuarioCacheService.isRedisAvailable()) {
 
-            usuario = usuarioCacheService.obtenerPorCorreo(correo);
+            Optional<UsuarioRedis> cache =
+                    usuarioCacheService.obtenerPorCorreo(correo);
 
-            if (usuario != null) {
-                return new CustomUserPrincipal(usuario);
+            if (cache.isPresent()) {
+                return new CustomUserPrincipal(cache.get());
             }
         }
 
-        // Si Redis no existe o no encontró el usuario
-        usuario = usuarioRepository.findByCorreo(correo)
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("ERROR: El correo '" + correo + "' no existe")
-                );
+                        new UsernameNotFoundException(
+                                "ERROR: El correo '" + correo + "' no existe"
+                        ));
 
-        // Guardar en Redis solamente si está disponible
         if (usuarioCacheService.isRedisAvailable()) {
-            System.out.println("Guardando usuario en Redis");
-            usuarioCacheService.guardar(usuario);
+            usuarioCacheService.guardar(
+                    usuarioRedisMapper.toRedisDTO(usuario)
+            );
         }
 
-        return new CustomUserPrincipal(usuario);
+        return new CustomUserPrincipal(
+                usuarioRedisMapper.toRedisDTO(usuario)
+        );
     }
 
     private Usuario getUsuarioById(Long usuarioId) {
-        Usuario usuario = null;
-
-        if (usuarioCacheService.isRedisAvailable()) {
-
-            usuario = usuarioCacheService.obtener(usuarioId);
-
-            if (usuario != null) {
-                return usuario;
-            }
-        }
-
-        usuario = usuarioRepository.findById(usuarioId)
+        return usuarioRepository.findById(usuarioId)
                 .orElseThrow(() ->
                         new EntityNotFoundException(
                                 "El usuario con id: " + usuarioId + " no existe"));
-
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
-        }
-
-        return usuario;
     }
 
     @Override
     public Usuario getUsuarioByCorreo(String correo) {
-
-        Usuario usuario = null;
-
-        // Intentar Redis únicamente si está disponible
-        if (usuarioCacheService.isRedisAvailable()) {
-
-            usuario = usuarioCacheService.obtenerPorCorreo(correo);
-
-            if (usuario != null) {
-                return usuario;
-            }
-        }
-
-        // Si Redis no existe o no encontró el usuario
-        usuario = usuarioRepository.findByCorreo(correo)
+        return usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("ERROR: El correo '" + correo + "' no existe")
-                );
-
-        // Guardar en Redis solamente si está disponible
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
-        }
-
-        return usuario;
-
+                        new UsernameNotFoundException(
+                                "ERROR: El correo '" + correo + "' no existe"
+                        ));
     }
 
     @Override
@@ -229,7 +195,13 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuario);
+
+            String correoAnterior = usuario.getCorreo();
+
+            usuarioCacheService.actualizar(
+                    usuarioRedisMapper.toRedisDTO(usuario),
+                    correoAnterior
+            );
         }
 
         this.emailService.sendWelcomeEmail(usuario);
@@ -269,7 +241,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
+            usuarioCacheService.guardar(
+                    usuarioRedisMapper.toRedisDTO(usuario)
+            );
         }
 
         return new BaseResponse("Usuario creado exitosamente", true);
@@ -317,7 +291,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
+            usuarioCacheService.guardar(
+                    usuarioRedisMapper.toRedisDTO(usuario)
+            );
         }
 
         return new BaseResponse("Usuario creado exitosamente", true);
@@ -356,7 +332,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                 .build();
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
+            usuarioCacheService.actualizar(
+                    usuarioRedisMapper.toRedisDTO(usuario),
+                    usuario.getCorreo()
+            );
         }
 
         return createEmpresaProveedor(usuario, proveedorRequest);
@@ -387,7 +366,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(usuario);
+            usuarioCacheService.guardar(
+                    usuarioRedisMapper.toRedisDTO(usuario)
+            );
         }
 
         return new BaseResponse("Proveedor creado exitosamente", true);
@@ -408,7 +389,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuarioActualizado);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuarioActualizado);
+            String correoAnterior = usuarioActualizado.getCorreo();
+
+            usuarioCacheService.actualizar(
+                    usuarioRedisMapper.toRedisDTO(usuarioActualizado),
+                    correoAnterior
+            );
         }
 
         return new GeneralResponse("Sus datos se han actualizado exitosamente");
@@ -440,7 +426,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(cliente);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(cliente);
+            String correoAnterior = cliente.getCorreo();
+
+            usuarioCacheService.actualizar(
+                    usuarioRedisMapper.toRedisDTO(cliente),
+                    correoAnterior
+            );
         }
 
         return new BaseResponse("Cliente actualizado exitosamente", true);
@@ -494,9 +485,13 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuario);
-        }
+            String correoAnterior = usuario.getCorreo();
 
+            usuarioCacheService.actualizar(
+                    usuarioRedisMapper.toRedisDTO(usuario),
+                    correoAnterior
+            );
+        }
         return new BaseResponse("Proveedor actualizado exitosamente", true);
     }
 
@@ -516,9 +511,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
         usuarioPhoto = usuarioRepository.save(usuarioPhoto);
 
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuarioPhoto);
-        }
+        String correoAnterior = usuarioPhoto.getCorreo();
+
+        usuarioCacheService.actualizar(
+                usuarioRedisMapper.toRedisDTO(usuarioPhoto),
+                correoAnterior
+        );
 
         return new GeneralResponse("Imagen asignada exitosamente");
     }
@@ -541,9 +539,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuario.setPassword(encoder.encode(newPassword));
         usuarioRepository.save(usuario);
 
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuario);
-        }
+        String correoAnterior = usuario.getCorreo();
+
+        usuarioCacheService.actualizar(
+                usuarioRedisMapper.toRedisDTO(usuario),
+                correoAnterior
+        );
 
         return new BaseResponse("contraseña actualizada exitosamente", true);
     }
@@ -560,9 +561,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                 ? "Usuario habilitado exitosamente"
                 : "Usuario deshabilitado exitosamente";
 
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.actualizar(usuario);
-        }
+        String correoAnterior = usuario.getCorreo();
+
+        usuarioCacheService.actualizar(
+                usuarioRedisMapper.toRedisDTO(usuario),
+                correoAnterior
+        );
 
         return new BaseResponse(mensaje, true);
     }
@@ -577,7 +581,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         String mensaje = "Usuario eliminado exitosamente";
 
         if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.eliminar(usuarioId);
+            usuarioCacheService.eliminar(usuario.getUsuarioId());
             usuarioCacheService.eliminarPorCorreo(usuario.getCorreo());
         }
 
