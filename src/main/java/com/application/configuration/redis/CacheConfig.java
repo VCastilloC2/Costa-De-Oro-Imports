@@ -30,7 +30,6 @@ public class CacheConfig {
 
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(config)
-                .transactionAware()
                 .build();
     }
 

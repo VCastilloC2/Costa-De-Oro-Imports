@@ -37,17 +37,14 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         String apellido = oAuth2User.getAttribute("family_name");
 
         // Buscar primero en Redis
-        if (usuarioCacheService.isRedisAvailable()) {
+        Optional<UsuarioRedis> cache =
+                usuarioCacheService.obtenerPorCorreo(email);
 
-            Optional<UsuarioRedis> cache =
-                    usuarioCacheService.obtenerPorCorreo(email);
-
-            if (cache.isPresent()) {
-                return new CustomUserPrincipal(
-                        cache.get(),
-                        oAuth2User.getAttributes()
-                );
-            }
+        if (cache.isPresent()) {
+            return new CustomUserPrincipal(
+                    cache.get(),
+                    oAuth2User.getAttributes()
+            );
         }
 
         // Buscar en la base de datos
@@ -77,11 +74,9 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         }
 
         // Guardar en Redis (tanto si es nuevo como si ya existía)
-        if (usuarioCacheService.isRedisAvailable()) {
-            usuarioCacheService.guardar(
-                    usuarioRedisMapper.toRedisDTO(usuario)
-            );
-        }
+        usuarioCacheService.guardar(
+                usuarioRedisMapper.toRedisDTO(usuario)
+        );
 
         return new CustomUserPrincipal(
                 usuario,
