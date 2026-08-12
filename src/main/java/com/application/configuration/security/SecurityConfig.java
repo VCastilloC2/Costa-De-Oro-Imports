@@ -43,7 +43,9 @@ public class SecurityConfig {
             JwtTokenValidatorFilter jwtTokenValidatorFilter,
             RecaptchaFilter recaptchaFilter) throws Exception {
         return http
-                .csrf(Customizer.withDefaults())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/chat")
+                )
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin()) // Permite iframes del mismo origen
                 )

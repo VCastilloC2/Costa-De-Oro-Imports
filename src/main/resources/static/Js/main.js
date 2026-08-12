@@ -1,13 +1,12 @@
 export function activarGlassmorphism() {
-    // Efecto glassmorphism solo al hacer scroll
-    const header = document.querySelector('.header');
+    const header = document.querySelector(".header");
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 10) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+    if (!header) {
+        return;
+    }
+
+    window.addEventListener("scroll", () => {
+        header.classList.toggle("scrolled", window.scrollY > 10);
     });
 }
 
@@ -140,7 +139,16 @@ export function initCart() {
 
     // Footer
     const cartFooter = document.querySelector(".cart-footer");
+    if (!drawer || !overlay || !closeBtn || !cartList ||
+        !subtotalEl || !cartCount || !cartIcon || !cartFooter) {
+        return;
+    }
+
     const subtotalContainer = cartFooter.querySelector(".cart-subtotal");
+    if (!subtotalContainer) {
+        return;
+    }
+
     const btnSeguir = cartFooter.querySelector("button:nth-child(2)");
     const btnFinalizar = cartFooter.querySelector("button:nth-child(3)");
 
@@ -409,7 +417,13 @@ export function inicialHeart() {
 }
 
 export function rederigirFav() {
-    document.getElementById("go-fav").addEventListener("click", () => {
+    const goFav = document.getElementById("go-fav");
+
+    if (!goFav) {
+        return;
+    }
+
+    goFav.addEventListener("click", () => {
         window.location.href = "/favorito";
     });
 }
@@ -822,6 +836,10 @@ document.addEventListener('DOMContentLoaded', () => {
     carruselProductos();
 
     //cambiar anio del footer automaticamente
-    document.getElementById("anio__pagina").textContent = new Date().getFullYear();
+    const anioPagina = document.getElementById("anio__pagina");
+
+    if (anioPagina) {
+        anioPagina.textContent = new Date().getFullYear();
+    }
 
 });

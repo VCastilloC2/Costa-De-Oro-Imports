@@ -25,7 +25,7 @@ public class CacheConfig {
 
         RedisCacheConfiguration config =
                 RedisCacheConfiguration.defaultCacheConfig()
-                        .entryTtl(Duration.ofMinutes(10))
+                        .entryTtl(Duration.ofHours(1))
                         .disableCachingNullValues();
 
         return RedisCacheManager.builder(factory)
