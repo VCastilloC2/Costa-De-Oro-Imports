@@ -21,7 +21,7 @@ public class GraficaTools {
     public String generarResumenGrafico(String tipoGrafica) {
         // En una implementación real, esto llamaría a GraficaService para obtener datos procesados
         // y devolvería un resumen legible para el LLM.
-        return "Análisis de gráfica (" + tipoHaciendo(tipoGrafica) + "): El sistema muestra una tendencia creciente en las ventas de cervezas artesanales en el último trimestre, con un pico en diciembre.";
+        return "Análisis de gráfica (" + graficaService.obtenerVentasTotalesUltimos12Meses() + "): El sistema muestra una tendencia creciente en las ventas de cervezas artesanales en el último trimestre, con un pico en diciembre.";
     }
 
     private String haciendo(String tipo) {

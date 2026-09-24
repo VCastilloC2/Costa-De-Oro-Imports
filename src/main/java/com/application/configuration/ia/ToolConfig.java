@@ -1,6 +1,6 @@
 package com.application.configuration.ia;
 
-import com.application.configuration.ia.tools.UsuarioTools;
+import com.application.configuration.ia.tools.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
@@ -17,7 +17,6 @@ public class ToolConfig {
     private final ComentarioTools comentarioTools;
     private final EmpresaTools empresaTools;
     private final FacturaProveedorTools facturaProveedorTools;
-    private final EmailTools emailTools;
     private final GraficaTools graficaTools;
     private final HistoriaTools historiaTools;
     private final PrediccionTools prediccionTools;
@@ -32,7 +31,6 @@ public class ToolConfig {
                         comentarioTools,
                         empresaTools,
                         facturaProveedorTools,
-                        emailTools,
                         graficaTools,
                         historiaTools,
                         prediccionTools
