@@ -84,9 +84,11 @@ async function sendMessage() {
 
     } catch (error) {
 
+        console.error("❌ Error enviando mensaje:", error);
+
         appendMessage(
             "bot",
-            "⚠️ Error al conectar con la IA.",
+            `⚠️ Error al conectar con la IA.\n\n${error.message}`,
             true
         );
 
@@ -105,10 +107,19 @@ async function fetchAI(message) {
 
     const bubble = appendBotMessage();
 
+    const csrfToken = document.querySelector(
+        'meta[name="_csrf"]'
+    ).content;
+
+    const csrfHeader = document.querySelector(
+        'meta[name="_csrf_header"]'
+    ).content;
+
     const response = await fetch(API_URL, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            [csrfHeader]: csrfToken
         },
         body: JSON.stringify({
             message
@@ -116,7 +127,13 @@ async function fetchAI(message) {
     });
 
     if (!response.ok) {
-        throw new Error("Error HTTP");
+        const errorText = await response.text();
+
+        console.error("❌ Error HTTP:", response.status, errorText);
+
+        throw new Error(
+            `HTTP ${response.status}: ${errorText}`
+        );
     }
 
     const text = await response.text();
