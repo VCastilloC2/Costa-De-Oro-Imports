@@ -273,19 +273,11 @@
             <version>2.5.0</version>
         </dependency>
 
-        <!-- Open AI - Ollama -->
+        <!-- Google Gemini Generative AI -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-ollama</artifactId>
-            <version>2.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Open AI - ChatGPT - OpenIA -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
-            <version>2.0.1</version>
+            <artifactId>spring-ai-starter-model-google-genai</artifactId>
+            <version>2.1.0-M1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
