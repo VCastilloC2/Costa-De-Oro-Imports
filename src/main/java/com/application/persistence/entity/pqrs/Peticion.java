@@ -3,6 +3,7 @@ package com.application.persistence.entity.pqrs;
 import com.application.persistence.entity.pqrs.enums.EEstadoPeticion;
 import com.application.persistence.entity.pqrs.enums.ETipoPeticion;
 import com.application.persistence.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,5 +40,6 @@ public class Peticion {
             referencedColumnName = "usuario_id",
             foreignKey = @ForeignKey(name = "fk_peticion_usuario")
     )
+    @JsonIgnore
     private Usuario usuario;
 }
