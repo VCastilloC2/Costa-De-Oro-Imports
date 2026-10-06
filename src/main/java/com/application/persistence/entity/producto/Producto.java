@@ -6,6 +6,7 @@ import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.factura.DetalleFactura;
 import com.application.persistence.entity.producto.enums.ETipo;
 import com.application.persistence.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,7 @@ public class Producto {
             referencedColumnName = "categoria_id",
             foreignKey = @ForeignKey(name = "fk_producto_categoria")
     )
+    @JsonIgnore
     private Categoria categoria;
 
     // Cardinalidad con la tabla sub-categoria
@@ -58,6 +60,7 @@ public class Producto {
             referencedColumnName = "subcategoria_id",
             foreignKey = @ForeignKey(name = "fk_producto_subcategoria")
     )
+    @JsonIgnore
     private SubCategoria subCategoria;
 
     // Cardinalidad con la tabla Usuario
@@ -66,11 +69,13 @@ public class Producto {
             referencedColumnName = "usuario_id",
             foreignKey = @ForeignKey(name = "fk_producto_proveedor")
     )
+    @JsonIgnore
     private Usuario proveedor;
 
     // Cardinalidad con la tabla detálle ventas
     @Builder.Default
     @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<DetalleVenta> detalleVentas = new HashSet<>();
 
     // Cardinalidad con la tabla detálle facturas

@@ -2,6 +2,7 @@ package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.DashboardResponse;
 import com.application.presentation.dto.grafica.comprasRecientes.CompraResumenResponse;
 import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
 import com.application.presentation.dto.grafica.progresoActual.EstadisticasGeneralesDTO;
@@ -10,6 +11,7 @@ import com.application.service.interfaces.CompraService;
 import com.application.service.interfaces.GraficaService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

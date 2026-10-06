@@ -1,6 +1,7 @@
 package com.application.persistence.entity.compra;
 
 import com.application.persistence.entity.producto.Producto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,10 +29,12 @@ public class DetalleVenta {
     // Cardinalidad con la tabla producto
     @ManyToOne
     @JoinColumn(name = "producto_id", referencedColumnName = "producto_id", foreignKey = @ForeignKey(name = "fk_detalleVenta_producto"))
+    @JsonIgnore
     private Producto producto;
 
     // Cardinalidad con la table compra (relación unidireccional)
     @ManyToOne
     @JoinColumn(name = "compra_id", referencedColumnName = "compra_id", foreignKey = @ForeignKey(name = "fk_detalleVenta_compra"))
+    @JsonIgnore
     private Compra compra;
 }

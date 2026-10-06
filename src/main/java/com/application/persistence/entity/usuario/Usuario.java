@@ -8,6 +8,7 @@ import com.application.persistence.entity.pqrs.Peticion;
 import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.rol.Rol;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -67,36 +68,43 @@ public class Usuario {
     // Cardinalidad con la tabla rol (relación unidireccional)
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", foreignKey = @ForeignKey(name = "fk_usuario_rol"))
+    @JsonIgnore
     private Rol rol;
 
     // Cardinalidad con la tabla empresas (relación unidireccional)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "empresa_id", referencedColumnName = "empresa_id", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
+    @JsonIgnore
     private Empresa empresa;
 
     // Cardinalidad con la tabla compra (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Compra> compras = new HashSet<>();
 
     // Cardinalidad con la tabla producto (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Producto> productos = new HashSet<>();
 
     // Cardinalidad con la tabla factura proveedor (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<FacturaProveedor> facturas = new HashSet<>();
 
     // Cardinalidad con la tabla comentarios (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Comentario> comentarios = new HashSet<>();
 
     // Cardinalidad con la tabla peticiones (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Peticion> peticiones = new HashSet<>();
 
     // Agregar usuario a compra y viceversa (bidireccional)
