@@ -1,6 +1,7 @@
 package com.application.persistence.entity.historia;
 
 import com.application.persistence.entity.comentario.Comentario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class Historia {
     // Cardinalidad con la tabla comentario (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "historia", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Comentario> comentarios = new HashSet<>();
 
 }

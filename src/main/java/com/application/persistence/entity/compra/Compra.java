@@ -3,6 +3,7 @@ package com.application.persistence.entity.compra;
 import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.compra.enums.EMetodoPago;
 import com.application.persistence.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -37,11 +38,13 @@ public class Compra {
     // Cardinalidad con la tabla usuario
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", foreignKey = @ForeignKey(name = "fk_compra_usuario"))
+    @JsonIgnore
     private Usuario usuario;
 
     // Cardinalidad con la tabla detalle_ventas
     @Builder.Default
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
     private Set<DetalleVenta> detalleVentas = new HashSet<>();
 
     // Agregar compra a detalle_venta y viceversa (bidireccional)
