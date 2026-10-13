@@ -1,6 +1,7 @@
 package com.application.persistence.entity.factura;
 
 import com.application.persistence.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,11 +39,13 @@ public class FacturaProveedor {
             referencedColumnName = "usuario_id",
             foreignKey = @ForeignKey(name = "fk_factura_proveedor")
     )
+    @JsonIgnore
     private Usuario usuario;
 
     // Cardinalidad con la tabla detalle_factura
     @Builder.Default
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
     private Set<DetalleFactura> detalleFacturas = new HashSet<>();
 
     // Agregar factura a detalle_factura y viceversa (bidireccional)

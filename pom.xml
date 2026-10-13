@@ -239,6 +239,14 @@
             </exclusions>
         </dependency>
 
+        <!-- SpringDoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Luego agregas la versión segura -->
         <dependency>
             <groupId>commons-beanutils</groupId>
@@ -302,7 +310,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.2.18.Final</version>
+                <version>4.2.19.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -2,6 +2,7 @@ package com.application.persistence.entity.comentario;
 
 import com.application.persistence.entity.historia.Historia;
 import com.application.persistence.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,11 +34,13 @@ public class Comentario {
     // Cardinalidad con la tabla usuario (relación unidireccional)
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", foreignKey = @ForeignKey(name = "fk_comentario_usuario"))
+    @JsonIgnore
     private Usuario usuario;
 
     // Cardinalidad con la tabla historia (relación bidireccional)
     @ManyToOne
     @JoinColumn(name = "historia_id", referencedColumnName = "historia_id", foreignKey = @ForeignKey(name = "fk_comentario_historia"))
+    @JsonIgnore
     private Historia historia;
 
     // Agregar usuario a comentario y viceversa (bidirectional)

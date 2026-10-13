@@ -70,18 +70,38 @@ public class SecurityConfig {
                         // Autenticación Controller
                         .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+
                         // Configurar endpoints públicos estáticos (sin autenticación)
-                        .requestMatchers("/", "/Assets/**", "/Js/**", "/Css/**").permitAll()
-                        .requestMatchers("/**", "/blog/**").permitAll()
+                        .requestMatchers("/",
+                                "/Assets/**",
+                                "/Js/**",
+                                "/Css/**"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/**",
+                                "/blog/**"
+                        ).permitAll()
+
                         .requestMatchers("/carrito").authenticated()
+
                         .requestMatchers(
                                 "/error/**", // Rutas de error
                                 "/api/chat", // Ruta de la IA
                                 "/api/search/universal", // Búsqueda universal pública
                                 "/webjars/**")
                         .permitAll()
+
+                        // Swagger / OpenAPI
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         // Configurar endpoints NO ESPECIFICADOS
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(jwtTokenValidatorFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(recaptchaFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form

@@ -1,6 +1,7 @@
 package com.application.persistence.entity.categoria;
 
 import com.application.persistence.entity.producto.Producto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,10 +28,12 @@ public class SubCategoria {
             referencedColumnName = "categoria_id",
             foreignKey = @ForeignKey(name = "fk_sub-Categoria_categoria")
     )
+    @JsonIgnore
     private Categoria categoria;
 
     @Builder.Default
     @OneToMany(mappedBy = "subCategoria", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Producto> productos = new HashSet<>();
 
     // Agregar subcategoria a producto y viceversa (bidireccional)

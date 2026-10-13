@@ -41,6 +41,15 @@ public class IAConfig {
                 .flatMap(provider -> Arrays.stream(provider.getToolCallbacks()))
                 .toArray(ToolCallback[]::new);
 
+        System.out.println("=================================");
+        System.out.println("TOOLS REGISTRADAS: " + allTools.length);
+
+        for (ToolCallback tool : allTools) {
+            System.out.println("TOOL: " + tool.getToolDefinition().name());
+        }
+
+        System.out.println("=================================");
+
         return ChatClient.builder(chatModel)
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultTools((Object[]) allTools)

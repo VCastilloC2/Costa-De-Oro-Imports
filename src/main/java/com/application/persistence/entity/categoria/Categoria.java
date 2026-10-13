@@ -1,6 +1,7 @@
 package com.application.persistence.entity.categoria;
 
 import com.application.persistence.entity.producto.Producto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.HashSet;
@@ -32,11 +33,13 @@ public class Categoria {
         // Cardinalidad con la tabla producto
         @Builder.Default
         @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+        @JsonIgnore
         private Set<Producto> productos = new HashSet<>();
 
         // Cardinalidad con la tabla categorías
         @Builder.Default
         @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+        @JsonIgnore
         private Set<SubCategoria> subCategorias = new HashSet<>();
 
         // Agregar categoria a producto y viceversa (bidireccional)
