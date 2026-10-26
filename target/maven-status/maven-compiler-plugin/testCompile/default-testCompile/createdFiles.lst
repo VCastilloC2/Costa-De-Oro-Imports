@@ -1,0 +1,3 @@
+com\application\controller\error\GlobalErrorHandlerTest.class
+com\application\ECommerceBeerApplicationTests.class
+com\application\configuration\security\TestSecurityConfig.class
