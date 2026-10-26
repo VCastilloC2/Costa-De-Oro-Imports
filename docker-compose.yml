@@ -3,17 +3,15 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql
-
     restart: unless-stopped
-
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: costa_de_oro
-      MYSQL_USER: spring
-      MYSQL_PASSWORD: spring
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 0220
 
     ports:
-      - "3306:3306"
+      - "3306:3307"
 
     volumes:
       - mysql_data:/var/lib/mysql
@@ -25,12 +23,13 @@ services:
       retries: 10
       start_period: 30s
 
+    networks:
+      - costa-de-oro-network
+
   redis:
     image: redis:latest
     container_name: redis
-
     restart: unless-stopped
-
     command:
       [
         "redis-server",
@@ -53,31 +52,12 @@ services:
       retries: 10
       start_period: 10s
 
-  ollama:
-    image: ollama/ollama:latest
+    networks:
+      - costa-de-oro-network
 
-    container_name: ollama
-
-    restart: unless-stopped
-
-    ports:
-      - "11434:11434"
-
-    volumes:
-      - ollama_data:/root/.ollama
-
-    healthcheck:
-      test: ["CMD", "ollama", "list"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  db-hub:
-    build:
-      context: ./docker/dbhub
-
+  dbhub:
+    image: bytebase/dbhub:latest
     container_name: dbhub
-
     restart: unless-stopped
 
     depends_on:
@@ -86,6 +66,11 @@ services:
 
     ports:
       - "9080:9080"
+
+    command: [ "--transport", "http", "--port", "9080" ]
+
+    networks:
+      - costa-de-oro-network
 
   app:
     build:
@@ -103,7 +88,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      ollama:
+      dbhub:
         condition: service_started
 
     ports:
@@ -115,13 +100,15 @@ services:
       SPRING_DATASOURCE_PASSWORD: spring
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-      OPENAI_BASE_URL: http://ollama:11434
-      OPENAI_MODEL: qwen3.5:4b
+      # MCP DBHub
+      DBHUB_URL: http://dbhub:9080
+
+    networks:
+      - costa-de-oro-network
 
 volumes:
   mysql_data:
   redis_data:
-  ollama_data:
 
 networks:
   costa-de-oro-network:

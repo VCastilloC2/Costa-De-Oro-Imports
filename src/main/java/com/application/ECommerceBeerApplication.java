@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableCaching
 public class ECommerceBeerApplication {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(ECommerceBeerApplication.class, args);
     }
 }

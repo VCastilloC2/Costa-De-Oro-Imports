@@ -1,5 +1,6 @@
-package com.costadeoro.admin.prediccion; // AJUSTA al paquete de tu proyecto
+package com.application.service.implementation;
 
+import com.application.presentation.dto.GraficaMensualResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;

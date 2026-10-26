@@ -1,9 +1,21 @@
-package com.costadeoro.admin.prediccion; // AJUSTA al paquete de tu proyecto
+package com.application.presentation.controller.admin;
 
-// Imports de tu proyecto que ya usas: Usuario, UsuarioServiceImpl, CustomUserPrincipal,
-// VentaRequest, PrediccionResponse. Añade: lombok.extern.slf4j.Slf4j, lombok.RequiredArgsConstructor,
-// jakarta.validation.Valid, org.springframework.http.*, org.springframework.security.core.annotation.AuthenticationPrincipal,
-// org.springframework.stereotype.Controller, org.springframework.ui.Model, org.springframework.web.bind.annotation.*
+import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.GraficaMensualResponse;
+import com.application.presentation.dto.PrediccionResponse;
+import com.application.presentation.dto.venta.request.VentaRequest;
+import com.application.service.implementation.PrediccionApiClient;
+import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Year;
 
