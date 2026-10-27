@@ -1,4 +1,4 @@
-package com.costadeoro.admin.prediccion; // AJUSTA al paquete de tu proyecto
+package com.application.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
