@@ -1,4 +1,4 @@
-USE db_beer;
+USE bavvf4s090pwxhxvgmfc;
 
 DROP TABLE IF EXISTS SPRING_AI_CHAT_MEMORY,detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa, peticiones, factura_proveedor, detalle_factura;
 

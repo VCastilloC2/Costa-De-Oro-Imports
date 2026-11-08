@@ -8,7 +8,7 @@
         "--transport",
         "stdio",
         "--dsn",
-        "mysql://root:0220@localhost:3306/db_beer"
+        "mysql://uxgteeejww7nihda:rCP5sZ4MvaaKLtpCWBVW@bavvf4s090pwxhxvgmfc-mysql.services.clever-cloud.com:3306/bavvf4s090pwxhxvgmfc"
       ]
     }
   }
