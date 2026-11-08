@@ -1,28 +1,28 @@
 -- NO TOCAR POR NADA DEL MUNDO
 
-select * from db_beer.empresa;
+select * from bavvf4s090pwxhxvgmfc.empresa;
 
-select * from db_beer.rol;
+select * from bavvf4s090pwxhxvgmfc.rol;
 
-select * from db_beer.usuario;
+select * from bavvf4s090pwxhxvgmfc.usuario;
 
-select * from db_beer.producto;
+select * from bavvf4s090pwxhxvgmfc.producto;
 
-select * from db_beer.categoria;
+select * from bavvf4s090pwxhxvgmfc.categoria;
 
-select * from db_beer.sub_categorias;
+select * from bavvf4s090pwxhxvgmfc.sub_categorias;
 
-select * from db_beer.compra;
+select * from bavvf4s090pwxhxvgmfc.compra;
 
-select * from db_beer.detalle_venta;
+select * from bavvf4s090pwxhxvgmfc.detalle_venta;
 
-select * from db_beer.historia;
+select * from bavvf4s090pwxhxvgmfc.historia;
 
-select * from db_beer.comentario;
+select * from bavvf4s090pwxhxvgmfc.comentario;
 
-select * from db_beer.peticiones;
+select * from bavvf4s090pwxhxvgmfc.peticiones;
 
-select * from db_beer.factura_proveedor;
+select * from bavvf4s090pwxhxvgmfc.factura_proveedor;
 
 SELECT
     p.producto_id,
