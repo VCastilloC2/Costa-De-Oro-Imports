@@ -24,7 +24,8 @@ import java.time.Duration;
  * @param apiKey         credencial de servicio enviada en la cabecera {@code X-API-Key}
  * @param requireHttps   si es {@code true} se rechaza una {@code baseUrl} sin TLS (perfil cloud)
  * @param connectTimeout tiempo máximo para abrir la conexión TCP/TLS
- * @param readTimeout    tiempo máximo esperando la respuesta (el modelo ML puede tardar)
+ * @param readTimeout    tiempo máximo esperando la respuesta en llamadas normales (dashboard)
+ * @param predictionReadTimeout tiempo máximo para predicciones: FastAPI entrena el modelo y puede tardar
  * @param retry          política de reintentos ante fallos transitorios
  */
 @Validated
@@ -35,6 +36,7 @@ public record FastApiProperties(
         @DefaultValue("false") boolean requireHttps,
         @DefaultValue("3s") @NotNull Duration connectTimeout,
         @DefaultValue("15s") @NotNull Duration readTimeout,
+        @DefaultValue("120s") @NotNull Duration predictionReadTimeout,
         @DefaultValue @Valid @NotNull Retry retry) {
 
     /**
@@ -83,6 +85,7 @@ public record FastApiProperties(
     @Override
     public String toString() {
         return "FastApiProperties[baseUrl=" + baseUrl + ", apiKey=****, requireHttps=" + requireHttps
-                + ", connectTimeout=" + connectTimeout + ", readTimeout=" + readTimeout + ", retry=" + retry + "]";
+                + ", connectTimeout=" + connectTimeout + ", readTimeout=" + readTimeout
+                + ", predictionReadTimeout=" + predictionReadTimeout + ", retry=" + retry + "]";
     }
 }

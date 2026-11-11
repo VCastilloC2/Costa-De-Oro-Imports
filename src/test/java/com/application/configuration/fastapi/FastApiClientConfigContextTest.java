@@ -1,5 +1,6 @@
 package com.application.configuration.fastapi;
 
+import com.application.service.implementation.DashboardApiClient;
 import com.application.service.implementation.PrediccionApiClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -10,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FastApiClientConfigContextTest {
 
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
-            .withUserConfiguration(FastApiClientConfig.class, FastApiGateway.class, PrediccionApiClient.class);
+            .withUserConfiguration(FastApiClientConfig.class, PrediccionApiClient.class, DashboardApiClient.class);
 
     @Test
     void arrancaEnPerfilLocal() {
@@ -18,6 +19,8 @@ class FastApiClientConfigContextTest {
                 .run(context -> {
                     assertThat(context).hasNotFailed();
                     assertThat(context).hasSingleBean(PrediccionApiClient.class);
+                    assertThat(context).hasSingleBean(DashboardApiClient.class);
+                    assertThat(context).hasBean("fastApiPredictionGateway");
                 });
     }
 

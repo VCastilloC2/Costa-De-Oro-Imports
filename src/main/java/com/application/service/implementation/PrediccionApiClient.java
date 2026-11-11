@@ -3,7 +3,7 @@ package com.application.service.implementation;
 import com.application.configuration.fastapi.FastApiException;
 import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.GraficaMensualResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +17,14 @@ import org.springframework.stereotype.Component;
  * {@code predictions:generate}.</p>
  */
 @Component
-@RequiredArgsConstructor
 public class PrediccionApiClient {
 
     private final FastApiGateway fastApi;
+
+    /** Usa el gateway con timeout largo (FASTAPI_PREDICTION_READ_TIMEOUT): entrenar el modelo tarda. */
+    public PrediccionApiClient(@Qualifier("fastApiPredictionGateway") FastApiGateway fastApi) {
+        this.fastApi = fastApi;
+    }
 
     /** Serie mensual para la gráfica: anios * 12 meses (+ proyeccionMeses). */
     public GraficaMensualResponse obtenerGrafica(int anios, int proyeccionMeses) {

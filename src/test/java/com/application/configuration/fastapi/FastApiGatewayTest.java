@@ -12,6 +12,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
+import java.net.http.HttpTimeoutException;
 import java.net.URI;
 import java.time.Duration;
 
@@ -39,7 +40,7 @@ class FastApiGatewayTest {
     @BeforeEach
     void setUp() {
         FastApiProperties props = new FastApiProperties(URI.create(BASE), "cdo_pk_test", false,
-                Duration.ofSeconds(1), Duration.ofSeconds(1),
+                Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1),
                 new FastApiProperties.Retry(2, Duration.ofMillis(1), 1.0, Duration.ofMillis(5)));
         RestClient.Builder builder = RestClient.builder();
         server = MockRestServiceServer.bindTo(builder).build();
@@ -83,6 +84,18 @@ class FastApiGatewayTest {
     }
 
     @Test
+    void noReintentaTimeoutDeLectura() {
+        // FastAPI sigue calculando: repetir la petición solo duplicaría el trabajo.
+        server.expect(ExpectedCount.once(), requestTo(GRAFICA))
+                .andRespond(withException(new HttpTimeoutException("Request cancelled")));
+
+        assertThatThrownBy(() -> client.obtenerGrafica(6, 0))
+                .isInstanceOf(FastApiException.Unavailable.class)
+                .hasMessageContaining("tardó demasiado");
+        server.verify();
+    }
+
+    @Test
     void noReintentaErroresDeCliente() {
         server.expect(ExpectedCount.once(), requestTo(GRAFICA))
                 .andRespond(withStatus(HttpStatus.UNAUTHORIZED)
@@ -99,12 +112,12 @@ class FastApiGatewayTest {
     void propiedadesCloudExigenHttpsYApiKey() {
         var retry = new FastApiProperties.Retry(0, Duration.ZERO, 1.0, Duration.ofSeconds(1));
         assertThatThrownBy(() -> new FastApiProperties(URI.create("http://api.example.com"), "k", true,
-                Duration.ofSeconds(1), Duration.ofSeconds(1), retry))
+                Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1), retry))
                 .hasMessageContaining("https");
         assertThatThrownBy(() -> new FastApiProperties(URI.create("https://api.example.com"), " ", true,
-                Duration.ofSeconds(1), Duration.ofSeconds(1), retry))
+                Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1), retry))
                 .hasMessageContaining("FASTAPI_API_KEY");
         assertThat(new FastApiProperties(URI.create("https://api.example.com"), "k", true,
-                Duration.ofSeconds(1), Duration.ofSeconds(1), retry).toString()).doesNotContain("=k");
+                Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1), retry).toString()).doesNotContain("=k");
     }
 }

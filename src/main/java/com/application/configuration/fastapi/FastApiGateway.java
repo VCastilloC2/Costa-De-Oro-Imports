@@ -1,10 +1,8 @@
 package com.application.configuration.fastapi;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.retry.RetryException;
 import org.springframework.core.retry.RetryTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
@@ -17,14 +15,13 @@ import java.util.function.Function;
  * (p. ej. {@code PrediccionApiClient}) solo describen la petición.
  */
 @Slf4j
-@Component
 public class FastApiGateway {
 
     private final RestClient restClient;
     private final RetryTemplate retryTemplate;
 
-    public FastApiGateway(@Qualifier("fastApiRestClient") RestClient restClient,
-                          @Qualifier("fastApiRetryTemplate") RetryTemplate retryTemplate) {
+    /** Se crean en {@link FastApiClientConfig}: {@code fastApiGateway} y {@code fastApiPredictionGateway}. */
+    public FastApiGateway(RestClient restClient, RetryTemplate retryTemplate) {
         this.restClient = restClient;
         this.retryTemplate = retryTemplate;
     }
@@ -65,6 +62,12 @@ public class FastApiGateway {
             case FastApiException.Unavailable unavailable -> {
                 log.error("FastAPI '{}' no disponible tras {} intento(s): {}", operation, attempts, unavailable.getMessage());
                 yield unavailable;
+            }
+            case ResourceAccessException rae when FastApiClientConfig.isReadTimeout(rae) -> {
+                log.error("FastAPI '{}' no respondió a tiempo (timeout de lectura, sin reintentar): {}",
+                        operation, rae.getMessage());
+                yield new FastApiException.Unavailable(
+                        "El servicio FastAPI tardó demasiado en responder (" + operation + ")", null, rae);
             }
             case ResourceAccessException rae -> {
                 log.error("FastAPI '{}' inaccesible tras {} intento(s) (caído o timeout): {}",

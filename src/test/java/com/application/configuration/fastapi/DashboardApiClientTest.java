@@ -27,7 +27,7 @@ class DashboardApiClientTest {
     @BeforeEach
     void setUp() {
         FastApiProperties props = new FastApiProperties(URI.create(BASE), "cdo_pk_test", false,
-                Duration.ofSeconds(1), Duration.ofSeconds(1),
+                Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1),
                 new FastApiProperties.Retry(0, Duration.ZERO, 1.0, Duration.ofMillis(1)));
         RestClient.Builder builder = RestClient.builder();
         server = MockRestServiceServer.bindTo(builder).build();
