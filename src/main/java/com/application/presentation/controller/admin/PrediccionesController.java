@@ -29,8 +29,8 @@ public class PrediccionesController {
     /** Años de historia que muestra la gráfica: meses exactos = ANIOS_GRAFICA * 12. */
     private static final int ANIOS_GRAFICA = 6;
 
-    /** Meses que agrega el botón "Generar Predicción" (el año siguiente). */
-    private static final int MESES_PROYECCION = 12;
+    /** Máximo de meses futuros que se pueden proyectar (límite del modelo en FastAPI: 24). */
+    private static final int MAX_MESES_PROYECCION = 24;
 
     private final UsuarioServiceImpl usuarioServiceImpl;
     private final PrediccionApiClient predicciones;
@@ -46,19 +46,19 @@ public class PrediccionesController {
         model.addAttribute("mensaje", mensaje);
         model.addAttribute("añoActual", Year.now().getValue());
         model.addAttribute("aniosGrafica", ANIOS_GRAFICA);
-        model.addAttribute("mesesProyeccion", MESES_PROYECCION);
+        model.addAttribute("mesesProyeccion", MAX_MESES_PROYECCION);
 
         // La gráfica se pinta en el navegador con datos de /datos-grafica.
         return "DashboardPredicciones";
     }
 
-    /** Serie mensual para ApexCharts. proyeccion_meses = 0 (historia) o 12 (año siguiente). */
+    /** Serie mensual para ApexCharts. proyeccion_meses = 0 (solo historia) a 24 (dos años a futuro). */
     @GetMapping("/datos-grafica")
     @ResponseBody
     public ResponseEntity<GraficaMensualResponse> obtenerDatosGrafica(
             @RequestParam(value = "proyeccion_meses", defaultValue = "0") int proyeccionMeses) {
         try {
-            int meses = Math.max(0, Math.min(proyeccionMeses, MESES_PROYECCION));
+            int meses = Math.max(0, Math.min(proyeccionMeses, MAX_MESES_PROYECCION));
             return ResponseEntity.ok(predicciones.obtenerGrafica(ANIOS_GRAFICA, meses));
         } catch (FastApiException e) {
             // El detalle ya quedó registrado en FastApiGateway.

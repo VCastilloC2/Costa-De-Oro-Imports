@@ -16,9 +16,9 @@ public record GraficaMensualResponse(
 
     /**
      * tipo: real | parcial (mes en curso) | prediccion | sin_datos
-     * real: venta real (null en meses futuros); prediccion: valor del modelo.
+     * real: venta real (null en meses futuros); prediccion: valor del modelo (null en sin_datos).
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record PuntoMensual(String fecha, String tipo, Double real, double prediccion) {
+    public record PuntoMensual(String fecha, String tipo, Double real, Double prediccion) {
     }
 }
