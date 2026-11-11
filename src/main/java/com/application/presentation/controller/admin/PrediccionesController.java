@@ -1,6 +1,7 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.configuration.fastapi.FastApiException;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.GraficaMensualResponse;
 import com.application.presentation.dto.PrediccionResponse;
@@ -59,9 +60,9 @@ public class PrediccionesController {
         try {
             int meses = Math.max(0, Math.min(proyeccionMeses, MESES_PROYECCION));
             return ResponseEntity.ok(predicciones.obtenerGrafica(ANIOS_GRAFICA, meses));
-        } catch (Exception e) {
-            log.error("No se pudo obtener la gráfica desde la API de predicciones: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+        } catch (FastApiException e) {
+            // El detalle ya quedó registrado en FastApiGateway.
+            return ResponseEntity.status(estadoPara(e)).build();
         }
     }
 
@@ -71,10 +72,25 @@ public class PrediccionesController {
         try {
             double resultado = predicciones.predecirMes(request.anno(), request.mes());
             return ResponseEntity.ok(new PrediccionResponse(resultado, "Predicción generada exitosamente", true));
-        } catch (Exception e) {
-            log.error("Error generando predicción mensual: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(
-                    new PrediccionResponse(null, "Error generando predicción: " + e.getMessage(), false));
+        } catch (FastApiException e) {
+            // No se reenvía e.getMessage() al navegador: puede contener detalles internos de FastAPI.
+            String mensaje = e instanceof FastApiException.Unavailable
+                    ? "El servicio de predicciones no está disponible. Inténtalo de nuevo en unos minutos."
+                    : "No se pudo generar la predicción para el periodo solicitado.";
+            return ResponseEntity.status(estadoPara(e)).body(new PrediccionResponse(null, mensaje, false));
         }
+    }
+
+    /** Unavailable -> 503; 401/403 (API key mal configurada) -> 502; otros 4xx -> 400. */
+    private static HttpStatus estadoPara(FastApiException e) {
+        if (e instanceof FastApiException.Unavailable) {
+            return HttpStatus.SERVICE_UNAVAILABLE;
+        }
+        Integer status = e.getStatus();
+        if (status != null && (status == 401 || status == 403)) {
+            log.error("FastAPI rechazó la credencial de servicio: revisa FASTAPI_API_KEY y sus permisos");
+            return HttpStatus.BAD_GATEWAY;
+        }
+        return HttpStatus.BAD_REQUEST;
     }
 }

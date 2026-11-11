@@ -1,0 +1,104 @@
+package com.application.configuration.fastapi;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.retry.RetryPolicy;
+import org.springframework.core.retry.RetryTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClient;
+
+import java.io.InputStream;
+import java.net.http.HttpClient;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Cliente HTTP hacia FastAPI.
+ *
+ * <p>Toda la configuración (URL, API key, timeouts, reintentos) sale de {@link FastApiProperties},
+ * que a su vez se alimenta de {@code .env}. Cambiar de entorno local a cloud es solo cuestión de
+ * variables de entorno / perfil activo: el código no cambia.</p>
+ */
+@Slf4j
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(FastApiProperties.class)
+public class FastApiClientConfig {
+
+    static final String API_KEY_HEADER = "X-API-Key";
+    private static final int MAX_ERROR_BODY_CHARS = 500;
+
+    @Bean
+    @Qualifier("fastApiRestClient")
+    RestClient fastApiRestClient(RestClient.Builder builder, FastApiProperties props) {
+        log.info("FastAPI configurado: baseUrl={}, connectTimeout={}, readTimeout={}, retry={}",
+                props.baseUrl(), props.connectTimeout(), props.readTimeout(), props.retry());
+        if (props.apiKey().isEmpty()) {
+            log.warn("FASTAPI_API_KEY está vacía: FastAPI rechazará las peticiones con 401");
+        }
+
+        HttpClient httpClient = HttpClient.newBuilder()
+                .connectTimeout(props.connectTimeout())
+                .followRedirects(HttpClient.Redirect.NEVER) // nunca reenviar la API key a otro host
+                .build();
+        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
+        requestFactory.setReadTimeout(props.readTimeout());
+
+        return configure(builder.requestFactory(requestFactory), props).build();
+    }
+
+    /** Cabeceras, logging y traducción de errores (separado del transporte para poder testearlo). */
+    static RestClient.Builder configure(RestClient.Builder builder, FastApiProperties props) {
+        return builder
+                .baseUrl(props.baseUrl().toString())
+                .defaultHeader(API_KEY_HEADER, props.apiKey())
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.USER_AGENT, "costa-de-oro-spring/1.0")
+                .requestInterceptor(new FastApiLoggingInterceptor())
+                .defaultStatusHandler(HttpStatusCode::isError, (request, response) -> {
+                    int status = response.getStatusCode().value();
+                    String detail = readBodySnippet(response.getBody());
+                    String where = request.getMethod() + " " + request.getURI().getPath();
+                    // 429 y 5xx son transitorios -> se reintentan; el resto de 4xx no.
+                    if (status == 429 || status >= 500) {
+                        throw new FastApiException.Unavailable(
+                                "FastAPI respondió " + status + " en " + where + ": " + detail, status, null);
+                    }
+                    throw new FastApiException.Rejected(
+                            "FastAPI rechazó " + where + " con " + status + ": " + detail, status);
+                });
+    }
+
+    @Bean
+    @Qualifier("fastApiRetryTemplate")
+    RetryTemplate fastApiRetryTemplate(FastApiProperties props) {
+        FastApiProperties.Retry retry = props.retry();
+        RetryPolicy policy = RetryPolicy.builder()
+                .maxRetries(retry.maxRetries())
+                .delay(retry.delay())
+                .multiplier(retry.multiplier())
+                .maxDelay(retry.maxDelay())
+                .predicate(FastApiClientConfig::isTransient)
+                .build();
+        return new RetryTemplate(policy);
+    }
+
+    /** Solo se reintenta lo que puede salir bien al repetirlo: red caída, timeouts, 5xx y 429. */
+    static boolean isTransient(Throwable ex) {
+        return ex instanceof ResourceAccessException || ex instanceof FastApiException.Unavailable;
+    }
+
+    private static String readBodySnippet(InputStream body) {
+        try (body) {
+            String text = new String(body.readNBytes(MAX_ERROR_BODY_CHARS), StandardCharsets.UTF_8);
+            return text.isBlank() ? "<sin cuerpo>" : text.replaceAll("[\\r\\n]+", " ").strip();
+        } catch (Exception e) {
+            return "<cuerpo ilegible>";
+        }
+    }
+}

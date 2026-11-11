@@ -1,60 +1,60 @@
 package com.application.service.implementation;
 
+import com.application.configuration.fastapi.FastApiException;
+import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.GraficaMensualResponse;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
-
-import java.util.Map;
 
 /**
- * Cliente HTTP hacia la API Python (FastAPI).
- * Reemplaza PrediccionServiceImpl: Spring ya no calcula predicciones, solo las consulta.
+ * Adaptador hacia la API de predicciones en FastAPI.
+ *
+ * <p>URL, credenciales, timeouts y reintentos se configuran en {@code FastApiClientConfig}
+ * (variables {@code FASTAPI_*} del {@code .env}); aquí solo se describen las peticiones.
+ * Autenticación: cabecera {@code X-API-Key} con una clave de servicio emitida por FastAPI
+ * ({@code POST /api/v1/predictions/clients}) con permisos {@code predictions:read} y
+ * {@code predictions:generate}.</p>
  */
 @Component
+@RequiredArgsConstructor
 public class PrediccionApiClient {
 
-    private final RestClient restClient;
-
-    public PrediccionApiClient(@Value("${prediccion.api.url}") String baseUrl,
-                               @Value("${prediccion.api.key:}") String apiKey) {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(3_000);   // ms
-        factory.setReadTimeout(15_000);     // ms: el primer cálculo del día puede tardar
-
-        this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .requestFactory(factory)
-                .defaultHeader("X-API-Key", apiKey)
-                .build();
-    }
+    private final FastApiGateway fastApi;
 
     /** Serie mensual para la gráfica: anios * 12 meses (+ proyeccionMeses). */
     public GraficaMensualResponse obtenerGrafica(int anios, int proyeccionMeses) {
-        return restClient.get()
+        GraficaMensualResponse respuesta = fastApi.execute("prediccion.grafica", client -> client.get()
                 .uri(uri -> uri.path("/api/prediccion/datos-grafica")
                         .queryParam("anios", anios)
                         .queryParam("proyeccion_meses", proyeccionMeses)
                         .build())
                 .retrieve()
-                .body(GraficaMensualResponse.class);
+                .body(GraficaMensualResponse.class));
+
+        if (respuesta == null) {
+            throw new FastApiException.Unavailable("FastAPI devolvió una gráfica vacía", 200, null);
+        }
+        return respuesta;
     }
 
     /** Venta total prevista para un mes concreto. */
     public double predecirMes(int anio, int mes) {
-        RespuestaPrediccion respuesta = restClient.post()
+        RespuestaPrediccion respuesta = fastApi.execute("prediccion.mes", client -> client.post()
                 .uri("/api/prediccion/generar")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Map.of("anno", anio, "mes", mes))
+                .body(new SolicitudPrediccion(anio, mes))
                 .retrieve()
-                .body(RespuestaPrediccion.class);
+                .body(RespuestaPrediccion.class));
 
-        if (respuesta == null || respuesta.resultado() == null) {
-            throw new IllegalStateException("La API de predicciones no devolvió un resultado");
+        if (respuesta == null || !respuesta.success() || respuesta.resultado() == null) {
+            throw new FastApiException.Unavailable("La API de predicciones no devolvió un resultado", 200, null);
         }
         return respuesta.resultado();
+    }
+
+    /** Cuerpo de POST /api/prediccion/generar. */
+    public record SolicitudPrediccion(int anno, int mes) {
     }
 
     /** Respuesta de POST /api/prediccion/generar (mismos nombres que el JSON de Python). */
