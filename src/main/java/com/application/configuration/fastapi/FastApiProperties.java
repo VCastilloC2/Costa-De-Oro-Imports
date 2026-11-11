@@ -48,6 +48,16 @@ public record FastApiProperties(
             @DefaultValue("300ms") @NotNull Duration delay,
             @DefaultValue("2.0") @DecimalMin("1.0") double multiplier,
             @DefaultValue("3s") @NotNull Duration maxDelay) {
+
+        public Retry {
+            if (delay != null && delay.isNegative()) {
+                throw new IllegalArgumentException("fastapi.retry.delay no puede ser negativo");
+            }
+            // RetryPolicy de Spring exige maxDelay > 0
+            if (maxDelay != null && (maxDelay.isZero() || maxDelay.isNegative())) {
+                throw new IllegalArgumentException("fastapi.retry.max-delay debe ser mayor que 0 (p. ej. 3s)");
+            }
+        }
     }
 
     public FastApiProperties {

@@ -147,6 +147,14 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Pool de conexiones de Lettuce (versión gestionada por Spring Boot).
+             Sin esta librería, si el pool queda activado, la app no arranca:
+             NoClassDefFoundError: org/apache/commons/pool2/impl/GenericObjectPoolConfig -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
         <!-- Cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

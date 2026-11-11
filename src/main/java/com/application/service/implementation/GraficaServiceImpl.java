@@ -24,8 +24,11 @@ import com.application.presentation.dto.grafica.ventasTotales.VentasPorEstadoDTO
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.GraficaService;
+import com.application.configuration.fastapi.FastApiException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
@@ -33,11 +36,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class GraficaServiceImpl implements GraficaService {
 
+    /** Meses que muestran las gráficas de ingresos/gastos y ventas totales. */
+    private static final int MESES_GRAFICAS = 12;
+
+    private final DashboardApiClient dashboardApi;
     private final CompraRepository compraRepository;
     private final CloudinaryService cloudinaryService;
     private final ProductoRepository productoRepository;
@@ -67,8 +75,20 @@ public class GraficaServiceImpl implements GraficaService {
             Map.entry("Tunja", new CoordenadasCiudadDTO("Tunja", 5.5353, -73.3678))
     );
 
+    // Sin transacción: no retener una conexión del pool mientras se espera a FastAPI.
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public GraficaIngresosGastosResponse obtenerDatosGraficaIngresosGastos() {
+        try {
+            return dashboardApi.ingresosGastos(MESES_GRAFICAS);
+        } catch (FastApiException e) {
+            log.warn("Ingresos-gastos desde FastAPI no disponible; se calcula localmente: {}", e.getMessage());
+            return calcularIngresosGastosLocal();
+        }
+    }
+
+    /** Respaldo si FastAPI no responde: mismas consultas que antes de la integración. */
+    private GraficaIngresosGastosResponse calcularIngresosGastosLocal() {
         // Obtener datos de ingresos y gastos
         List<EstadisticasMensualesResponse> ingresos = compraRepository.findIngresosMensuales();
         List<EstadisticasMensualesResponse> gastos = facturaProveedorRepository.findGastosMensuales();
@@ -129,8 +149,19 @@ public class GraficaServiceImpl implements GraficaService {
         }
     }
 
+    // Sin transacción: no retener una conexión del pool mientras se espera a FastAPI.
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public VentasTotalesResponse obtenerVentasTotalesUltimos12Meses() {
+        try {
+            return dashboardApi.ventasTotales(MESES_GRAFICAS);
+        } catch (FastApiException e) {
+            log.warn("Ventas totales desde FastAPI no disponible; se calcula localmente: {}", e.getMessage());
+            return calcularVentasTotalesLocal();
+        }
+    }
+
+    private VentasTotalesResponse calcularVentasTotalesLocal() {
         LocalDateTime fechaInicio = LocalDateTime.now().minusMonths(12);
 
         List<VentasPorEstadoDTO> ventasPorEstado = compraRepository.findVentasPorEstadoUltimos12Meses(fechaInicio);

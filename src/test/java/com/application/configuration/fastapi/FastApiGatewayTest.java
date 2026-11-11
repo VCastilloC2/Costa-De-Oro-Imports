@@ -97,7 +97,7 @@ class FastApiGatewayTest {
 
     @Test
     void propiedadesCloudExigenHttpsYApiKey() {
-        var retry = new FastApiProperties.Retry(0, Duration.ZERO, 1.0, Duration.ZERO);
+        var retry = new FastApiProperties.Retry(0, Duration.ZERO, 1.0, Duration.ofSeconds(1));
         assertThatThrownBy(() -> new FastApiProperties(URI.create("http://api.example.com"), "k", true,
                 Duration.ofSeconds(1), Duration.ofSeconds(1), retry))
                 .hasMessageContaining("https");
