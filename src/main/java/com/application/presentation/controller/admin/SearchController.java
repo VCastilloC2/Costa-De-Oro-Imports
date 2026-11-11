@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/search")
@@ -65,6 +67,15 @@ public class SearchController {
         log.debug("Búsqueda universal -> q='{}' tipo='{}' limit={}", q, safeTipo, safeLimit);
 
         SearchResponse response = searchService.buscarUniversal(q, safeTipo, safeLimit);
+
+        // Sin "tipo" la búsqueda incluye clientes y proveedores: solo un ADMIN puede verlos
+        // (antes un anónimo recibía nombres y correos).
+        if (!esAdmin()) {
+            response.setClientes(new ArrayList<>());
+            response.setProveedores(new ArrayList<>());
+            response.setTotalResults(response.getProductos().size() + response.getCategorias().size()
+                    + response.getBlog().size());
+        }
         return ResponseEntity.ok(response);
     }
 

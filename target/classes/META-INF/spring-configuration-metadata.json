@@ -33,9 +33,16 @@
       "defaultValue": "3s"
     },
     {
+      "name": "fastapi.prediction-read-timeout",
+      "type": "java.time.Duration",
+      "description": "tiempo máximo para predicciones: FastAPI entrena el modelo y puede tardar",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "defaultValue": "120s"
+    },
+    {
       "name": "fastapi.read-timeout",
       "type": "java.time.Duration",
-      "description": "tiempo máximo esperando la respuesta (el modelo ML puede tardar)",
+      "description": "tiempo máximo esperando la respuesta en llamadas normales (dashboard)",
       "sourceType": "com.application.configuration.fastapi.FastApiProperties",
       "defaultValue": "15s"
     },
