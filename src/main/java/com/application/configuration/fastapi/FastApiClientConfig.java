@@ -1,7 +1,6 @@
 package com.application.configuration.fastapi;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +32,13 @@ public class FastApiClientConfig {
     static final String API_KEY_HEADER = "X-API-Key";
     private static final int MAX_ERROR_BODY_CHARS = 500;
 
+    /*
+     * Se usa RestClient.builder() propio: en Spring Boot 4 el bean RestClient.Builder solo existe
+     * si se añade spring-boot-starter-restclient, y este cliente no necesita su personalización global.
+     * Los conversores JSON (Jackson) se registran igualmente por defecto.
+     */
     @Bean
-    @Qualifier("fastApiRestClient")
-    RestClient fastApiRestClient(RestClient.Builder builder, FastApiProperties props) {
+    RestClient fastApiRestClient(FastApiProperties props) {
         log.info("FastAPI configurado: baseUrl={}, connectTimeout={}, readTimeout={}, retry={}",
                 props.baseUrl(), props.connectTimeout(), props.readTimeout(), props.retry());
         if (props.apiKey().isEmpty()) {
@@ -49,7 +52,7 @@ public class FastApiClientConfig {
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
         requestFactory.setReadTimeout(props.readTimeout());
 
-        return configure(builder.requestFactory(requestFactory), props).build();
+        return configure(RestClient.builder().requestFactory(requestFactory), props).build();
     }
 
     /** Cabeceras, logging y traducción de errores (separado del transporte para poder testearlo). */
@@ -75,7 +78,6 @@ public class FastApiClientConfig {
     }
 
     @Bean
-    @Qualifier("fastApiRetryTemplate")
     RetryTemplate fastApiRetryTemplate(FastApiProperties props) {
         FastApiProperties.Retry retry = props.retry();
         RetryPolicy policy = RetryPolicy.builder()
