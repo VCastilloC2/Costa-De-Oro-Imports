@@ -3,7 +3,10 @@ com\application\configuration\filter\RecaptchaFilter.class
 com\application\service\implementation\ImagenServiceImpl.class
 com\application\service\implementation\PrediccionApiClient$RespuestaPrediccion.class
 com\application\persistence\repository\EmpresaRepository.class
+com\application\configuration\fastapi\FastApiErrorParser.class
 com\application\persistence\repository\UsuarioRepository.class
+com\application\presentation\controller\admin\GenerarReporteRestController$1.class
+com\application\presentation\controller\admin\BlogController$1.class
 com\application\persistence\entity\compra\DetalleVenta$DetalleVentaBuilder.class
 com\application\presentation\dto\pack\request\ProductoCantidadRequest.class
 com\application\configuration\ia\tools\UsuarioTools.class
@@ -41,6 +44,7 @@ com\application\presentation\dto\categoria\response\SubCategoriaResponse.class
 com\application\presentation\dto\venta\response\PrediccionResponse.class
 com\application\presentation\controller\admin\DashboardRestController.class
 com\application\presentation\dto\grafica\ventasCiudades\VentasCiudadDTO.class
+com\application\presentation\controller\admin\ProvedoresController$1.class
 com\application\presentation\dto\grafica\historicoVentas\HistoricoVentasResponse.class
 com\application\service\interfaces\CompraService.class
 com\application\configuration\ia\tools\GraficaTools.class
@@ -77,6 +81,7 @@ com\application\presentation\controller\admin\PrediccionesController.class
 com\application\utils\PasswordGenerator.class
 com\application\configuration\custom\CustomAuthSuccessHandler.class
 com\application\persistence\entity\pqrs\enums\EEstadoPeticion.class
+com\application\presentation\dto\grafica\DatosPanelResponse.class
 com\application\presentation\dto\compra\response\CompraResponse.class
 com\application\persistence\entity\categoria\SubCategoria$SubCategoriaBuilder.class
 com\application\presentation\dto\DatosGraficaResponse.class
@@ -96,6 +101,8 @@ com\application\configuration\cloudinary\CloudinaryConfig.class
 com\application\persistence\entity\factura\FacturaProveedor.class
 com\application\configuration\ia\tools\ComentarioTools.class
 com\application\presentation\dto\reporte\ReporteCompra\response\TotalGeneralComprasResponse.class
+com\application\presentation\controller\admin\ClientesController$1.class
+com\application\presentation\controller\admin\CategoriaController$1.class
 com\application\presentation\controller\admin\ResennaController.class
 com\application\persistence\repository\DetalleFacturaRepositorly.class
 com\application\presentation\dto\reporte\CuentasPorPagar\response\TotalGeneralCuentasPagarResponse.class
@@ -112,6 +119,7 @@ com\application\presentation\dto\GraficaMensualResponse.class
 com\application\persistence\entity\usuario\Usuario$UsuarioBuilder.class
 com\application\presentation\dto\producto\request\ProductoCreateRequest.class
 com\application\presentation\dto\grafica\historicoVentas\VentasAnualesDTO.class
+com\application\presentation\controller\admin\AdminVistas.class
 com\application\presentation\dto\redis\UsuarioRedis.class
 com\application\presentation\dto\comentario\response\ComentarioBlogResponse.class
 com\application\configuration\ia\ToolConfig.class
@@ -123,28 +131,33 @@ com\application\configuration\custom\CustomAuthFailureHandler.class
 com\application\presentation\dto\reporte\VentasPorClienteProducto\response\VentasClienteProductoResponse.class
 com\application\presentation\dto\peticion\response\PeticionUsurarioResponse.class
 com\application\presentation\controller\admin\ClientesController.class
+com\application\presentation\controller\admin\ProductoController$OpcionesProducto.class
 com\application\persistence\entity\usuario\enums\EIdentificacion.class
 com\application\presentation\dto\chat\request\ChatRequest.class
 com\application\presentation\dto\factura\request\DetalleFacturaRequest.class
 com\application\presentation\controller\admin\ProvedoresController.class
 com\application\configuration\redis\RedisConfig.class
 com\application\configuration\filter\JwtTokenValidatorFilter.class
+com\application\presentation\controller\admin\ProvedoresController$2.class
 com\application\presentation\dto\comentario\request\ComentarioCreateRequest.class
 com\application\service\implementation\compra\CompraServiceImpl.class
 com\application\configuration\mvc\MvcConfig.class
 com\application\persistence\entity\categoria\SubCategoria.class
 com\application\presentation\controller\principal\PrincipalController.class
 com\application\presentation\controller\admin\ReportesController.class
+com\application\presentation\controller\admin\CompraController$1.class
 com\application\presentation\dto\grafica\productosMasVendidos\ProductoMasVendidoResponse.class
 com\application\presentation\dto\usuario\request\AuthLoginRequest.class
 com\application\presentation\dto\compra\request\DetalleVentaRequest.class
 com\application\persistence\entity\comentario\Comentario$ComentarioBuilder.class
 com\application\presentation\dto\grafica\ventasTotales\VentasPorEstadoDTO.class
 com\application\presentation\dto\grafica\ventasCiudades\MapaVentasResponse.class
+com\application\configuration\fastapi\AdminIdentityInterceptor.class
 com\application\presentation\dto\grafica\ventasTotales\VentasTotalesResponse.class
 com\application\presentation\dto\historia\request\HistoriaCreateRequest.class
 com\application\service\implementation\historia\HistoriaServiceImpl.class
 com\application\persistence\repository\CategoriaRepository.class
+com\application\presentation\controller\admin\PQRS_Controller$1.class
 com\application\presentation\dto\usuario\response\UsuarioGastoResponse.class
 com\application\presentation\dto\reporte\ventasPorCliente\response\TotalGeneralResponse.class
 com\application\service\interfaces\categoria\CategoriaService.class
@@ -165,6 +178,7 @@ com\application\service\interfaces\ImagenService.class
 com\application\presentation\dto\empresa\request\SetEmpresaPhotoRequest.class
 com\application\presentation\dto\reporte\CuentasPorPagar\response\CuentasPagarResponse.class
 com\application\service\implementation\FacturaProveedorServiceImpl.class
+com\application\presentation\controller\admin\ProductoController$1.class
 com\application\presentation\dto\SearchResponse.class
 com\application\service\interfaces\usuario\UsuarioService.class
 com\application\service\implementation\redis\UsuarioCacheServiceImpl.class
@@ -175,6 +189,7 @@ com\application\presentation\dto\GraficaMensualResponse$PuntoMensual.class
 com\application\persistence\repository\ReportesNativeRepository.class
 com\application\service\interfaces\empresa\EmpresaService.class
 com\application\service\implementation\GraficaServiceImpl$ClaveMes.class
+com\application\presentation\controller\admin\ProductoController$2.class
 com\application\presentation\dto\compra\response\CompraDashboardResponse.class
 com\application\presentation\controller\admin\PQRS_Controller.class
 com\application\configuration\custom\CustomOauth2UserService.class
@@ -229,6 +244,7 @@ com\application\presentation\dto\general\response\BaseResponse.class
 com\application\persistence\entity\empresa\Empresa.class
 com\application\presentation\dto\grafica\GraficaIngresosGastosResponse.class
 com\application\presentation\dto\empresa\request\CreateEmpresaRequest.class
+com\application\configuration\fastapi\FastApiAdmin.class
 com\application\service\interfaces\PeticionService.class
 com\application\service\implementation\usuario\UsuarioServiceImpl.class
 com\application\persistence\entity\categoria\Categoria.class
@@ -238,3 +254,4 @@ com\application\presentation\dto\categoria\request\CategoriaCreateRequest.class
 com\application\presentation\dto\SearchItemResponse.class
 com\application\service\implementation\PeticionServiceImpl.class
 com\application\presentation\dto\grafica\ventasCiudades\CoordenadasCiudadDTO.class
+com\application\presentation\controller\admin\ResennaController$1.class

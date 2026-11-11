@@ -1,5 +1,6 @@
 package com.application.presentation.controller.admin;
 
+import com.application.configuration.fastapi.FastApiAdmin;
 import com.application.persistence.entity.rol.enums.ERol;
 import com.application.presentation.dto.SearchResponse;
 import com.application.service.interfaces.SearchService;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class SearchController {
 
     private final SearchService searchService;
+    private final FastApiAdmin fastApiAdmin;
 
     /**
      * Búsqueda universal.
@@ -66,7 +68,11 @@ public class SearchController {
         int safeLimit = Math.max(1, Math.min(limit, 50));
         log.debug("Búsqueda universal -> q='{}' tipo='{}' limit={}", q, safeTipo, safeLimit);
 
-        SearchResponse response = searchService.buscarUniversal(q, safeTipo, safeLimit);
+        // FastAPI (/api/search/universal, mismo JSON); si no responde, búsqueda local.
+        String uri = "/api/search/universal?q={q}&limit={limit}" + (safeTipo != null ? "&tipo={tipo}" : "");
+        Object[] vars = safeTipo != null ? new Object[]{q, safeLimit, safeTipo} : new Object[]{q, safeLimit};
+        SearchResponse response = fastApiAdmin.leer("search.universal", uri, SearchResponse.class,
+                () -> searchService.buscarUniversal(q, safeTipo, safeLimit), vars);
 
         // Sin "tipo" la búsqueda incluye clientes y proveedores: solo un ADMIN puede verlos
         // (antes un anónimo recibía nombres y correos).

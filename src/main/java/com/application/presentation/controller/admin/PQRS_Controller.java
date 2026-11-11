@@ -1,6 +1,9 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.configuration.fastapi.FastApiAdmin;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.peticion.response.PeticionResponse;
@@ -19,8 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,7 @@ public class PQRS_Controller {
     private final UsuarioService usuarioService;
     private final PeticionService peticionService;
     private final CloudinaryService cloudinaryService;
+    private final FastApiAdmin fastApiAdmin;
 
     @GetMapping({"", "/"})
     public String DashboardPQRS(@AuthenticationPrincipal CustomUserPrincipal principal,
@@ -41,7 +43,9 @@ public class PQRS_Controller {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
 
-        List<PeticionResponse> peticionList = peticionService.getPeticionesActivas();
+        List<PeticionResponse> peticionList = fastApiAdmin.leer("pqrs.listar", "/admin/pqrs",
+                new ParameterizedTypeReference<List<PeticionResponse>>() {
+                }, peticionService::getPeticionesActivas);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
@@ -62,17 +66,16 @@ public class PQRS_Controller {
     // Para estos métodos se usa GetMapping porque la petición se hace por JS y estamos en un @Controller
     @GetMapping("change-estado/{id}")
     public String changeEstadoPeticion(@PathVariable Long id, @RequestParam String estadoPeticion) {
-        BaseResponse response = peticionService.changeEstadoPeticion(id, estadoPeticion);
-        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
-        boolean success = response.success();
-        return "redirect:/admin/pqrs/?mensaje=" + mensaje + "&success=" + success;
+        BaseResponse response = fastApiAdmin.escribir("pqrs.estado", HttpMethod.PATCH, "/admin/pqrs/{id}/estado",
+                () -> AdminVistas.cuerpo("estadoPeticion", estadoPeticion),
+                () -> peticionService.changeEstadoPeticion(id, estadoPeticion), id);
+        return AdminVistas.redirect("/admin/pqrs/", response);
     }
 
     @GetMapping("delete/{id}")
     public String deletePeticion(@PathVariable Long id) {
-        BaseResponse response = peticionService.deletePeticion(id);
-        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
-        boolean success = response.success();
-        return "redirect:/admin/pqrs/?mensaje=" + mensaje + "&success=" + success;
+        BaseResponse response = fastApiAdmin.escribir("pqrs.eliminar", HttpMethod.DELETE, "/admin/pqrs/{id}",
+                null, () -> peticionService.deletePeticion(id), id);
+        return AdminVistas.redirect("/admin/pqrs/", response);
     }
 }

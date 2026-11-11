@@ -24,7 +24,10 @@ import com.application.presentation.dto.grafica.ventasTotales.VentasPorEstadoDTO
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.GraficaService;
+import com.application.configuration.fastapi.FastApiAdmin;
 import com.application.configuration.fastapi.FastApiException;
+import com.application.persistence.repository.UsuarioRepository;
+import com.application.presentation.dto.grafica.DatosPanelResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,8 @@ public class GraficaServiceImpl implements GraficaService {
     private static final int MESES_GRAFICAS = 12;
 
     private final DashboardApiClient dashboardApi;
+    private final FastApiAdmin fastApiAdmin;
+    private final UsuarioRepository usuarioRepository;
     private final CompraRepository compraRepository;
     private final CloudinaryService cloudinaryService;
     private final ProductoRepository productoRepository;
@@ -223,7 +228,12 @@ public class GraficaServiceImpl implements GraficaService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public StockComprasResponse obtenerDatosStockCompras() {
+        return fastApiAdmin.leer("graficas.stock-compras", "/api/graficas/stock-compras", StockComprasResponse.class, this::calcularStockComprasLocal);
+    }
+
+    private StockComprasResponse calcularStockComprasLocal() {
         LocalDateTime fechaInicio = LocalDateTime.now().minusMonths(6);
 
         List<VentasCategoriaDTO> ventasPorCategoria = detalleVentaRepository.findVentasPorCategoriaUltimosByMeses(fechaInicio);
@@ -266,7 +276,12 @@ public class GraficaServiceImpl implements GraficaService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public MapaVentasResponse obtenerVentasParaMapa() {
+        return fastApiAdmin.leer("graficas.mapa-ventas", "/api/graficas/mapa-ventas", MapaVentasResponse.class, this::calcularMapaVentasLocal);
+    }
+
+    private MapaVentasResponse calcularMapaVentasLocal() {
         LocalDateTime fechaInicio = LocalDateTime.now().minusMonths(12);
 
         List<VentasCiudadDTO> ventasPorCiudad = compraRepository.findVentasPorCiudad(fechaInicio);
@@ -321,7 +336,12 @@ public class GraficaServiceImpl implements GraficaService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public HistoricoVentasResponse obtenerHistoricoVentas() {
+        return fastApiAdmin.leer("graficas.historico-ventas", "/api/graficas/historico-ventas", HistoricoVentasResponse.class, this::calcularHistoricoVentasLocal);
+    }
+
+    private HistoricoVentasResponse calcularHistoricoVentasLocal() {
         List<VentasAnualesDTO> ventasAnuales = compraRepository.findVentasAnuales();
 
         return procesarDatosParaGraficoLinea(ventasAnuales);
@@ -405,6 +425,25 @@ public class GraficaServiceImpl implements GraficaService {
         }
 
         return new HistoricoVentasResponse(seriesConSubpicos, categoriasConSubpicos, maxVenta, minVenta, promedioVentas);
+    }
+
+    /** Panel principal: una sola llamada a FastAPI ({@code /api/graficas/dashboard}); local si no responde. */
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public DatosPanelResponse obtenerDatosPanel() {
+        return fastApiAdmin.leer("graficas.dashboard", "/api/graficas/dashboard", DatosPanelResponse.class,
+                () -> {
+                    Double ingresos = compraRepository.getIngresosAnuales();
+                    Long compras = compraRepository.getTotalComprasAnuales();
+                    Long clientes = usuarioRepository.totalClientes();
+                    return new DatosPanelResponse(
+                            ingresos != null ? ingresos : 0.0,
+                            compras != null ? compras : 0L,
+                            clientes != null ? clientes : 0L,
+                            obtenerEstadisticasGenerales(),
+                            getTopProductosMasVendidos(),
+                            getComprasRecientes());
+                });
     }
 
     @Override

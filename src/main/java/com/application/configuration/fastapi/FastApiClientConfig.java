@@ -35,7 +35,7 @@ import java.time.Duration;
 public class FastApiClientConfig {
 
     static final String API_KEY_HEADER = "X-API-Key";
-    private static final int MAX_ERROR_BODY_CHARS = 500;
+    private static final int MAX_ERROR_BODY_CHARS = 2000;
 
     /*
      * Se usa RestClient.builder() propio: en Spring Boot 4 el bean RestClient.Builder solo existe
@@ -91,6 +91,7 @@ public class FastApiClientConfig {
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.USER_AGENT, "costa-de-oro-spring/1.0")
                 .requestInterceptor(new FastApiLoggingInterceptor())
+                .requestInterceptor(new AdminIdentityInterceptor())
                 .defaultStatusHandler(HttpStatusCode::isError, (request, response) -> {
                     int status = response.getStatusCode().value();
                     String detail = readBodySnippet(response.getBody());
@@ -101,7 +102,8 @@ public class FastApiClientConfig {
                                 "FastAPI respondió " + status + " en " + where + ": " + detail, status, null);
                     }
                     throw new FastApiException.Rejected(
-                            "FastAPI rechazó " + where + " con " + status + ": " + detail, status);
+                            "FastAPI rechazó " + where + " con " + status + ": " + detail, status,
+                            FastApiErrorParser.mensaje(detail));
                 });
     }
 
@@ -124,10 +126,21 @@ public class FastApiClientConfig {
      * solo duplica el trabajo (p. ej. reentrenar el modelo) y multiplica la espera del usuario.
      */
     static boolean isTransient(Throwable ex) {
-        if (ex instanceof FastApiException.Unavailable) {
-            return true;
+        if (ex instanceof FastApiException.Unavailable unavailable) {
+            return unavailable.isReintentable();
         }
         return ex instanceof ResourceAccessException && !isReadTimeout(ex);
+    }
+
+    /** La petición nunca llegó a FastAPI (no se pudo conectar): repetirla es seguro incluso si no es idempotente. */
+    static boolean isConnectFailure(Throwable ex) {
+        for (Throwable t = ex; t != null; t = t.getCause()) {
+            if (t instanceof HttpConnectTimeoutException || t instanceof java.net.ConnectException
+                    || t instanceof java.net.UnknownHostException) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static boolean isReadTimeout(Throwable ex) {

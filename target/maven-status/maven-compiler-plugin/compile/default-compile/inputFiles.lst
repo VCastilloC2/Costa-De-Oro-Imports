@@ -3,7 +3,10 @@ C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\con
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\custom\CustomAuthSuccessHandler.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\custom\CustomOauth2UserService.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\custom\CustomUserPrincipal.java
+C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\AdminIdentityInterceptor.java
+C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiAdmin.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiClientConfig.java
+C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiErrorParser.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiException.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiGateway.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\configuration\fastapi\FastApiLoggingInterceptor.java
@@ -62,6 +65,7 @@ C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\per
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\persistence\repository\RolRepository.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\persistence\repository\SubCategoriaRepository.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\persistence\repository\UsuarioRepository.java
+C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\controller\admin\AdminVistas.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\controller\admin\BlogController.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\controller\admin\CategoriaController.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\controller\admin\ClientesController.java
@@ -117,6 +121,7 @@ C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\pre
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\columnasApiladas\StockComprasResponse.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\columnasApiladas\VentasCategoriaDTO.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\comprasRecientes\CompraResumenResponse.java
+C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\DatosPanelResponse.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\EstadisticasMensualesResponse.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\GraficaIngresosGastosResponse.java
 C:\Users\prueba\Documents\Costa-De-Oro-Imports\src\main\java\com\application\presentation\dto\grafica\historicoVentas\HistoricoVentasResponse.java

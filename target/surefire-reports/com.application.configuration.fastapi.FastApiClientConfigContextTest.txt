@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.application.configuration.fastapi.FastApiClientConfigContextTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.813 s -- in com.application.configuration.fastapi.FastApiClientConfigContextTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.130 s -- in com.application.configuration.fastapi.FastApiClientConfigContextTest

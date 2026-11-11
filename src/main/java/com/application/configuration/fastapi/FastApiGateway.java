@@ -35,6 +35,15 @@ public class FastApiGateway {
      * @throws FastApiException.Rejected    si el servicio devolvió un 4xx
      */
     public <T> T execute(String operation, Function<RestClient, T> call) {
+        return execute(operation, call, true);
+    }
+
+    /**
+     * Igual que {@link #execute(String, Function)}; con {@code idempotente = false} (crear, alternar estado,
+     * registrar una factura...) solo se reintenta si la petición no llegó a FastAPI (fallo de conexión):
+     * si FastAPI ya la recibió, repetirla podría aplicarla dos veces.
+     */
+    public <T> T execute(String operation, Function<RestClient, T> call, boolean idempotente) {
         AtomicInteger attempt = new AtomicInteger();
         try {
             return retryTemplate.execute(() -> {
@@ -42,15 +51,28 @@ public class FastApiGateway {
                 try {
                     return call.apply(restClient);
                 } catch (RuntimeException e) {
-                    if (FastApiClientConfig.isTransient(e)) {
+                    RuntimeException toThrow = idempotente || FastApiClientConfig.isConnectFailure(e)
+                            ? e : sinReintentos(e);
+                    if (FastApiClientConfig.isTransient(toThrow)) {
                         log.warn("FastAPI '{}' intento {} fallido: {}", operation, n, e.getMessage());
                     }
-                    throw e;
+                    throw toThrow;
                 }
             });
         } catch (RetryException e) {
             throw translate(operation, attempt.get(), e.getCause() != null ? e.getCause() : e);
         }
+    }
+
+    private static RuntimeException sinReintentos(RuntimeException e) {
+        if (e instanceof FastApiException.Unavailable unavailable) {
+            return unavailable.sinReintentos();
+        }
+        if (e instanceof ResourceAccessException && !FastApiClientConfig.isReadTimeout(e)) {
+            return new FastApiException.Unavailable("Fallo de red tras enviar la petición: " + e.getMessage(), null, e)
+                    .sinReintentos();
+        }
+        return e;
     }
 
     private static FastApiException translate(String operation, int attempts, Throwable cause) {
