@@ -75,6 +75,9 @@ public class FastApiClientConfig {
 
     private static RestClient buildClient(FastApiProperties props, Duration readTimeout) {
         HttpClient httpClient = HttpClient.newBuilder()
+                // HTTP/1.1 explícito: por defecto el cliente de Java intenta "Upgrade: h2c" en http://, que uvicorn
+                // no soporta, y las peticiones con cuerpo (POST/PUT/PATCH) terminaban en 400 "Invalid HTTP request".
+                .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(props.connectTimeout())
                 .followRedirects(HttpClient.Redirect.NEVER) // nunca reenviar la API key a otro host
                 .build();
