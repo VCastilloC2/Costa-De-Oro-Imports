@@ -42,7 +42,14 @@
 <body>
 <div class="container__dashboard">
 
-    <aside class="dashboard__sidebar">
+    <!-- Solo visible en tablet/móvil: abre el menú lateral como panel -->
+    <button class="sidebar__toggle" id="sidebarToggle" type="button"
+            aria-label="Abrir menú" aria-controls="sidebarPrincipal" aria-expanded="false">
+        <i class="ri-menu-line" aria-hidden="true"></i>
+    </button>
+    <div class="sidebar__backdrop" id="sidebarBackdrop" hidden></div>
+
+    <aside class="dashboard__sidebar" id="sidebarPrincipal">
 
         <figure class="sidebar__logo">
             <a th:href="@{/admin/principal/}">
@@ -222,43 +229,44 @@
             <div class="body__grafico">
                 <div class="grafico__item item--prediccion">
                     <div class="item__header">
-                        <h2 class="header__title">Predicciones de Ventas (Años vs Ventas Totales)</h2>
+                        <h2 class="header__title">Predicciones de Ventas <span class="header__subtitle">(ventas totales por mes)</span></h2>
 
-                        <button class="header__btn" id="btnPrediccion">Generar Prediccion</button>
+                        <div class="header__actions">
+                            <label class="header__label" for="selectHorizonte">Proyectar</label>
+                            <select class="header__select" id="selectHorizonte">
+                                <option value="6">6 meses</option>
+                                <option value="12" selected>12 meses</option>
+                                <option value="24">24 meses</option>
+                            </select>
+                            <button class="header__btn" id="btnPrediccion" type="button">Generar predicción</button>
+                        </div>
                     </div>
+
+                    <!-- Resumen: hasta dónde llega la proyección y qué tan cerca estuvo el modelo -->
+                    <dl class="prediccion__resumen" id="resumenPrediccion" hidden>
+                        <div class="resumen__item">
+                            <dt>Proyección hasta</dt>
+                            <dd id="resumenHasta">—</dd>
+                        </div>
+                        <div class="resumen__item">
+                            <dt>Total proyectado</dt>
+                            <dd id="resumenTotal">—</dd>
+                        </div>
+                        <div class="resumen__item">
+                            <dt title="Diferencia media entre la predicción y las ventas reales en los meses ya cerrados">
+                                Error medio del modelo
+                            </dt>
+                            <dd id="resumenError">—</dd>
+                        </div>
+                    </dl>
+
                     <div id="chartVentas"></div>
 
                     <!-- OVERLAY DE CARGA CON BARRA DE PROGRESO -->
-                    <div id="loadingPrediccion" style="
-                            display: none;
-                            position: absolute;
-                            top: 0; left: 0; right: 0; bottom: 0;
-                            background: rgba(255,255,255,0.85);
-                            z-index: 999;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 20px;
-                            font-family: 'Geist', sans-serif;
-                            border-radius: 12px;
-                        ">
-                            <span style="font-size: 18px; font-weight: 600; color: #006f80;">
-                                Cargando la predicción para el próximo año...
-                            </span>
-                        <div style="
-                                width: 380px;
-                                height: 12px;
-                                background: #e0e0e0;
-                                border-radius: 6px;
-                                overflow: hidden;
-                            ">
-                            <div id="progressBar" style="
-                                    width: 0%;
-                                    height: 100%;
-                                    background: linear-gradient(90deg, #00bcd4, #00c6ff);
-                                    border-radius: 6px;
-                                    transition: width 0.2s ease;
-                                "></div>
+                    <div id="loadingPrediccion" class="prediccion__loading" hidden>
+                        <span class="loading__texto" id="loadingTexto">Cargando la predicción…</span>
+                        <div class="loading__barra">
+                            <div id="progressBar" class="loading__progreso"></div>
                         </div>
                     </div>
                 </div>

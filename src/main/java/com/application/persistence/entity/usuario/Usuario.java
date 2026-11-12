@@ -45,6 +45,7 @@ public class Usuario {
     @Column(length = 100, nullable = false)
     private String correo;
     @Column(length = 100)
+    @JsonIgnore // nunca serializar el hash (antes viajaba en /api/graficas/dashboard)
     private String password;
     @Column(length = 100)
     private String direccion;

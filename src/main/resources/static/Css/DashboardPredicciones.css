@@ -436,41 +436,97 @@
 }
 
 
-.item--prediccion{
-    flex: 0 1 1200px;
-    height: 550px;
+/* ===== Tarjeta de predicción (fluida: se adapta al ancho disponible) ===== */
+/* Sin min-width:0 un hijo flex no encoge y la gráfica empuja el contenido fuera de la pantalla */
+.dashboard__content,
+.content__body {
+    min-width: 0;
+}
+
+.body__grafico {
+    width: 100%;
+    min-width: 0;
+}
+
+.grafico__item,
+.grafico__item * {
+    box-sizing: border-box;
+}
+
+.grafico__item {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    min-width: 0;               /* permite encoger dentro de flex sin desbordar */
+    margin: 0 auto;
+}
+
+.item--prediccion {
+    height: auto;               /* antes 550px fijos: el contenido se salía del borde */
     border: 1px solid #f3f4f6;
     background-color: var(--colorWhite);
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     margin: 1.5rem 0 0 0;
-    padding: 0 1rem 0 0.5rem;
+    padding: clamp(0.75rem, 2vw, 1.5rem);
+    overflow: hidden;           /* nada (gráfica, tooltips del eje) sobresale del borde */
 }
 
 .item__header {
     display: flex;
+    flex-wrap: wrap;            /* el botón baja de línea en vez de empujar el borde */
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.4rem 0.5rem 0.3rem;
+    gap: 0.75rem 1rem;
+    padding: 0 0 0.5rem 0;
 }
 
 .item__header .header__title {
-    font: 500 1.3rem var(--typografiaGeist);
-    margin-left: 1.4rem;
+    flex: 1 1 18rem;
+    min-width: 0;
+    margin: 0;
+    font: 500 clamp(1.05rem, 0.9rem + 0.8vw, 1.35rem)/1.3 var(--typografiaGeist);
+    overflow-wrap: anywhere;
 }
 
-.item__header .header__btn{
-    text-decoration: none;
-    position: relative;
-    left: 1.2rem;
+.header__subtitle {
+    color: var(--colorLigth);
+    font-weight: 400;
+    font-size: 0.85em;
+}
+
+.header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header__label {
+    font: 500 0.9rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+.header__select {
+    font: 500 0.95rem var(--typografiaGeist);
+    color: var(--colorDark);
+    background: var(--colorWhite);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+    cursor: pointer;
+}
+
+.item__header .header__btn {
     cursor: pointer;
     background-color: #eeee;
     color: var(--colorDark);
     border-radius: 8px;
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 1rem;
     border: 1px solid #eee;
-    font: 600 1rem var(--typografiaGeist);
-    transition: background-color .5s ease, border .5s ease;
+    font: 600 0.95rem var(--typografiaGeist);
+    white-space: nowrap;
+    transition: background-color .3s ease, border .3s ease;
 }
 
 .item__header .header__btn:hover {
@@ -478,25 +534,90 @@
     border: 1px solid #ccc;
 }
 
+/* Resumen bajo el título */
+.prediccion__resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 0.75rem;
+    margin: 0.5rem 0 0.25rem;
+}
+
+.prediccion__resumen[hidden] {
+    display: none;
+}
+
+.resumen__item {
+    min-width: 0;
+    background: #fafafa;
+    border: 1px solid #f3f4f6;
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+}
+
+.resumen__item dt {
+    font: 500 0.8rem var(--typografiaGeist);
+    color: var(--colorLigth);
+    cursor: help;
+}
+
+.resumen__item dd {
+    margin: 0.2rem 0 0;
+    font: 600 clamp(0.95rem, 0.85rem + 0.4vw, 1.15rem) var(--typografiaGeist);
+    color: var(--colorDark);
+    overflow-wrap: anywhere;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Contenedor del gráfico de predicciones */
+/* Contenedor de la gráfica: la altura la calcula el JS según el ancho */
 #chartVentas {
     width: 100%;
-    height: 450px;
-    padding: 1rem;
+    min-width: 0;
     margin-top: 0.5rem;
 }
 
-/* Estilos para el contenedor principal del gráfico */
-.grafico__item {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Overlay de carga de la predicción */
+.prediccion__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.prediccion__loading[hidden] {
+    display: none;
+}
+
+.loading__texto {
+    font: 600 clamp(0.95rem, 0.85rem + 0.5vw, 1.1rem) var(--typografiaGeist);
+    color: #006f80;
+}
+
+.loading__barra {
+    width: min(380px, 85%);
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.loading__progreso {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00bcd4, #00c6ff);
+    border-radius: 6px;
+    transition: width 0.2s ease;
 }
 
 /* Overlay de carga */
@@ -578,26 +699,119 @@
     transform: none;
 }
 
-/* Responsivo para móviles */
-@media (max-width: 768px) {
+/* Responsivo */
+.sidebar__toggle,
+.sidebar__backdrop {
+    display: none;
+}
+
+/* Tablet y móvil: el menú lateral pasa a ser un panel desplegable y el contenido usa todo el ancho */
+@media (max-width: 1024px) {
+    .sidebar__toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 14px;
+        left: 12px;
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: var(--colorWhite);
+        color: var(--colorDark);
+        font-size: 1.4rem;
+        cursor: pointer;
+    }
+
+    .dashboard__sidebar {
+        z-index: 70;
+        width: min(280px, 85vw);
+        margin-left: 0;
+        padding-left: 1rem;
+        background-color: var(--colorWhite);
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .dashboard__sidebar.is-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar__logo {
+        width: auto;
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .sidebar__backdrop:not([hidden]) {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 65;
+        background: rgba(0, 0, 0, 0.35);
+    }
+
+    .content__header {
+        left: 0;
+        padding-left: 64px;     /* espacio para el botón de menú */
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .header__search {
+        min-width: 0;
+        margin: 0 0.75rem 0 0;
+    }
+
+    .header__admin {
+        padding-right: 12px;
+    }
+
+    .notif__menu {
+        width: min(350px, calc(100vw - 24px));
+    }
+
+    .dashboard__content {
+        padding: 0;
+    }
+
+    .content__body {
+        margin-left: 0;
+        padding: 16px;
+    }
+
+    .content__body .body__title {
+        font-size: clamp(1.4rem, 1rem + 2vw, 2rem);
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .header__search {
+        display: none;          /* en móvil no cabe junto a notificaciones y perfil */
+    }
+
+    .content__header {
+        justify-content: flex-end;
+    }
+
     .item--prediccion {
-        height: auto;
-        min-height: 400px;
-        margin: 1rem;
+        border-radius: 12px;
     }
 
-    #chartVentas {
-        height: 350px;
-    }
-
-    .item__header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .header__btn {
+    .header__actions {
         width: 100%;
+    }
+
+    .header__select {
+        flex: 1 1 auto;
+    }
+
+    .item__header .header__btn {
+        flex: 1 1 100%;
         text-align: center;
     }
 }

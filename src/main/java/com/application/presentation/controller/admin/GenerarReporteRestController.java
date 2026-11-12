@@ -1,110 +1,85 @@
 package com.application.presentation.controller.admin;
 
-import com.application.presentation.dto.reporte.CuentasPorPagar.response.CuentasPagarResponse;
-import com.application.presentation.dto.reporte.CuentasPorPagar.response.TotalGeneralCuentasPagarResponse;
-import com.application.presentation.dto.reporte.RentabilidadPorProducto.response.RentabilidadProductoResponse;
-import com.application.presentation.dto.reporte.RentabilidadPorProducto.response.TotalGeneralRentabilidadResponse;
-import com.application.presentation.dto.reporte.ReporteCompra.response.ReporteCompraResponse;
-import com.application.presentation.dto.reporte.ReporteCompra.response.TotalGeneralComprasResponse;
-import com.application.presentation.dto.reporte.VentasPorClienteProducto.response.VentasClienteProductoResponse;
-import com.application.presentation.dto.reporte.ventasPorCliente.response.TotalGeneralResponse;
-import com.application.presentation.dto.reporte.ventasPorCliente.response.VentasClienteResponse;
-import com.application.presentation.dto.reporte.ventasPorProducto.response.VentasProductoResponse;
+import com.application.configuration.fastapi.FastApiAdmin;
 import com.application.service.implementation.GenerarReporteServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Year;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
+/**
+ * Reportes del panel admin. Los datos se piden a FastAPI ({@code /api/reportes/*}, mismo JSON);
+ * si FastAPI no responde se calculan con {@link GenerarReporteServiceImpl} como antes.
+ */
 @RestController
 @RequestMapping("/api/reportes")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class GenerarReporteRestController {
 
+    private static final ParameterizedTypeReference<Map<String, Object>> MAPA = new ParameterizedTypeReference<>() {
+    };
+
     private final GenerarReporteServiceImpl generarReporteService;
+    private final FastApiAdmin fastApiAdmin;
 
     @GetMapping("/ventas-clientes")
     public ResponseEntity<Map<String, Object>> getVentasPorClientes() {
-        List<VentasClienteResponse> ventas = generarReporteService.obtenerVentasPorClientes();
-        TotalGeneralResponse totalGeneral = generarReporteService.obtenerTotalGeneralVentas();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("ventasClientes", ventas);
-        response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        return reporte("ventas-clientes", () -> local("ventasClientes",
+                generarReporteService.obtenerVentasPorClientes(), generarReporteService.obtenerTotalGeneralVentas()));
     }
 
     @GetMapping("/ventas-producto")
     public ResponseEntity<Map<String, Object>> getVentasPorProducto() {
-        List<VentasProductoResponse> ventas = generarReporteService.obtenerVentasPorProducto();
-        TotalGeneralResponse totalGeneral = generarReporteService.obtenerTotalGeneralVentasProducto();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("ventasProducto", ventas);
-        response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        return reporte("ventas-producto", () -> local("ventasProducto",
+                generarReporteService.obtenerVentasPorProducto(),
+                generarReporteService.obtenerTotalGeneralVentasProducto()));
     }
 
     @GetMapping("/ventas-cliente-producto")
     public ResponseEntity<Map<String, Object>> getVentasPorClienteProducto() {
-        List<VentasClienteProductoResponse> ventas = generarReporteService.obtenerVentasPorClienteProducto();
-        TotalGeneralResponse totalGeneral = generarReporteService.obtenerTotalGeneralVentasClienteProducto();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("ventasClienteProducto", ventas);
-        response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        return reporte("ventas-cliente-producto", () -> local("ventasClienteProducto",
+                generarReporteService.obtenerVentasPorClienteProducto(),
+                generarReporteService.obtenerTotalGeneralVentasClienteProducto()));
     }
 
     @GetMapping("/rentabilidad-producto")
     public ResponseEntity<Map<String, Object>> getRentabilidadPorProducto() {
-        List<RentabilidadProductoResponse> rentabilidad = generarReporteService.obtenerRentabilidadPorProducto();
-        TotalGeneralRentabilidadResponse totalGeneral = generarReporteService.obtenerTotalGeneralRentabilidad();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("rentabilidadProducto", rentabilidad);
-        response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        return reporte("rentabilidad-producto", () -> local("rentabilidadProducto",
+                generarReporteService.obtenerRentabilidadPorProducto(),
+                generarReporteService.obtenerTotalGeneralRentabilidad()));
     }
 
     @GetMapping("/cuentas-pagar")
     public ResponseEntity<Map<String, Object>> getCuentasPorPagar() {
-        List<CuentasPagarResponse> cuentasPagar = generarReporteService.obtenerCuentasPorPagar();
-        TotalGeneralCuentasPagarResponse totalGeneral = generarReporteService.obtenerTotalGeneralCuentasPagar();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("cuentasPagar", cuentasPagar);
-        response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        return reporte("cuentas-pagar", () -> local("cuentasPagar",
+                generarReporteService.obtenerCuentasPorPagar(), generarReporteService.obtenerTotalGeneralCuentasPagar()));
     }
 
     @GetMapping("/reporte-compras")
     public ResponseEntity<Map<String, Object>> getReporteCompras() {
-        List<ReporteCompraResponse> reporteCompras = generarReporteService.obtenerReporteCompras();
-        TotalGeneralComprasResponse totalGeneral = generarReporteService.obtenerTotalGeneralCompras();
+        return reporte("reporte-compras", () -> local("reporteCompras",
+                generarReporteService.obtenerReporteCompras(), generarReporteService.obtenerTotalGeneralCompras()));
+    }
 
+    private ResponseEntity<Map<String, Object>> reporte(String nombre, Supplier<Map<String, Object>> local) {
+        return ResponseEntity.ok(fastApiAdmin.leer("reportes." + nombre, "/api/reportes/" + nombre, MAPA, local));
+    }
+
+    private static Map<String, Object> local(String clave, List<?> filas, Object totalGeneral) {
         Map<String, Object> response = new HashMap<>();
-        response.put("reporteCompras", reporteCompras);
+        response.put(clave, filas);
         response.put("totalGeneral", totalGeneral);
-        response.put("anio", java.time.Year.now().getValue());
-
-        return ResponseEntity.ok(response);
+        response.put("anio", Year.now().getValue());
+        return response;
     }
 }

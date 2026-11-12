@@ -1,0 +1,89 @@
+{
+  "groups": [
+    {
+      "name": "fastapi",
+      "type": "com.application.configuration.fastapi.FastApiProperties",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties"
+    },
+    {
+      "name": "fastapi.retry",
+      "type": "com.application.configuration.fastapi.FastApiProperties$Retry",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "sourceMethod": "retry()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "fastapi.api-key",
+      "type": "java.lang.String",
+      "description": "credencial de servicio enviada en la cabecera {@code X-API-Key}",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties"
+    },
+    {
+      "name": "fastapi.base-url",
+      "type": "java.net.URI",
+      "description": "URL base del servicio (local: http:\/\/localhost:8000, cloud: https:\/\/...)",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties"
+    },
+    {
+      "name": "fastapi.connect-timeout",
+      "type": "java.time.Duration",
+      "description": "tiempo máximo para abrir la conexión TCP\/TLS",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "defaultValue": "3s"
+    },
+    {
+      "name": "fastapi.prediction-read-timeout",
+      "type": "java.time.Duration",
+      "description": "tiempo máximo para predicciones: FastAPI entrena el modelo y puede tardar",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "defaultValue": "120s"
+    },
+    {
+      "name": "fastapi.read-timeout",
+      "type": "java.time.Duration",
+      "description": "tiempo máximo esperando la respuesta en llamadas normales (dashboard)",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "defaultValue": "15s"
+    },
+    {
+      "name": "fastapi.require-https",
+      "type": "java.lang.Boolean",
+      "description": "si es {@code true} se rechaza una {@code baseUrl} sin TLS (perfil cloud)",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "fastapi.retry.delay",
+      "type": "java.time.Duration",
+      "description": "espera inicial entre intentos",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties$Retry",
+      "defaultValue": "300ms"
+    },
+    {
+      "name": "fastapi.retry.max-delay",
+      "type": "java.time.Duration",
+      "description": "tope de la espera entre intentos",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties$Retry",
+      "defaultValue": "3s"
+    },
+    {
+      "name": "fastapi.retry.max-retries",
+      "type": "java.lang.Integer",
+      "description": "reintentos adicionales tras el primer intento (0 = sin reintentos)",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties$Retry",
+      "defaultValue": 2
+    },
+    {
+      "name": "fastapi.retry.multiplier",
+      "type": "java.lang.Double",
+      "description": "factor de backoff exponencial",
+      "sourceType": "com.application.configuration.fastapi.FastApiProperties$Retry",
+      "defaultValue": 2
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

@@ -1,16 +1,23 @@
 version: 2
 
 updates:
-  # Dependencias Maven (Java / Spring Boot)
+  # Dependencias Maven (Java / Spring Boot / Spring AI)
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
       interval: "daily"
+
+    # Actualizar dependencias directas del pom.xml
     allow:
       - dependency-type: "direct"
+
+    # Máximo de Pull Requests abiertos
     open-pull-requests-limit: 20
+
+    # Ignorar actualizaciones de esta dependencia MCP
     ignore:
       - dependency-name: "io.modelcontextprotocol.sdk:mcp-core"
+
 
   # Dockerfile
   - package-ecosystem: "docker"

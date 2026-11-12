@@ -1,20 +1,22 @@
 # ============================
 # Etapa 1: Build
 # ============================
-FROM eclipse-temurin:25-jdk-jammy AS builder
+FROM maven:3.9-eclipse-temurin-25 AS builder
 
 WORKDIR /app
 
-COPY .mvn .mvn
-COPY mvnw pom.xml ./
+# Copiar primero el archivo de configuración de Maven
+COPY pom.xml ./
 
-RUN chmod +x mvnw
+# Descargar las dependencias para aprovechar la caché de Docker
+RUN mvn dependency:go-offline --batch-mode
 
-RUN ./mvnw dependency:go-offline --batch-mode
+# Copiar el resto del proyecto
+COPY . .
 
-COPY src ./src
+# Compilar la aplicación
+RUN mvn clean package -DskipTests --batch-mode
 
-RUN ./mvnw clean package -DskipTests --batch-mode
 
 # ============================
 # Etapa 2: Runtime
@@ -23,8 +25,9 @@ FROM eclipse-temurin:25-jre-jammy
 
 WORKDIR /app
 
+# Copiar el JAR generado desde la etapa de compilación
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
