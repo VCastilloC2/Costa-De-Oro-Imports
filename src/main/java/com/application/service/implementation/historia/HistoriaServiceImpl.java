@@ -54,7 +54,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      * Uso común para el panel de administrador en la vista de blog
      *
      * @return Lista de DTO con los datos de la historia
-     * @apiNote Solo se mostrarán los atributos imagen, título, fecha y activo.
+     * Nota: Solo se mostrarán los atributos imagen, título, fecha y activo.
      */
     @Override
     public List<HistoriaResponse> getHistorias() {
@@ -69,7 +69,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      * Uso común para el ecommerce en la sección de blog
      *
      * @return Lista de DTO con historias activas
-     * @apiNote Solo se mostrarán los atributos imagen, título, descripción y fecha
+     * Nota: Solo se mostrarán los atributos imagen, título, descripción y fecha
      */
     @Override
     public List<HistoriaResponse> getHistoriasActivas() {

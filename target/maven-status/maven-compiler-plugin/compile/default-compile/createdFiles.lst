@@ -10,6 +10,7 @@ com\application\presentation\controller\admin\BlogController$1.class
 com\application\persistence\entity\compra\DetalleVenta$DetalleVentaBuilder.class
 com\application\presentation\dto\pack\request\ProductoCantidadRequest.class
 com\application\configuration\ia\tools\UsuarioTools.class
+com\application\service\implementation\DashboardApiClient.class
 com\application\presentation\dto\grafica\ventasCiudades\VentaCiudadMapaDTO.class
 com\application\presentation\dto\pack\response\ProductoCantidadResponse.class
 com\application\presentation\dto\usuario\request\CreateProveedorRequest.class
@@ -22,6 +23,7 @@ com\application\configuration\ia\tools\PrediccionTools.class
 com\application\persistence\repository\FacturaProveedorRepository.class
 com\application\presentation\dto\reporte\ventasPorProducto\response\VentasProductoResponse.class
 com\application\service\interfaces\MercadoPagoService.class
+com\application\configuration\fastapi\FastApiException$Unavailable.class
 com\application\service\interfaces\GraficaService.class
 com\application\configuration\custom\CustomUserPrincipal.class
 com\application\persistence\entity\factura\DetalleFactura.class
@@ -46,14 +48,17 @@ com\application\presentation\controller\admin\DashboardRestController.class
 com\application\presentation\dto\grafica\ventasCiudades\VentasCiudadDTO.class
 com\application\presentation\controller\admin\ProvedoresController$1.class
 com\application\presentation\dto\grafica\historicoVentas\HistoricoVentasResponse.class
+com\application\service\implementation\DashboardApiClient$VentasTotales.class
 com\application\service\interfaces\CompraService.class
 com\application\configuration\ia\tools\GraficaTools.class
+com\application\service\implementation\PrediccionApiClient$SolicitudPrediccion.class
 com\application\presentation\dto\factura\request\FacturaProveedorRequest.class
 com\application\persistence\entity\producto\Producto.class
 com\application\presentation\dto\comentario\response\ComentarioResponse.class
 com\application\presentation\dto\compra\response\DetalleCompraResponse.class
 com\application\presentation\dto\grafica\columnasApiladas\StockComprasResponse.class
 com\application\presentation\controller\ia\AIController.class
+com\application\configuration\fastapi\FastApiProperties.class
 com\application\persistence\entity\pqrs\Peticion.class
 com\application\presentation\dto\grafica\columnasApiladas\VentasCategoriaDTO.class
 com\application\persistence\repository\DetalleVentaRepository.class
@@ -74,6 +79,7 @@ com\application\presentation\dto\pack\response\PackResponse.class
 com\application\presentation\dto\reporte\ReporteCompra\projection\ReporteCompraProjection.class
 com\application\presentation\dto\producto\response\ProductoResponse.class
 com\application\presentation\dto\general\response\GeneralResponse.class
+META-INF\spring-configuration-metadata.json
 com\application\ECommerceBeerApplication.class
 com\application\presentation\dto\ProyeccionMensualRequest.class
 com\application\presentation\dto\usuario\response\ProveedorResponse.class
@@ -104,6 +110,7 @@ com\application\presentation\dto\reporte\ReporteCompra\response\TotalGeneralComp
 com\application\presentation\controller\admin\ClientesController$1.class
 com\application\presentation\controller\admin\CategoriaController$1.class
 com\application\presentation\controller\admin\ResennaController.class
+com\application\configuration\fastapi\FastApiException$Rejected.class
 com\application\persistence\repository\DetalleFacturaRepositorly.class
 com\application\presentation\dto\reporte\CuentasPorPagar\response\TotalGeneralCuentasPagarResponse.class
 com\application\service\interfaces\AIService.class
@@ -114,6 +121,7 @@ com\application\presentation\dto\comentario\response\ComentarioUsuarioResponse.c
 com\application\presentation\exception\UsuarioNotFoundException.class
 com\application\persistence\entity\pqrs\enums\ETipoPeticion.class
 com\application\presentation\dto\venta\request\VentaRequest.class
+com\application\configuration\fastapi\FastApiException.class
 com\application\presentation\controller\admin\DashboardController.class
 com\application\presentation\dto\GraficaMensualResponse.class
 com\application\persistence\entity\usuario\Usuario$UsuarioBuilder.class
@@ -210,8 +218,10 @@ com\application\service\interfaces\EmailService.class
 com\application\service\interfaces\SearchService.class
 com\application\presentation\controller\principal\CompraRestController.class
 com\application\presentation\dto\peticion\request\PeticionCreateRequest.class
+com\application\service\implementation\DashboardApiClient$IngresosGastos.class
 com\application\presentation\dto\empresa\request\UpdateEmpresaRequest.class
 com\application\presentation\controller\principal\MercadoPagoRestController.class
+com\application\configuration\fastapi\FastApiGateway.class
 com\application\configuration\ia\tools\HistoriaTools.class
 com\application\presentation\dto\reporte\ventasPorCliente\projection\VentasClienteProjection.class
 com\application\persistence\entity\pqrs\Peticion$PeticionBuilder.class
@@ -224,6 +234,7 @@ com\application\persistence\repository\HistoriaRepository.class
 com\application\presentation\dto\usuario\response\ProveedorProductoResponse.class
 com\application\service\implementation\PrediccionApiClient.class
 com\application\presentation\dto\redis\UsuarioPerfilRedis.class
+com\application\configuration\fastapi\FastApiProperties$Retry.class
 com\application\presentation\controller\principal\AuthenticationController.class
 com\application\presentation\dto\usuario\request\CompleteUsuarioProfileRequest.class
 com\application\presentation\dto\compra\response\DetalleProductoResponse.class
@@ -241,6 +252,7 @@ com\application\presentation\dto\DashboardResponse.class
 com\application\persistence\repository\ComentarioRepository.class
 com\application\presentation\controller\admin\BlogController.class
 com\application\presentation\dto\general\response\BaseResponse.class
+com\application\configuration\fastapi\FastApiClientConfig.class
 com\application\persistence\entity\empresa\Empresa.class
 com\application\presentation\dto\grafica\GraficaIngresosGastosResponse.class
 com\application\presentation\dto\empresa\request\CreateEmpresaRequest.class
@@ -254,4 +266,5 @@ com\application\presentation\dto\categoria\request\CategoriaCreateRequest.class
 com\application\presentation\dto\SearchItemResponse.class
 com\application\service\implementation\PeticionServiceImpl.class
 com\application\presentation\dto\grafica\ventasCiudades\CoordenadasCiudadDTO.class
+com\application\configuration\fastapi\FastApiLoggingInterceptor.class
 com\application\presentation\controller\admin\ResennaController$1.class

@@ -194,7 +194,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @param id ID de la categoria a cambiar su estado
      * @return DTO con mensaje de confirmación según el estado de la categoria
      * @throws EntityNotFoundException si la categoria no existe
-     * @apiNote Si la categoria tiene productos asociados, entonces no se podrá deshabilitar
+     * Nota: Si la categoria tiene productos asociados, entonces no se podrá deshabilitar
      */
     @Override
     public BaseResponse changeEstadoCategoria(Long id) {

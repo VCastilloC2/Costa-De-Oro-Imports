@@ -3,7 +3,6 @@ package com.application.service.implementation;
 import com.application.service.interfaces.ImagenService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +29,7 @@ public class ImagenServiceImpl implements ImagenService {
      * @param tipo tipo de directorio donde se guardara la imagen
      * @return el nombre de la foto con un formato en milisegundos más su extensión (.jpg, .png, étc)
      * o un null si el usuario no cuenta con una foto de perfil
-     * @apiNote: La interfaz MultipartFile, es usada para representar un archivo
+     * Nota: La interfaz MultipartFile, es usada para representar un archivo
      * cargado mediante un formulario multipart/form-data,
      * (típico en formularios HTML con <input type="file">).
      */

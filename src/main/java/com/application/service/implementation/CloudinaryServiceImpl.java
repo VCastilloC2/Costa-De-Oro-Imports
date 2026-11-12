@@ -33,7 +33,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
      * o un null si el usuario no cuenta con una foto de perfil
      * @throws IllegalArgumentException Sí el tipo de imagen es inválido
      * @throws RuntimeException         Sí ocurre un error durante la carga del archivo a Cloudinary
-     * @apiNote La interfaz MultipartFile, es usada para representar un archivo
+     * Nota: La interfaz MultipartFile, es usada para representar un archivo
      * cargado mediante un formulario multipart/form-data,
      * (típico en formularios HTML con <input type="file">).
      */
