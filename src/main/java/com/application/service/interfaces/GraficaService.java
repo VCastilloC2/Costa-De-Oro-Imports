@@ -1,5 +1,6 @@
 package com.application.service.interfaces;
 
+import com.application.presentation.dto.grafica.DatosPanelResponse;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.columnasApiladas.StockComprasResponse;
 import com.application.presentation.dto.grafica.comprasRecientes.CompraResumenResponse;
@@ -12,6 +13,8 @@ import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesRespo
 import java.util.List;
 
 public interface GraficaService {
+
+    DatosPanelResponse obtenerDatosPanel();
 
     GraficaIngresosGastosResponse obtenerDatosGraficaIngresosGastos();
     VentasTotalesResponse obtenerVentasTotalesUltimos12Meses();

@@ -3,6 +3,7 @@ package com.application.presentation.controller.admin;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.DashboardResponse;
+import com.application.presentation.dto.grafica.DatosPanelResponse;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.columnasApiladas.StockComprasResponse;
 import com.application.presentation.dto.grafica.comprasRecientes.CompraResumenResponse;
@@ -12,7 +13,6 @@ import com.application.presentation.dto.grafica.progresoActual.EstadisticasGener
 import com.application.presentation.dto.grafica.ventasCiudades.MapaVentasResponse;
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.interfaces.CloudinaryService;
-import com.application.service.interfaces.CompraService;
 import com.application.service.interfaces.GraficaService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,6 @@ public class DashboardRestController {
 
     private final UsuarioService usuarioService;
     private final CloudinaryService cloudinaryService;
-    private final CompraService compraService;
     private final GraficaService graficaService;
 
     @GetMapping("/dashboard")
@@ -45,39 +44,17 @@ public class DashboardRestController {
         String urlImagenUsuario =
                 cloudinaryService.getImagenUrl(usuario.getImagen());
 
-        // Ingresos Anuales
-        Double ingresoAnual =
-                compraService.getIngresoAnual();
-
-        // Compras Anuales
-        Long comprasAnuales =
-                compraService.getTotalCompasAnuales();
-
-        // Total Clientes
-        Long totalClientes =
-                usuarioService.getTotalClientes();
-
-        // Estadísticas generales
-        EstadisticasGeneralesDTO estadisticas =
-                graficaService.obtenerEstadisticasGenerales();
-
-        // Productos más vendidos
-        List<ProductoMasVendidoResponse> productosMasVendidos =
-                graficaService.getTopProductosMasVendidos();
-
-        // Compras recientes
-        List<CompraResumenResponse> comprasRecientes =
-                graficaService.getComprasRecientes();
+        DatosPanelResponse panel = graficaService.obtenerDatosPanel();
 
         DashboardResponse response = new DashboardResponse(
                 usuario,
                 urlImagenUsuario,
-                ingresoAnual,
-                comprasAnuales,
-                totalClientes,
-                estadisticas,
-                productosMasVendidos,
-                comprasRecientes
+                panel.ingresoAnual(),
+                panel.comprasAnuales(),
+                panel.totalClientes(),
+                panel.estadisticas(),
+                panel.productosMasVendidos(),
+                panel.comprasRecientes()
         );
 
         return ResponseEntity.ok(response);
