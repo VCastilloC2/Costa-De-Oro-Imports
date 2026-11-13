@@ -1,6 +1,7 @@
 package com.application.service.implementation;
 
 import com.application.service.interfaces.ImagenService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,15 +14,19 @@ import java.util.Map;
 @Service
 public class ImagenServiceImpl implements ImagenService {
 
-    private final String baseDir = "C://gestion-ventas//";
+    private final Map<String, String> directorios;
 
-    private final Map<String, String> directorios = Map.of(
-            "perfil-usuario", baseDir + "perfil-usuario//",
-            "perfil-empresa", baseDir + "perfil-empresa//",
-            "imagen-producto", baseDir + "imagen-producto//",
-            "imagen-categoria", baseDir + "imagen-categoria//",
-            "imagen-blog", baseDir + "imagen-blog//"
-    );
+    /** La ruta base viene de app.upload-dir (local: C:/gestion-ventas/, cloud: /tmp/gestion-ventas/). */
+    public ImagenServiceImpl(@Value("${app.upload-dir}") String uploadDir) {
+        String baseDir = uploadDir.endsWith("/") ? uploadDir : uploadDir + "/";
+        this.directorios = Map.of(
+                "perfil-usuario", baseDir + "perfil-usuario/",
+                "perfil-empresa", baseDir + "perfil-empresa/",
+                "imagen-producto", baseDir + "imagen-producto/",
+                "imagen-categoria", baseDir + "imagen-categoria/",
+                "imagen-blog", baseDir + "imagen-blog/"
+        );
+    }
 
     /**
      * Método para asignar una foto

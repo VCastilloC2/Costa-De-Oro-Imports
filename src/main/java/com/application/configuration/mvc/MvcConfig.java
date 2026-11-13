@@ -3,6 +3,7 @@ package com.application.configuration.mvc;
 import jakarta.annotation.PostConstruct;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -21,19 +22,22 @@ import java.util.Map;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    // Ruta base donde se almacenarán las carpetas de imágenes.
-    private final String baseDir = "C:/gestion-ventas/";
-
     /**
      * Mapa con el nombre lógico del recurso (clave) y
      * con su directorio físico correspondiente (valor).
+     * La ruta base viene de app.upload-dir (local: C:/gestion-ventas/, cloud: /tmp/gestion-ventas/).
      */
-    private final Map<String, String> directorios = Map.of(
-            "perfil-usuario", baseDir + "perfil-usuario/",
-            "perfil-empresa", baseDir + "perfil-empresa/",
-            "imagen-producto", baseDir + "imagen-producto/",
-            "imagen-categoria", baseDir + "imagen-categoria/",
-            "imagen-blog", baseDir + "imagen-blog/");
+    private final Map<String, String> directorios;
+
+    public MvcConfig(@Value("${app.upload-dir}") String uploadDir) {
+        String baseDir = uploadDir.endsWith("/") ? uploadDir : uploadDir + "/";
+        this.directorios = Map.of(
+                "perfil-usuario", baseDir + "perfil-usuario/",
+                "perfil-empresa", baseDir + "perfil-empresa/",
+                "imagen-producto", baseDir + "imagen-producto/",
+                "imagen-categoria", baseDir + "imagen-categoria/",
+                "imagen-blog", baseDir + "imagen-blog/");
+    }
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -45,7 +49,7 @@ public class MvcConfig implements WebMvcConfigurer {
         // que sepa donde buscar
         directorios.forEach((tipo, ruta) -> {
             registry.addResourceHandler(tipo + "/**")
-                    .addResourceLocations("file:/" + ruta);
+                    .addResourceLocations(Paths.get(ruta).toUri().toString());
         });
     }
 
