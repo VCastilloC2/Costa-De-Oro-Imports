@@ -1,0 +1,95 @@
+# ==========================================================
+# Render Blueprint - Costa De Oro Imports (Spring Boot 4 / Java 25)
+# Docs: https://render.com/docs/blueprint-spec
+# Las variables con "sync: false" se piden en el Dashboard al crear
+# el Blueprint (nunca se guardan en el repositorio).
+# ==========================================================
+services:
+  - type: web
+    name: costa-de-oro-imports
+    runtime: docker
+    plan: starter            # 512 MB del plan free se queda corto para Spring AI + Weka
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health/readiness
+    autoDeploy: true
+    envVars:
+      # ---------- Runtime ----------
+      - key: SPRING_PROFILES_ACTIVE
+        value: cloud
+      # APP_BASE_URL es opcional: si falta se usa RENDER_EXTERNAL_URL (lo inyecta Render).
+      # Defínela si usas dominio propio, p. ej. https://www.costadeoroimports.com
+      - key: APP_BASE_URL
+        sync: false
+
+      # ---------- MySQL externo (Render no ofrece MySQL gestionado) ----------
+      # Formato: jdbc:mysql://HOST:3306/costa_de_oro?useSSL=true&requireSSL=true&serverTimezone=UTC
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # update para el primer despliegue sobre una BD vacía; luego cambiar a validate
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+
+      # ---------- Valkey / Redis ----------
+      # Sin Valkey: REDIS_ENABLED=false y REDIS_HEALTH_ENABLED=false
+      - key: REDIS_ENABLED
+        value: "true"
+      - key: REDIS_HEALTH_ENABLED
+        value: "false"
+      - key: VALKEY_URL
+        sync: false
+      - key: REDIS_SSL_ENABLED
+        value: "true"
+
+      # ---------- Seguridad ----------
+      - key: REMEMBER_ME_KEY
+        generateValue: true
+      - key: REMEMBER_ME_TOKEN
+        value: "1209600"     # 14 días en segundos
+      - key: JWT_SECRET_ECOMMERCE
+        generateValue: true
+      - key: JWT_ISSUER_ECOMMERCE
+        value: costa-de-oro-imports
+      - key: PASSWORD_KEY_RECAPTCHA
+        sync: false
+
+      # ---------- OAuth2 Google ----------
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+      # ---------- Correo (Gmail SMTP, contraseña de aplicación) ----------
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+
+      # ---------- Cloudinary ----------
+      - key: CLOUD_NAME
+        sync: false
+      - key: CLOUD_API_KEY
+        sync: false
+      - key: CLOUD_API_SECRET
+        sync: false
+
+      # ---------- Mercado Pago ----------
+      - key: MERCADO_PAGO_ACCESS_TOKEN
+        sync: false
+
+      # ---------- IA (Gemini) ----------
+      - key: GEMINI_API_KEY
+        sync: false
+
+      # ---------- FastAPI (predicciones / admin) ----------
+      # Obligatorias en el perfil cloud (https). Sin ellas la app no arranca.
+      - key: FASTAPI_BASE_URL
+        sync: false
+      - key: FASTAPI_API_KEY
+        sync: false

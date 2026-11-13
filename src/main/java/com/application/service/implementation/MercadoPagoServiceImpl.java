@@ -16,6 +16,7 @@ import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,10 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
     private final CompraService compraService;
     private final EmailService emailService;
+
+    /** URL pública (APP_BASE_URL o RENDER_EXTERNAL_URL). Para pruebas locales con ngrok: APP_BASE_URL=https://xxxx.ngrok-free.dev */
+    @Value("${app.base-url}")
+    private String appBaseUrl;
 
     /**
      * @param compraId
@@ -71,9 +76,8 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                            .build())
                    .build();
 
-           // Configuración de Urls de retorno (adaptar las url luego)
-           // String baseUrl = this.getBaseUrl(request); // Para producción
-           String baseUrl = "https://submolecular-overwily-hilma.ngrok-free.dev"; // Para desarrollo
+           // Urls de retorno: siempre terminan en "/" para concatenar rutas relativas
+           String baseUrl = appBaseUrl.endsWith("/") ? appBaseUrl : appBaseUrl + "/";
            PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                    .success(baseUrl + "carrito?status=success&compra=" + compraId)
                    .failure(baseUrl + "carrito?status=error&compra=" + compraId)

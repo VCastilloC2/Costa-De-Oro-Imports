@@ -36,6 +36,15 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String from;
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
+    /** URL pública de la app terminada en "/" (p. ej. https://costa-de-oro.onrender.com/). */
+    private String publicUrl(String path) {
+        String base = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+        return base + path;
+    }
+
     /**
      * Envía un correo electrónico con contenido HTML generado desde una plantilla Thymeleaf.
      *
@@ -113,7 +122,7 @@ public class EmailServiceImpl implements EmailService {
             Map<String, Object> variables = new HashMap<>();
             variables.put("nombre", usuario.getNombres() + " " + usuario.getApellidos());
             variables.put("tipoUsuario", usuario.getRol().getName().getDescripcion());
-            variables.put("urlLogin", "http://localhost:8080/");
+            variables.put("urlLogin", publicUrl(""));
 
             if (usuario.getEmpresa() != null) {
                 variables.put("empresa", usuario.getEmpresa().getRazonSocial());
@@ -191,7 +200,7 @@ public class EmailServiceImpl implements EmailService {
 
             // Url para reintentar el pago si fue rechazado
             if (estado.equals(EEstado.RECHAZADO)) {
-                variables.put("urlReintentar", "http://localhost:8080/carrito");
+                variables.put("urlReintentar", publicUrl("carrito"));
             }
 
             this.sendEmail(

@@ -1,28 +1,27 @@
-# ---------------------------
 # Control de versiones
-# ---------------------------
 .git/
 .gitignore
+.gitattributes
+.github/
 
-# ---------------------------
 # Docker y Compose
-# ---------------------------
-Dockerfile
 Dockerfile*
 docker-compose*
 compose.y*ml
+render.yaml
 
+# Salidas de build e IDEs
+target/
+.idea/
+.vscode/
+*.iml
 
+# Documentación (no necesaria para compilar)
+docs/
+*.md
 
-.idea
-.vscode
-
-Dockerfile
-docker-compose.yml
-
-### Variables de entorno ###
-*.env
+# Variables de entorno / secretos
 .env
-.env.docker
+*.env
+.env.*
 **/*.env
-*/*.env
