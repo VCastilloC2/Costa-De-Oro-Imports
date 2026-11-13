@@ -8,7 +8,7 @@ services:
   - type: web
     name: costa-de-oro-imports
     runtime: docker
-    plan: starter            # 512 MB del plan free se queda corto para Spring AI + Weka
+    plan: free               # 512 MB, se duerme tras 15 min sin tráfico. Si hay OOM: plan starter
     region: oregon
     branch: El-Super-Poderoso
     dockerfilePath: ./Dockerfile
@@ -19,6 +19,9 @@ services:
       # ---------- Runtime ----------
       - key: SPRING_PROFILES_ACTIVE
         value: cloud
+      # Ajustes de JVM para 512 MB: GC serial, pila de hilos pequeña y JIT C1 (menos memoria)
+      - key: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError -Dfile.encoding=UTF-8"
       # APP_BASE_URL es opcional: si falta se usa RENDER_EXTERNAL_URL (lo inyecta Render).
       # Defínela si usas dominio propio, p. ej. https://www.costadeoroimports.com
       - key: APP_BASE_URL
