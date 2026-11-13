@@ -13,7 +13,8 @@ RUN mvn -B -q dependency:go-offline
 
 # 2) Código fuente y empaquetado (los tests corren en CI, no en el deploy)
 COPY src ./src
-RUN mvn -B -q clean package -DskipTests \
+#    Javadoc/sources no se necesitan en el despliegue (y el javadoc falla con errores de doclint)
+RUN mvn -B -q clean package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip=true \
  && cp target/*.jar app.jar \
  && java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 

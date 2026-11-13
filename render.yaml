@@ -10,7 +10,7 @@ services:
     runtime: docker
     plan: starter            # 512 MB del plan free se queda corto para Spring AI + Weka
     region: oregon
-    branch: main
+    branch: El-Super-Poderoso
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /actuator/health/readiness
