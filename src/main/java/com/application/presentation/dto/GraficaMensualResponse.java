@@ -12,7 +12,12 @@ public record GraficaMensualResponse(
         int anios,
         @JsonProperty("proyeccion_meses") int proyeccionMeses,
         List<PuntoMensual> serie,
-        Map<String, Object> metricas) {
+        Map<String, Object> metricas,
+        @JsonProperty("historial_entrenamiento") HistorialEntrenamiento historialEntrenamiento,
+        @JsonProperty("variables_utilizadas") List<Map<String, String>> variablesUtilizadas,
+        List<String> herramientas,
+        @JsonProperty("historial_datos") Map<String, Object> historialDatos,
+        @JsonProperty("advertencia_modelo") String advertenciaModelo) {
 
     /**
      * tipo: real | parcial (mes en curso) | prediccion | sin_datos
@@ -20,5 +25,9 @@ public record GraficaMensualResponse(
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record PuntoMensual(String fecha, String tipo, Double real, Double prediccion) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record HistorialEntrenamiento(List<Integer> epocas, List<Double> loss) {
     }
 }

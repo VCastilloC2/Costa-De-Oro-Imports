@@ -1,7 +1,7 @@
 // DashboardPredicciones.js — gráfica mensual de ventas con ApexCharts.
 // ApexCharts se carga como script global en el HTML (antes de este módulo).
 
-const URL_DATOS = '/admin/prediccion/datos-grafica';
+const URL_DATOS = '/api/v1/predicciones/ventas';
 const MESES_PERMITIDOS = [6, 12, 24]; // MAX_MESES_PROYECCION del controller = 24
 
 const formatoCOP = new Intl.NumberFormat('es-CO', {
@@ -17,6 +17,11 @@ const formatoCOPCorto = new Intl.NumberFormat('es-CO', {
   notation: 'compact',
   maximumFractionDigits: 1,
 });
+const formatoCOPCompacto = new Intl.NumberFormat('es-CO', {
+  style: 'currency', currency: 'COP', notation: 'compact', maximumFractionDigits: 1,
+});
+const formatoNumeroCompacto = new Intl.NumberFormat('es-CO', { notation: 'compact', maximumFractionDigits: 1 });
+const formatoNumeroExacto = new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 });
 
 const formatoMes = new Intl.DateTimeFormat('es-CO', { month: 'short', year: 'numeric' });
 
@@ -31,7 +36,13 @@ const resumen = {
   hasta: document.getElementById('resumenHasta'),
   total: document.getElementById('resumenTotal'),
   error: document.getElementById('resumenError'),
+  mse: document.getElementById('resumenMse'),
+  precision: document.getElementById('resumenPrecision'),
 };
+const herramientasModelo = document.getElementById('herramientasModelo');
+const variablesModelo = document.getElementById('variablesModelo');
+const modeloProyeccion = document.getElementById('modeloProyeccion');
+const estadoModelo = document.getElementById('estadoModelo');
 
 let grafica = null;
 let temporizador = null;
@@ -40,9 +51,10 @@ let ultimoAnchoCompacto = null;
 
 /** Pide la serie mensual al controller Spring (que a su vez consulta FastAPI). */
 async function obtenerDatos(proyeccionMeses) {
-  const res = await fetch(`${URL_DATOS}?proyeccion_meses=${proyeccionMeses}`, {
+  const res = await fetch(`${URL_DATOS}?meses=${proyeccionMeses}`, {
     headers: { Accept: 'application/json' },
     credentials: 'same-origin',
+    cache: 'no-store',
   });
   if (!res.ok) {
     throw new Error(`el servidor respondió ${res.status}`);
@@ -166,7 +178,8 @@ function construirOpciones(datos) {
  * en el pasado, la proyección no es fiable.
  */
 function errorMedio(datos) {
-  const cerrados = datos.serie.filter((p) => p.tipo === 'real' && p.real != null);
+  const cerrados = datos.serie.filter((p) => p.tipo === 'real'
+    && Number.isFinite(p.real) && Number.isFinite(p.prediccion));
   const totalReal = cerrados.reduce((acc, p) => acc + p.real, 0);
   if (totalReal <= 0) return null;
   const errorAbs = cerrados.reduce((acc, p) => acc + Math.abs(p.prediccion - p.real), 0);
@@ -185,15 +198,50 @@ function pintarResumen(datos) {
   // fuera de muestra). Si no hay historia suficiente, se usa el error a un paso calculado aquí.
   const validacion = datos.metricas?.validacion;
   const error = validacion?.wape ?? errorMedio(datos);
-  resumen.error.title = validacion?.wape != null
-    ? `Backtest ${validacion.desde} a ${validacion.hasta}: el modelo se entrenó sin esos meses y se comparó con lo real`
-    : 'Diferencia media entre el ajuste del modelo y las ventas reales de los meses cerrados';
 
   resumen.hasta.textContent = formatoMes.format(new Date(aFecha(ultimo.fecha)));
   resumen.total.textContent = formatoCOP.format(total);
-  resumen.error.textContent = error == null ? '—' : `±${error.toFixed(0)} %`;
-  resumen.error.style.color = error == null ? '' : error <= 20 ? '#15803d' : error <= 40 ? '#b45309' : '#b91c1c';
+  resumen.error.textContent = validacion?.mae == null ? 'No disponible' : formatoCOPCompacto.format(validacion.mae);
+  resumen.error.title = validacion?.mae == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoCOP.format(validacion.mae)} por mes`;
+  resumen.mse.textContent = validacion?.mse == null ? 'No disponible' : `${formatoNumeroCompacto.format(validacion.mse)} COP²`;
+  resumen.mse.title = validacion?.mse == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoNumeroExacto.format(validacion.mse)} COP²`;
+  resumen.precision.textContent = validacion?.porcentaje_prediccion == null
+    ? 'No disponible'
+    : validacion.porcentaje_prediccion === 0 ? '0 %' : `${validacion.porcentaje_prediccion.toFixed(1)} %`;
+  resumen.precision.title = validacion?.desde
+    ? `Backtest rodante de un mes, ${validacion.desde} a ${validacion.hasta}. WMAPE: ${error?.toFixed(1)} %. El horizonte de 12/24 meses puede tener un error diferente.`
+    : 'Precisión basada en un backtest rodante de un mes y error porcentual ponderado (WMAPE)';
   resumen.caja.hidden = false;
+}
+
+function pintarDetalleModelo(datos) {
+  const modeloElegido = datos.metricas?.modelo;
+  modeloProyeccion.textContent = modeloElegido === 'tensorflow_keras'
+    ? `Red neuronal TensorFlow/Keras ${datos.metricas?.version_modelo || ''}. Métricas tomadas del conjunto de prueba temporal del entrenamiento.`
+    : modeloElegido?.startsWith('naive_estacional')
+    ? 'Referencia estacional: repite las ventas del mismo mes del año anterior. Se eligió porque obtuvo menor WMAPE en el backtest.'
+    : 'Holt-Winters amortiguado: estima nivel y tendencia, y actualiza el pronóstico con las compras pagadas de MySQL.';
+  const ultimaVenta = datos.historial_datos?.ultima_venta_mes;
+  const fuente = datos.historial_datos?.fuente;
+  const estadoDatos = ultimaVenta
+    ? `Datos ${fuente === 'database' ? 'MySQL' : 'CSV'} actualizados hasta ${ultimaVenta}.`
+    : '';
+  estadoModelo.textContent = [datos.advertencia_modelo, estadoDatos].filter(Boolean).join(' ');
+  estadoModelo.hidden = !estadoModelo.textContent;
+  herramientasModelo.replaceChildren(...(datos.herramientas || []).map((nombre) => {
+    const chip = document.createElement('span'); chip.className = 'prediccion__chip'; chip.textContent = nombre; return chip;
+  }));
+  const variables = datos.variables_utilizadas || [];
+  variablesModelo.replaceChildren(...variables.map((v) => {
+    const li = document.createElement('li'); li.textContent = `${v.nombre} · ${v.tipo} · ${v.rol}`; return li;
+  }));
+  if (!variables.length) {
+    const li = document.createElement('li');
+    li.textContent = datos.advertencia_modelo
+      ? 'La predicción mostrada usa la serie MySQL actual; reentrena la red neuronal para que aprenda estos cambios.'
+      : 'El modelo de serie mensual no utiliza las variables por compra de la red neuronal.';
+    variablesModelo.append(li);
+  }
 }
 
 function dibujar(datos) {
@@ -203,6 +251,7 @@ function dibujar(datos) {
   grafica = new ApexCharts(contenedor, construirOpciones(datos));
   grafica.render();
   pintarResumen(datos);
+  pintarDetalleModelo(datos);
 }
 
 function mostrarCarga(activa, meses) {

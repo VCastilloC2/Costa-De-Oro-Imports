@@ -252,15 +252,46 @@
                             <dt>Total proyectado</dt>
                             <dd id="resumenTotal">—</dd>
                         </div>
-                        <div class="resumen__item">
-                            <dt title="Diferencia media entre la predicción y las ventas reales en los meses ya cerrados">
-                                Error medio del modelo
-                            </dt>
+                        <div class="resumen__item resumen__item--mae">
+                            <dt>Error absoluto medio <span>(MAE · COP/mes)</span></dt>
                             <dd id="resumenError">—</dd>
+                            <small>Error promedio mensual · backtest rodante</small>
                         </div>
+                        <div class="resumen__item"><dt>Error cuadrático medio <span>(MSE · COP²)</span></dt><dd id="resumenMse">—</dd><small>Penaliza más los errores grandes</small></div>
                     </dl>
-
                     <div id="chartVentas"></div>
+                    <section class="evaluacion-meses" aria-labelledby="tituloEvaluacion">
+                        <div class="evaluacion-meses__encabezado">
+                            <div>
+                                <h3 id="tituloEvaluacion">Verificar el modelo con meses reales</h3>
+                                <p>Compara cada mes con una predicción hecha usando únicamente los meses anteriores.</p>
+                            </div>
+                            <label for="mesesEvaluar">Últimos</label>
+                            <select id="mesesEvaluar" class="header__select">
+                                <option value="3">3 meses</option>
+                                <option value="5" selected>5 meses</option>
+                                <option value="6">6 meses</option>
+                                <option value="12">12 meses</option>
+                            </select>
+                            <button class="header__btn" id="btnEvaluarMeses" type="button">Comparar</button>
+                        </div>
+                        <p id="estadoEvaluacion" class="evaluacion-meses__estado" role="status" aria-live="polite"></p>
+                        <div class="evaluacion-meses__metricas" id="metricasEvaluacion" hidden></div>
+                        <div class="evaluacion-meses__tabla-contenedor">
+                            <table class="evaluacion-meses__tabla">
+                                <thead><tr><th>Mes</th><th>Valor real</th><th>Valor predicho</th><th>Error absoluto</th></tr></thead>
+                                <tbody id="filasEvaluacion"><tr><td colspan="4">Pulsa “Comparar” para evaluar los últimos meses cerrados.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <details class="prediccion__detalle">
+                        <summary>Modelo, herramientas y variables</summary>
+                        <div class="prediccion__detalle-contenido">
+                            <section><h3>Motor de proyección mensual</h3><p id="modeloProyeccion">FastAPI elige el modelo con menor WMAPE en el backtest.</p><p id="estadoModelo" hidden></p></section>
+                            <section><h3>Herramientas</h3><div id="herramientasModelo" class="prediccion__chips"></div></section>
+                            <section><h3>Variables del modelo neuronal</h3><ul id="variablesModelo" class="prediccion__variables"></ul></section>
+                        </div>
+                    </details>
 
                     <!-- OVERLAY DE CARGA CON BARRA DE PROGRESO -->
                     <div id="loadingPrediccion" class="prediccion__loading" hidden>

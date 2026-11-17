@@ -362,7 +362,7 @@ public class GraficaServiceImpl implements GraficaService {
             double ventaTotal = venta.ventasTotales() != null ? venta.ventasTotales() : 0;
 
             series.add(ventaTotal);
-            categorias.add(venta.año());
+            categorias.add(venta.año() * 1000);
 
             // Calcular estadísticas
             if (ventaTotal > maxVenta) maxVenta = ventaTotal;
@@ -376,55 +376,7 @@ public class GraficaServiceImpl implements GraficaService {
             minVenta = 0;
         }
 
-        // Generar datos suavizados con subpicos (como en el ejemplo original)
-        if (series.size() > 1) {
-            return generarDatosConSubpicos(series, categorias, maxVenta, minVenta, promedioVentas);
-        }
-
         return new HistoricoVentasResponse(series, categorias, maxVenta, minVenta, promedioVentas);
-    }
-
-    private HistoricoVentasResponse generarDatosConSubpicos(List<Double> seriesBase, List<Integer> categoriasBase,
-                                                            double maxVenta, double minVenta, double promedioVentas) {
-        List<Double> seriesConSubpicos = new ArrayList<>();
-        List<Integer> categoriasConSubpicos = new ArrayList<>();
-
-        Random random = new Random(12345); // Semilla fija para consistencia
-
-        for (int i = 0; i < seriesBase.size(); i++) {
-            double valorBase = seriesBase.get(i);
-            int añoBase = categoriasBase.get(i);
-
-            // Agregar punto principal
-            seriesConSubpicos.add(valorBase);
-            categoriasConSubpicos.add(añoBase * 1000); // Multiplicar para preservar decimales
-
-            // Si no es el último año, generar subpicos
-            if (i < seriesBase.size() - 1) {
-                double valorSiguiente = seriesBase.get(i + 1);
-                int añoSiguiente = categoriasBase.get(i + 1);
-
-                // Generar 8-12 subpicos entre años
-                int numSubpicos = 10;
-                for (int j = 1; j <= numSubpicos; j++) {
-                    double progresion = j / (double)(numSubpicos + 1);
-                    double añoIntermedio = añoBase + progresion;
-                    double valorInterpolado = valorBase + (valorSiguiente - valorBase) * progresion;
-
-                    // Agregar variación aleatoria para los subpicos
-                    double variacion = (random.nextDouble() * 0.15 - 0.075) * valorBase;
-                    double valorConSubpico = valorInterpolado + variacion;
-
-                    // Limitar valores dentro de rangos razonables
-                    valorConSubpico = Math.max(valorConSubpico * 0.8, Math.min(valorConSubpico * 1.2, valorConSubpico));
-
-                    seriesConSubpicos.add(valorConSubpico);
-                    categoriasConSubpicos.add((int)(añoIntermedio * 1000));
-                }
-            }
-        }
-
-        return new HistoricoVentasResponse(seriesConSubpicos, categoriasConSubpicos, maxVenta, minVenta, promedioVentas);
     }
 
     /** Panel principal: una sola llamada a FastAPI ({@code /api/graficas/dashboard}); local si no responde. */

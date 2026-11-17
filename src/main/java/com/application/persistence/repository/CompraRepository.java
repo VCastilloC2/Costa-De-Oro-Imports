@@ -84,6 +84,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
             "YEAR(c.fecha), COUNT(c), SUM(c.total), SUM(c.subtotal), SUM(c.iva)) " +
             "FROM Compra c " +
             "WHERE c.estado = 'PAGADO' " +
+            "AND MONTH(c.fecha) BETWEEN 1 AND 10 " +
             "GROUP BY YEAR(c.fecha) " +
             "ORDER BY YEAR(c.fecha) ASC")
     List<VentasAnualesDTO> findVentasAnuales();
