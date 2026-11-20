@@ -1,5 +1,6 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.dto.FastApiProperties;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
 import com.application.service.implementation.DashboardApiClient;

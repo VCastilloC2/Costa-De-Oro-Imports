@@ -37,8 +37,12 @@ const resumen = {
   total: document.getElementById('resumenTotal'),
   error: document.getElementById('resumenError'),
   mse: document.getElementById('resumenMse'),
-  precision: document.getElementById('resumenPrecision'),
 };
+const botonEvaluar = document.getElementById('btnEvaluarMeses');
+const mesesEvaluar = document.getElementById('mesesEvaluar');
+const estadoEvaluacion = document.getElementById('estadoEvaluacion');
+const filasEvaluacion = document.getElementById('filasEvaluacion');
+const metricasEvaluacion = document.getElementById('metricasEvaluacion');
 const herramientasModelo = document.getElementById('herramientasModelo');
 const variablesModelo = document.getElementById('variablesModelo');
 const modeloProyeccion = document.getElementById('modeloProyeccion');
@@ -171,21 +175,6 @@ function construirOpciones(datos) {
   };
 }
 
-/**
- * Error ponderado (WAPE) entre el ajuste del modelo y las ventas reales de los meses cerrados:
- * suma de |predicción − real| / suma de ventas reales. A diferencia del MAPE, un mes con ventas
- * casi en 0 no dispara el porcentaje. Es una referencia de calidad: si el modelo se equivoca mucho
- * en el pasado, la proyección no es fiable.
- */
-function errorMedio(datos) {
-  const cerrados = datos.serie.filter((p) => p.tipo === 'real'
-    && Number.isFinite(p.real) && Number.isFinite(p.prediccion));
-  const totalReal = cerrados.reduce((acc, p) => acc + p.real, 0);
-  if (totalReal <= 0) return null;
-  const errorAbs = cerrados.reduce((acc, p) => acc + Math.abs(p.prediccion - p.real), 0);
-  return (errorAbs / totalReal) * 100;
-}
-
 function pintarResumen(datos) {
   const futuros = datos.serie.filter((p) => p.tipo === 'prediccion');
   if (futuros.length === 0) {
@@ -197,21 +186,61 @@ function pintarResumen(datos) {
   // Preferir el backtest de FastAPI (entrena sin los últimos 12 meses y los predice: error real
   // fuera de muestra). Si no hay historia suficiente, se usa el error a un paso calculado aquí.
   const validacion = datos.metricas?.validacion;
-  const error = validacion?.wape ?? errorMedio(datos);
 
   resumen.hasta.textContent = formatoMes.format(new Date(aFecha(ultimo.fecha)));
   resumen.total.textContent = formatoCOP.format(total);
-  resumen.error.textContent = validacion?.mae == null ? 'No disponible' : formatoCOPCompacto.format(validacion.mae);
-  resumen.error.title = validacion?.mae == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoCOP.format(validacion.mae)} por mes`;
+  const wmape = validacion?.wmape ?? validacion?.wape ?? validacion?.error_porcentual;
+  resumen.error.textContent = wmape == null ? 'No disponible' : `${Number(wmape).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`;
+  resumen.error.title = wmape == null ? 'No hay suficientes datos para calcular el error porcentual' : 'WMAPE = suma de errores absolutos / suma de ventas reales × 100';
   resumen.mse.textContent = validacion?.mse == null ? 'No disponible' : `${formatoNumeroCompacto.format(validacion.mse)} COP²`;
   resumen.mse.title = validacion?.mse == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoNumeroExacto.format(validacion.mse)} COP²`;
-  resumen.precision.textContent = validacion?.porcentaje_prediccion == null
-    ? 'No disponible'
-    : validacion.porcentaje_prediccion === 0 ? '0 %' : `${validacion.porcentaje_prediccion.toFixed(1)} %`;
-  resumen.precision.title = validacion?.desde
-    ? `Backtest rodante de un mes, ${validacion.desde} a ${validacion.hasta}. WMAPE: ${error?.toFixed(1)} %. El horizonte de 12/24 meses puede tener un error diferente.`
-    : 'Precisión basada en un backtest rodante de un mes y error porcentual ponderado (WMAPE)';
   resumen.caja.hidden = false;
+}
+
+async function evaluarUltimosMeses() {
+  botonEvaluar.disabled = true;
+  estadoEvaluacion.textContent = 'Comparando meses reales con pronósticos hechos a partir de meses anteriores…';
+  metricasEvaluacion.hidden = true;
+  try {
+    const res = await fetch(`/api/v1/predicciones/ventas/evaluacion?meses=${Number(mesesEvaluar.value)}`, {
+      headers: { Accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store',
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.detail || `el servidor respondió ${res.status}`);
+    }
+    const datos = await res.json();
+    filasEvaluacion.replaceChildren(...datos.comparacion.map((fila) => {
+      const tr = document.createElement('tr');
+      const values = [
+        formatoMes.format(new Date(aFecha(fila.fecha))),
+        formatoCOP.format(fila.valorReal),
+        formatoCOP.format(fila.valorPredicho),
+        fila.valorReal > 0 ? `${(fila.errorAbsoluto / fila.valorReal * 100).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %` : 'No disponible',
+      ];
+      for (const value of values) {
+        const td = document.createElement('td'); td.textContent = value; tr.append(td);
+      }
+      return tr;
+    }));
+    const { mae, mse, wmape } = datos.metricas;
+    metricasEvaluacion.replaceChildren(
+      document.createTextNode(`Error absoluto medio: ${wmape == null ? 'No disponible' : `${Number(wmape).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`} · MAE: ${formatoCOP.format(mae)} · MSE: ${formatoNumeroExacto.format(mse)} COP²`),
+    );
+    metricasEvaluacion.hidden = false;
+    const nombreModelo = datos.modelo?.startsWith('tensorflow_keras')
+      ? `Red neuronal ${datos.modelo}`
+      : `Método estadístico ${datos.modelo || ''}`;
+    const tipoEvaluacion = datos.tipo_evaluacion === 'holdout_temporal_del_entrenamiento'
+      ? 'conjunto de prueba temporal guardado durante el entrenamiento'
+      : 'validación walk-forward, entrenando antes de cada mes';
+    estadoEvaluacion.textContent = `${nombreModelo}: ${datos.mesesEvaluados} meses (${datos.desde} a ${datos.hasta}), ${tipoEvaluacion}.`;
+  } catch (err) {
+    estadoEvaluacion.textContent = `No se pudo evaluar: ${err.message}`;
+    filasEvaluacion.replaceChildren();
+  } finally {
+    botonEvaluar.disabled = false;
+  }
 }
 
 function pintarDetalleModelo(datos) {
@@ -332,4 +361,5 @@ const mesesSeleccionados = () => {
 
 // Carga inicial: solo historia (6 años). El botón agrega la proyección elegida en el selector.
 boton?.addEventListener('click', () => cargar(mesesSeleccionados()));
+botonEvaluar?.addEventListener('click', evaluarUltimosMeses);
 cargar(0);

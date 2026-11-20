@@ -1,6 +1,6 @@
 package com.application.presentation.controller;
 
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.presentation.dto.GraficaMensualResponse;
 import com.application.service.implementation.PrediccionApiClient;
 import lombok.RequiredArgsConstructor;

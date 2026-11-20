@@ -1,7 +1,7 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.GraficaMensualResponse;
 import com.application.presentation.dto.PrediccionResponse;

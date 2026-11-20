@@ -25,7 +25,7 @@ import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesRespo
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.GraficaService;
 import com.application.configuration.fastapi.FastApiAdmin;
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.grafica.DatosPanelResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.application.configuration.fastapi;
+package com.application.presentation.exception;
 
 import org.jspecify.annotations.Nullable;
 
@@ -53,7 +53,7 @@ public sealed class FastApiException extends RuntimeException
             return reintentable;
         }
 
-        Unavailable sinReintentos() {
+        public Unavailable sinReintentos() {
             return new Unavailable(getMessage(), getStatus(), getCause(), false);
         }
     }

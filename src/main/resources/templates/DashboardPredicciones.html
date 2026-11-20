@@ -253,9 +253,9 @@
                             <dd id="resumenTotal">—</dd>
                         </div>
                         <div class="resumen__item resumen__item--mae">
-                            <dt>Error absoluto medio <span>(MAE · COP/mes)</span></dt>
+                            <dt>Error porcentual ponderado <span>(WMAPE · %)</span></dt>
                             <dd id="resumenError">—</dd>
-                            <small>Error promedio mensual · backtest rodante</small>
+                            <small>Desviación total respecto a ventas reales · backtest</small>
                         </div>
                         <div class="resumen__item"><dt>Error cuadrático medio <span>(MSE · COP²)</span></dt><dd id="resumenMse">—</dd><small>Penaliza más los errores grandes</small></div>
                     </dl>
@@ -279,7 +279,7 @@
                         <div class="evaluacion-meses__metricas" id="metricasEvaluacion" hidden></div>
                         <div class="evaluacion-meses__tabla-contenedor">
                             <table class="evaluacion-meses__tabla">
-                                <thead><tr><th>Mes</th><th>Valor real</th><th>Valor predicho</th><th>Error absoluto</th></tr></thead>
+                                <thead><tr><th>Mes</th><th>Valor real</th><th>Valor predicho</th><th>Error absoluto (%)</th></tr></thead>
                                 <tbody id="filasEvaluacion"><tr><td colspan="4">Pulsa “Comparar” para evaluar los últimos meses cerrados.</td></tr></tbody>
                             </table>
                         </div>

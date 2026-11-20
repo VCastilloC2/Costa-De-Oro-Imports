@@ -1,6 +1,6 @@
 package com.application.service.implementation;
 
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;

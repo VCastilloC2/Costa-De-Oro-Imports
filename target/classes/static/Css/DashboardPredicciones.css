@@ -906,3 +906,33 @@
     border-radius: 12px !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
 }
+
+.evaluacion-meses {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    border: 1px solid #e5eaf1;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.evaluacion-meses__encabezado {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.evaluacion-meses__encabezado > div { flex: 1 1 280px; }
+.evaluacion-meses__encabezado h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.evaluacion-meses__encabezado p, .evaluacion-meses__estado { margin: .25rem 0; color: #64748b; font-size: .88rem; }
+.evaluacion-meses__tabla-contenedor { overflow-x: auto; margin-top: .75rem; }
+.evaluacion-meses__tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.evaluacion-meses__tabla th, .evaluacion-meses__tabla td { padding: .7rem .6rem; text-align: right; border-bottom: 1px solid #edf0f4; white-space: nowrap; }
+.evaluacion-meses__tabla th:first-child, .evaluacion-meses__tabla td:first-child { text-align: left; }
+.evaluacion-meses__tabla th { color: #526078; font-weight: 600; }
+.evaluacion-meses__metricas:not([hidden]) { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: .6rem; color: #334155; font-size: .9rem; }
+
+@media (max-width: 640px) {
+    .evaluacion-meses__encabezado > div { flex-basis: 100%; }
+    .evaluacion-meses__encabezado select, .evaluacion-meses__encabezado button { flex: 1 1 40%; }
+}

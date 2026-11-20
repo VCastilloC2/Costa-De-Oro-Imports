@@ -1,6 +1,7 @@
 package com.application.configuration.fastapi;
 
 import com.application.presentation.dto.general.response.BaseResponse;
+import com.application.presentation.exception.FastApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;

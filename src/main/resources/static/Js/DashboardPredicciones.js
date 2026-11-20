@@ -189,8 +189,9 @@ function pintarResumen(datos) {
 
   resumen.hasta.textContent = formatoMes.format(new Date(aFecha(ultimo.fecha)));
   resumen.total.textContent = formatoCOP.format(total);
-  resumen.error.textContent = validacion?.mae == null ? 'No disponible' : formatoCOPCompacto.format(validacion.mae);
-  resumen.error.title = validacion?.mae == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoCOP.format(validacion.mae)} por mes`;
+  const wmape = validacion?.wmape ?? validacion?.wape ?? validacion?.error_porcentual;
+  resumen.error.textContent = wmape == null ? 'No disponible' : `${Number(wmape).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`;
+  resumen.error.title = wmape == null ? 'No hay suficientes datos para calcular el error porcentual' : 'WMAPE = suma de errores absolutos / suma de ventas reales × 100';
   resumen.mse.textContent = validacion?.mse == null ? 'No disponible' : `${formatoNumeroCompacto.format(validacion.mse)} COP²`;
   resumen.mse.title = validacion?.mse == null ? 'No hay suficientes datos para el backtest' : `Valor exacto: ${formatoNumeroExacto.format(validacion.mse)} COP²`;
   resumen.caja.hidden = false;
@@ -215,7 +216,7 @@ async function evaluarUltimosMeses() {
         formatoMes.format(new Date(aFecha(fila.fecha))),
         formatoCOP.format(fila.valorReal),
         formatoCOP.format(fila.valorPredicho),
-        formatoCOP.format(fila.errorAbsoluto),
+        fila.valorReal > 0 ? `${(fila.errorAbsoluto / fila.valorReal * 100).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %` : 'No disponible',
       ];
       for (const value of values) {
         const td = document.createElement('td'); td.textContent = value; tr.append(td);
@@ -224,7 +225,7 @@ async function evaluarUltimosMeses() {
     }));
     const { mae, mse, wmape } = datos.metricas;
     metricasEvaluacion.replaceChildren(
-      document.createTextNode(`MAE: ${formatoCOP.format(mae)} · MSE: ${formatoNumeroExacto.format(mse)} COP² · WMAPE: ${wmape == null ? 'No disponible' : `${wmape.toFixed(1)} %`}`),
+      document.createTextNode(`Error absoluto medio: ${wmape == null ? 'No disponible' : `${Number(wmape).toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`} · MAE: ${formatoCOP.format(mae)} · MSE: ${formatoNumeroExacto.format(mse)} COP²`),
     );
     metricasEvaluacion.hidden = false;
     const nombreModelo = datos.modelo?.startsWith('tensorflow_keras')

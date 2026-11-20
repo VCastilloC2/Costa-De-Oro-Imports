@@ -1,6 +1,6 @@
 package com.application.service.implementation;
 
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.GraficaMensualResponse;
 import com.fasterxml.jackson.annotation.JsonAlias;
@@ -91,9 +91,10 @@ public class PrediccionApiClient {
                                  @JsonAlias("valor_predicho") double valorPredicho,
                                  @JsonAlias("error_absoluto") double errorAbsoluto,
                                  @JsonAlias("error_porcentual") Double errorPorcentual, String modelo,
-                                 @JsonAlias("meses_entrenamiento") int mesesEntrenamiento) {
+                                 @JsonAlias("meses_entrenamiento") Integer mesesEntrenamiento) {
     }
 
     public record MetricasEvaluacion(double mae, double mse, Double wmape) {
     }
+
 }

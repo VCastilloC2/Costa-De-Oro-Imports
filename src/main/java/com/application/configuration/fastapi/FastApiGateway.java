@@ -1,11 +1,11 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.exception.FastApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.retry.RetryException;
 import org.springframework.core.retry.RetryTemplate;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
-
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 

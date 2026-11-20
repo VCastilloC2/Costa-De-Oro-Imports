@@ -1,4 +1,4 @@
-package com.application.configuration.fastapi;
+package com.application.presentation.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
