@@ -23,7 +23,7 @@ public class PrediccionesVentasApiController {
         try {
             return ResponseEntity.ok()
                     .cacheControl(CacheControl.noStore())
-                    .body(predicciones.obtenerGrafica(6, Math.max(0, Math.min(meses, 24))));
+                    .body(predicciones.obtenerGrafica(6, Math.max(0, Math.min(meses, 12))));
         } catch (FastApiException e) {
             HttpStatus status = e instanceof FastApiException.Unavailable
                     ? HttpStatus.SERVICE_UNAVAILABLE : HttpStatus.BAD_GATEWAY;

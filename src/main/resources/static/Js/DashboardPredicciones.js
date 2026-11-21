@@ -2,7 +2,7 @@
 // ApexCharts se carga como script global en el HTML (antes de este módulo).
 
 const URL_DATOS = '/api/v1/predicciones/ventas';
-const MESES_PERMITIDOS = [6, 12, 24]; // MAX_MESES_PROYECCION del controller = 24
+const MESES_PERMITIDOS = [6, 12]; // El horizonte máximo de proyección es un año.
 
 const formatoCOP = new Intl.NumberFormat('es-CO', {
   style: 'currency',

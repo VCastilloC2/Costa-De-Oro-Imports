@@ -236,7 +236,6 @@
                             <select class="header__select" id="selectHorizonte">
                                 <option value="6">6 meses</option>
                                 <option value="12" selected>12 meses</option>
-                                <option value="24">24 meses</option>
                             </select>
                             <button class="header__btn" id="btnPrediccion" type="button">Generar predicción</button>
                         </div>
@@ -273,7 +272,10 @@
                                 <option value="6">6 meses</option>
                                 <option value="12">12 meses</option>
                             </select>
-                            <button class="header__btn" id="btnEvaluarMeses" type="button">Comparar</button>
+                            <button class="header__btn evaluacion-meses__comparar" id="btnEvaluarMeses" type="button">
+                                <i class="ri-bar-chart-box-line" aria-hidden="true"></i>
+                                <span>Comparar</span>
+                            </button>
                         </div>
                         <p id="estadoEvaluacion" class="evaluacion-meses__estado" role="status" aria-live="polite"></p>
                         <div class="evaluacion-meses__metricas" id="metricasEvaluacion" hidden></div>
