@@ -548,10 +548,15 @@
 
 .resumen__item {
     min-width: 0;
-    background: #fafafa;
-    border: 1px solid #f3f4f6;
-    border-radius: 10px;
-    padding: 0.6rem 0.8rem;
+    min-height: 6.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(145deg, #fff, #f8fafc);
+    border: 1px solid #e9edf3;
+    border-radius: 12px;
+    padding: 0.8rem 0.95rem;
+    box-shadow: 0 2px 8px rgba(16, 36, 64, 0.035);
 }
 
 .resumen__item dt {
@@ -560,11 +565,91 @@
     cursor: help;
 }
 
+.resumen__item dt span {
+    color: #8a94a3;
+    font-size: 0.9em;
+}
+
 .resumen__item dd {
     margin: 0.2rem 0 0;
-    font: 600 clamp(0.95rem, 0.85rem + 0.4vw, 1.15rem) var(--typografiaGeist);
-    color: var(--colorDark);
+    font: 700 clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem)/1.2 var(--typografiaGeist);
+    color: #152b4b;
     overflow-wrap: anywhere;
+}
+
+.resumen__item--mae dd { color: #087e8b; }
+
+.resumen__item small {
+    margin-top: 0.3rem;
+    color: #7b8796;
+    font: 400 0.7rem/1.35 var(--typografiaGeist);
+}
+
+.prediccion__calidad {
+    margin: 0.65rem 0 0.25rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #cdebdc;
+    border-radius: 10px;
+    background: #f0fbf5;
+    color: #17633b;
+    font: 500 0.82rem/1.45 var(--typografiaGeist);
+}
+
+.prediccion__calidad[hidden] { display: none; }
+
+.prediccion__calidad--baja {
+    border-color: #f3d7aa;
+    background: #fff8eb;
+    color: #80520d;
+}
+
+.prediccion__detalle {
+    margin-top: 0.8rem;
+    border: 1px solid #e9edf3;
+    border-radius: 12px;
+    background: #fbfcfe;
+    color: #26364b;
+    font-family: var(--typografiaGeist);
+}
+
+.prediccion__detalle summary {
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    color: #26364b;
+    font: 600 0.9rem var(--typografiaGeist);
+}
+
+.prediccion__detalle-contenido {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
+    padding: 0 1rem 1rem;
+}
+
+.prediccion__detalle-contenido h3 {
+    margin: 0 0 0.4rem;
+    color: #253a57;
+    font: 600 0.82rem var(--typografiaGeist);
+}
+
+.prediccion__detalle-contenido p,
+.prediccion__variables {
+    margin: 0;
+    color: #657286;
+    font: 400 0.78rem/1.55 var(--typografiaGeist);
+}
+
+.prediccion__variables { padding-left: 1.1rem; }
+
+.prediccion__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.prediccion__chip {
+    padding: 0.32rem 0.55rem;
+    border: 1px solid #dce8f5;
+    border-radius: 999px;
+    background: #f1f7fd;
+    color: #375a7e;
+    font: 500 0.72rem var(--typografiaGeist);
 }
 
 @keyframes spin {
@@ -820,4 +905,34 @@
 .apexcharts-tooltip {
     border-radius: 12px !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.evaluacion-meses {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    border: 1px solid #e5eaf1;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.evaluacion-meses__encabezado {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.evaluacion-meses__encabezado > div { flex: 1 1 280px; }
+.evaluacion-meses__encabezado h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.evaluacion-meses__encabezado p, .evaluacion-meses__estado { margin: .25rem 0; color: #64748b; font-size: .88rem; }
+.evaluacion-meses__tabla-contenedor { overflow-x: auto; margin-top: .75rem; }
+.evaluacion-meses__tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.evaluacion-meses__tabla th, .evaluacion-meses__tabla td { padding: .7rem .6rem; text-align: right; border-bottom: 1px solid #edf0f4; white-space: nowrap; }
+.evaluacion-meses__tabla th:first-child, .evaluacion-meses__tabla td:first-child { text-align: left; }
+.evaluacion-meses__tabla th { color: #526078; font-weight: 600; }
+.evaluacion-meses__metricas:not([hidden]) { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: .6rem; color: #334155; font-size: .9rem; }
+
+@media (max-width: 640px) {
+    .evaluacion-meses__encabezado > div { flex-basis: 100%; }
+    .evaluacion-meses__encabezado select, .evaluacion-meses__encabezado button { flex: 1 1 40%; }
 }

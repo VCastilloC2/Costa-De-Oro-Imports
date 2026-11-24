@@ -1,8 +1,9 @@
 package com.application.service.implementation;
 
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.GraficaMensualResponse;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,20 @@ public class PrediccionApiClient {
         return respuesta;
     }
 
+    /** Compara los últimos meses mediante evaluación walk-forward. */
+    public EvaluacionReciente evaluarUltimosMeses(int meses) {
+        EvaluacionReciente respuesta = fastApi.execute("prediccion.evaluar-ultimos-meses", client -> client.get()
+                .uri(uri -> uri.path("/api/prediccion/evaluar-ultimos-meses")
+                        .queryParam("meses", meses)
+                        .build())
+                .retrieve()
+                .body(EvaluacionReciente.class));
+        if (respuesta == null) {
+            throw new FastApiException.Unavailable("FastAPI no devolvió la evaluación reciente", 200, null);
+        }
+        return respuesta;
+    }
+
     /** Venta total prevista para un mes concreto. */
     public double predecirMes(int anio, int mes) {
         RespuestaPrediccion respuesta = fastApi.execute("prediccion.mes", client -> client.post()
@@ -64,4 +79,22 @@ public class PrediccionApiClient {
     /** Respuesta de POST /api/prediccion/generar (mismos nombres que el JSON de Python). */
     public record RespuestaPrediccion(Double resultado, String mensaje, boolean success) {
     }
+
+    public record EvaluacionReciente(@JsonAlias("meses_solicitados") int mesesSolicitados,
+                                     @JsonAlias("meses_evaluados") int mesesEvaluados, String desde, String hasta,
+                                     java.util.List<ComparacionMes> comparacion, MetricasEvaluacion metricas,
+                                     String modelo, @JsonAlias("tipo_evaluacion") String tipoEvaluacion,
+                                     @JsonAlias("fuente_datos") String fuenteDatos) {
+    }
+
+    public record ComparacionMes(String fecha, @JsonAlias("valor_real") double valorReal,
+                                 @JsonAlias("valor_predicho") double valorPredicho,
+                                 @JsonAlias("error_absoluto") double errorAbsoluto,
+                                 @JsonAlias("error_porcentual") Double errorPorcentual, String modelo,
+                                 @JsonAlias("meses_entrenamiento") Integer mesesEntrenamiento) {
+    }
+
+    public record MetricasEvaluacion(double mae, double mse, Double wmape) {
+    }
+
 }

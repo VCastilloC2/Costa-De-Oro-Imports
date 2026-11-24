@@ -1,6 +1,8 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.dto.FastApiProperties;
 import com.application.presentation.dto.GraficaMensualResponse;
+import com.application.presentation.exception.FastApiException;
 import com.application.service.implementation.PrediccionApiClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

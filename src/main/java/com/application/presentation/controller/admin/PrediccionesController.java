@@ -1,7 +1,7 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.GraficaMensualResponse;
 import com.application.presentation.dto.PrediccionResponse;
@@ -29,8 +29,8 @@ public class PrediccionesController {
     /** Años de historia que muestra la gráfica: meses exactos = ANIOS_GRAFICA * 12. */
     private static final int ANIOS_GRAFICA = 6;
 
-    /** Máximo de meses futuros que se pueden proyectar (límite del modelo en FastAPI: 24). */
-    private static final int MAX_MESES_PROYECCION = 24;
+    /** Máximo de meses futuros que se pueden proyectar (un año). */
+    private static final int MAX_MESES_PROYECCION = 12;
 
     private final UsuarioServiceImpl usuarioServiceImpl;
     private final PrediccionApiClient predicciones;
@@ -52,7 +52,7 @@ public class PrediccionesController {
         return "DashboardPredicciones";
     }
 
-    /** Serie mensual para ApexCharts. proyeccion_meses = 0 (solo historia) a 24 (dos años a futuro). */
+    /** Serie mensual para ApexCharts. proyeccion_meses = 0 (solo historia) a 12 (un año a futuro). */
     @GetMapping("/datos-grafica")
     @ResponseBody
     public ResponseEntity<GraficaMensualResponse> obtenerDatosGrafica(

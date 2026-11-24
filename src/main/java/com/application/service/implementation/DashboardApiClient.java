@@ -1,6 +1,6 @@
 package com.application.service.implementation;
 
-import com.application.configuration.fastapi.FastApiException;
+import com.application.presentation.exception.FastApiException;
 import com.application.configuration.fastapi.FastApiGateway;
 import com.application.presentation.dto.grafica.GraficaIngresosGastosResponse;
 import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesResponse;
@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,10 +41,38 @@ public class DashboardApiClient {
                 .uri(uri -> uri.path("/api/v1/dashboard/ventas-totales").queryParam("meses", meses).build())
                 .retrieve()
                 .body(VentasTotales.class));
-        if (r == null || r.series() == null) {
+        if (r == null || r.items() == null) {
             throw new FastApiException.Unavailable("FastAPI devolvió ventas-totales vacío", 200, null);
         }
-        return new VentasTotalesResponse(r.series(), r.labels(), r.totalVentas());
+
+        // FastAPI devuelve {items:[{estado,nombre,monto,...}], totalMonto}; convertirlo
+        // al DTO que ya consume Dashboard.js (series, labels, totalVentas).
+        double cobradas = 0;
+        double noCobradas = 0;
+        double pendientes = 0;
+        for (VentaTotalItem item : r.items()) {
+            if (item == null || item.monto() == null) continue;
+            switch (item.estado() == null ? "" : item.estado()) {
+                case "PAGADO" -> cobradas += item.monto();
+                case "CANCELADO_RECHAZADO" -> noCobradas += item.monto();
+                case "PENDIENTE" -> pendientes += item.monto();
+                default -> { }
+            }
+        }
+        List<Double> series = List.of(cobradas, noCobradas, pendientes);
+        double total = r.totalMonto() != null ? r.totalMonto() : series.stream().mapToDouble(Double::doubleValue).sum();
+        List<String> labels = new ArrayList<>(3);
+        labels.add(formatLabel("Envíos", cobradas, total));
+        labels.add(formatLabel("Reembolsos", noCobradas, total));
+        labels.add(formatLabel("Pedidos", pendientes, total));
+        return new VentasTotalesResponse(series, labels, total);
+    }
+
+    private static String formatLabel(String tipo, double valor, double total) {
+        double porcentaje = total > 0 ? valor / total * 100 : 0;
+        return String.format("%s $%s (%s%%)", tipo,
+                new DecimalFormat("#,##0.00").format(valor),
+                new DecimalFormat("0").format(porcentaje));
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -51,6 +81,10 @@ public class DashboardApiClient {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record VentasTotales(List<Double> series, List<String> labels, Double totalVentas) {
+    record VentasTotales(List<VentaTotalItem> items, Double totalMonto) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    record VentaTotalItem(String estado, String nombre, Double monto, Integer pedidos, Double montoAnterior) {
     }
 }

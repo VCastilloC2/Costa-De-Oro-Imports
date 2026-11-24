@@ -1,5 +1,6 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.dto.FastApiProperties;
 import com.application.presentation.dto.SearchResponse;
 import com.application.presentation.dto.categoria.response.CategoriaProductoResponse;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;

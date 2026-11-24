@@ -1,8 +1,7 @@
-# syntax=docker/dockerfile:1
-# ==========================================================
-# Etapa 1: Build (Maven + JDK 25)
-# ==========================================================
-FROM maven:3.9-eclipse-temurin-25 AS builder
+# ============================
+# Etapa 1: Build
+# ============================
+FROM maven:3.9-eclipse-temurin-26 AS builder
 
 WORKDIR /build
 

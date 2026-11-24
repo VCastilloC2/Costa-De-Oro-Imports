@@ -1,5 +1,6 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.dto.FastApiProperties;
 import com.application.presentation.dto.general.response.BaseResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

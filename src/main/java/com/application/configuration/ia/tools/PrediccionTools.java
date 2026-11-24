@@ -14,7 +14,7 @@ public class PrediccionTools {
     @Tool(
             name = "obtener_prediccion_ventas",
             description = """
-                    Obtiene la predicción de ventas para el próximo periodo utilizando el modelo de ML (Weka).
+                    Obtiene la predicción de ventas generada por el servicio ML de FastAPI.
                     Usa esta herramienta cuando el usuario pregunte "¿cuánto venderemos el próximo mes?" o "predicciones de inventario".
                     """
     )

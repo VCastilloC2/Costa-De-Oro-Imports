@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.2</version>
+        <version>4.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -47,7 +47,7 @@
 
     <properties>
         <java.version>25</java.version>
-        <spring-ai.version>2.0.2</spring-ai.version>
+        <spring-ai.version>2.1.0</spring-ai.version>
 
         <!-- FIX seguridad Tomcat -->
         <tomcat.version>10.1.55</tomcat.version>
@@ -227,13 +227,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- weka -->
-        <dependency>
-            <groupId>nz.ac.waikato.cms.weka</groupId>
-            <artifactId>weka-stable</artifactId>
-            <version>3.8.7</version>
-        </dependency>
-
         <!-- SDK Mercado Pago -->
         <dependency>
             <groupId>com.mercadopago</groupId>
@@ -268,12 +261,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.21.0</version>
+            <version>3.22.0</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.iq80.snappy</groupId>
@@ -320,7 +313,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.2.20.Final</version>
+                <version>4.2.21.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

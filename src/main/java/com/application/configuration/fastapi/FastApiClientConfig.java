@@ -1,5 +1,7 @@
 package com.application.configuration.fastapi;
 
+import com.application.presentation.dto.FastApiProperties;
+import com.application.presentation.exception.FastApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
