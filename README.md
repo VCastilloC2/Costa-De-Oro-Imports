@@ -225,6 +225,12 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 | `DB_URL` | URL de conexión a MySQL | `jdbc:mysql://mysql:3306/costa_de_oro` |
 | `DB_USERNAME` | Usuario de base de datos | `root` |
 | `DB_PASSWORD` | Contraseña de base de datos | `secret` |
+| `MAIL_HOST` | Servidor SMTP (opcional; por defecto Gmail) | `smtp.gmail.com` |
+| `MAIL_PORT` | Puerto SMTP (opcional; por defecto `587`) | `587` |
+| `MAIL_USERNAME` | Cuenta autenticada en el servidor SMTP | `tu-cuenta@gmail.com` |
+| `MAIL_PASSWORD` | Contraseña SMTP; con Gmail usa una contraseña de aplicación | Secreto, no lo publiques |
+| `MAIL_SMTP_AUTH` | Activa autenticación SMTP (opcional; por defecto `true`) | `true` |
+| `MAIL_SMTP_STARTTLS_ENABLE` | Activa STARTTLS (opcional; por defecto `true`) | `true` |
 | `JWT_SECRET` | Clave secreta para JWT | `clave_super_secreta_256_bits` |
 | `JWT_EXPIRATION` | Tiempo de expiración del JWT (ms) | `86400000` |
 | `OAUTH2_GOOGLE_CLIENT_ID` | Client ID de Google OAuth2 | `xxx.apps.googleusercontent.com` |
@@ -244,6 +250,14 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 
 > [!TIP]
 > Crea un archivo `.env.example` en el repositorio con nombres de variables pero sin valores. Facilita el onboarding de nuevos desarrolladores.
+
+### Correo en Render
+
+Configura estas variables en **Render → servicio Spring → Environment**. Para Gmail, `MAIL_USERNAME` debe ser la dirección completa de la cuenta y `MAIL_PASSWORD` debe ser una contraseña de aplicación de Google (requiere verificación en dos pasos), no la contraseña normal de Gmail. Al copiarla, ingrésala sin los espacios de presentación. Si cambiaste la contraseña de Google, genera una nueva contraseña de aplicación.
+
+El error SMTP `535 5.7.8 Username and Password not accepted` significa que Gmail rechazó las credenciales; revisa que ambas variables pertenezcan a la misma cuenta y luego haz un redeploy. La comprobación `/actuator/health` también intenta autenticarse con el servidor de correo, por eso puede reportar el componente `mail` como `DOWN` aunque Spring haya arrancado.
+
+Render bloquea el tráfico SMTP saliente por los puertos `25`, `465` y `587` en servicios gratuitos. Para enviar desde una instancia gratuita, usa un proveedor de correo con API HTTPS y su integración HTTP; si usas SMTP, el plan de Render debe permitir la salida al puerto elegido. `MAIL_HOST` y `MAIL_PORT` permiten configurar otro servidor SMTP sin modificar el código.
 
 ---
 
