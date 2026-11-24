@@ -639,7 +639,8 @@
     font: 400 0.78rem/1.55 var(--typografiaGeist);
 }
 
-.prediccion__variables { padding-left: 1.1rem; }
+.prediccion__variables { padding: 0; }
+.prediccion__nota-variables { margin-top: 0.55rem !important; font-size: 0.7rem !important; }
 
 .prediccion__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 

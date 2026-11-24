@@ -15,6 +15,7 @@ public record GraficaMensualResponse(
         Map<String, Object> metricas,
         @JsonProperty("historial_entrenamiento") HistorialEntrenamiento historialEntrenamiento,
         @JsonProperty("variables_utilizadas") List<Map<String, String>> variablesUtilizadas,
+        @JsonProperty("variables_prediccion") List<Map<String, String>> variablesPrediccion,
         List<String> herramientas,
         @JsonProperty("historial_datos") Map<String, Object> historialDatos,
         @JsonProperty("advertencia_modelo") String advertenciaModelo) {

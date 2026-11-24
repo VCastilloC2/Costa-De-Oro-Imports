@@ -260,16 +260,20 @@ function pintarDetalleModelo(datos) {
   herramientasModelo.replaceChildren(...(datos.herramientas || []).map((nombre) => {
     const chip = document.createElement('span'); chip.className = 'prediccion__chip'; chip.textContent = nombre; return chip;
   }));
-  const variables = datos.variables_utilizadas || [];
+  const variables = datos.variables_prediccion || datos.variables_utilizadas || [];
   variablesModelo.replaceChildren(...variables.map((v) => {
-    const li = document.createElement('li'); li.textContent = `${v.nombre} · ${v.tipo} · ${v.rol}`; return li;
+    const chip = document.createElement('span');
+    chip.className = 'prediccion__chip';
+    chip.textContent = v.nombre;
+    chip.title = [v.tipo, v.rol, v.fuente].filter(Boolean).join(' · ');
+    chip.setAttribute('aria-label', `${v.nombre}: ${chip.title}`);
+    return chip;
   }));
   if (!variables.length) {
-    const li = document.createElement('li');
-    li.textContent = datos.advertencia_modelo
-      ? 'La predicción mostrada usa la serie MySQL actual; reentrena la red neuronal para que aprenda estos cambios.'
-      : 'El modelo de serie mensual no utiliza las variables por compra de la red neuronal.';
-    variablesModelo.append(li);
+    const chip = document.createElement('span');
+    chip.className = 'prediccion__chip';
+    chip.textContent = 'Variables no disponibles';
+    variablesModelo.append(chip);
   }
 }
 
