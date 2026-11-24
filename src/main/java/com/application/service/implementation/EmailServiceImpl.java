@@ -10,18 +10,18 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailSendException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import jakarta.mail.Session;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.Type;
@@ -30,10 +30,10 @@ import org.xbill.DNS.Type;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    private final JavaMailSender javaMailSender;
+    private final GmailApiClient gmailApiClient;
     private final TemplateEngine templateEngine;
 
-    @Value("${spring.mail.username}")
+    @Value("${mail.from}")
     private String from;
 
     @Value("${app.base-url}")
@@ -65,9 +65,8 @@ public class EmailServiceImpl implements EmailService {
             return;
         }
 
-        MimeMessage message = javaMailSender.createMimeMessage();
-
         try {
+            MimeMessage message = new MimeMessage(Session.getInstance(new Properties()));
 
             MimeMessageHelper helper =
                     new MimeMessageHelper(message, true, "UTF-8");
@@ -84,14 +83,14 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(subject);
             helper.setText(contenidoHtml, true);
 
-            javaMailSender.send(message);
+            gmailApiClient.send(message);
 
-        } catch (MailSendException ex) {
-            // El destinatario no existe o fue rechazado
-            System.out.println("Correo rechazado: " + to);
         } catch (MessagingException | UnsupportedEncodingException ex) {
             System.err.println("No fue posible preparar el correo: "
                     + ex.getMessage());
+        } catch (RuntimeException ex) {
+            System.err.println("Gmail API no pudo enviar el correo a " + to
+                    + ": " + ex.getMessage());
         }
 
     }

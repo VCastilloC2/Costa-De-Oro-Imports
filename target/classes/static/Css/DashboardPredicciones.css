@@ -639,7 +639,8 @@
     font: 400 0.78rem/1.55 var(--typografiaGeist);
 }
 
-.prediccion__variables { padding-left: 1.1rem; }
+.prediccion__variables { padding: 0; }
+.prediccion__nota-variables { margin-top: 0.55rem !important; font-size: 0.7rem !important; }
 
 .prediccion__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
@@ -925,6 +926,38 @@
 .evaluacion-meses__encabezado > div { flex: 1 1 280px; }
 .evaluacion-meses__encabezado h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
 .evaluacion-meses__encabezado p, .evaluacion-meses__estado { margin: .25rem 0; color: #64748b; font-size: .88rem; }
+.evaluacion-meses__comparar {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: .7rem 1.15rem;
+    border: 1px solid #d97706;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    font: 600 .95rem/1 var(--typografiaGeist), sans-serif;
+    box-shadow: 0 4px 10px rgba(217, 119, 6, .22);
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.evaluacion-meses__comparar i { font-size: 1.1rem; }
+.evaluacion-meses__comparar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    box-shadow: 0 7px 15px rgba(217, 119, 6, .3);
+}
+.evaluacion-meses__comparar:active:not(:disabled) { transform: translateY(0) scale(.98); }
+.evaluacion-meses__comparar:focus-visible {
+    outline: 3px solid rgba(245, 158, 11, .35);
+    outline-offset: 3px;
+}
+.evaluacion-meses__comparar:disabled {
+    opacity: .62;
+    cursor: wait;
+    box-shadow: none;
+}
 .evaluacion-meses__tabla-contenedor { overflow-x: auto; margin-top: .75rem; }
 .evaluacion-meses__tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .evaluacion-meses__tabla th, .evaluacion-meses__tabla td { padding: .7rem .6rem; text-align: right; border-bottom: 1px solid #edf0f4; white-space: nowrap; }
@@ -935,4 +968,8 @@
 @media (max-width: 640px) {
     .evaluacion-meses__encabezado > div { flex-basis: 100%; }
     .evaluacion-meses__encabezado select, .evaluacion-meses__encabezado button { flex: 1 1 40%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .evaluacion-meses__comparar { transition: none; }
 }

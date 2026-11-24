@@ -225,6 +225,10 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 | `DB_URL` | URL de conexión a MySQL | `jdbc:mysql://mysql:3306/costa_de_oro` |
 | `DB_USERNAME` | Usuario de base de datos | `root` |
 | `DB_PASSWORD` | Contraseña de base de datos | `secret` |
+| `MAIL_USERNAME` | Cuenta Gmail que envía los correos | `tu-cuenta@gmail.com` |
+| `GMAIL_API_CLIENT_ID` | OAuth Client ID de Google Cloud para Gmail API | Secreto de configuración |
+| `GMAIL_API_CLIENT_SECRET` | OAuth Client Secret correspondiente | Secreto, no lo publiques |
+| `GMAIL_API_REFRESH_TOKEN` | Refresh token autorizado con el scope `gmail.send` | Secreto, no lo publiques |
 | `JWT_SECRET` | Clave secreta para JWT | `clave_super_secreta_256_bits` |
 | `JWT_EXPIRATION` | Tiempo de expiración del JWT (ms) | `86400000` |
 | `OAUTH2_GOOGLE_CLIENT_ID` | Client ID de Google OAuth2 | `xxx.apps.googleusercontent.com` |
@@ -244,6 +248,14 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 
 > [!TIP]
 > Crea un archivo `.env.example` en el repositorio con nombres de variables pero sin valores. Facilita el onboarding de nuevos desarrolladores.
+
+### Correo en Render
+
+El envío usa Gmail API por HTTPS; no usa SMTP ni contraseña de aplicación. En **Render → servicio Spring → Environment**, configura `MAIL_USERNAME`, `GMAIL_API_CLIENT_ID`, `GMAIL_API_CLIENT_SECRET` y `GMAIL_API_REFRESH_TOKEN`. El correo de `MAIL_USERNAME` debe ser la misma cuenta que autorizó el refresh token.
+
+En Google Cloud crea o selecciona un proyecto, habilita **Gmail API** y crea un cliente OAuth. Autoriza ese cliente una vez con el scope `https://www.googleapis.com/auth/gmail.send` y acceso offline; guarda el refresh token resultante como `GMAIL_API_REFRESH_TOKEN`. Puedes obtenerlo desde OAuth 2.0 Playground habilitando “Use your own OAuth credentials” y usando el Client ID/Secret de ese proyecto (añade `https://developers.google.com/oauthplayground` como redirect URI del cliente). No uses el Client ID de inicio de sesión de Google salvo que también lo hayas configurado y consentido para este scope. Guarda los tres valores OAuth como secretos en Render y haz redeploy. Para producción continua, publica la pantalla de consentimiento OAuth: los refresh tokens de una aplicación externa que permanece en estado **Testing** expiran en 7 días. [Detalles de Google](https://developers.google.com/identity/protocols/oauth2#expiration).
+
+La implementación renueva el access token con el refresh token y envía el mensaje MIME mediante `users.messages.send`. La comprobación de salud SMTP queda desactivada porque los envíos ya no usan SMTP; Render Free permite esta llamada HTTPS aunque bloquee puertos SMTP.
 
 ---
 
