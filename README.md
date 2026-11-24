@@ -225,12 +225,10 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 | `DB_URL` | URL de conexión a MySQL | `jdbc:mysql://mysql:3306/costa_de_oro` |
 | `DB_USERNAME` | Usuario de base de datos | `root` |
 | `DB_PASSWORD` | Contraseña de base de datos | `secret` |
-| `MAIL_HOST` | Servidor SMTP (opcional; por defecto Gmail) | `smtp.gmail.com` |
-| `MAIL_PORT` | Puerto SMTP (opcional; por defecto `587`) | `587` |
-| `MAIL_USERNAME` | Cuenta autenticada en el servidor SMTP | `tu-cuenta@gmail.com` |
-| `MAIL_PASSWORD` | Contraseña SMTP; con Gmail usa una contraseña de aplicación | Secreto, no lo publiques |
-| `MAIL_SMTP_AUTH` | Activa autenticación SMTP (opcional; por defecto `true`) | `true` |
-| `MAIL_SMTP_STARTTLS_ENABLE` | Activa STARTTLS (opcional; por defecto `true`) | `true` |
+| `MAIL_USERNAME` | Cuenta Gmail que envía los correos | `tu-cuenta@gmail.com` |
+| `GMAIL_API_CLIENT_ID` | OAuth Client ID de Google Cloud para Gmail API | Secreto de configuración |
+| `GMAIL_API_CLIENT_SECRET` | OAuth Client Secret correspondiente | Secreto, no lo publiques |
+| `GMAIL_API_REFRESH_TOKEN` | Refresh token autorizado con el scope `gmail.send` | Secreto, no lo publiques |
 | `JWT_SECRET` | Clave secreta para JWT | `clave_super_secreta_256_bits` |
 | `JWT_EXPIRATION` | Tiempo de expiración del JWT (ms) | `86400000` |
 | `OAUTH2_GOOGLE_CLIENT_ID` | Client ID de Google OAuth2 | `xxx.apps.googleusercontent.com` |
@@ -253,11 +251,11 @@ El proyecto utiliza variables de entorno para mantener secretos fuera del códig
 
 ### Correo en Render
 
-Configura estas variables en **Render → servicio Spring → Environment**. Para Gmail, `MAIL_USERNAME` debe ser la dirección completa de la cuenta y `MAIL_PASSWORD` debe ser una contraseña de aplicación de Google (requiere verificación en dos pasos), no la contraseña normal de Gmail. Al copiarla, ingrésala sin los espacios de presentación. Si cambiaste la contraseña de Google, genera una nueva contraseña de aplicación.
+El envío usa Gmail API por HTTPS; no usa SMTP ni contraseña de aplicación. En **Render → servicio Spring → Environment**, configura `MAIL_USERNAME`, `GMAIL_API_CLIENT_ID`, `GMAIL_API_CLIENT_SECRET` y `GMAIL_API_REFRESH_TOKEN`. El correo de `MAIL_USERNAME` debe ser la misma cuenta que autorizó el refresh token.
 
-El error SMTP `535 5.7.8 Username and Password not accepted` significa que Gmail rechazó las credenciales; revisa que ambas variables pertenezcan a la misma cuenta y luego haz un redeploy. La comprobación `/actuator/health` también intenta autenticarse con el servidor de correo, por eso puede reportar el componente `mail` como `DOWN` aunque Spring haya arrancado.
+En Google Cloud crea o selecciona un proyecto, habilita **Gmail API** y crea un cliente OAuth. Autoriza ese cliente una vez con el scope `https://www.googleapis.com/auth/gmail.send` y acceso offline; guarda el refresh token resultante como `GMAIL_API_REFRESH_TOKEN`. Puedes obtenerlo desde OAuth 2.0 Playground habilitando “Use your own OAuth credentials” y usando el Client ID/Secret de ese proyecto (añade `https://developers.google.com/oauthplayground` como redirect URI del cliente). No uses el Client ID de inicio de sesión de Google salvo que también lo hayas configurado y consentido para este scope. Guarda los tres valores OAuth como secretos en Render y haz redeploy. Para producción continua, publica la pantalla de consentimiento OAuth: los refresh tokens de una aplicación externa que permanece en estado **Testing** expiran en 7 días. [Detalles de Google](https://developers.google.com/identity/protocols/oauth2#expiration).
 
-Render bloquea el tráfico SMTP saliente por los puertos `25`, `465` y `587` en servicios gratuitos. Para enviar desde una instancia gratuita, usa un proveedor de correo con API HTTPS y su integración HTTP; si usas SMTP, el plan de Render debe permitir la salida al puerto elegido. `MAIL_HOST` y `MAIL_PORT` permiten configurar otro servidor SMTP sin modificar el código.
+La implementación renueva el access token con el refresh token y envía el mensaje MIME mediante `users.messages.send`. La comprobación de salud SMTP queda desactivada porque los envíos ya no usan SMTP; Render Free permite esta llamada HTTPS aunque bloquee puertos SMTP.
 
 ---
 
